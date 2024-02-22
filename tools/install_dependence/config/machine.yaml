@@ -1,0 +1,10 @@
+user: root
+pkey: /root/.ssh/id_rsa
+scanner:
+  - 192.168.0.1
+  - 192.168.0.2
+  - 192.168.0.3
+builder:
+  - 192.168.0.1
+executor:
+  - 192.168.0.1
