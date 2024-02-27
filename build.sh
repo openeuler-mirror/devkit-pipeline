@@ -13,3 +13,7 @@ pyinstaller -F ./src/download.py -p ./
 
 cd $current_dir/tools/install_dependency
 pyinstaller -F ./src/devkitpipeline.py -p ./
+
+cp $current_dir/tools/install_dependency/config/machine.yaml $current_dir/tools/install_dependency/dist/machine.yaml
+cp -rf $current_dir/component $current_dir/tools/install_dependency/dist/
+cp $current_dir/tools/download_dependency/dist/download $current_dir/tools/install_dependency/dist/
