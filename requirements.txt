@@ -1,0 +1,5 @@
+pyinstaller
+paramiko
+PyYAML
+wget
+timeout_decorator
