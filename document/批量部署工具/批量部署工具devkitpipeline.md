@@ -1,6 +1,6 @@
 # 批量部署工具devkitpipeline
 
-获取release包之后，上传至linux服务器并解压，获取文件列表如下图：
+获取本项目release包v0.1版本，解压之后，将tools/linux文件夹内所有内容上传至linux服务器，获取文件列表如下图：
 
 ![image-文件列表](image/批量部署工具devkitpipeline/image-文件列表.png)
 
@@ -27,9 +27,9 @@ executor:
   - 192.168.0.1
 ```
 
-其中，**`user`**需填写本结点至其他结点配置免密的用户名，**`pkey`**为配置免密所用公钥对应的私钥路径。
+其中，**`user`** 需填写本结点至其他结点配置免密的用户名，**`pkey`** 为配置免密所用公钥对应的私钥路径。
 
-**`scanner`**，**`builder`**，**`executor`**分别对应用户的扫描机，构建机，执行机，需以yaml列表的形式输入各角色机器对应的ip。
+**`scanner`**，**`builder`**，**`executor`** 分别对应用户的扫描机，构建机，执行机，需以yaml列表的形式输入各角色机器对应的ip。
 
 - 生成公私钥对的命令为：
 
@@ -69,7 +69,7 @@ executor:
 
 
 
-除 **`-h`** 使用提示参数外，**`devkitpipeline`**批量部署工具还提供 **`-f`**， **`--debug`** 两个参数。
+除 **`-h`** 使用提示参数外，**`devkitpipeline`** 批量部署工具还提供 **`-f`**， **`--debug`** 两个参数。
 
 - 使用`-f`参数，指定所需yaml配置文件为后续输入的路径。若不使用`-f`参数，批量部署工具会从当前路径下读取名为`machine.yaml`的文件作为yaml配置文件。 `-f`参数别名为`--config`。
 - 使用 `--debug`参数，可以打开批量部署工具的debug日志信息，方便根据命令行日志输出确认哪个环节出现了问题。
@@ -92,19 +92,21 @@ executor:
 
 BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置。默认BiShengJDK8版本优先。
 
-部署安装过程中会使用目标结点机器的**`/tmp`**目录作为临时文件所在目录，部署完成后将会删除**`/tmp`**目录下的临时文件。若目标结点机器**`/tmp`**目录磁盘空间不足，则会导致安装失败。
+部署安装过程中会使用目标结点机器的 **`/tmp`** 目录作为临时文件所在目录，部署完成后将会删除 **`/tmp`** 目录下的临时文件。若目标结点机器 **`/tmp`** 目录磁盘空间不足，则会导致安装失败。
 
 
 
 ## download 一键下载工具
 
-当批量部署工具所在结点网络不通时，可以使用**`download`** 一键下载工具在有网络环境的机器上先行将所需的组件安装包及校验文件下载下来并打包成 **`devkitdependencies.tar.gz`** 文件，供用户上传至批量部署工具所在结点，供批量部署工具在默认路径加载使用。
+当批量部署工具所在结点网络不通时，可以使用 **`download`** 一键下载工具在有网络环境的机器上先行将所需的组件安装包及校验文件下载下来并打包成 **`devkitdependencies.tar.gz`** 文件，供用户上传至批量部署工具所在结点，供批量部署工具在默认路径加载使用。
 
  `devkitdependencies.tar.gz` 文件上传路径为`devkitpipeline` 批量部署工具所在路径。上传完成后目录文件列表如下：
 
 ![image-组件包放置位置](image/批量部署工具devkitpipeline/image-组件包放置位置.png)
 
 #### 一键下载工具linux版本
+
+该工具在release包v0.1版本，tools/linux文件夹下，在Linux机器上使用，用于下载组件包。
 
 在有网络环境的linux服务器上，一键下载工具所在路径，执行如下命令，即可在linux机器当前路径下下载组件包。
 
@@ -116,7 +118,7 @@ BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置�
 
 #### 一键下载工具windows版本
 
-一键下载工具提供windows版本，可在windows机器上下载组件包。
+该工具在release包v0.1版本，tools/windows文件夹下，可在windows机器上使用，用于下载组件包。
 
 ![image-windows版本一键下载工具](image/批量部署工具devkitpipeline/image-windows版本一键下载工具.png)
 
@@ -132,7 +134,7 @@ BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置�
 
 批量部署工具将各组件安装至用户家目录下的compilers文件夹下（后续会考虑将该文件夹更名为 .local，在用户家目录下隐藏该文件夹）。
 
-#### `GCCforOpenEuler` 安装方式：
+#### GCCforOpenEuler 安装结果
 
 批量部署工具将`GCCforOpenEuler`安装包解压至用户家目录下的compilers文件夹下，并在用户的 `~/.bashrc` 文件中新增如下两行命令。用户重新登录服务器后即可查询当前环境所用`gcc`版本。
 
@@ -143,7 +145,7 @@ export PATH=${GCC_HOME}:${PATH}
 
 
 
-#### `BiShengCompiler`安装方式：
+#### BiShengCompiler安装结果
 
 批量部署工具将`BiShengCompiler`安装包解压至用户家目录下的compilers文件夹下，并在用户的 `~/.bashrc` 文件中新增如下两行命令。用户重新登录服务器后即可查询当前环境所用`clang`版本。
 
@@ -154,7 +156,7 @@ export PATH=${BISHENG_COMPILER_HOME}:${PATH}
 
 
 
-#### `BiShengJDK8`安装方式
+#### BiShengJDK8安装结果
 
 批量部署工具将`BiShengJDK8`安装包解压至用户家目录下的compilers文件夹下，并使用`alternatives`中`install`命令配置java版本。用户重新登录服务器后即可使用如下命令查询或更改当前环境所用`java`版本。
 
@@ -168,7 +170,7 @@ java -version
 
 
 
-#### `BiShengJDK17`安装方式
+#### BiShengJDK17安装结果
 
 批量部署工具将`BiShengJDK17`安装包解压至用户家目录下的compilers文件夹下，并使用`alternatives`中`install`命令配置java版本。用户重新登录服务器后即可使用如下命令查询或更改当前环境所用`java`版本。
 

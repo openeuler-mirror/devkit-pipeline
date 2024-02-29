@@ -6,18 +6,12 @@ Pipeline solution to support building, deploying and automating any software pro
 #### 软件架构
 软件架构说明
 
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  下载工具和部署工具使用文档 https://gitee.com/openeuler/devkit-pipeline/blob/master/document/%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7devkitpipeline.md
+2.  Jenkins部署和配置说明 https://gitee.com/openeuler/devkit-pipeline/tree/master/document/Jenkins%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2
+3.  Gitlab部署和配置说明 https://gitee.com/openeuler/devkit-pipeline/tree/master/document/gitlab%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2
+4.  lkp-test手动部署说明 https://gitee.com/openeuler/devkit-pipeline/tree/master/document/lkp-test%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2 
 
 #### 参与贡献
 
