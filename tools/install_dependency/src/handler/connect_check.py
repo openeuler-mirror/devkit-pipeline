@@ -1,6 +1,3 @@
-import sys
-import os
-
 import logging
 import constant
 from handler.handler_and_node import Handler
