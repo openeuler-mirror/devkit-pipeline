@@ -132,14 +132,14 @@ BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置�
 
 ## 部署结果
 
-批量部署工具将各组件安装至用户家目录下的compilers文件夹下（后续会考虑将该文件夹更名为 .local，在用户家目录下隐藏该文件夹）。
+批量部署工具将各组件安装至用户家目录下的.local文件夹下。
 
 #### GCCforOpenEuler 安装结果
 
-批量部署工具将`GCCforOpenEuler`安装包解压至用户家目录下的compilers文件夹下，并在用户的 `~/.bashrc` 文件中新增如下两行命令。用户重新登录服务器后即可查询当前环境所用`gcc`版本。
+批量部署工具将`GCCforOpenEuler`安装包解压至用户家目录下的.local文件夹下，并在用户的 `~/.bashrc` 文件中新增如下两行命令。用户重新登录服务器后即可查询当前环境所用`gcc`版本。
 
 ```shell
-export GCC_HOME=${HOME}/compilers/gcc-10.3.1-2023.12-aarch64-linux/bin
+export GCC_HOME=${HOME}/.local/gcc-10.3.1-2023.12-aarch64-linux/bin
 export PATH=${GCC_HOME}:${PATH}
 ```
 
@@ -147,10 +147,10 @@ export PATH=${GCC_HOME}:${PATH}
 
 #### BiShengCompiler安装结果
 
-批量部署工具将`BiShengCompiler`安装包解压至用户家目录下的compilers文件夹下，并在用户的 `~/.bashrc` 文件中新增如下两行命令。用户重新登录服务器后即可查询当前环境所用`clang`版本。
+批量部署工具将`BiShengCompiler`安装包解压至用户家目录下的.local文件夹下，并在用户的 `~/.bashrc` 文件中新增如下两行命令。用户重新登录服务器后即可查询当前环境所用`clang`版本。
 
 ```shell
-export BISHENG_COMPILER_HOME=${HOME}/compilers/BiShengCompiler-3.2.0-aarch64-linux/bin
+export BISHENG_COMPILER_HOME=${HOME}/.local/BiShengCompiler-3.2.0-aarch64-linux/bin
 export PATH=${BISHENG_COMPILER_HOME}:${PATH}
 ```
 
@@ -158,7 +158,7 @@ export PATH=${BISHENG_COMPILER_HOME}:${PATH}
 
 #### BiShengJDK8安装结果
 
-批量部署工具将`BiShengJDK8`安装包解压至用户家目录下的compilers文件夹下，并使用`alternatives`中`install`命令配置java版本。用户重新登录服务器后即可使用如下命令查询或更改当前环境所用`java`版本。
+批量部署工具将`BiShengJDK8`安装包解压至用户家目录下的.local文件夹下，并使用`alternatives`中`install`命令配置java版本。用户重新登录服务器后即可使用如下命令查询或更改当前环境所用`java`版本。
 
 ```shell
 update-alternatives --config java
@@ -172,7 +172,7 @@ java -version
 
 #### BiShengJDK17安装结果
 
-批量部署工具将`BiShengJDK17`安装包解压至用户家目录下的compilers文件夹下，并使用`alternatives`中`install`命令配置java版本。用户重新登录服务器后即可使用如下命令查询或更改当前环境所用`java`版本。
+批量部署工具将`BiShengJDK17`安装包解压至用户家目录下的.local文件夹下，并使用`alternatives`中`install`命令配置java版本。用户重新登录服务器后即可使用如下命令查询或更改当前环境所用`java`版本。
 
 ```shell
 update-alternatives --config java

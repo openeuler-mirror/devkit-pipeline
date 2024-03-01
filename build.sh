@@ -17,3 +17,8 @@ pyinstaller -F ./src/devkitpipeline.py -p ./
 cp $current_dir/tools/install_dependency/config/machine.yaml $current_dir/tools/install_dependency/dist/machine.yaml
 cp -rf $current_dir/component $current_dir/tools/install_dependency/dist/
 cp $current_dir/tools/download_dependency/dist/download $current_dir/tools/install_dependency/dist/
+
+mkdir -p $current_dir/tools/install_dependency/v1.0/tools/
+cp -rf  $current_dir/tools/install_dependency/dist/  $current_dir/tools/install_dependency/v1.0/tools/linux
+cd $current_dir/tools/install_dependency/v1.0/
+tar -zcvf v1.0.tar.gz tools
