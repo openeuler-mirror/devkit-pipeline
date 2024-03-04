@@ -63,10 +63,8 @@ class Machine:
             LOGGER.error(f"Connect remote {self.ip} failed because of wrong pkey. {str(e)}")
             raise CreatePkeyFailedException()
 
-        transport = paramiko.Transport((self.ip, 22))
-
         try:
-            self.transport_connect_with_timeout(transport, user, pkey)
+            transport = self.transport_connect_with_timeout(user, pkey)
         except (paramiko.ssh_exception.AuthenticationException,
                 paramiko.ssh_exception.SSHException,
                 timeout_decorator.TimeoutError,
@@ -78,8 +76,10 @@ class Machine:
         return transport
 
     @timeout_decorator.timeout(10)
-    def transport_connect_with_timeout(self, transport, user, pkey):
+    def transport_connect_with_timeout(self, user, pkey):
+        transport = paramiko.Transport((self.ip, 22))
         transport.connect(username=user, pkey=pkey)
+        return transport
 
     def install_component(self, component_name):
         ssh_client = self.ssh_client()
