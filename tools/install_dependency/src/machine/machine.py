@@ -8,6 +8,7 @@ import constant
 from exception.connect_exception import CreatePkeyFailedException, ConnectRemoteException, \
     NotMatchedMachineTypeException
 from download import component_collection_map
+from utils import base_path
 
 LOGGER = logging.getLogger("install_dependency")
 
@@ -135,7 +136,7 @@ class Machine:
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def transport_shell_file_and_execute(self, ssh_client, sftp_client, component_name, shell_file):
-        sh_file_local_path = os.path.join("./component", component_name, shell_file)
+        sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
         if not os.path.exists(sh_file_local_path):
             LOGGER.error(f"{sh_file_local_path} not exists.")
             raise FileNotFoundError(f"local file {sh_file_local_path} not exists.")

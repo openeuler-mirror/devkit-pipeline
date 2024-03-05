@@ -15,57 +15,20 @@ DEFAULT_PATH = "./devkitdependencies"
 DEPENDENCY_FILE = "devkitdependencies.tar.gz"
 
 component_collection_map = {
-    "BiShengCompiler": {
-        f"wget -c {BiShengCompiler.get(FILE)} -O {os.path.join(DEFAULT_PATH, BiShengCompiler.get(FILE).split('/')[-1])}":
+    component.get("component_name"): {
+        "download file":
             {
-                URL: f"{BiShengCompiler.get(FILE)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, BiShengCompiler.get(FILE).split('/')[-1])}"
+                URL: f"{component.get(FILE)}",
+                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, component.get(FILE).split('/')[-1])}"
             },
-        f"wget -c {BiShengCompiler.get(SHA256)} -O {os.path.join(DEFAULT_PATH, BiShengCompiler.get(SHA256).split('/')[-1])}":
+        "download sha256":
             {
-                URL: f"{BiShengCompiler.get(SHA256)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, BiShengCompiler.get(SHA256).split('/')[-1])}"
-            },
-    },
-
-    "GCCforOpenEuler": {
-        f"wget -c {GCCforOpenEuler.get(FILE)} -O {os.path.join(DEFAULT_PATH, GCCforOpenEuler.get(FILE).split('/')[-1])}":
-            {
-                URL: f"{GCCforOpenEuler.get(FILE)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, GCCforOpenEuler.get(FILE).split('/')[-1])}"
-            },
-        f"wget -c {GCCforOpenEuler.get(SHA256)} -O {os.path.join(DEFAULT_PATH, GCCforOpenEuler.get(SHA256).split('/')[-1])}":
-            {
-                URL: f"{GCCforOpenEuler.get(SHA256)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, GCCforOpenEuler.get(SHA256).split('/')[-1])}"
+                URL: f"{component.get(SHA256)}",
+                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, component.get(SHA256).split('/')[-1])}"
             }
-    },
-
-    "BiShengJDK8": {
-        f"wget -c {BiShengJDK8.get(FILE)} -O {os.path.join(DEFAULT_PATH, BiShengJDK8.get(FILE).split('/')[-1])}":
-            {
-                URL: f"{BiShengJDK8.get(FILE)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, BiShengJDK8.get(FILE).split('/')[-1])}"
-            },
-        f"wget -c {BiShengJDK8.get(SHA256)} -O {os.path.join(DEFAULT_PATH, BiShengJDK8.get(SHA256).split('/')[-1])}":
-            {
-                URL: f"{BiShengJDK8.get(SHA256)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, BiShengJDK8.get(SHA256).split('/')[-1])}"
-            }
-    },
-
-    "BiShengJDK17": {
-        f"wget -c {BiShengJDK17.get(FILE)} -O {os.path.join(DEFAULT_PATH, BiShengJDK17.get(FILE).split('/')[-1])}":
-            {
-                URL: f"{BiShengJDK17.get(FILE)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, BiShengJDK17.get(FILE).split('/')[-1])}"
-            },
-        f"wget -c {BiShengJDK17.get(SHA256)} -O {os.path.join(DEFAULT_PATH, BiShengJDK17.get(SHA256).split('/')[-1])}":
-            {
-                URL: f"{BiShengJDK17.get(SHA256)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, BiShengJDK17.get(SHA256).split('/')[-1])}"
-            }
-    },
+    } for component in (
+        BiShengCompiler, GCCforOpenEuler, BiShengJDK8, BiShengJDK17
+    )
 }
 
 
@@ -115,6 +78,6 @@ if __name__ == '__main__':
             print("-- Delete dependencies directory. --")
         else:
             print("-- Download dependencies failed. Please try execute download tool again. --")
-    except Exception as e:
+    except (KeyboardInterrupt, Exception) as e:
         print(f"Download dependencies failed. {str(e)} Please try execute download tool again.")
         sys.exit(1)
