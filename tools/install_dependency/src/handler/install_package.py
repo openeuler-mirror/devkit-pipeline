@@ -3,7 +3,6 @@ import multiprocessing
 
 import constant
 from handler.handler_and_node import Handler
-from machine.machine import Machine
 from machine.scanner_machine import ScannerMachine
 from machine.builder_machine import BuilderMachine
 from machine.executor_machine import ExecutorMachine
@@ -49,7 +48,7 @@ class InstallPackage(Handler):
         return True
 
 
-def process_work(machine: Machine, *components: str):
+def process_work(machine, *components: str):
     try:
         for component in components:
             machine.install_component(component)

@@ -14,11 +14,11 @@ class GatherPackage(Handler):
         if GatherPackage.check_default_path_available():
             LOGGER.info("Dependencies ready.")
             return True
-        
+
         if os.path.isfile(constant.DEPENDENCY_DIR):
             LOGGER.error(f"The file {constant.DEPENDENCY_DIR} exists. Please rename or remove this file.")
             return False
-        
+
         try:
             ret = download_dependence()
         except Exception as e:
@@ -29,16 +29,15 @@ class GatherPackage(Handler):
             return False
         LOGGER.info("Download dependencies success.")
         return True
-    
+
     @staticmethod
     def check_default_path_available():
         if os.path.exists(constant.DEPENDENCY_FILE):
             try:
                 print(f"Now extract files from {constant.DEPENDENCY_FILE}:")
-                result = subprocess.run(f"tar -zxvf {constant.DEPENDENCY_FILE}".split(' '),
-                                        capture_output=False, shell=False, stderr=subprocess.STDOUT)
-                print(f"{result.stdout}" if result.stdout else "")
-            except (FileExistsError, ) as e:
+                subprocess.run(f"tar -zxvf {constant.DEPENDENCY_FILE}".split(' '),
+                               capture_output=False, shell=False, stderr=subprocess.STDOUT)
+            except (FileExistsError,) as e:
                 LOGGER.warning(f"{constant.DEPENDENCY_FILE} may already extracted.")
             except Exception as e:
                 LOGGER.error(f"Extract {constant.DEPENDENCY_FILE} failed. {str(e)}")
