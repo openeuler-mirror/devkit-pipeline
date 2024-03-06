@@ -1,9 +1,11 @@
+import logging
 import os.path
+
 import requests
 from urllib3 import encode_multipart_formdata
 
 
-class DevKit:
+class DevKitClient:
     def __init__(self, ip, port, username, password):
         self.ip = ip
         self.port = port
@@ -33,22 +35,23 @@ class DevKit:
                 "Content-Type": "application/json",
                 "Accept-Language": "zh-cn"
             })
-        except requests.exceptions.ReadTimeout or requests.exceptions.ConnectionError as e:
-            print(str(e))
-            raise
+        except requests.exceptions.ReadTimeout or requests.exceptions.ConnectionError as ex:
+            logging.exception(ex)
+            raise ex
 
     def logout(self):
         url = f"https://{self.ip}:{self.port}/framework/api/v1.0/users/session/{self.user_id}/"
         try:
             requests.delete(url, headers=self.header, verify=False)
-        except Exception as e:
+        except Exception as ex:
+            logging.exception(ex)
             pass
 
     def upload_report(self, file_path):
         try:
             data = dict({"file": (os.path.basename(file_path), open(file_path, "rb").read())})
         except OSError as e:
-            print(str(e))
+            logging.exception(e)
             raise
         encoded_data = encode_multipart_formdata(data)
         _header = self.header.copy()
@@ -81,7 +84,7 @@ class DevKit:
 
 if __name__ == "__main__":
     try:
-        d = DevKit("172.39.173.2", "8086", "devadmin", "Huawei12#$")
+        d = DevKitClient("172.39.173.2", "8086", "devadmin", "Huawei12#$")
         d.upload_report_by_force("/home/panlonglong/Downloads/Main(136462)")
         d.logout()
     except Exception as e:

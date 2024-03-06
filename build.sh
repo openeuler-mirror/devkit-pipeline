@@ -3,21 +3,21 @@
 # Copyright: Copyright (c) Huawei Technologies Co., Ltd. All rights reserved.
 
 set -e
-current_dir=$(cd $(dirname $0); pwd)
+current_dir=$(cd $(dirname "$0"); pwd)
 
-cd ${current_dir}
-cp ${current_dir}/tools/download_dependency/src/* ${current_dir}/tools/install_dependency/src/
+tag="v0.1"
 
-cd ${current_dir}/tools/download_dependency
-pyinstaller -F ./src/download.py -p ./
+sh "${current_dir}"/tools/distribute/build_devkit_distribute.sh
 
-cd ${current_dir}/tools/install_dependency
-pyinstaller -F ./src/devkitpipeline.py -p ./  --add-data "${current_dir}/component:component"
+sh "${current_dir}"/tools/download_dependency/build_download.sh
 
-cp ${current_dir}/tools/install_dependency/config/machine.yaml ${current_dir}/tools/install_dependency/dist/machine.yaml
-cp ${current_dir}/tools/download_dependency/dist/download ${current_dir}/tools/install_dependency/dist/
+sh "${current_dir}"/tools/install_dependency/build_install.sh
 
-mkdir -p ${current_dir}/tools/install_dependency/v1.0/tools/
-cp -rf  ${current_dir}/tools/install_dependency/dist/  ${current_dir}/tools/install_dependency/v1.0/tools/linux
-cd ${current_dir}/tools/install_dependency/v1.0/
-tar -zcvf v1.0.tar.gz tools
+cd "${current_dir}"/build
+
+mkdir -p "${current_dir}"/build/dekvit-pipeline-${tag}/linux
+cp -rf  "${current_dir}"/build/install/dist/*  "${current_dir}"/build/dekvit-pipeline-${tag}/linux
+cp -rf  "${current_dir}"/build/download/dist/*  "${current_dir}"/build/dekvit-pipeline-${tag}/linux
+cp -rf  "${current_dir}"/build/distribute/devkit_distribute  "${current_dir}"/build/dekvit-pipeline-${tag}/linux
+
+tar -zcvf dekvit-pipeline-${tag}.tar.gz dekvit-pipeline-${tag}
