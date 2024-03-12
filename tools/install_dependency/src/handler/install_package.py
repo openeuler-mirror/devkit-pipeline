@@ -69,6 +69,7 @@ class InstallPackage(Handler):
                           "BiShengCompiler",
                           "BiShengJDK17",
                           "BiShengJDK8",
+                          "LkpTests"
                           ),
                 )
                 jobs.append(process)

@@ -5,9 +5,9 @@ import sys
 import shutil
 import tarfile
 import time
-
+import wget
 import download_config
-from download_utils import download_dependence_handler, download_dependence_file
+from download_utils import download_dependence_handler, download_dependence_file, base_path
 from download_command_line import process_command_line, CommandLine
 
 FILE = "file"
@@ -33,9 +33,28 @@ component_collection_map = {
         download_config.BiShengCompiler,
         download_config.GCCforOpenEuler,
         download_config.BiShengJDK8,
-        download_config.BiShengJDK17
+        download_config.BiShengJDK17,
     )
 }
+
+
+def download_compatibility_test(save_path, upload_path):
+    ret = True
+    print("start download compatibility_testing\n")
+    wget.download("https://mirrors.huaweicloud.com/kunpeng/archive/compatibility_testing/compatibility_testing.tar.gz",
+                  save_path)
+    compatibility_path = base_path("compatibility_test_help")
+    cmd = f"sh {compatibility_path}/compatibility_test_help.sh {save_path} {upload_path}"
+    result = subprocess.run(cmd.split(' '),
+                            capture_output=False, shell=False, stderr=subprocess.STDOUT)
+    if result.returncode == 0:
+        print(f"compatibility test download result: success")
+        ret = ret and True
+    else:
+        print(f"[error] compatibility test download result: failed")
+        ret = ret and False
+
+    return ret
 
 
 def download_dependence():
@@ -51,6 +70,20 @@ def download_dependence():
     for component_name in component_collection_map:
         shell_dict = component_collection_map.get(component_name)
         ret = ret and download_dependence_handler(shell_dict)
+
+    lkp_path = base_path("lkp_help")
+    upload_path = os.path.abspath(DEFAULT_PATH)
+    cmd = f"sh {lkp_path}/lkp_test_download.sh {upload_path}"
+    result = subprocess.run(cmd.split(' '),
+                   capture_output=False, shell=False, stderr=subprocess.STDOUT)
+    if result.returncode == 0:
+        print(f"lkp test download result: success")
+        ret = ret and True
+    else:
+        print(f"[error] lkp test download result: failed")
+        ret = ret and False
+    compatibility_test_path = base_path("compatibility_test_help")
+    ret = download_compatibility_test(compatibility_test_path, upload_path)
     return ret
 
 
