@@ -15,7 +15,7 @@ class PipeLine:
 
     def start(self):
         if self.head.get_next_node() and self.head.get_next_node().execute(self.data):
-            print("-- Congratulations! Install package success in all machines. --")
+            print("-- Program finished. --")
 
     def add_tail(self, *handlers):
         for handler in handlers:

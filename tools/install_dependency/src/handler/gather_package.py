@@ -9,7 +9,21 @@ LOGGER = logging.getLogger("install_dependency")
 
 
 class GatherPackage(Handler):
+
     def handle(self, data) -> bool:
+        instruction_to_func_dict = {
+            "deploy_iso": GatherPackage.deploy_iso_handle,
+            "default": GatherPackage.default_handle,
+        }
+        return instruction_to_func_dict.get(data.get(constant.INSTRUCTION, "default"))()
+
+    @staticmethod
+    def deploy_iso_handle():
+        LOGGER.info("Iso file already checked.")
+        return True
+
+    @staticmethod
+    def default_handle():
         LOGGER.debug("GatherPackage start!")
         if GatherPackage.check_default_path_available():
             LOGGER.info("Dependencies ready.")

@@ -5,12 +5,14 @@ import logging
 import timeout_decorator
 
 import constant
+from command_line import CommandLine
 from exception.connect_exception import CreatePkeyFailedException, ConnectRemoteException, \
     NotMatchedMachineTypeException
 from download import component_collection_map
 from utils import base_path
 
 LOGGER = logging.getLogger("install_dependency")
+SHELL_FILE_LIST = ["install.sh", "check_install_result.sh"]
 
 
 class Machine:
@@ -94,6 +96,50 @@ class Machine:
             sftp_client.close()
 
     def install_component_handler(self, component_name, sftp_client, ssh_client):
+        component_name_to_func_dict = {
+            "GCCforOpenEuler": self.default_install_component_handle,
+            "BiShengCompiler": self.default_install_component_handle,
+            "BiShengJDK17": self.default_install_component_handle,
+            "BiShengJDK8": self.default_install_component_handle,
+            "OpenEulerMirrorISO": self.deploy_iso_handle,
+        }
+        return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
+
+    def deploy_iso_handle(self, component_name, sftp_client, ssh_client):
+        # 上传 镜像文件
+        LOGGER.info(f"Deploy component in remote machine {self.ip}: {component_name}")
+        local_path = os.path.abspath(CommandLine.iso_path)
+        remote_path = os.path.join("/home", local_path.split('/')[-1])
+        LOGGER.debug(f"Transport local_file: {local_path} to remote machine {self.ip} "
+                     f"remote_file: {remote_path}")
+        sftp_client.put(localpath=local_path, remotepath=remote_path)
+
+        # 上传并执行 安装脚本, 校验安装结果脚本
+        install_result = ""
+        remote_file_list = []
+        for shell_file in SHELL_FILE_LIST:
+            sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
+            sh_file_remote_path = os.path.join("/tmp/", component_name + shell_file)
+            sh_cmd = f"bash {sh_file_remote_path} {remote_path}"
+            execute_output = (
+                self.transport_shell_file_and_execute(
+                    ssh_client, sftp_client,
+                    sh_file_local_path=sh_file_local_path,
+                    sh_file_remote_path=sh_file_remote_path,
+                    sh_cmd=sh_cmd
+                ))
+            remote_file_list.append(sh_file_remote_path)
+            if shell_file == SHELL_FILE_LIST[1]:
+                install_result = execute_output
+
+        if install_result == "true":
+            LOGGER.info(f"Remote machine {self.ip} deploy {component_name} success.")
+        else:
+            LOGGER.info(f"Remote machine {self.ip} deploy {component_name} failed.")
+        # 清理tmp临时文件
+        self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
+
+    def default_install_component_handle(self, component_name, sftp_client, ssh_client):
         try:
             stdin, stdout, stderr = ssh_client.exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}", timeout=10)
         except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
@@ -119,13 +165,20 @@ class Machine:
             sftp_client.put(localpath=f"{component}", remotepath=f"{remote_file}")
 
         # 上传并执行 安装脚本, 校验安装结果脚本
-        shell_file_list = ["install.sh", "check_install_result.sh"]
         install_result = ""
-        for shell_file in shell_file_list:
-            execute_output, sh_file_remote_path = (
-                self.transport_shell_file_and_execute(ssh_client, sftp_client, component_name, shell_file))
+        for shell_file in SHELL_FILE_LIST:
+            sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
+            sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, component_name + shell_file)
+            sh_cmd = f"bash {sh_file_remote_path}"
+            execute_output = (
+                self.transport_shell_file_and_execute(
+                    ssh_client, sftp_client,
+                    sh_file_local_path=sh_file_local_path,
+                    sh_file_remote_path=sh_file_remote_path,
+                    sh_cmd=sh_cmd
+                ))
             remote_file_list.append(sh_file_remote_path)
-            if shell_file == shell_file_list[1]:
+            if shell_file == SHELL_FILE_LIST[1]:
                 install_result = execute_output
 
         if install_result == "true":
@@ -135,19 +188,19 @@ class Machine:
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
-    def transport_shell_file_and_execute(self, ssh_client, sftp_client, component_name, shell_file):
-        sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
+    def transport_shell_file_and_execute(self, ssh_client, sftp_client, sh_file_local_path, sh_file_remote_path, sh_cmd):
         if not os.path.exists(sh_file_local_path):
             LOGGER.error(f"{sh_file_local_path} not exists.")
             raise FileNotFoundError(f"local file {sh_file_local_path} not exists.")
-        sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, component_name + shell_file)
+
         LOGGER.debug(f"Transport local_file: {sh_file_local_path} to remote machine {self.ip} "
                      f"remote_file: {sh_file_remote_path}")
         sftp_client.put(localpath=sh_file_local_path, remotepath=sh_file_remote_path)
-        stdin, stdout, stderr = ssh_client.exec_command(f"bash {sh_file_remote_path}")
+
+        stdin, stdout, stderr = ssh_client.exec_command(sh_cmd)
         output = stdout.read().decode().strip()
-        LOGGER.info(f"Remote machine {self.ip} bash {component_name}{shell_file} file output: {output}")
-        return output, sh_file_remote_path
+        LOGGER.info(f"Remote machine {self.ip} '{sh_cmd}' file output: {output}")
+        return output
 
     def clear_tmp_file_at_remote_machine(self, ssh_client, remote_file_list):
         LOGGER.debug(f"Clear tmp file at remote machine {self.ip}")
