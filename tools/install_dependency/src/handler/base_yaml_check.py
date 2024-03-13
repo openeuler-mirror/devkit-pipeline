@@ -5,8 +5,10 @@ import constant
 from handler.handler_and_node import Handler
 
 LOGGER = logging.getLogger("install_dependency")
-MIN_SET = (constant.USER, constant.PKEY, constant.SCANNER, constant.BUILDER, constant.EXECUTOR)
-MAX_SET = (constant.USER, constant.PKEY, constant.PASSWORD, constant.SCANNER, constant.BUILDER, constant.EXECUTOR)
+MIN_SET = (constant.USER, constant.PKEY,
+           constant.SCANNER, constant.BUILDER, constant.EXECUTOR, constant.DEVKIT, constant.INSTRUCTION)
+MAX_SET = (constant.USER, constant.PKEY, constant.PASSWORD,
+           constant.SCANNER, constant.BUILDER, constant.EXECUTOR, constant.DEVKIT, constant.INSTRUCTION)
 
 
 class BaseCheck(Handler):

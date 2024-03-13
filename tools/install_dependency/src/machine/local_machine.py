@@ -3,11 +3,13 @@ import logging
 import subprocess
 
 import constant
+from command_line import CommandLine
 from exception.connect_exception import NotMatchedMachineTypeException
 from download import component_collection_map
 from utils import base_path
 
 LOGGER = logging.getLogger("install_dependency")
+SHELL_FILE_LIST = ["install.sh", "check_install_result.sh"]
 
 
 class LocalMachine:
@@ -29,6 +31,42 @@ class LocalMachine:
             LOGGER.error(f"Local machine {self.ip} occur Error: {str(e)}")
 
     def install_component_handler(self, component_name):
+        component_name_to_func_dict = {
+            "GCCforOpenEuler": self.default_install_component_handle,
+            "BiShengCompiler": self.default_install_component_handle,
+            "BiShengJDK17": self.default_install_component_handle,
+            "BiShengJDK8": self.default_install_component_handle,
+            "OpenEulerMirrorISO": self.deploy_iso_handle,
+        }
+        return component_name_to_func_dict.get(component_name)(component_name)
+
+    def deploy_iso_handle(self, component_name):
+        # 复制镜像文件
+        LOGGER.info(f"Deploy component in local machine {self.ip}: {component_name}")
+        local_path = os.path.abspath(CommandLine.iso_path)
+
+        # 执行 安装脚本, 校验安装结果脚本
+        install_result = ""
+        for shell_file in SHELL_FILE_LIST:
+            sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
+            sh_cmd = f"bash {sh_file_local_path} {local_path}"
+            if not os.path.exists(sh_file_local_path):
+                LOGGER.error(f"{sh_file_local_path} not exists.")
+                raise FileNotFoundError(f"local file {sh_file_local_path} not exists.")
+
+            result = subprocess.run(f"{sh_cmd}".split(' '),
+                                    capture_output=True, shell=False)
+            output = result.stdout.decode().strip()
+            LOGGER.info(f"Local machine {self.ip} '{sh_cmd}' file output: {output}")
+            if shell_file == SHELL_FILE_LIST[1]:
+                install_result = output
+
+        if install_result == "true":
+            LOGGER.info(f"Remote machine {self.ip} deploy {component_name} success.")
+        else:
+            LOGGER.info(f"Remote machine {self.ip} deploy {component_name} failed.")
+
+    def default_install_component_handle(self, component_name):
         result = subprocess.run(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}".split(' '),
                                 capture_output=False, shell=False, stderr=subprocess.STDOUT)
         if result.returncode == 0:
@@ -48,17 +86,23 @@ class LocalMachine:
             LOGGER.debug(f"Copy component file to local machine {self.ip}: {component}")
             remote_file = os.path.abspath(os.path.join('/tmp', component))
             remote_file_list.append(remote_file)
-            subprocess.run(f"/bin/cp -rf {component} {remote_file}".split(' '),
+            subprocess.run(f"/bin/cp -f {component} {remote_file}".split(' '),
                            capture_output=False, shell=False, stderr=subprocess.STDOUT)
 
         # 上传并执行 安装脚本, 校验安装结果脚本
-        shell_file_list = ["install.sh", "check_install_result.sh"]
         install_result = ""
-        for shell_file in shell_file_list:
-            execute_output, sh_file_remote_path = (
-                self.transport_shell_file_and_execute(component_name, shell_file))
+        for shell_file in SHELL_FILE_LIST:
+            sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
+            sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, component_name + shell_file)
+            sh_cmd = f"bash {sh_file_remote_path}"
+            execute_output = (
+                self.transport_shell_file_and_execute(
+                    sh_file_local_path=sh_file_local_path,
+                    sh_file_remote_path=sh_file_remote_path,
+                    sh_cmd=sh_cmd
+                ))
             remote_file_list.append(sh_file_remote_path)
-            if shell_file == shell_file_list[1]:
+            if shell_file == SHELL_FILE_LIST[1]:
                 install_result = execute_output
 
         if install_result == "true":
@@ -68,21 +112,21 @@ class LocalMachine:
         # 清理tmp临时文件
         self.clear_tmp_file_at_local_machine(remote_file_list)
 
-    def transport_shell_file_and_execute(self, component_name, shell_file):
-        sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
+    def transport_shell_file_and_execute(self, sh_file_local_path, sh_file_remote_path, sh_cmd):
         if not os.path.exists(sh_file_local_path):
             LOGGER.error(f"{sh_file_local_path} not exists.")
             raise FileNotFoundError(f"local file {sh_file_local_path} not exists.")
-        sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, component_name + shell_file)
+
         LOGGER.debug(f"Copy local_file: {sh_file_local_path} to local machine {self.ip} "
                      f"remote_file: {sh_file_remote_path}")
-        subprocess.run(f"/bin/cp -rf {sh_file_local_path} {sh_file_remote_path}".split(' '),
+        subprocess.run(f"/bin/cp -f {sh_file_local_path} {sh_file_remote_path}".split(' '),
                        capture_output=False, shell=False, stderr=subprocess.STDOUT)
-        result = subprocess.run(f"bash {sh_file_remote_path}".split(' '),
+
+        result = subprocess.run(f"{sh_cmd}".split(' '),
                                 capture_output=True, shell=False)
         output = result.stdout.decode().strip()
-        LOGGER.info(f"Local machine {self.ip} bash {component_name}{shell_file} file output: {output}")
-        return output, sh_file_remote_path
+        LOGGER.info(f"Local machine {self.ip} '{sh_cmd}' file output: {output}")
+        return output
 
     def clear_tmp_file_at_local_machine(self, remote_file_list):
         LOGGER.debug(f"Clear tmp file at local machine {self.ip}")

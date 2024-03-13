@@ -3,35 +3,28 @@ import socket
 
 import constant
 from handler.handler_and_node import Handler
-from machine.scanner_machine import ScannerMachine
-from machine.builder_machine import BuilderMachine
-from machine.executor_machine import ExecutorMachine
 from machine.local_machine import LocalMachine
+from machine.klass_dict import KLASS_DICT
 from exception.connect_exception import ConnectException
 
 LOGGER = logging.getLogger("install_dependency")
 
 
 class ConnectCheck(Handler):
-    klass_dict = {
-        constant.SCANNER: ScannerMachine,
-        constant.BUILDER: BuilderMachine,
-        constant.EXECUTOR: ExecutorMachine,
-    }
 
     def handle(self, data) -> bool:
         LOGGER.debug("ConnectCheck start!")
         local_ip = ConnectCheck.get_local_ip()
 
         ret = True
-        for role in ConnectCheck.klass_dict:
+        for role in (set(KLASS_DICT.keys()) & set(data.keys())):
             ret = ret and ConnectCheck.machine_role_check(data, role, local_ip)
         return ret
 
     @staticmethod
     def machine_role_check(data, role, local_ip):
         builder_list = data.get(role)
-        klass = ConnectCheck.klass_dict.get(role)
+        klass = KLASS_DICT.get(role)
         data[role + constant.MACHINE] = dict()
         for ip in builder_list:
             if ip == local_ip or ip == "127.0.0.1":

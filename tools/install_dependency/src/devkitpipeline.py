@@ -1,7 +1,10 @@
+import os
+import subprocess
 import sys
 import logging
 import yaml
 
+import constant
 from log import config_logging
 from command_line import process_command_line, CommandLine
 
@@ -13,6 +16,7 @@ from handler.install_package import InstallPackage
 
 LOGGER = logging.getLogger("install_dependency")
 PIPELINE = [BaseCheck(), ConnectCheck(), GatherPackage(), InstallPackage()]
+ISO_VERIFY_FLAG_STRING = "ISO 9660 CD-ROM filesystem data"
 
 
 def read_yaml_file(yaml_path):
@@ -31,12 +35,34 @@ def read_yaml_file(yaml_path):
     return config_dict
 
 
+def check_iso_available(iso_path):
+    if not os.path.isfile(iso_path):
+        LOGGER.error(f"ISO file is not in specified path. Error: {iso_path} file not found.")
+        sys.exit(1)
+    try:
+        result = subprocess.run(f"file -b {iso_path}".split(' '),
+                                capture_output=True, shell=False)
+        output = result.stdout.decode().strip()
+        if output.find(ISO_VERIFY_FLAG_STRING) == -1:
+            LOGGER.error(f"Verify iso result: Not available. Please re-download iso file.")
+            sys.exit(1)
+    except (FileNotFoundError, IsADirectoryError, PermissionError, Exception) as e:
+        LOGGER.error(f"Verify iso file integrity occur error: {str(e)}")
+        sys.exit(1)
+
+
 if __name__ == '__main__':
     try:
         process_command_line(program="install_dependency", description="devkit-pipeline install_dependency tool",
                              class_list=[CommandLine])
         config_logging(CommandLine.debug)
         config_dict = read_yaml_file(CommandLine.yaml_path)
+
+        if CommandLine.iso_path:
+            config_dict[constant.INSTRUCTION] = "deploy_iso"
+            check_iso_available(CommandLine.iso_path)
+        else:
+            config_dict[constant.INSTRUCTION] = "default"
         LOGGER.debug(f"-- config_dict: {config_dict}")
 
         pipe = PipeLine(config_dict)
