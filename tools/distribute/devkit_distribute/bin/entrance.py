@@ -46,7 +46,7 @@ class Distributor:
         # 发送至 Devkit
         client = DevKitClient(self.devkit_ip, self.devkit_port, self.devkit_user, self.devkit_password)
         for jfr in local_jfrs:
-            client.upload_report(jfr)
+            client.upload_report_by_force(jfr)
         client.logout()
         # 清空本地jfr文件
         file_utils.clear_dir(self.data_path)
@@ -154,11 +154,9 @@ def main():
     parser.add_argument("-i", "--ips", required=True, dest="ips_list",
                         help="the machine ips on which the java application is running ")
     parser.add_argument("-u", "--user", required=True, dest="user", default="root",
-                        help="the user password of the ips")
+                        help="the user of the ips")
     parser.add_argument("-P", "--port", dest="port", type=int, default=22,
                         help="the ssh port of the ips")
-    parser.add_argument("-p", "--password", dest="password",
-                        help="the user password of the ips")
     parser.add_argument("-f", "--pkey-file", dest="pkey_file",
                         help="the file path of the private key")
     parser.add_argument("-c", "--pkey-content", dest="pkey_content",
@@ -166,18 +164,19 @@ def main():
     parser.add_argument("-w", "--pkey-password", dest="pkey_password",
                         help="the private key password")
     parser.add_argument("--devkit-ip", dest="devkit_ip", required=True,
-                        help="the process names that can be multiple, each separated by a comma")
+                        help="the ip of the kunpeng DevKit server")
     parser.add_argument("--devkit-port", dest="devkit_port", default="8086",
-                        help="the process names that can be multiple, each separated by a comma")
+                        help="the port of the kunpeng DevKit server")
     parser.add_argument("--devkit-user", dest="devkit_user", default="devadmin",
-                        help="the process names that can be multiple, each separated by a comma")
+                        help="the user of the kunpeng DevKit server")
     parser.add_argument("--devkit-password", dest="devkit_password", default="admin100",
-                        help="the process names that can be multiple, each separated by a comma")
+                        help="the password of the user of the kunpeng DevKit server")
     parser.add_argument("-a", "--app", required=True, dest="applications",
                         help="the process names that can be multiple, each separated by a comma")
     parser.add_argument("-d", "--duration", required=True, dest="duration", type=int,
                         help="the time of the sample")
     parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
+    parser.set_defaults(password="")
     args = parser.parse_args()
     config_log_ini(args.root_path, "devkit_distribute")
     logging.info("devkit_distribute start")
