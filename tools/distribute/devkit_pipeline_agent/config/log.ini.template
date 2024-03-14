@@ -1,0 +1,30 @@
+[loggers] # loggers 对象列表
+keys=root
+
+
+[handlers] # handlers 对象列表
+keys=consoleHandler,fileHandler
+
+[formatters] # formatters 对象列表
+keys=fmt
+
+[logger_root]# 配置 logger_root ：设置日志级别、输出位置（控制台和文件）
+level=INFO
+handlers=consoleHandler,fileHandler
+
+
+[handler_consoleHandler] # consoleHandler 控制器输出方向、级别、输出格式、参数
+class = StreamHandler
+level = INFO
+formatter = fmt
+args = (sys.stdout,)
+
+[handler_fileHandler]#  fileHandler 控制器输出方向、级别、输出格式、参数
+class = FileHandler
+level = INFO
+formatter = fmt
+args = ("LOG_PATH/LOG_NAME.log", "a")
+
+[formatter_fmt]
+format=[%(asctime)s] [%(levelname)s] [processID:%(process)d][%(threadName)s] [%(module)s:%(funcName)s:%(lineno)d] %(message)s
+datefmt=%Y-%m-%d %H:%M:%S
