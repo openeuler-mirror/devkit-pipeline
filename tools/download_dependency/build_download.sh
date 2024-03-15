@@ -14,4 +14,4 @@ mkdir -p "${build_dir}"
 
 cd "${build_dir}"
 
-pyinstaller -F "${current_dir}"/src/download.py -p "${current_dir}"/src
+pyinstaller -F "${current_dir}"/src/download.py -p "${current_dir}"/src --add-data "${current_dir}/lkp_help:lkp_help" --add-data "${current_dir}/compatibility_test_help:compatibility_test_help"
