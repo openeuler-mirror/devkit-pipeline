@@ -45,11 +45,22 @@ class Distributor:
         self.obtain_jfrs(local_jfrs, task_id)
         # 发送至 Devkit
         client = DevKitClient(self.devkit_ip, self.devkit_port, self.devkit_user, self.devkit_password)
+        jfr_names = list()
         for jfr in local_jfrs:
+            jfr_names.append(os.path.basename(jfr))
             client.upload_report_by_force(jfr)
         client.logout()
         # 清空本地jfr文件
         file_utils.clear_dir(self.data_path)
+
+    def __print_result(self, jfr_names):
+        print("=============================================================")
+        print("The following files have been uploaded to the DevKit server:")
+        for jfr_name in jfr_names:
+            print(jfr_name)
+        print(f"Please open the following address to view：\n"
+              f"https://{self.devkit_ip}:{self.devkit_port}")
+        print(f"user :{self.devkit_user}, password: ${self.devkit_password}")
 
     def obtain_jfrs(self, local_jfrs, task_id):
         # 顺序获取

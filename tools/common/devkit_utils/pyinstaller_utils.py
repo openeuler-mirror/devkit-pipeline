@@ -14,7 +14,7 @@ def check_is_running_in_pyinstaller_bundle():
 
 def obtain_root_path(root_path):
     """
-    获取rootpath,当在pyinstaller中时，为父母录，否认为参入的参数
+    获取rootpath,当在pyinstaller中时，为父目录，否则为传入的参数
     """
     if check_is_running_in_pyinstaller_bundle():
         return os.path.dirname(os.path.dirname(sys.executable))
