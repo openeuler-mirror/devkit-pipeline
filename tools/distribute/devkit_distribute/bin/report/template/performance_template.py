@@ -1,4 +1,4 @@
-performance_report = """
+PERFORMANCE_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +32,10 @@ performance_report = """
             margin-left: 250px;
             padding: 20px;
         }
+        .dropdown {
+            display: inline-block;
+            width: 100%;
+        }
         .dropdown-content {
             display: none;
             position: absolute;
@@ -53,14 +57,14 @@ performance_report = """
             border-bottom: none;
         }
         .dropdown-content a:hover {
-            background-color: #4CAF50;
+            background-color: #831020;
             color: white;
         }
         .dropdown.open .dropdown-content {
             display: block;
         }
         .dropbtn {
-            background-color: #4CAF50;
+            background-color: #831020;
             color: white;
             padding: 10px;
             text-align: center;
@@ -94,7 +98,7 @@ performance_report = """
 </head>
 <body>
 <div id="sidePanel">
-    <img id="icon" src="kunpeng_devkit.png" alt="Icn" width="50">
+    <img id="icon" src="kunpeng_devkit.png" alt="Icon" width="50">
     <p class="devkit_name"> Kunpeng DevKit </p>
     <div class="dropdown">
         <button class="dropbtn" onclick="toggleDropdown()">xingneng lie hua men jin baogao </button>
@@ -118,13 +122,10 @@ performance_report = """
 <script src="jquery-3.6.4.js"></script>
 
 <script>
-    var mainJsonData = {
-        "IP": "192.168.1.1",
-        "User Name": "devadmin",
-    };
+    var mainJsonData = {{info_dict}};
     
     var mainTableRows = Object.entries(mainJsonData).map(([key, value]) => {
-        return "<tr><td>" + key + "</td><td>" + value + "</td></tr>"
+        return "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
     }).join("");
     
     $('#mainJsonTable tbody').html(mainTableRows);
@@ -140,14 +141,14 @@ performance_report = """
     }
     
     function openGitRecord() {
-        window.location.href = "git_record.html"
+        window.location.href = "git_record.html";
     }
 
     function openPerformanceChart() {
-        window.location.href = "performance_chart.html"
+        window.location.href = "performance_chart.html";
     }
     
-    function toggleDropDown() {
+    function toggleDropdown() {
         var dropdown = document.querySelector('.dropdown');
         dropdown.classList.toggle('open');
     }
