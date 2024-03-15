@@ -10,6 +10,7 @@ from devkit_utils.error_coce import ErrorCodeEnum, ErrorCodeMsg
 from devkit_utils.log_config import config_log_ini
 from devkit_utils.pyinstaller_utils import obtain_root_path
 from devkit_utils.transport_utils import SSHClientFactory
+from report.report import Report
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -32,6 +33,7 @@ class Distributor:
         self.devkit_port = args.devkit_port
         self.devkit_user = args.devkit_user
         self.devkit_password = args.devkit_password
+        self.report = Report("./")
         file_utils.create_dir(self.data_path)
 
     def distribute(self):
