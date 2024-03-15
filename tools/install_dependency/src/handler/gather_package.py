@@ -20,7 +20,7 @@ class GatherPackage(Handler):
     @staticmethod
     def deploy_iso_handle():
         LOGGER.info("Iso file already checked.")
-        return True
+        return GatherPackage.default_handle()
 
     @staticmethod
     def default_handle():
