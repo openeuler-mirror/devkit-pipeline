@@ -7,10 +7,10 @@ import time
 import pandas as pd
 from jinja2 import Template
 
-from template.git_log_template import GIT_LOG_TEMPLATE
-from template.performance_template import PERFORMANCE_TEMPLATE
-from template.summary_template import SUMMARY_TEMPLATE
-from template.chart_template import CHART_TEMPLATE
+from .template.git_log_template import GIT_LOG_TEMPLATE
+from .template.performance_template import PERFORMANCE_TEMPLATE
+from .template.summary_template import SUMMARY_TEMPLATE
+from .template.chart_template import CHART_TEMPLATE
 
 GIT_LOG_RECORD_COMMAND = """
 git --git-dir={}/.git log --since=1.day \
@@ -71,7 +71,7 @@ class Report:
         with open(os.path.join(self.report_dir, MAIN_PAGE_FILE), "w") as f:
             f.write(self.main_page)
 
-    def generate_chars(self, csv_file):
+    def generate_charts(self, csv_file):
         df = pd.read_csv(csv_file, index_col=False)
         df_filterd = df[["timeStamp", "elapsed", "IdleTime", "Latency", "label"]]
         df_filterd.columns = ["time", "elapsed", "idle", "latency", "label"]

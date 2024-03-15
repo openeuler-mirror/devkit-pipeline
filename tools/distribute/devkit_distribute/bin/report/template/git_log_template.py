@@ -1,4 +1,4 @@
-lGIT_LOG_TEMPLATE = """
+GIT_LOG_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
