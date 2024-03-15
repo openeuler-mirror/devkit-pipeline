@@ -19,7 +19,7 @@ class InstallPackage(Handler):
 
     @staticmethod
     def deploy_iso_handle(data):
-        LOGGER.debug("Deploy iso start!")
+        LOGGER.debug("Deploy iso and install Package start!")
         ip_set = set()
         jobs = []
 
@@ -30,7 +30,7 @@ class InstallPackage(Handler):
                 if machine_ip in ip_set:
                     continue
                 ip_set.add(machine_ip)
-                LOGGER.debug(f"ip_set: {ip_set}")
+                LOGGER.debug(f"ip_set to deploy iso: {ip_set}")
                 machine = machine_dict.get(machine_ip)
                 process = multiprocessing.Process(
                     target=process_work,
@@ -43,6 +43,8 @@ class InstallPackage(Handler):
 
         for job in jobs:
             job.join()
+
+        InstallPackage.default_handle(data)
         return True
 
     @staticmethod
