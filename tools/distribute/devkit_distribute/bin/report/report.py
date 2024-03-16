@@ -48,12 +48,13 @@ class Report:
             with open(os.path.join(HTML_TEMPLATE_NAME), "w") as file:
                 file.writelines(res)
                 
-    def jmeter_report_to_html(self):
+    def jmeter_report_to_html(self, jmeter_report_path):
         all_data= []
-        with open(JMETER_REPORT_NAME, newline='') as csvfile:
+        jmeter_report = os.path.join(jmeter_report_path, JMETER_REPORT_NAME)
+        with open(jmeter_report, newline='') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
-                all_data.append(row)
+                all_data.extend(row)
 
         all_data_json = json.dumps(all_data)
         with open(HTML_TEMPLATE_NAME, "r") as file:
@@ -61,6 +62,3 @@ class Report:
             res = [sub.replace(JMETER_SUMMARY_TEMPLATE_HOLDER, all_data_json) for sub in html_lines]
             with open(HTML_TEMPLATE_NAME, "w") as new_file:
                 new_file.writelines(res)
-
-a = Report()
-a.generate_git_log()
