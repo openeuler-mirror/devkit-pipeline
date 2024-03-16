@@ -32,18 +32,20 @@ class Report:
         self.chart_page = ""
 
     def generate_git_log(self, repo_path):
-        JMETER_CMD = GIT_LOG_RECORD_COMMAND.format(repo_path)
+        full_cmd = GIT_LOG_RECORD_COMMAND.format(repo_path)
         parent_url_cmd = GIT_REMOTE_URL_COMMAND.format(repo_path)
         parent_url = subprocess.Popen(parent_url_cmd, shell=True, stdout=subprocess.PIPE, encoding="utf-8").stdout.read()
         git_url = re.sub(PORT_SUB_PATTERN, '', parent_url.replace("ssh://git@", "https://").replace(".git", "")).strip("\n") + "/commit/"
-        git_data = subprocess.Popen(JMETER_CMD, shell=True, stdout=subprocess.PIPE, encoding='utf-8'.stdout.readlines())
-        data = [[value.strip("'").rstrip("'") if key != "commit" else git_url + value.strip("'").rstrip("'") for key, value in json.loads(x).items()] for x in git_data]
+        git_data = subprocess.Popen(full_cmd, shell=True, stdout=subprocess.PIPE, encoding='utf-8').stdout.readlines()
+        data = ["commit", "author", "author_email", "date", "message"]
+        for x in git_data:
+            data.extend([value.strip("'").rstrip("'") if key != "commit" else git_url + value.strip("'").rstrip("'") for key, value in json.loads(x).items()])
         git_log = json.dumps(data)
 
         with open(os.path.join(HTML_TEMPLATE_NAME), "r") as f:
             html_lines = f.readlines()
             res = [sub.replace(GIT_TEMPLATE_HOLDER, git_log) for sub in html_lines]
-            with open(os.path.join(HTML_TEMPLATE_NAME)) as file:
+            with open(os.path.join(HTML_TEMPLATE_NAME), "w") as file:
                 file.writelines(res)
                 
     def jmeter_report_to_html(self):
