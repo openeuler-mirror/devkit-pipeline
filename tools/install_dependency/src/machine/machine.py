@@ -1,14 +1,16 @@
-import os
-import paramiko
-import socket
 import logging
+import os
+import socket
+import typing
+
+import paramiko
 import timeout_decorator
 
 import constant
 from command_line import CommandLine
+from download import component_collection_map
 from exception.connect_exception import CreatePkeyFailedException, ConnectRemoteException, \
     NotMatchedMachineTypeException
-from download import component_collection_map
 from lkp_collect_map import lkp_collection_map
 from utils import base_path
 
@@ -97,17 +99,18 @@ class Machine:
             sftp_client.close()
 
     def install_component_handler(self, component_name, sftp_client, ssh_client):
-        component_name_to_func_dict = {
+        component_name_to_func_dict: typing.Dict[
+            str, typing.Callable[[str, paramiko.SFTPClient, paramiko.SSHClient], typing.Any]] = {
             "GCCforOpenEuler": self.default_install_component_handle,
             "BiShengCompiler": self.default_install_component_handle,
             "BiShengJDK17": self.default_install_component_handle,
             "BiShengJDK8": self.default_install_component_handle,
-            "LkpTests": self.lkpTest_install_component_handle,
+            "LkpTests": self.lkptest_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
         }
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
 
-    def lkpTest_install_component_handle(self, component_name, sftp_client, ssh_client):
+    def lkptest_install_component_handle(self, component_name, sftp_client, ssh_client):
         try:
             stdin, stdout, stderr = ssh_client.exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}", timeout=10)
             stdin, stdout, stderr = ssh_client.exec_command(f"yum install -y git wget rubygems", timeout=100)
@@ -160,9 +163,10 @@ class Machine:
             LOGGER.info(f"Remote machine {self.ip} install {component_name} failed.")
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
-        self.compatibilityTest_install_component_handle("CompatibilityTesting",  sftp_client, ssh_client)
+        self.__install_component_on_lkptest("CompatibilityTesting", sftp_client, ssh_client)
+        self.__install_component_on_lkptest("DevkitDistribute", sftp_client, ssh_client)
 
-    def compatibilityTest_install_component_handle(self, component_name, sftp_client, ssh_client):
+    def __install_component_on_lkptest(self, component_name, sftp_client, ssh_client):
         # 上传 compatibility_testing.tar.gz文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
         shell_dict = lkp_collection_map.get(component_name)
@@ -284,7 +288,8 @@ class Machine:
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
-    def transport_shell_file_and_execute(self, ssh_client, sftp_client, sh_file_local_path, sh_file_remote_path, sh_cmd):
+    def transport_shell_file_and_execute(self, ssh_client, sftp_client, sh_file_local_path, sh_file_remote_path,
+                                         sh_cmd):
         if not os.path.exists(sh_file_local_path):
             LOGGER.error(f"{sh_file_local_path} not exists.")
             raise FileNotFoundError(f"local file {sh_file_local_path} not exists.")

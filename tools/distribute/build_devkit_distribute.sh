@@ -37,3 +37,7 @@ mkdir -p devkit_distribute/log
 cp "${build_dir}"/dist/entrance devkit_distribute/bin
 cp -rf "${current_dir}"/devkit_distribute/config devkit_distribute
 cp devkit_pipeline_agent.tar.gz devkit_distribute/config
+
+tar -czf devkit_distribute.tar.gz devkit_distribute
+
+cp devkit_distribute.tar.gz "${project_dir}"/build/component
