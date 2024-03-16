@@ -166,3 +166,34 @@ chown -R Kunpeng_staff.Kunpeng_staff /home/gitlab-runner
 点击进入runners页面
 ![](./gitlab/注册09.PNG) 
 ![](./gitlab/注册10.PNG) 
+#### 7.脚本配置指导
+毕昇编译器调用示例：
+在流水线脚本中在某一步骤需要调用毕昇编译器进行编译时,以目标文件为”/opt/test.c“文件为例。
+
+```
+stages:          
+  - build
+
+clang_job:
+  stage: build
+  tags:
+    - kunpeng_scanner #对应gitlab-runner注册时的标签，可选择多个
+  script:
+    - /root/BiShengCompiler-3.2.0-aarch64-linux/bin/clang /opt/test.c -o 输出路径 #所在机器上应保障已安装毕昇编译器,路径根据视情况填写
+  
+```
+GCC for openEuler调用示例：
+在流水线脚本中在某一步骤需要调用GCC for openEuler进行编译时,以目标文件为”/opt/test.c“文件为例。
+
+```
+stages:          
+  - build
+
+gcc_job:
+  stage: build
+  tags:
+    - kunpeng_scanner #对应gitlab-runner注册时的标签，可选择多个
+  script:
+    - /root/gcc-10.3.1-2023.12-aarch64-linux/bin/gcc /opt/test.c -o 输出路径 #所在机器上应保障已安装GCC for openEule,路径根据视情况填写
+
+
