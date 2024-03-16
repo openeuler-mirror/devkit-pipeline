@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huawei.ic.openlab.cloudtest.dao.PerformanceServiceDao">
+    <resultMap id="PerformanceServiceMap" type="com.huawei.ic.openlab.cloudtest.entity.PerformanceService">
+        <result column="LOGIN_PASSWORD"
+                property="loginPassword"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.CryptoTypeHandler"
+                javaType="java.lang.String"/>
+    </resultMap>
+    <select id="getIdleService" resultMap="PerformanceServiceMap">
+        SELECT ID,DEVICE_ID,SERVICE_IP,LOGIN_ACCOUNT,LOGIN_PASSWORD,STATUS,TASK_NUM
+        FROM PERFORMANCE_SERVICE
+        WHERE STATUS='ready'
+        ORDER BY TASK_NUM ASC
+        LIMIT 1
+    </select>
+
+    <select id="getPerformanceService" resultMap="PerformanceServiceMap">
+        SELECT ID,DEVICE_ID,SERVICE_IP,LOGIN_ACCOUNT,LOGIN_PASSWORD,STATUS,TASK_NUM
+        FROM PERFORMANCE_SERVICE
+        WHERE STATUS='ready'
+    </select>
+
+    <update id="addTask">
+        UPDATE PERFORMANCE_SERVICE
+        SET TASK_NUM = TASK_NUM +1
+        WHERE SERVICE_IP = #{serviceIp}
+    </update>
+
+    <update id="subtractTask">
+        UPDATE PERFORMANCE_SERVICE
+        SET TASK_NUM = TASK_NUM -1
+        WHERE SERVICE_IP = #{serviceIp}
+    </update>
+</mapper>
