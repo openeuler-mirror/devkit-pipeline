@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huawei.ic.openlab.cloudtest.dao.CloudLabTestTaskDao">
+    <resultMap id="testTaskMap" type="com.huawei.ic.openlab.cloudtest.entity.CloudLabTestTask">
+        <result column="SERVER_PASSWORD"
+                property="serverPassword"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.CryptoTypeHandler"
+                javaType="java.lang.String"/>
+        <result column="STEP_STATUS"
+                property="stepStatus"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler"
+                javaType="com.huawei.ic.openlab.cloudtest.entity.CloudLabTestTask$StepStatus"/>
+        <result column="FUNCTION_FILE"
+                property="functionFile"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler"
+                javaType="com.huawei.ic.openlab.cloudtest.entity.CloudLabTestTask$UploadFile"/>
+        <result column="PERFORMANCE_FILE"
+                property="performanceFile"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler"
+                javaType="com.huawei.ic.openlab.cloudtest.entity.CloudLabTestTask$UploadFile"/>
+        <result column="RESULT_FILE"
+                property="resultFile"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler"
+                javaType="com.huawei.ic.openlab.cloudtest.entity.CloudLabTestTask$UploadFile"/>
+        <result column="TEST_SUMMARY"
+                property="testSummary"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler"
+                javaType="com.huawei.ic.openlab.cloudtest.entity.CloudLabTestTask$TestCaseSummary"/>
+        <result column="TEST_DETAIL"
+                property="testDetail"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler"
+                javaType="java.util.List"/>
+        <result column="SCRIPT_RESULT_CONFIG"
+                property="scriptResultConfig"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler"
+                javaType="com.huawei.ic.openlab.cloudtest.entity.ScriptResultConfig"/>
+        <result column="TEST_BEGIN_TIME"
+                property="testBeginTime"
+                typeHandler="com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler"
+                javaType="com.huawei.ic.openlab.cloudtest.entity.CloudLabTestTask$TestBeginTime"/>
+    </resultMap>
+
+    <select id="getTestTask" resultMap="testTaskMap">
+        SELECT
+        PROJECT_ID,
+        USER_ID,
+        SERVER_IP,
+        SERVER_PORT,
+        SERVER_USER,
+        SERVER_PASSWORD,
+        PROJECT_STATUS,
+        REQUEST_TIME,
+        START_TIME,
+        FINISH_TIME,
+        COMPATIBILITY_TEST,
+        RELIABILITY_TEST,
+        SECURITY_TEST,
+        FUNCTION_TEST,
+        PERFORMANCE_TEST,
+        STEP_STATUS,
+        CURRENT_STATUS,
+        FUNCTION_FILE,
+        PERFORMANCE_FILE,
+        RESULT_FILE,
+        TEST_SUMMARY,
+        TEST_DETAIL,
+        SCRIPT_RESULT_CONFIG,
+        PERFORMANCE_SERVICE,
+        TEST_BEGIN_TIME,
+        TASK_LANGUAGE
+        FROM CLOUD_LAB_TEST_TASK
+        WHERE PROJECT_ID = #{projectId}
+    </select>
+
+    <insert id="setTestTask" parameterType="com.huawei.ic.openlab.cloudtest.entity.CloudLabTestTask">
+        INSERT INTO CLOUD_LAB_TEST_TASK(
+        PROJECT_ID,
+        USER_ID,
+        SERVER_IP,
+        SERVER_PORT,
+        SERVER_USER,
+        SERVER_PASSWORD,
+        PROJECT_STATUS,
+        REQUEST_TIME,
+        START_TIME,
+        FINISH_TIME,
+        COMPATIBILITY_TEST,
+        RELIABILITY_TEST,
+        SECURITY_TEST,
+        FUNCTION_TEST,
+        PERFORMANCE_TEST,
+        STEP_STATUS,
+        CURRENT_STATUS,
+        FUNCTION_FILE,
+        PERFORMANCE_FILE,
+        RESULT_FILE,
+        TEST_SUMMARY,
+        TEST_DETAIL,
+        TASK_LANGUAGE
+        )
+        VALUE(
+        #{projectId},
+        #{data.userId},
+        #{data.serverIp},
+        #{data.serverPort},
+        #{data.serverUser},
+        #{data.serverPassword, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.CryptoTypeHandler},
+        #{data.projectStatus},
+        #{data.requestTime},
+        #{data.startTime},
+        #{data.finishTime},
+        #{data.compatibilityTest},
+        #{data.reliabilityTest},
+        #{data.securityTest},
+        #{data.functionTest},
+        #{data.performanceTest},
+        #{data.stepStatus, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        #{data.currentStatus},
+        #{data.functionFile, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        #{data.performanceFile, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        #{data.resultFile, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        #{data.testSummary, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        #{data.testDetail, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        #{data.taskLanguage}
+        )ON DUPLICATE KEY UPDATE
+        SERVER_IP = #{data.serverIp},
+        SERVER_PORT = #{data.serverPort},
+        SERVER_USER = #{data.serverUser},
+        SERVER_PASSWORD =
+        #{data.serverPassword, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.CryptoTypeHandler},
+        PROJECT_STATUS = #{data.projectStatus},
+        REQUEST_TIME = #{data.requestTime},
+        COMPATIBILITY_TEST = #{data.compatibilityTest},
+        RELIABILITY_TEST = #{data.reliabilityTest},
+        SECURITY_TEST = #{data.securityTest},
+        FUNCTION_TEST = #{data.functionTest},
+        PERFORMANCE_TEST = #{data.performanceTest},
+        TASK_LANGUAGE = #{data.taskLanguage},
+        STEP_STATUS = null,
+        CURRENT_STATUS = null,
+        RESULT_FILE = null,
+        TEST_SUMMARY = null,
+        TEST_DETAIL = null,
+        SCRIPT_RESULT_CONFIG = null
+    </insert>
+
+    <update id="updateProjectStatus">
+        UPDATE CLOUD_LAB_TEST_TASK
+        SET
+        PROJECT_STATUS = #{status},
+        STATUS_DESC = #{statusDesc},
+        <if test="startTime != null and startTime.length() > 0">
+            START_TIME = #{startTime}
+        </if>
+        <if test="finishTime != null and finishTime.length() > 0">
+            FINISH_TIME = #{finishTime}
+        </if>
+        WHERE PROJECT_ID = #{projectId}
+    </update>
+
+    <insert id="updateUploadFile">
+        <selectKey keyProperty="count" resultType="int" order="BEFORE">
+            SELECT COUNT(*) FROM CLOUD_LAB_TEST_TASK WHERE PROJECT_ID = #{projectId}
+        </selectKey>
+        <choose>
+            <when test="count>0">
+                UPDATE CLOUD_LAB_TEST_TASK
+                SET
+                PERFORMANCE_SERVICE = #{ip},
+                <if test="column == 'FUNCTION_FILE'">
+                    FUNCTION_FILE =
+                    #{data, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler}
+                </if>
+                <if test="column == 'PERFORMANCE_FILE'">
+                    PERFORMANCE_FILE =
+                    #{data, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler}
+                </if>
+                WHERE PROJECT_ID = #{projectId}
+            </when>
+            <otherwise>
+                INSERT INTO CLOUD_LAB_TEST_TASK(
+                PROJECT_ID,
+                USER_ID,
+                PERFORMANCE_SERVICE,
+                <if test="column == 'FUNCTION_FILE'">
+                    FUNCTION_FILE
+                </if>
+                <if test="column == 'PERFORMANCE_FILE'">
+                    PERFORMANCE_FILE
+                </if>
+                )VALUE(
+                #{projectId},
+                #{userId},
+                #{ip},
+                #{data, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler}
+                )
+            </otherwise>
+        </choose>
+    </insert>
+
+    <update id="updateStepStatus">
+        UPDATE CLOUD_LAB_TEST_TASK
+        SET
+        STEP_STATUS = #{data, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        TEST_BEGIN_TIME =
+        #{testBeginTime, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler}
+        WHERE PROJECT_ID = #{projectId}
+    </update>
+
+    <update id="updateWithExceptionFile">
+        UPDATE CLOUD_LAB_TEST_TASK
+        SET
+        STEP_STATUS =
+        #{data.stepStatus, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        PROJECT_STATUS = #{data.projectStatus},
+        STATUS_DESC = #{data.statusDesc},
+        FINISH_TIME = #{data.finishTime}
+        WHERE PROJECT_ID = #{data.projectId}
+    </update>
+
+    <select id="getOngoingTask" resultType="java.lang.String">
+        SELECT PROJECT_ID
+        FROM CLOUD_LAB_TEST_TASK
+        WHERE (PROJECT_ID = #{data.projectId}
+        OR SERVER_IP = #{data.serverIp})
+        AND PROJECT_STATUS IN (0,1)
+    </select>
+
+    <update id="updateCompatibilityResult">
+        UPDATE CLOUD_LAB_TEST_TASK
+        SET
+        STEP_STATUS =
+        #{data.stepStatus, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        PROJECT_STATUS = #{data.projectStatus},
+        STATUS_DESC = #{data.statusDesc},
+        FINISH_TIME = #{data.finishTime},
+        RESULT_FILE =
+        #{data.resultFile, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        TEST_SUMMARY =
+        #{data.testSummary, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        TEST_DETAIL =
+        #{data.testDetail, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        SCRIPT_RESULT_CONFIG =
+        #{data.scriptResultConfig, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler}
+        WHERE PROJECT_ID = #{data.projectId}
+    </update>
+
+
+    <update id="updatePerformanceResult">
+        UPDATE CLOUD_LAB_TEST_TASK
+        SET
+        STEP_STATUS =
+        #{data.stepStatus, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        PROJECT_STATUS = #{data.projectStatus},
+        STATUS_DESC = #{data.statusDesc},
+        FINISH_TIME = #{data.finishTime},
+        TEST_SUMMARY =
+        #{data.testSummary, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler},
+        TEST_DETAIL =
+        #{data.testDetail, typeHandler=com.huawei.ic.openlab.cloudtest.common.typehandler.JacksonTypeHandler}
+        WHERE PROJECT_ID = #{data.projectId}
+    </update>
+
+</mapper>
