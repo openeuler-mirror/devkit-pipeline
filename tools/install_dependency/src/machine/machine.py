@@ -306,3 +306,6 @@ class Machine:
 
     def do_nothing(self, component_name, sftp_client, ssh_client):
         return
+
+    def undeploy_iso_work(self):
+        return

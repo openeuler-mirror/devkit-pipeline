@@ -134,3 +134,9 @@ class LocalMachine:
             LOGGER.debug(f"Delete tmp file at local machine {self.ip}: {remote_file}")
             subprocess.run(f"rm -f {remote_file}".split(' '),
                            capture_output=False, shell=False, stderr=subprocess.STDOUT)
+
+    def do_nothing(self, component_name, sftp_client, ssh_client):
+        return
+
+    def undeploy_iso_work(self):
+        return
