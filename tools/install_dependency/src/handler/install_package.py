@@ -12,10 +12,17 @@ class InstallPackage(Handler):
 
     def handle(self, data) -> bool:
         instruction_to_func_dict = {
-            "deploy_iso": InstallPackage.deploy_iso_handle,
+            "deploy_iso": InstallPackage.deploy_iso_all_handle,
             "default": InstallPackage.default_handle,
         }
         return instruction_to_func_dict.get(data.get(constant.INSTRUCTION, "default"))(data)
+
+    @staticmethod
+    def deploy_iso_all_handle(data):
+        InstallPackage.deploy_iso_handle(data)
+        InstallPackage.default_handle(data)
+        InstallPackage.undeploy_iso_handle(data)
+        return True
 
     @staticmethod
     def deploy_iso_handle(data):
@@ -23,7 +30,7 @@ class InstallPackage(Handler):
         ip_set = set()
         jobs = []
 
-        for role in ({constant.EXECUTOR, constant.DEVKIT} & set(data.keys())):
+        for role in {constant.EXECUTOR, constant.DEVKIT}:
             machine_dict = data[role + constant.MACHINE]
             LOGGER.debug(f"{role} machine list: {list(machine_dict.keys())}")
             for machine_ip in machine_dict:
@@ -44,16 +51,13 @@ class InstallPackage(Handler):
         for job in jobs:
             job.join()
 
-        InstallPackage.default_handle(data)
-        return True
-
     @staticmethod
     def default_handle(data):
         LOGGER.debug("Install Package start!")
         ip_set = set()
         jobs = []
 
-        for role in (set(KLASS_DICT.keys()) & set(data.keys())):
+        for role in KLASS_DICT:
             machine_dict = data[role + constant.MACHINE]
             LOGGER.debug(f"{role} machine list: {list(machine_dict.keys())}")
             for machine_ip in machine_dict:
@@ -78,6 +82,22 @@ class InstallPackage(Handler):
         for job in jobs:
             job.join()
         return True
+
+    @staticmethod
+    def undeploy_iso_handle(data):
+        ip_set = set()
+
+        for role in ({constant.EXECUTOR, constant.DEVKIT} & set(data.keys())):
+            machine_dict = data[role + constant.MACHINE]
+
+            for machine_ip in machine_dict:
+                if machine_ip in ip_set:
+                    continue
+                ip_set.add(machine_ip)
+                LOGGER.debug(f"ip_set to un-deploy iso: {ip_set}")
+                machine = machine_dict.get(machine_ip)
+                machine.undeploy_iso_work()
+                LOGGER.debug(f"Resume original mirror in machine: {machine_ip} ")
 
 
 def process_work(machine, *components: str):

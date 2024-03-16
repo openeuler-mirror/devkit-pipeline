@@ -3,7 +3,7 @@ metadata:
   summary: A program can run some basic tests
   description: run compatibility test and generate the report
   homepage: https://gitee.com/openeuler/devkit-pipeline
-type: woorkload
+type: workload
 depends:
 params:
 results:

@@ -2,7 +2,8 @@
 
 function configure_local_mirror() {
     local iso_file_path=$1
-    mount ${iso_file_path} /mnt -o loop
+    mkdir -p /devkitmirror
+    mount ${iso_file_path} /devkitmirror -o loop
     if [[ -d /etc/yum.repos.d/yum.repos.backup ]]; then
         mv -rf /etc/yum.repos.d/yum.repos.backup /etc/yum.repos.backup
     else
