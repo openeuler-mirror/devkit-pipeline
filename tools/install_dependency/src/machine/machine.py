@@ -8,9 +8,9 @@ import timeout_decorator
 
 import constant
 from command_line import CommandLine
-from download import component_collection_map
 from exception.connect_exception import CreatePkeyFailedException, ConnectRemoteException, \
     NotMatchedMachineTypeException
+from download import component_collection_map
 from lkp_collect_map import lkp_collection_map
 from utils import base_path
 
@@ -141,6 +141,7 @@ class Machine:
 
             remote_file_list.append(remote_file)
             sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
+        # 上传并执行 安装脚本, 校验安装结果脚本
         install_result = ""
         for shell_file in SHELL_FILE_LIST:
             sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
@@ -160,14 +161,14 @@ class Machine:
         if install_result == "true":
             LOGGER.info(f"Remote machine {self.ip} install {component_name} success.")
         else:
-            LOGGER.info(f"Remote machine {self.ip} install {component_name} failed.")
+            LOGGER.error(f"Remote machine {self.ip} install {component_name} failed.")
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
         self.__install_component_on_lkptest("CompatibilityTesting", sftp_client, ssh_client)
         self.__install_component_on_lkptest("DevkitDistribute", sftp_client, ssh_client)
 
     def __install_component_on_lkptest(self, component_name, sftp_client, ssh_client):
-        # 上传 compatibility_testing.tar.gz文件
+        # 上传 tar.gz 文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
         shell_dict = lkp_collection_map.get(component_name)
         remote_file_list = []
@@ -182,6 +183,7 @@ class Machine:
                          f"remote_file: {remote_file}")
             remote_file_list.append(remote_file)
             sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
+        # 上传并执行 安装脚本, 校验安装结果脚本
         install_result = ""
         for shell_file in SHELL_FILE_LIST:
             sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
@@ -201,7 +203,7 @@ class Machine:
         if install_result == "true":
             LOGGER.info(f"Remote machine {self.ip} install {component_name} success.")
         else:
-            LOGGER.info(f"Remote machine {self.ip} install {component_name} failed.")
+            LOGGER.error(f"Remote machine {self.ip} install {component_name} failed.")
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 

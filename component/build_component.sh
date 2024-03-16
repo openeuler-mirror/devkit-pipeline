@@ -4,19 +4,36 @@
 
 set -e
 current_dir=$(cd $(dirname "$0"); pwd)
-project_dir=$(realpath "${current_dir}/..")
+project_dir=$(dirname "${current_dir}")
+build_dir=${project_dir}/build
+final_component_dir=${build_dir}/component
+
 umask 077
 
-mkdir -p "${project_dir}"/build/component
+function build_lkp_tests() {
+    # 单独处理LkpTests
+    mkdir -p ${final_component_dir}/LkpTests
+    bash ${current_dir}/LkpTests/build_lkp_tests_all.sh ${final_component_dir}/LkpTests
 
-component_arrays=(
-    "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "CompatibilityTesting" "GCCforOpenEuler" "DevkitDistribute"
-    "LkpTests" "OpenEulerMirrorISO"
-)
+    cp -rf ${current_dir}/LkpTests/install.sh ${final_component_dir}/LkpTests
+    cp -rf ${current_dir}/LkpTests/check_install_result.sh ${final_component_dir}/LkpTests
+}
 
-for element in "${component_arrays[@]}";
-  do
-  cp -rf "${project_dir}/component/${element}" "${project_dir}"/build/component
-  done
+function main() {
+    if [[ -d ${final_component_dir} ]]; then
+        rm -rf ${final_component_dir}
+    fi
 
+    mkdir -p ${final_component_dir}
 
+    component_arrays=(
+        "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "GCCforOpenEuler" "OpenEulerMirrorISO" "CompatibilityTesting" "DevkitDistribute" "CloudTest"
+    )
+    for element in "${component_arrays[@]}"; do
+        cp -rf "${current_dir}/${element}" "${final_component_dir}"
+    done
+
+    build_lkp_tests
+}
+
+main "$@"
