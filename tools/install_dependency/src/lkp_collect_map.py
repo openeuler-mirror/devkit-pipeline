@@ -16,5 +16,10 @@ lkp_collection_map = {
         "download file": {
             "save_path": f"{os.path.join('./', constant.DEPENDENCY_DIR, 'compatibility_testing.tar.gz')}",
         }
+    },
+    "DevkitDistribute": {
+        "download file": {
+            "save_path": f"{os.path.join(base_path('component'), 'devkit_distribute.tar.gz')}",
+        }
     }
 }
