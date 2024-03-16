@@ -7,30 +7,23 @@
     <title>Kunpeng DevKit</title>
     <script>
         const full_pages = ['report', 'trend', 'git', 'chart'];
-        const valid_pages = ['report', 'trend', 'git', 'chart'];
+        const valid_pages = ['git'];
         const pipelineData = {
             report: {
                 report_tb_cols: 2,
-                report_tb_data: ['IP', 'User Name', '10.175.119.223', 'devadmin'],
+                report_tb_data: [],
             },
             trend: {
                 trend_tb_cols: 4,
-                trend_tb_data: ['TimeStamp', 'Elapsed', 'label', 'responseCode', '1234567', '7524', 'home_page', 'Non HTTP response code: java.net.SocketException', '2345678', '13369', 'home_page', 'Non HTTP response code: java.net.SocketException'],
-                trend_chart_labels: ['TimeStamp', 'Elapsed'], // must be countable, idx_0 represents x-axis
+                trend_tb_data: [],
+                trend_chart_labels: [], // must be countable, idx_0 represents x-axis
             },
             git: {
                 git_tb_cols: 2,
-                git_tb_data: ['Key', 'Value', 'commit', '478ea28ce27fdc003334c6f', 'author', 'huxiongbin 00637742', 'author_email', 'huxiongbin3@huawei.com', 'date', 'Wed Nov 22 11:14:15 2023 +0800', 'message', 'merge-master-into-master'],
+                git_tb_data: [],
             },
             chart: {
-                chart_json: {
-                    'sys': {
-                        'cpu': {
-                            'user': [111, 222, 333, 444],
-                            'system': [321, 432, 321, 432]
-                        }
-                    }
-                },
+                chart_json: {},
             },
         }
     </script>
@@ -25113,7 +25106,7 @@
                 <div id="nav-git" onclick="navigation('git')">
                     <img style="scale: 0.9;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPg0KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTMuNDE0MiAzLjgyODQzQzEyLjYzMzIgMy4wNDczOCAxMS4zNjY4IDMuMDQ3MzggMTAuNTg1OCAzLjgyODQzTDkuOTE0MjEgNC41TDExLjQ4MiA2LjA2Nzc0QzExLjY0NzIgNi4wMjM1NiAxMS44MjA4IDYgMTIgNkMxMy4xMDQ2IDYgMTQgNi44OTU0MyAxNCA4QzE0IDguMTc5MTYgMTMuOTc2NCA4LjM1MjgyIDEzLjkzMjMgOC41MTgwNEwxNS45ODIgMTAuNTY3N0MxNi4xNDcyIDEwLjUyMzYgMTYuMzIwOCAxMC41IDE2LjUgMTAuNUMxNy42MDQ2IDEwLjUgMTguNSAxMS4zOTU0IDE4LjUgMTIuNUMxOC41IDEzLjYwNDYgMTcuNjA0NiAxNC41IDE2LjUgMTQuNUMxNS4zOTU0IDE0LjUgMTQuNSAxMy42MDQ2IDE0LjUgMTIuNUMxNC41IDEyLjMyMDggMTQuNTIzNiAxMi4xNDcyIDE0LjU2NzcgMTEuOTgyTDEzIDEwLjQxNDJWMTUuMjY3NkMxMy41OTc4IDE1LjYxMzQgMTQgMTYuMjU5NyAxNCAxN0MxNCAxOC4xMDQ2IDEzLjEwNDYgMTkgMTIgMTlDMTAuODk1NCAxOSAxMCAxOC4xMDQ2IDEwIDE3QzEwIDE2LjI1OTcgMTAuNDAyMiAxNS42MTM0IDExIDE1LjI2NzZWOS43MzI0NEMxMC40MDIyIDkuMzg2NjMgMTAgOC43NDAyOCAxMCA4QzEwIDcuODIwODQgMTAuMDIzNiA3LjY0NzE4IDEwLjA2NzcgNy40ODE5Nkw4LjUgNS45MTQyMUwzLjgyODQzIDEwLjU4NThDMy4wNDczOCAxMS4zNjY4IDMuMDQ3MzggMTIuNjMzMiAzLjgyODQzIDEzLjQxNDJMMTAuNTg1OCAyMC4xNzE2QzExLjM2NjggMjAuOTUyNiAxMi42MzMyIDIwLjk1MjYgMTMuNDE0MiAyMC4xNzE2TDIwLjE3MTYgMTMuNDE0MkMyMC45NTI2IDEyLjYzMzIgMjAuOTUyNiAxMS4zNjY4IDIwLjE3MTYgMTAuNTg1OEwxMy40MTQyIDMuODI4NDNaTTkuMTcxNTcgMi40MTQyMUMxMC43MzM3IDAuODUyMTE1IDEzLjI2NjMgMC44NTIxMTkgMTQuODI4NCAyLjQxNDIyTDIxLjU4NTggOS4xNzE1N0MyMy4xNDc5IDEwLjczMzcgMjMuMTQ3OSAxMy4yNjYzIDIxLjU4NTggMTQuODI4NEwxNC44Mjg0IDIxLjU4NThDMTMuMjY2MyAyMy4xNDc5IDEwLjczMzcgMjMuMTQ3OSA5LjE3MTU3IDIxLjU4NThMMi40MTQyMSAxNC44Mjg0QzAuODUyMTE1IDEzLjI2NjMgMC44NTIxMTkgMTAuNzMzNyAyLjQxNDIyIDkuMTcxNTdMOS4xNzE1NyAyLjQxNDIxWiIgZmlsbD0iI0ZGRkZGRiIvPg0KPC9zdmc+"
                     />
-                    <span>Git 日志</span>
+                    <span>鲲鹏测试报告</span>
                 </div>
                 <div id="nav-chart" onclick="navigation('chart')">
                     <img style="scale: 0.9;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPg0KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGQ9Ik0yMSAyMUg3LjhDNi4xMTk4NCAyMSA1LjI3OTc2IDIxIDQuNjM4MDMgMjAuNjczQzQuMDczNTQgMjAuMzg1NCAzLjYxNDYgMTkuOTI2NSAzLjMyNjk4IDE5LjM2MkMzIDE4LjcyMDIgMyAxNy44ODAyIDMgMTYuMlYzTTYgMTVMMTAgMTFMMTQgMTVMMjAgOU0yMCA5VjEzTTIwIDlIMTYiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4NCjwvc3ZnPg=="
@@ -25166,7 +25159,7 @@
     };
     const gitHtml = () => {
         return `
-<h1>Today's Git Log</h1>
+<h1>鲲鹏测试报告</h1>
 <div id="tables">
   <table id="example" class="display"></table>
 </div>
