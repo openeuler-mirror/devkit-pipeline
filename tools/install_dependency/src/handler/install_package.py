@@ -23,7 +23,7 @@ class InstallPackage(Handler):
         ip_set = set()
         jobs = []
 
-        for role in ({constant.EXECUTOR, constant.DEVKIT} & set(data.keys())):
+        for role in {constant.EXECUTOR, constant.DEVKIT}:
             machine_dict = data[role + constant.MACHINE]
             LOGGER.debug(f"{role} machine list: {list(machine_dict.keys())}")
             for machine_ip in machine_dict:
@@ -53,7 +53,7 @@ class InstallPackage(Handler):
         ip_set = set()
         jobs = []
 
-        for role in (set(KLASS_DICT.keys()) & set(data.keys())):
+        for role in KLASS_DICT:
             machine_dict = data[role + constant.MACHINE]
             LOGGER.debug(f"{role} machine list: {list(machine_dict.keys())}")
             for machine_ip in machine_dict:

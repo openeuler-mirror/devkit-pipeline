@@ -1,4 +1,4 @@
-#！/bin/bash
+#!/bin/bash
 # SourceCode build script
 # Copyright: Copyright (c) Huawei Technologies Co., Ltd. All rights reserved.
 
@@ -14,4 +14,4 @@ mkdir -p "${build_dir}"
 
 cd "${build_dir}"
 
-pyinstaller -F "${current_dir}"/src/download.py -p "${current_dir}"/src --add-data "${current_dir}/lkp_help:lkp_help" --add-data "${current_dir}/compatibility_test_help:compatibility_test_help"
+pyinstaller -F "${current_dir}"/src/download.py -p "${current_dir}"/src --add-data "../../tools/download_dependency/lkp_help:lkp_help" --add-data "../../tools/download_dependency/compatibility_test_help:compatibility_test_help"
