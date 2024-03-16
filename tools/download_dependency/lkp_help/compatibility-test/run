@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 ct_sh_path=${HOME}/.local/compatibility_testing/Chinese/compatibility_testing.sh
 cloud_jar=${HOME}/.local/compatibility_testing/cloudTest.jar
 
@@ -12,4 +13,5 @@ jar_pid=$!
 curl --location --request GET 'http://127.0.0.1:10037/api/v1/report?savePath=/'${HOME}'/.local/compatibility_testing/Chinese/log.json&file=/'${HOME}'/.local/compatibility_testing/Chinese/log.tar.gz'
 kill -9 $jar_pid
 cp -rf ${HOME}/.local/compatibility_testing/template.html.bak /${HOME}/.local/compatibility_testing/template.html
+cd ${HOME}/.local/compatibility_testing/
 python3 ${HOME}/.local/compatibility_testing/json2html.py

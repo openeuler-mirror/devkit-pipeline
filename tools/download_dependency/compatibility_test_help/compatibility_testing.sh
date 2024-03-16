@@ -11,6 +11,7 @@ if [[ ! -d "./log" ]]; then
 fi
 CURRENT_PATH=$(pwd)
 APP_PID=""
+STRESS_CMD=-1
 LIB_PATH=${CURRENT_PATH}/../lib/
 REMOTE_EXECUTIVE_PATH=/home/compatibility_testing/Chinese/
 REMOTE_LIB_PATH=/home/compatibility_testing/lib/
@@ -128,9 +129,14 @@ check_configuration() {
             write_messages  e 31 2 "应用停止命令为空。"
             STOP_APP_COMM=1
         fi
+        export STRESS_CMD
         if [[ -z "${start_performance_scripts}" ]]; then
             write_messages  e 31 2  "压力测试工具启动命令为空。"
+
+            STRESS_CMD=0
             TEST_TOOL_COMM=1
+        else
+            STRESS_CMD=1
         fi
         if [[ -n "${cluster_ip_lists}" ]]; then
             HAS_CLUSTER_ENV=1
@@ -988,34 +994,12 @@ start_app(){
                 process=${app_list[$i]}
                 process=$(echo ${process} | awk '{gsub(/^\s+|\s+$/, "");print}')
                 ps_result="$(check_process ${process})"
-                start_times=5
                 if [[ "${ps_result}" != "" ]]; then
                     write_messages  c 34 "${start_step}" "业务应用${process}启动完成。"
                 fi
-                while [[ ${start_times} -gt 0 &&  "${ps_result}" == "" ]]
-                do
-                    # 手动启动应用
-                    HAND_START_APP=1
-                    write_messages  c 31 "${start_step}" "人工手动启动应用，请启动${process},完成请回复 Y  :"
-                    read -r process_is_on
-                    write_messages i 0 "${start_step}" "您输入的是 ${process_is_on} "
-                    if [[ "${process_is_on}" == "Y"  ||  "${process_is_on}" == "y" ]]; then
-                        sleep "${SLEEP_TIME}"
-                        ps_result="$(check_process ${process})"
-                        if [[ "${ps_result}" != "" ]]; then
-                        write_messages  c 34 "${start_step}" "手动启动业务应用${process}完成。"
-                        break
-                    else
-                        write_messages  e 0  "${start_step}" "检查到业务应用进程${process}不存在，请重试。"
-                        start_times=$((start_times -1))
-                    fi
-                    else
-                        start_times=$((start_times -1))
-                    fi
-                done
-                if [[ ${start_times} -le 0 ]]; then
-                    write_messages  e 0 "${start_step}" "检查到业务应用启动不成功，且用户未能启动应用，请用户检查应用后重新操作。"
-                    exit
+                if [[ "${ps_result}" == "" ]]; then
+                    write_messages  e 0 "应用启动失败请检查应用启动命令"
+                    exit 1
                 fi
             done
         fi
@@ -1026,42 +1010,45 @@ start_app(){
 start_performance_test(){
     # 调用压力测试命令进行压力测试。
     PERF_TEST_FLAG=0
-    write_messages  i 0 7 "启动压力测试工具"
-    if [[ ${TEST_TOOL_COMM} -eq 0 ]];then
-        OLD_IFS="${IFS}"
-        IFS=','
-        read -r -a start_performance_scripts <<< "$start_performance_scripts"
-        length=${#start_performance_scripts[@]}
-        for ((i = 0; i < "${length}"; i++)); do
-            start_script=${start_performance_scripts[$i]}
-            pattern='&$'
-            if  [[ $start_script =~ $pattern  ]];then
-                eval "${start_script}" >>  ./log/"${app_log_file}"  2>&1
-                PID=$!
-		        cd "${CURRENT_PATH}"||exit
-            else
-                eval "(${start_script})&" >>  ./log/"${app_log_file}"  2>&1
-                PID=$!
-		        cd "${CURRENT_PATH}"||exit
-            fi
+    export STRESS_CMD
+    if [[ $STRESS_CMD -eq 1 ]]; then
+        write_messages  i 0 7 "启动压力测试工具"
+        if [[ ${TEST_TOOL_COMM} -eq 0 ]];then
+            OLD_IFS="${IFS}"
+            IFS=','
+            read -r -a start_performance_scripts <<< "$start_performance_scripts"
+            length=${#start_performance_scripts[@]}
+            for ((i = 0; i < "${length}"; i++)); do
+                start_script=${start_performance_scripts[$i]}
+                pattern='&$'
+                if  [[ $start_script =~ $pattern  ]];then
+                    eval "${start_script}" >>  ./log/"${app_log_file}"  2>&1
+                    PID=$!
+                cd "${CURRENT_PATH}"||exit
+                else
+                    eval "(${start_script})&" >>  ./log/"${app_log_file}"  2>&1
+                    PID=$!
+                cd "${CURRENT_PATH}"||exit
+                fi
 
-            if ! ps -fp "${PID}"> /dev/null; then
-                write_messages  e 0 7 "调用命令${start_script}启动测试工具失败，请手动启动测试工具。"
-                HAND_START_TEST=1
-                PERF_TEST_FLAG=0
-            else
-                performance_test_pid_array[$i]="${PID}"
-                PERF_TEST_FLAG=1
-            fi
-        done
-        IFS="${OLD_IFS}"
+                if ! ps -fp "${PID}"> /dev/null; then
+                    write_messages  e 0 7 "调用命令${start_script}启动测试工具失败"
+                    HAND_START_TEST=1
+                    PERF_TEST_FLAG=0
+                else
+                    performance_test_pid_array[$i]="${PID}"
+                    PERF_TEST_FLAG=1
+                fi
+            done
+            IFS="${OLD_IFS}"
+        fi
+        if [[ ${TEST_TOOL_COMM} -eq 1  ||  ${PERF_TEST_FLAG} -eq 0 ]];then
+            write_messages  c 31 7  "启动压力测试工具失败，请确认启动命令"
+            exit 1
+        fi
+    else
+        write_messages  i 0 7 "用户未提供启动压力测试工具命令"
     fi
-    start_times=5
-    if [[ ${start_times} -le 0 ]]; then
-        write_messages  e 0 5 "压力测试需要用户手动加压或者启动压力工具进行测试，用户未能确认进行压力测试，请用户确认后再启动采集工具。"
-        exit
-    fi
-
 }
 
 reliablity_test(){
@@ -1084,10 +1071,8 @@ reliablity_test(){
         disown "${pid}"
         kill -9  "${pid}" >>./log/"${log_file}"  2>&1
         if [[ $? -ne 0 ]] ; then
-            write_messages   e 0 8 "压力测试工具停止失败，请手动停止。确认请回复任意键继续 ？："
-            read -r process_is_on
-            write_messages  c  31 8 "你回复的是${process_is_on}"
-            continue
+            write_messages   e 0 8 "压力测试工具停止失败"
+            exit 1
         fi
         sleep "${SLEEP_TIME}"
     done
@@ -1190,10 +1175,11 @@ write_messages  c  34 6 "第 6 步：安全测试结束"
 
 # 7.1、进行压力测试
 write_messages  c 34 7 "第 7 步：进行业务压力下CPU、内存、硬盘和网卡系统资源采集"
-if [[ ${HPC_CERTIFICATE} -eq 0 ]]; then
+if [[ ${HPC_CERTIFICATE} -eq 0 && ${STRESS_CMD} -eq 1 ]]; then
     start_performance_test
     # 7.2、压力测试采集
     sleep 2
+    get_performance 5 5 1 7
     sleep 20
 fi
 

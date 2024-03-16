@@ -423,7 +423,7 @@ public final class Constants {
     public static final List<String> PERFORMANCE_DESC_LIST = Collections.unmodifiableList(
             Arrays.asList(
                     "压力测试期间%s 资源波动值为%.2f %%,%s 5.00%%.", "后续可结合实际业务澄清波动合理性",
-                    "压力测试期间%s 资源文件读取出错.", "压力测试期间%s 资源文件缺失.",
+                    "压力测试期间%s 资源文件读取出错.", "未执行压力测试无 %s 资源信息",
                     "压力测试期间网卡%s数据波动是%.2f %%.", "压力测试期间网卡%s数据波动是%.2f %%,%s 5.00%%."
             ));
 
