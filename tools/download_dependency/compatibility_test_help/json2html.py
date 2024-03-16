@@ -17,7 +17,7 @@ def compatibility_result_to_html(compatibility_json_path):
     with open("template.html", "r") as file:
         html_lines = file.readlines()
         res = [sub.replace(COMPATIBILITY_REPORT_TEMPLATE_HOLDER, compatibility_report) for sub in html_lines]
-        with open("template.html", "w") as f:
+        with open(os.path.join(compatibility_json_path, "compatibility_report.html"), "w") as f:
             f.writelines(res)
 
-compatibility_result_to_html()
+compatibility_result_to_html("./")
