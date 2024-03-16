@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kunpeng DevKit</title>
-  <script>
-    const pipelineData = {
-      report: {
+<!--
+  数据格式如下：
+ report: {
         report_tb_cols: 2,
         report_tb_data: ['IP', 'User Name', '10.175.119.223', 'devadmin'],
       },
@@ -20,6 +14,30 @@
       },
       chart: {
         chart_json: {'sys': {'cpu': {'user': [111,222,333,444], 'system': [321,432,321,432]}}},
+      }, 
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kunpeng DevKit</title>
+  <script>
+    const pipelineData = {
+      report: {
+        report_tb_cols: 2,
+        report_tb_data: /** devkit-tool **/,
+      },
+      trend: {
+        trend_tb_cols: 4,
+        trend_tb_data: /** jmeter-trend-data **/,
+      },
+      git: {
+        git_tb_cols: 17,
+        git_tb_data: /** git-history **/,
+      },
+      chart: {
+        chart_json: /** perf-chart **/,
       },
     }
   </script>
