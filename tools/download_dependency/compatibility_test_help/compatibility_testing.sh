@@ -1179,7 +1179,7 @@ if [[ ${HPC_CERTIFICATE} -eq 0 && ${STRESS_CMD} -eq 1 ]]; then
     start_performance_test
     # 7.2、压力测试采集
     sleep 2
-    get_performance 5 5 1 7
+    get_performance 5 3 1 7
     sleep 20
 fi
 
