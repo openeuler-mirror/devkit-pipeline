@@ -1,4 +1,4 @@
-<center><big><b>《lkp test安装使用以及与Jenkins，gitlab集成部署指导手册》</b></big></center>
+<center><big><b>《devkit 测试平台安装使用以及与Jenkins集成部署指导手册》</b></big></center>
 
 
 
@@ -7,7 +7,7 @@
 [TOC]
 
 ------
-
+测试平台使用的是lkp test 工具，以下均已lkp test描述测试平台
 ## 一、lkp test 添加测试用例介绍
 ### 样例
 如下目录中的文件，完整的添加了一个典型的测试用例memtier:

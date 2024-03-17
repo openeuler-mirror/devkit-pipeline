@@ -188,7 +188,7 @@ public class ParseDiskPerFiles implements CompatibilityFilesParser {
                         Map<String, List<String>> diskMap = averageMap.computeIfAbsent(diskName, e -> new HashMap<>());
                         diskMap.computeIfAbsent("idle", e -> new ArrayList<>()).add(idle);
                         diskMap.computeIfAbsent("evidence", e -> new ArrayList<>()).add(line);
-                    } else if (flag && StringUtils.containsIgnoreCase(line, "DEV")) {
+                    } else if (flag && StringUtils.contains(line, "DEV") || StringUtils.contains(line, "dev")) {
                         indexMap = getIndexMap(line);
                         flag = false;
                     }

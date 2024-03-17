@@ -148,7 +148,10 @@ public class ParseCpuPerFiles implements CompatibilityFilesParser {
                  BufferedReader beginReader = new BufferedReader(
                         new InputStreamReader(beginInput, StandardCharsets.UTF_8))) {
                 String line;
-                while ((line = beginReader.readLine()) != null && idlePattern.matcher(line).find()) {
+                while ((line = beginReader.readLine()) != null) {
+                    if (!idlePattern.matcher(line).find()){
+                        continue;
+                    }
                     String idle = line.substring(line.length() - 8).trim();
                     if (maxIdle <= Double.parseDouble(idle)) {
                         maxIdle = Double.parseDouble(idle);

@@ -456,17 +456,17 @@ public final class Constants {
                                     + ".*)(启动)?完成|" + "Succeeded in starting the application (.*))"));
                     put("FAILED_TO_RELIABLE_TEST", Pattern.compile(
                             "#\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}#.*(#8)?#"
-                                    + "(可靠性测试, 业务应用(.*)启动失败,可靠性测试失败|"
-                                    + "可靠性测试, 执行强制杀死进程(.*)报错, 可靠性测试失败|"
-                                    + "可靠性测试前, 业务应用(.*)已停止, 可靠性测试失败|"
+                                    + "(可靠性测试，业务应用(.*)启动失败，可靠性测试失败|"
+                                    + "可靠性测试，执行强制杀死进程(.*)报错，可靠性测试失败|"
+                                    + "可靠性测试前，业务应用(.*)已停止，可靠性测试失败|"
                                     + "(.*)The reliability test failed.)"));
                     put("SUCCESS_TO_RELIABLE_TEST", Pattern.compile(
                             "#\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}#.*(#8)?#"
-                                    + "(可靠性测试, 业务应用(.*)启动完成.可靠性测试成功|"
+                                    + "(可靠性测试，业务应用(.*)启动完成.可靠性测试成功|"
                                     + "(.*)The reliability test is successful.)"));
                     put("FAILED_TO_STOP_APP", Pattern.compile(
                             "#\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}#.*(#9)?#"
-                                    + "(检查到应用程序还在启动,且用户未能停止应用|"
+                                    + "(检查到应用程序还在启动，且用户未能停止应用|"
                                     + "Failed to stop the service application (.*). Check the stop script.)"));
                     put("SUCCESS_TO_STOP_APP", Pattern.compile(
                             "#\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}#.*(#9)?#(进程(.*)"
