@@ -92,7 +92,8 @@ class Machine:
         sftp_client = self.sftp_client()
         try:
             self.install_component_handler(component_name, sftp_client, ssh_client)
-        except (FileNotFoundError, PermissionError, NotADirectoryError, OSError, IOError) as e:
+        except (FileNotFoundError, PermissionError, NotADirectoryError, OSError, IOError,
+                timeout_decorator.TimeoutError) as e:
             LOGGER.error(f"Remote machine {self.ip} occur Error: {str(e)}")
         finally:
             ssh_client.close()
@@ -111,19 +112,8 @@ class Machine:
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
 
     def lkptest_install_component_handle(self, component_name, sftp_client, ssh_client):
-        try:
-            stdin, stdout, stderr = ssh_client.exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}", timeout=10)
-            stdin, stdout, stderr = ssh_client.exec_command(f"yum install -y git wget rubygems", timeout=100)
-        except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
-            LOGGER.error(f"yum install -y git wget rubygems failed plz run this command to install")
-            LOGGER.info(f"Remote machine {self.ip} install {component_name} failed.")
-            raise ConnectRemoteException()
-        exit_status = stdout.channel.recv_exit_status()
-        LOGGER.debug(f"Remote machine {self.ip} mkdir -p /tmp/{constant.DEPENDENCY_DIR} result: "
-                     f"{'success' if not exit_status else 'failed'}")
-        if exit_status:
-            raise NotADirectoryError(f"Remote machine {self.ip} "
-                                     f"directory {os.path.join('/tmp/', constant.DEPENDENCY_DIR)} not exist.")
+        cmd = "yum install -y git wget rubygems"
+        self._remote_exec_command(cmd, component_name, ssh_client)
 
         # 上传 lkp-tests.tar.gz文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
@@ -287,6 +277,21 @@ class Machine:
             LOGGER.info(f"Remote machine {self.ip} install {component_name} failed.")
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
+
+    @timeout_decorator.timeout(100)
+    def _remote_exec_command(self, cmd, component_name, ssh_client):
+        try:
+            stdin, stdout, stderr = ssh_client.exec_command(cmd, timeout=80)
+        except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
+            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command.")
+            LOGGER.error(f"Remote machine {self.ip} install {component_name} failed.")
+            raise OSError(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command.")
+        exit_status = stdout.channel.recv_exit_status()
+        LOGGER.debug(f"Remote machine {self.ip} exec '{cmd}' result: "
+                     f"{'success' if not exit_status else 'failed'}")
+        if exit_status:
+            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command.")
+            raise OSError(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command.")
 
     def transport_shell_file_and_execute(self, ssh_client, sftp_client, sh_file_local_path, sh_file_remote_path,
                                          sh_cmd):
