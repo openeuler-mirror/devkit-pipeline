@@ -20,23 +20,25 @@ function main() {
   for each in "${gems_name[@]}"; do
     gem install --local ${each}
   done
-  tar -zvxf ${lkp_tar} -C /${HOME}/.local/
-  cd /${HOME}/.local/lkp-tests/
+  mkdir -p ${HOME}/.local/
+  tar -zvxf ${lkp_tar} -C ${HOME}/.local/
+  cd ${HOME}/.local/lkp-tests/
+  chmod +x ${HOME}/.local/lkp-tests/bin/lkp
   make
-  dos2unix /${HOME}/.local/lkp-tests/programs/compatibility-test/run
-  chmod 777 /${HOME}/.local/lkp-tests/programs/compatibility-test/run
-  ln -s /${HOME}/.local/lkp-tests/programs/compatibility-test/run /${HOME}/.local/lkp-tests/tests/compatibility-test
 
-  cat > /etc/profile.d/lkp.sh << 'EOF'
-LKP_PATH=/${HOME}/.local/lkp-tests/
+  chmod 777 ${HOME}/.local/lkp-tests/programs/compatibility-test/run
+  ln -s ${HOME}/.local/lkp-tests/programs/compatibility-test/run ${HOME}/.local/lkp-tests/tests/compatibility-test
+
+  cat > /etc/profile.d/lkp.sh <<'EOF'
+LKP_PATH=${HOME}/.local/lkp-tests/
 LKP_SRC="${LKP_PATH}"
 PATH="${LKP_PATH}"/sbin:"${LKP_PATH}"/bin:$PATH
 export LKP_PATH LKP_SRC PATH
 EOF
 
   source /etc/profile
-  cd /${HOME}/.local/lkp-tests/programs/compatibility-test/
-  lkp split /${HOME}/.local/lkp-tests/programs/compatibility-test/jobs/compatibility-test.yaml
+  cd ${HOME}/.local/lkp-tests/programs/compatibility-test/
+  lkp split ${HOME}/.local/lkp-tests/programs/compatibility-test/jobs/compatibility-test.yaml
 
 }
 main "$@"

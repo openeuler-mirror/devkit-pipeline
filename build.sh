@@ -7,6 +7,8 @@ current_dir=$(cd $(dirname "$0"); pwd)
 
 tag="v0.1"
 
+mkdir -p "${current_dir}"/build
+
 bash "${current_dir}"/component/build_component.sh
 
 bash "${current_dir}"/tools/distribute/build_devkit_distribute.sh

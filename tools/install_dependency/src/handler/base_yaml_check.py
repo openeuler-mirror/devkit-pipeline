@@ -3,10 +3,11 @@ import re
 import logging
 import constant
 from handler.handler_and_node import Handler
+from machine.klass_dict import KLASS_DICT
 
 LOGGER = logging.getLogger("install_dependency")
 MIN_SET = (constant.USER, constant.PKEY,
-           constant.SCANNER, constant.BUILDER, constant.EXECUTOR, constant.DEVKIT, constant.INSTRUCTION)
+           constant.EXECUTOR, constant.INSTRUCTION)
 MAX_SET = (constant.USER, constant.PKEY, constant.PASSWORD,
            constant.SCANNER, constant.BUILDER, constant.EXECUTOR, constant.DEVKIT, constant.INSTRUCTION)
 
@@ -57,8 +58,7 @@ class BaseCheck(Handler):
     
     @staticmethod
     def check_machine_ip(data):
-        machine_type_list = [constant.SCANNER, constant.BUILDER, constant.EXECUTOR]
-        for machine_type in machine_type_list:
+        for machine_type in (set(KLASS_DICT.keys()) & set(data.keys())):
             if not data.get(machine_type) or not isinstance(data.get(machine_type), list):
                 LOGGER.error(f"Yaml file content not correct. Yaml file {machine_type} value not sequence.")
                 return False
