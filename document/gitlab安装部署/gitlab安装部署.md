@@ -143,7 +143,7 @@ systemctl restart gitlab-runner           #重启服务
 systemctl status gitlab-runner
 ```
 成功启动如下图所示
-![](./Gitlab/gitlab-runner启动.PNG) 
+![](./gitlab/gitlab-runner启动.PNG) 
 
 #### 6.设置权限
 
@@ -154,18 +154,18 @@ chown -R Kunpeng_staff.Kunpeng_staff /home/gitlab-runner
 ```
 #### 7.gitlab runner注册服务
 登录gitlab，在管理中心Runner中新建一个runner
-![](./Gitlab/注册02.PNG) 
+![](./gitlab/注册02.PNG) 
 标签多个时用逗号隔开，只可为kunpeng_scanner, kunpeng_builder, kunpeng_executor，
 其他选项按需填写
-![](./Gitlab/注册03.PNG) 
+![](./gitlab/注册03.PNG) 
 根据所示url，token去gitlab-runner环境注册
-![](./Gitlab/注册06.PNG) 
+![](./gitlab/注册06.PNG) 
 运行 gitlab-runner register，参数如图根据实际情况填写，若token验证失败，请尝试关闭防火墙，注册成功后会显示Runner registered successfully
 若注册时如下报错,可使用如下命令在后台尝试重新注册，具体步骤查看https://docs.gitlab.com/ee/ci/runners/new_creation_workflow
-![](./Gitlab/注册08.PNG) 
+![](./gitlab/注册08.PNG) 
 点击进入runners页面
-![](./Gitlab/注册09.PNG) 
-![](./Gitlab/注册10.PNG) 
+![](./gitlab/注册09.PNG) 
+![](./gitlab/注册10.PNG) 
 #### 8.脚本配置指导
 毕昇编译器调用示例：
 在流水线脚本中在某一步骤需要调用毕昇编译器进行编译时,以目标文件为”/opt/test.c“文件为例。
