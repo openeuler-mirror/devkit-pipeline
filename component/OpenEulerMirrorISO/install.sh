@@ -14,7 +14,7 @@ function configure_local_mirror() {
     cat > /etc/yum.repos.d/local.repo <<'EOF'
 [local]
 name=local.repo
-baseurl=file:///mnt
+baseurl=file:///devkitmirror
 enabled=1
 gpgcheck=0
 EOF

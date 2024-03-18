@@ -18,7 +18,7 @@ lkp_collection_map = {
     },
     "DevkitDistribute": {
         "download file": {
-            "save_path": f"{os.path.join(base_path('component'), 'devkit_distribute.tar.gz')}",
+            "save_path": f"{os.path.join(base_path('component'), 'DevkitDistribute', 'devkit_distribute.tar.gz')}",
         }
     }
 }

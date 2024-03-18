@@ -193,6 +193,8 @@ class Machine:
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def deploy_iso_handle(self, component_name, sftp_client, ssh_client):
+        self._remote_exec_command("[[ $(df -m /home | awk 'NR==2' | awk '{print $4}') -gt 17*1024 ]]", ssh_client)
+
         # 上传 镜像文件
         LOGGER.info(f"Deploy component in remote machine {self.ip}: {component_name}")
         local_path = os.path.abspath(CommandLine.iso_path)
@@ -228,6 +230,7 @@ class Machine:
 
     def default_install_component_handle(self, component_name, sftp_client, ssh_client):
         self._remote_exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}", ssh_client)
+        self._remote_exec_command("[[ $(df -m /tmp | awk 'NR==2' | awk '{print $4}') -gt 1024 ]]", ssh_client)
 
         # 上传 组件压缩包和校验文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")

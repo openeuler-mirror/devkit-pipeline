@@ -40,4 +40,4 @@ cp devkit_pipeline_agent.tar.gz devkit_distribute/config
 
 tar -czf devkit_distribute.tar.gz devkit_distribute
 
-cp devkit_distribute.tar.gz "${project_dir}"/build/component
+/bin/cp -rf devkit_distribute.tar.gz "${project_dir}"/build/component/DevkitDistribute
