@@ -10,7 +10,7 @@ keys=fmt
 
 [logger_root]# 配置 logger_root ：设置日志级别、输出位置（控制台和文件）
 level=INFO
-handlers=consoleHandler,fileHandler
+handlers=consoleHandler
 
 
 [handler_consoleHandler] # consoleHandler 控制器输出方向、级别、输出格式、参数

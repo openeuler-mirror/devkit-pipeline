@@ -1,6 +1,7 @@
 suite: devkit_distribute
 category: functional
 
+devkit_distribute:
 root_path: ${root_path}
 ips_list: ${ips_list}
 user: ${user}
