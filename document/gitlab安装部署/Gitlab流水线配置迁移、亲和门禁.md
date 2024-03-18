@@ -96,7 +96,7 @@ system-migration:
     - echo '====== 系统迁移 ======'
     - devkit porting sys-mig -o ./ || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
     
-    # 示例  devkit porting sys-mig -c stnt -cf porting/resources/sysmig default.conf -o ./ || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
+    # 示例  devkit porting sys-mig -c stmt -cf porting/resources/sysmig default.conf -o ./ || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
   artifacts:
     paths:
       - s*.*

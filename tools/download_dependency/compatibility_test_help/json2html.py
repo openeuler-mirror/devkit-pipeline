@@ -11,9 +11,10 @@ def compatibility_result_to_html():
     compatibility_result.extend(COMPATIBILITY_REPORT_ENTRIES)
     with open(os.path.join(os.getcwd(), "Chinese", COMPATIBILITY_JSON_NAME), "r") as file:
         data = json.load(file)
+
         for item in data:
             compatibility_result.extend([item.get(entry) for entry in COMPATIBILITY_REPORT_ENTRIES])
-    
+
     compatibility_report = json.dumps(compatibility_result)
     with open(os.path.join(os.getcwd(), "template.html"), "r") as file:
         html_lines = file.readlines()

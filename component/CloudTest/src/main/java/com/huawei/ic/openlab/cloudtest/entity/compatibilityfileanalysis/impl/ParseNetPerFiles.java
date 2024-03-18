@@ -233,10 +233,13 @@ public class ParseNetPerFiles implements CompatibilityFilesParser {
                         new InputStreamReader(beginInput, StandardCharsets.UTF_8))) {
                 String line;
 
-                while ((line = beginReader.readLine()) != null
-                        && !StringUtils.containsIgnoreCase(line, "IFACE")
-                        && !StringUtils.containsIgnoreCase(line, "lo")
-                        && idlePattern.matcher(line).find()) {
+                while ((line = beginReader.readLine()) != null) {
+                    if(StringUtils.containsIgnoreCase(line, "IFACE") || StringUtils.containsIgnoreCase(line, "lo")){
+                        continue;
+                    }
+                    if (!idlePattern.matcher(line).find()){
+                        continue;
+                    }
                     Matcher matcher = pattern.matcher(line);
                     String netName = line.substring(13).trim().split(" ")[0];
                     List<String> matchList = new ArrayList<>();
