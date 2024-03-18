@@ -11,7 +11,7 @@ class CommandLine:
     @classmethod
     def add_options(cls, parser):
         parser.add_argument("-f", "--config", action="store", dest="yaml_path", default=DEFAULT_YAML_PATH,
-                            help="Assign yaml config file path.")
+                            help="Assign yaml config file path. Default path is 'machine.yaml' in current directory.")
         parser.add_argument("-iso", action="store", dest="iso_path", default=None,
                             help="Assign prepared iso file path and deploy iso. Only deploy in executor and devkit machine.")
         parser.add_argument("--debug", action="store_true", dest="debug", default=False, help="Open debug log.")

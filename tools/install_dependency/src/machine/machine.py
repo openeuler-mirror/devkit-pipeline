@@ -92,8 +92,9 @@ class Machine:
         sftp_client = self.sftp_client()
         try:
             self.install_component_handler(component_name, sftp_client, ssh_client)
-        except (FileNotFoundError, PermissionError, NotADirectoryError, OSError, IOError,
-                timeout_decorator.TimeoutError) as e:
+        except timeout_decorator.TimeoutError as e:
+            LOGGER.error(f"Remote machine {self.ip} occur Error: Exec cmd {str(e)}")
+        except (FileNotFoundError, PermissionError, NotADirectoryError, OSError, IOError) as e:
             LOGGER.error(f"Remote machine {self.ip} occur Error: {str(e)}")
         finally:
             ssh_client.close()
@@ -112,8 +113,8 @@ class Machine:
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
 
     def lkptest_install_component_handle(self, component_name, sftp_client, ssh_client):
-        cmd = "yum install -y git wget rubygems"
-        self._remote_exec_command(cmd, component_name, ssh_client)
+        self._remote_exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}", ssh_client)
+        self._remote_exec_command("yum install -y git wget rubygems", ssh_client)
 
         # 上传 lkp-tests.tar.gz文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
@@ -122,11 +123,8 @@ class Machine:
         for shell_cmd in shell_dict:
             url_and_save_path = shell_dict.get(shell_cmd)
             local_file = url_and_save_path.get("save_path")
-            if os.path.abspath(local_file) == local_file:
-                remote_file = os.path.abspath(os.path.join('/tmp', constant.DEPENDENCY_DIR, local_file.split('/')[-1]))
-            else:
-                remote_file = os.path.abspath(os.path.join('/tmp', local_file))
-            LOGGER.debug(f"Transport  local_file: {local_file} to remote machine {self.ip} "
+            remote_file = os.path.abspath(os.path.join('/tmp', constant.DEPENDENCY_DIR, local_file.split('/')[-1]))
+            LOGGER.debug(f"Transport local_file: {local_file} to remote machine {self.ip} "
                          f"remote_file: {remote_file}")
 
             remote_file_list.append(remote_file)
@@ -160,16 +158,13 @@ class Machine:
     def __install_component_on_lkptest(self, component_name, sftp_client, ssh_client):
         # 上传 tar.gz 文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
-        shell_dict = lkp_collection_map.get(component_name)
         remote_file_list = []
+        shell_dict = lkp_collection_map.get(component_name)
         for shell_cmd in shell_dict:
             url_and_save_path = shell_dict.get(shell_cmd)
             local_file = url_and_save_path.get("save_path")
-            if os.path.abspath(local_file) == local_file:
-                remote_file = os.path.abspath(os.path.join('/tmp', constant.DEPENDENCY_DIR, local_file.split('/')[-1]))
-            else:
-                remote_file = os.path.abspath(os.path.join('/tmp', local_file))
-            LOGGER.debug(f"Transport  local_file: {local_file} to remote machine {self.ip} "
+            remote_file = os.path.abspath(os.path.join('/tmp', constant.DEPENDENCY_DIR, local_file.split('/')[-1]))
+            LOGGER.debug(f"Transport local_file: {local_file} to remote machine {self.ip} "
                          f"remote_file: {remote_file}")
             remote_file_list.append(remote_file)
             sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
@@ -232,17 +227,7 @@ class Machine:
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def default_install_component_handle(self, component_name, sftp_client, ssh_client):
-        try:
-            stdin, stdout, stderr = ssh_client.exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}", timeout=10)
-        except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
-            LOGGER.error(f"Connect remote {self.ip} failed. {str(e)}")
-            raise ConnectRemoteException()
-        exit_status = stdout.channel.recv_exit_status()
-        LOGGER.debug(f"Remote machine {self.ip} mkdir -p /tmp/{constant.DEPENDENCY_DIR} result: "
-                     f"{'success' if not exit_status else 'failed'}")
-        if exit_status:
-            raise NotADirectoryError(f"Remote machine {self.ip} "
-                                     f"directory {os.path.join('/tmp/', constant.DEPENDENCY_DIR)} not exist.")
+        self._remote_exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}", ssh_client)
 
         # 上传 组件压缩包和校验文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
@@ -250,11 +235,12 @@ class Machine:
         shell_dict = component_collection_map.get(component_name)
         for shell_cmd in shell_dict:
             url_and_save_path = shell_dict.get(shell_cmd)
-            component = url_and_save_path.get("save_path")
-            LOGGER.debug(f"Transport component file to remote machine {self.ip}: {component}")
-            remote_file = os.path.abspath(os.path.join('/tmp', component))
+            local_file = url_and_save_path.get("save_path")
+            remote_file = os.path.abspath(os.path.join('/tmp', local_file))
+            LOGGER.debug(f"Transport local_file: {local_file} to remote machine {self.ip} "
+                         f"remote_file: {remote_file}")
             remote_file_list.append(remote_file)
-            sftp_client.put(localpath=f"{component}", remotepath=f"{remote_file}")
+            sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
 
         # 上传并执行 安装脚本, 校验安装结果脚本
         install_result = ""
@@ -281,19 +267,18 @@ class Machine:
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     @timeout_decorator.timeout(100)
-    def _remote_exec_command(self, cmd, component_name, ssh_client):
+    def _remote_exec_command(self, cmd, ssh_client):
         try:
-            stdin, stdout, stderr = ssh_client.exec_command(cmd, timeout=80)
+            stdin, stdout, stderr = ssh_client.exec_command(cmd, timeout=90)
         except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
-            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command.")
-            LOGGER.error(f"Remote machine {self.ip} install {component_name} failed.")
-            raise OSError(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command.")
+            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
+            raise OSError(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
         exit_status = stdout.channel.recv_exit_status()
         LOGGER.debug(f"Remote machine {self.ip} exec '{cmd}' result: "
                      f"{'success' if not exit_status else 'failed'}")
         if exit_status:
-            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command.")
-            raise OSError(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command.")
+            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
+            raise OSError(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
 
     def transport_shell_file_and_execute(self, ssh_client, sftp_client, sh_file_local_path, sh_file_remote_path,
                                          sh_cmd):
@@ -307,7 +292,7 @@ class Machine:
 
         stdin, stdout, stderr = ssh_client.exec_command(sh_cmd)
         output = stdout.read().decode().strip()
-        LOGGER.info(f"Remote machine {self.ip} '{sh_cmd}' file output: {output}")
+        LOGGER.info(f"Remote machine {self.ip} '{sh_cmd}' output: {output}")
         return output
 
     def clear_tmp_file_at_remote_machine(self, ssh_client, remote_file_list):
