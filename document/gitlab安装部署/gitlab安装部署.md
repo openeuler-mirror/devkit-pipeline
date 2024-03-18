@@ -160,9 +160,6 @@ chown -R Kunpeng_staff.Kunpeng_staff /home/gitlab-runner
 ![](./gitlab/注册03.PNG) 
 根据所示url，token去gitlab-runner环境注册
 ![](./gitlab/注册06.PNG) 
-运行 gitlab-runner register，参数如图根据实际情况填写，若token验证失败，请尝试关闭防火墙，注册成功后会显示Runner registered successfully
-若注册时如下报错,可使用如下命令在后台尝试重新注册，具体步骤查看https://docs.gitlab.com/ee/ci/runners/new_creation_workflow
-![](./gitlab/注册08.PNG) 
 点击进入runners页面
 ![](./gitlab/注册09.PNG) 
 ![](./gitlab/注册10.PNG) 
