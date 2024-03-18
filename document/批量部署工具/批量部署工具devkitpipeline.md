@@ -25,11 +25,13 @@ builder:
   - 192.168.0.1
 executor:
   - 192.168.0.1
+devkit:
+  - 192.168.0.4
 ```
 
 其中，**`user`** 需填写本结点至其他结点配置免密的用户名，**`pkey`** 为配置免密所用公钥对应的私钥路径。
 
-**`scanner`**，**`builder`**，**`executor`** 分别对应用户的扫描机，构建机，执行机，需以yaml列表的形式输入各角色机器对应的ip。
+**`scanner`**，**`builder`**，**`executor`**，**`devkit`** 分别对应用户的扫描机，构建机，执行机，devkit部署机器 ，需以yaml列表的形式输入各角色机器对应的ip。
 
 - 生成公私钥对的命令为：
 
@@ -65,13 +67,14 @@ executor:
 ./devkitpipeline -h
 ```
 
-![image-批量部署工具使用提示](image/批量部署工具devkitpipeline/image-批量部署工具使用提示.png)
+![](批量部署工具devkitpipeline.assets/一键部署命令行参数说明-17107556065365.PNG)
 
 
 
-除 **`-h`** 使用提示参数外，**`devkitpipeline`** 批量部署工具还提供 **`-f`**， **`--debug`** 两个参数。
+除 **`-h`** 使用提示参数外，**`devkitpipeline`** 批量部署工具还提供 **`-f`**，**`-iso`** ，**`--debug`** 三个参数。
 
 - 使用`-f`参数，指定所需yaml配置文件为后续输入的路径。若不使用`-f`参数，批量部署工具会从当前路径下读取名为`machine.yaml`的文件作为yaml配置文件。 `-f`参数别名为`--config`。
+- 使用 `-iso` 参数，指定要安装镜像源文件，仅部署在executor和devkit机器上。
 - 使用 `--debug`参数，可以打开批量部署工具的debug日志信息，方便根据命令行日志输出确认哪个环节出现了问题。
 
 注：本批量部署工具将标准输出作为日志输出地址，没有生成单独的日志文件。
@@ -82,6 +85,10 @@ executor:
 
 ```shell
 ./devkitpipeline -f ./machine.yaml --debug
+```
+
+```
+./devkitpipeline -f ./machine.yaml -iso /path/to/iso --debug
 ```
 
 
@@ -108,10 +115,26 @@ BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置�
 
 该工具在release包v0.1版本，tools/linux文件夹下，在Linux机器上使用，用于下载组件包。
 
-在有网络环境的linux服务器上，一键下载工具所在路径，执行如下命令，即可在linux机器当前路径下下载组件包。
+在有网络环境的linux服务器上，一键下载工具所在路径，执行如下命令，可以查看该工具的使用提示。
 
 ```shell
-./download
+./download -h
+```
+
+![](批量部署工具devkitpipeline.assets/一键下载命令行参数说明.PNG)
+
+除 **`-h`** 使用提示参数外，**`download`** 批量下载工具还提供 **`-iso`** 参数。
+
+- 使用 -iso 参数，指定下载iso版本，输入'auto'将自动检测操作系统版本，并自动下载对应的版本iso文件。
+
+##### 使用批量部署工具常用的命令为：
+
+```shell
+./download 
+```
+
+```shell
+./download -iso auto
 ```
 
 
@@ -127,6 +150,16 @@ BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置�
 ![image-在windows机器上下载组件包](image/批量部署工具devkitpipeline/image-在windows机器上下载组件包.png)
 
 
+
+##### 使用批量部署工具常用的命令为：
+
+```shell
+./download 
+```
+
+```shell
+./download -iso openEuler_2203_LTS
+```
 
 
 
