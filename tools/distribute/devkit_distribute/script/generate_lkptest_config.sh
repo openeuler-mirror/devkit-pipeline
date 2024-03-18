@@ -21,8 +21,9 @@ local devkit_user="devadmin"
 local devkit_password="admin100"
 local applications=""
 local duration=10
+local git_path=""
 
-while getopts "i:u:f:a:d:D:" opts; do
+while getopts "i:u:f:a:d:D:g:" opts; do
 	case $opts in
 	  i)
 			ips_list=$OPTARG ;;
@@ -36,6 +37,8 @@ while getopts "i:u:f:a:d:D:" opts; do
 			duration=$OPTARG ;;
 		D)
 			devkit_ip=$OPTARG ;;
+		g)
+			git_path=$OPTARG ;;
 		?)
 		  echo "not recogize paramters";;
 	esac
@@ -52,6 +55,7 @@ sed -i "s/\${devkit_port}/${devkit_port}/g" "${root_path}/config/devkit_distribu
 sed -i "s/\${devkit_user}/${devkit_user}/g" "${root_path}/config/devkit_distribute.yaml"
 sed -i "s/\${devkit_password}/${devkit_password}/g" "${root_path}/config/devkit_distribute.yaml"
 sed -i "s?\${applications}?${applications}?g" "${root_path}/config/devkit_distribute.yaml"
+sed -i "s?\${git_path}?${git_path}?g" "${root_path}/config/devkit_distribute.yaml"
 sed -i "s/\${duration}/${duration}/g" "${root_path}/config/devkit_distribute.yaml"
 
 }

@@ -91,7 +91,7 @@ class DevKitClient:
         if self.use_proxy:
             requests.delete(url=url, headers=self.header, verify=False)
         else:
-            requests.delete(url=url, headers=self.header, proxies=self.NO_PROXY)
+            requests.delete(url=url, headers=self.header, verify=False, proxies=self.NO_PROXY)
 
     def upload_report_by_force(self, file_path):
         ret = self.upload_report(file_path)

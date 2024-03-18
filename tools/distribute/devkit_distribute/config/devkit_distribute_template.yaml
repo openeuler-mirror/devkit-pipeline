@@ -13,4 +13,5 @@ devkit_user: ${devkit_user}
 devkit_password: ${devkit_password}
 applications: ${applications}
 duration: ${duration}
+git_path: ${git_path}
 

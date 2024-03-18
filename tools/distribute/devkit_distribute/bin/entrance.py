@@ -33,8 +33,9 @@ class Distributor:
         self.devkit_port = args.devkit_port
         self.devkit_user = args.devkit_user
         self.devkit_password = args.devkit_password
-        self.report = Report("./")
         file_utils.create_dir(self.data_path)
+        self.template_path=os.path.join(self.root_path, "config")
+        self.git_path = args.git_path
 
     def distribute(self):
         task_id = str(uuid.uuid4())
@@ -52,6 +53,11 @@ class Distributor:
         client.logout()
         # 清空本地jfr文件
         file_utils.clear_dir(self.data_path)
+        report = Report(report_path=self.data_path,template_path=self.template_path,
+                        git_path=self.git_path, devkit_tool_ip=self.devkit_ip,
+                        devkit_tool_port=self.devkit_port, devkit_user_name=self.devkit_user)
+        report.report()
+        self.__print_result(jfr_names)
 
     def __print_result(self, jfr_names):
         print("=============================================================")
@@ -60,7 +66,7 @@ class Distributor:
             print(jfr_name)
         print(f"Please open the following address to view：\n"
               f"https://{self.devkit_ip}:{self.devkit_port}")
-        print(f"user :{self.devkit_user}, password: ${self.devkit_password}")
+        print(f"user :{self.devkit_user}, password: {self.devkit_password}")
 
     def obtain_jfrs(self, local_jfrs, task_id):
         # 顺序获取
@@ -186,6 +192,8 @@ def main():
                         help="the process names that can be multiple, each separated by a comma")
     parser.add_argument("-d", "--duration", required=True, dest="duration", type=int,
                         help="the time of the sample")
+    parser.add_argument("--git-path", required=True, dest="git_path", type=str,
+                        help="git path")
     parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
     parser.set_defaults(password="")
     args = parser.parse_args()
