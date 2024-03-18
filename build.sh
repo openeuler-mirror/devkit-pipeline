@@ -14,8 +14,6 @@ if [[ "$?" -ne "0" ]]; then
     exit 1
 fi
 
-bash "${current_dir}"/tools/distribute/build_devkit_distribute.sh
-
 bash "${current_dir}"/tools/download_dependency/build_download.sh
 
 bash "${current_dir}"/tools/install_dependency/build_install.sh

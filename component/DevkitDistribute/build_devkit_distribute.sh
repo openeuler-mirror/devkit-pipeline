@@ -14,7 +14,7 @@ mkdir -p "${build_dir}"
 cd "${build_dir}"
 
 pyinstaller -F "${current_dir}"/devkit_pipeline_agent/bin/flight_records_sample.py --runtime-tmpdir . \
-    -p "${project_dir}"/tools/common
+    -p "${project_dir}"/common
 
 mkdir -p devkit_pipeline_agent/bin
 mkdir -p devkit_pipeline_agent/data
@@ -28,7 +28,7 @@ tar -czf devkit_pipeline_agent.tar.gz devkit_pipeline_agent
 
 
 pyinstaller -F "${current_dir}"/devkit_distribute/bin/entrance.py --runtime-tmpdir . \
-    -p "${project_dir}"/tools/common
+    -p "${project_dir}"/common
 
 mkdir -p devkit_distribute/bin
 mkdir -p devkit_distribute/data
@@ -42,4 +42,7 @@ cp devkit_pipeline_agent.tar.gz devkit_distribute/config
 
 tar -czf devkit_distribute.tar.gz devkit_distribute
 
-/bin/cp -rf devkit_distribute.tar.gz "${project_dir}"/build/component/DevkitDistribute
+mkdir -p "${project_dir}"/build/component/DevkitDistribute
+cp devkit_distribute.tar.gz "${project_dir}"/build/component/DevkitDistribute
+cp "${current_dir}/check_install_result.sh" "${project_dir}"/build/component/DevkitDistribute
+cp "${current_dir}/install.sh" "${project_dir}"/build/component/DevkitDistribute
