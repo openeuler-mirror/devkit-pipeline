@@ -20,7 +20,7 @@ local devkit_port=8086
 local devkit_user="devadmin"
 local devkit_password="admin100"
 local applications=""
-local duration=10
+local duration=43200
 local git_path=""
 local jmeter_command=""
 

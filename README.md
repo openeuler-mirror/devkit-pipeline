@@ -16,8 +16,11 @@ Pipeline solution to support building, deploying and automating any software pro
 1. [一键下载、安装、部署工具使用文档](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/批量部署工具/批量部署工具和一键下载工具说明文档.md)
 ###### 原子能力对接流水线实践指导 (Jenkins)
     DevKit各原子能力对接Jenkins流水线的脚本范例及使用说明
-1.  [Jenkins流水线配置DevKit迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/Jenkins安装部署/Jenkins流水线配置迁移、亲和门禁.md)
-2.  [DevKit测试平台安装部署与Jenkins集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/lkp-test安装部署/devkit测试平台安装部署与jenkins集成部署指导手册.md)
+
+1. [Jenkins流水线配置DevKit迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/Jenkins安装部署/Jenkins流水线配置迁移、亲和门禁.md)
+2. [DevKit测试平台安装部署与Jenkins集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/lkp-test安装部署/devkit测试平台安装部署与jenkins集成部署指导手册.md)
+3. [Jenkins流水线配置Java性能分析](document/Jenkins安装部署/Jenkins流水线配置Java性能分析.md)
+
 ###### 原子能力对接流水线实践指导 (Gitlab)
     DevKit各原子能力对接Gitlab流水线的脚本范例及使用说明
 1.  [Gitlab流水线配置DevKit迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/gitlab安装部署/Gitlab流水线配置迁移、亲和门禁.md)

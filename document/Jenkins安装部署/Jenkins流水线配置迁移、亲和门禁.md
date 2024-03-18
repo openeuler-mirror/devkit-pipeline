@@ -285,6 +285,47 @@ stage('vectorized-check') {
 | --sve-enable     | true,false        | 可选参数。是否启用sve。默认不开启。                          |
 
 
+- ##### Java性能分析：
+
+```groovy
+
+stage('Java Performance Analysis') {
+                            steps {
+                                echo '====== Java Performance Analysis ======'
+                                sh '''
+                                    CURDIR=$(pwd)
+                                    bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot
+                                    source /etc/profile
+                                    sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
+                                    sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
+                                '''
+                            }
+                            post {
+                                always {
+                                    publishHTML(target: [allowMissing: false,
+                                                alwaysLinkToLastBuild: false,
+                                                keepAll              : true,
+                                                reportDir            : '/root/.local/lkp-tests/programs/devkit_distribute/data',
+                                                reportFiles          : 'devkit_performance_report.html',
+                                                reportName           : 'Java Performance Report']
+                                                )
+                                }
+                            }
+                        }
+```
+
+具体参数如下
+
+| 参数               | 参数选项              | 参数说明                                                  |
+|------------------|-------------------|-------------------------------------------------------|
+| -i               | ipv4,ipv4         | 必选参数。需要采集的目标程序所在的服务器地址， 多个使用逗号隔离                      |
+| -u               | str               | 必选参数。服务器的用户名                                          |
+| -f               | str               | 必选参数。免密登陆的私钥地址                                        |
+| -D               | ipv4              | 必选参数。安装的Devkit工具的地址。                                  |
+| -a               | str               | 必选参数。需要采集的应用名称，多个采用逗号隔离                               |
+| -d               | num               | 必选参数。任务执行时间，默认单位s                                     |
+| -g               | str               | 必选参数。使用git clone下载到的本地的项目路径                           |
+
 
 ### 1. 示例在Jenkins中配置命令行创建 Pipeline 任务：
 

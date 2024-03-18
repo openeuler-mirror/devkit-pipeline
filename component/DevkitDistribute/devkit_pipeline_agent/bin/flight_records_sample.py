@@ -24,10 +24,11 @@ class FlightRecordsFactory:
     RECORD_NAME = "devkit_recorder_per_day"
     STOP_SAMPLE = "1"
 
-    def __init__(self, apps, duration, root_path, task_id):
+    def __init__(self, apps, duration, root_path, wait_for_jmeter_stop, task_id):
         self.apps = apps
         self.duration = duration
         self.root_path = root_path
+        self.wait_for_jmeter_stop = wait_for_jmeter_stop
         self.pids: list[TargetProcess] = list()
         self.pids_to_start_recording = list()
         self.pids_to_stop_recording = list()
@@ -55,17 +56,33 @@ class FlightRecordsFactory:
             logging.info("start_recorder")
             self.__start_recorder()
             if self.jfr_paths:
-                time.sleep(self.duration)
+                if self.wait_for_jmeter_stop:
+                    self.__wait_for_jmeter_has_stopping()
+                    self.__stop_recorder()
+                else:
+                    time.sleep(self.duration)
                 before = datetime.datetime.now()
                 # 停止采集
-                logging.info("stop recorder")
-                while not self.__stop_recorder() and (datetime.datetime.now() - before).seconds < 30:
+                logging.info("check has stopped recorder")
+                while not self.__check_has_stopped_recorder() and (datetime.datetime.now() - before).seconds < 30:
                     time.sleep(1)
             else:
-                logging.exception(f"The target application {self.apps}  cannot be found or cannot be collected")
+                logging.exception(f"The target application {self.apps}  cannot be found or Operation not permitted")
         finally:
             shell_tools.exec_shell(f"echo {self.return_code} >{self.response_file}", is_shell=True)
             logging.info("the current agent has been executed")
+
+    def __wait_for_jmeter_has_stopping(self):
+        before = datetime.datetime.now()
+        while (datetime.datetime.now() - before).seconds < self.duration:
+            with open(file=os.path.join(self.root_path, "config/jmeter_has_stopped.ini"), mode="r",
+                      encoding="utf-8") as file:
+                file_content = file.read().strip()
+                if file_content == "1":
+                    logging.info("stop signal received")
+                    return
+                else:
+                    time.sleep(2)
 
     def __create_tmp(self):
         file_utils.create_dir(self.tmp_data_dir, mode=0o777)
@@ -109,6 +126,12 @@ class FlightRecordsFactory:
 
     def __stop_recorder(self):
         for target in self.pids_to_start_recording:
+            outcome = shell_tools.exec_shell("jcmd {} JFR.stop name={}".format(target.pid, self.RECORD_NAME),
+                                             is_shell=True)
+            logging.info(outcome)
+
+    def __check_has_stopped_recorder(self):
+        for target in self.pids_to_start_recording:
             outcome = shell_tools.exec_shell("jcmd {} JFR.check name={}".format(target.pid, self.RECORD_NAME),
                                              is_shell=True)
             logging.info(outcome)
@@ -143,15 +166,17 @@ def main():
     parser = argparse.ArgumentParser(description="Capture the flight records of the target program")
     parser.add_argument("-a", "--app", required=True, dest="applications",
                         help="the process names that can be multiple, each separated by a comma")
-    parser.add_argument("-d", "--duration", required=True, dest="duration", type=int,
+    parser.add_argument("-d", "--duration", required=True, dest="duration", type=int, default=43200,
                         help="the time of the sample")
     parser.add_argument("-t", "--task-id", dest="task_id", default="devkit-pipeline-tmp",
-                        help="the time of the sample")
+                        help="the task id of the sample")
+    parser.add_argument("-w", "--wait-for-jmeter-stop", dest="waiting", action="store_true",
+                        help="the sample stop when the jmeter stop")
     parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
     args = parser.parse_args()
     config_log_ini(args.root_path, "devkit_pipeline_agent")
     logging.info("start")
-    factory = FlightRecordsFactory(args.applications, args.duration, args.root_path, args.task_id)
+    factory = FlightRecordsFactory(args.applications, args.duration, args.root_path, args.waiting, args.task_id)
     factory.start_sample()
 
 
