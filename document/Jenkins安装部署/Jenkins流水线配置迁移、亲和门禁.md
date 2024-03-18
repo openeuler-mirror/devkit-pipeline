@@ -36,7 +36,7 @@ stage('software-migration-assessment') {
                             steps {
                                 echo '====== 软件迁移评估 ======'
                                 sh '''
-                                    /usr/bin/rm -rf ./*.html
+                                    /usr/bin/rm -rf ./pkg-mig*.html
                                     devkit porting pkg-mig -i impala-2.9.0+cdh5.12.1+0-1.cdh5.12.1.p0.3.el7.x86_64.rpm  -r html
                                     mv ./pkg-mig*.html ./SoftwareMigrationAssessment.html
                                 '''
@@ -77,7 +77,7 @@ stage('source-code-migration') {
                             steps {
                                 echo '====== 源码迁移 ======'
                                 sh '''
-                                    /usr/bin/rm -rf ./*.html
+                                    /usr/bin/rm -rf ./src-mig*.html
                                     devkit porting src-mig -i ./wtdbg2 -c make -r html
                                     mv ./src-mig*.html ./SourceCodeScanningReport.html
                                 '''
@@ -119,14 +119,39 @@ stage('source-code-migration') {
 
 ```groovy
 # devkit porting sys-mig
-# 示例  devkit porting sys-mig -c stnt -cf porting/resources/sysmig default.conf
+# 示例 stmt模式：  devkit porting sys-mig -c stmt -cf porting/resources/sysmig_default.conf -o ./
+# 示例 sbom模式：  devkit porting sys-mig -c sbom -cf porting/resources/sysmig default.conf -o ./
 
+# stmt模式
 stage('system-migration') {
                             steps {
                                 echo '====== 系统迁移 ======'
                                 sh '''
-                                    /usr/bin/rm -rf ./*.html
-                                    devkit porting sys-mig -c stnt -cf porting/resources/sysmig default.conf
+                                    /usr/bin/rm -rf ./stmt*.csv
+                                    devkit porting sys-mig -c stmt -cf porting/resources/sysmig_default.conf -o ./
+                                    mv ./stmt*.csv ./SystemMigration.csv
+                                '''
+                            }
+                            post {
+                                always {
+                                    publishHTML(target: [allowMissing: false,
+                                                alwaysLinkToLastBuild: false,
+                                                keepAll              : true,
+                                                reportDir            : '.',
+                                                reportFiles          : 'SystemMigration.csv',
+                                                reportName           : 'SystemMigration Report']
+                                                )
+                                }
+                            }
+                        }
+
+# sbom模式
+stage('system-migration') {
+                            steps {
+                                echo '====== 系统迁移 ======'
+                                sh '''
+                                    /usr/bin/rm -rf ./sbom*.html
+                                    devkit porting sys-mig -c sbom -cf porting/resources/sysmig_default.conf -o ./
                                     mv ./sbom*.html ./SystemMigration.html
                                 '''
                             }
@@ -169,9 +194,9 @@ stage('64-bit-running-mode-check') {
                             steps {
                                 echo '====== 64位运行模式 ======'
                                 sh '''
-                                    /usr/bin/rm -rf ./*.html
+                                    /usr/bin/rm -rf ./mode_check*.html
                                     devkit advisor mode-check -i /opt/DevKit/testcase/affinity/precheck/test005
-                                    mv ./mode-check*.html ./64-bit-running-mode-check.html
+                                    mv ./mode_check*.html ./64-bit-running-mode-check.html
                                 '''
                             }
                             post {
@@ -209,7 +234,7 @@ stage('byte-alignment-check') {
                             steps {
                                 echo '====== 字节对齐检查 ======'
                                 sh '''
-                                    /usr/bin/rm -rf ./*.html
+                                    /usr/bin/rm -rf ./byte-align*.html
                                     devkit advisor byte-align -i /opt/DevKit/wtdbg2-2.5 -c make -b make
                                     mv ./byte-align*.html ./byte-alignment-check.html
                                 '''
@@ -254,7 +279,7 @@ stage('memory-consistency-check') {
                             steps {
                                 echo '====== 内存一致性检查 ======'
                                 sh '''
-                                    /usr/bin/rm -rf ./*.html
+                                    /usr/bin/rm -rf ./mem-cons*.html
                                     devkit advisor mem-cons -i /opt/DevKit/testcase/affinity/weak_cons/test-mulbc_sort -f 												/opt/DevKit/testcase/affinity/weak_cons/bc_file
                                     mv ./mem-cons*.html ./memory-consistency-check.html
                                 '''
@@ -294,9 +319,9 @@ stage('memory-consistency-check') {
 
 stage('vectorized-check') {
                             steps {
-                                echo '====== 内存一致性检查 ======'
+                                echo '====== 向量化检查 ======'
                                 sh '''
-                                    /usr/bin/rm -rf ./*.html
+                                    /usr/bin/rm -rf ./vec-check*.html
                                     devkit advisor vec-check -i /opt/DevKit/testcase/affinity/vec/simple -f 															/opt/DevKit/testcase/affinity/vec/BCfiles -c make
                                     mv ./vec-check*.html ./vectorized-check.html
                                 '''
