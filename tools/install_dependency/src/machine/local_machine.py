@@ -7,7 +7,8 @@ from command_line import CommandLine
 from exception.connect_exception import NotMatchedMachineTypeException
 from download import component_collection_map
 from lkp_collect_map import lkp_collection_map
-from utils import base_path
+from utils import (base_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
+                   CHECK_MIRROR_INSTALL_STATUS, PROMPT_MAP)
 
 LOGGER = logging.getLogger("install_dependency")
 SHELL_FILE_LIST = ["install.sh", "check_install_result.sh"]
@@ -39,13 +40,13 @@ class LocalMachine:
             "BiShengJDK8": self.default_install_component_handle,
             "LkpTests": self.lkptest_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
-            "UnOpenEulerMirrorISO": self.undeploy_iso_handle(),
+            "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
         }
         return component_name_to_func_dict.get(component_name)(component_name)
 
     def lkptest_install_component_handle(self, component_name):
-        self._local_exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}")
-        self._local_exec_command(f"yum install -y git wget rubygems")
+        self._local_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD)
+        self._local_exec_command(YUM_INSTALL_LKP_DEPENDENCIES_CMD)
 
         # 复制 tar.gz 文件
         LOGGER.info(f"Install component in local machine {self.ip}: {component_name}")
@@ -145,7 +146,7 @@ class LocalMachine:
             LOGGER.info(f"Remote machine {self.ip} deploy {component_name} failed.")
 
     def default_install_component_handle(self, component_name):
-        self._local_exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}")
+        self._local_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD)
 
         # 上传 组件压缩包和校验文件
         LOGGER.info(f"Install component in local machine {self.ip}: {component_name}")
@@ -185,10 +186,10 @@ class LocalMachine:
         result = subprocess.run(cmd.split(' '),
                                 capture_output=False, shell=False, stderr=subprocess.STDOUT)
         if result.returncode == 0:
-            LOGGER.debug(f"Local machine {self.ip} exec '{cmd}' result: success")
+            LOGGER.debug(f"Local machine {self.ip} exec '{cmd}' success.")
         else:
-            LOGGER.error(f"Local machine {self.ip} exec '{cmd}' result: failed")
-            raise OSError(f"Local machine {self.ip} exec '{cmd}' failed.")
+            LOGGER.error(f"Local machine {self.ip} exec '{cmd}' failed.")
+            raise OSError(PROMPT_MAP.get(cmd, f"Local machine {self.ip} exec '{cmd}' failed."))
 
     def transport_shell_file_and_execute(self, sh_file_local_path, sh_file_remote_path, sh_cmd):
         if not os.path.exists(sh_file_local_path):
@@ -218,7 +219,20 @@ class LocalMachine:
 
     def undeploy_iso_handle(self, component_name):
         # 需要检查本地镜像是否安装成功
-        self._local_exec_command("test -d /etc/yum.repos.d/yum.repos.backup")
+        self._local_exec_command(CHECK_MIRROR_INSTALL_STATUS)
 
         component_name = component_name.replace("Un", "")
+        LOGGER.info(f"Umount component in local machine {self.ip}: {component_name}")
 
+        # 执行 卸载脚本
+        for shell_file in ["uninstall.sh"]:
+            sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
+            sh_cmd = f"bash {sh_file_local_path}"
+            if not os.path.exists(sh_file_local_path):
+                LOGGER.error(f"{sh_file_local_path} not exists.")
+                raise FileNotFoundError(f"local file {sh_file_local_path} not exists.")
+
+            result = subprocess.run(f"{sh_cmd}".split(' '),
+                                    capture_output=True, shell=False)
+            output = result.stdout.decode().strip()
+            LOGGER.info(f"Local machine {self.ip} exec '{sh_cmd}' output: {output}")

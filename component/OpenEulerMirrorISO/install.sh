@@ -24,6 +24,7 @@ enabled=1
 gpgcheck=0
 EOF
     yum clean all
+    echo "yum makecache: "
     yum makecache
 }
 
