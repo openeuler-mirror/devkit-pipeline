@@ -32,7 +32,7 @@ class InstallPackage(Handler):
 
         for role in ({constant.EXECUTOR, constant.DEVKIT} & set(data.keys())):
             machine_dict = data[role + constant.MACHINE]
-            LOGGER.debug(f"{role} machine list: {list(machine_dict.keys())}")
+            LOGGER.debug(f"{role} machine list to deploy iso: {list(machine_dict.keys())}")
             for machine_ip in machine_dict:
                 if machine_ip in ip_set:
                     continue
@@ -64,7 +64,7 @@ class InstallPackage(Handler):
                 if machine_ip in ip_set:
                     continue
                 ip_set.add(machine_ip)
-                LOGGER.debug(f"ip_set: {ip_set}")
+                LOGGER.debug(f"ip_set to install package: {ip_set}")
                 machine = machine_dict.get(machine_ip)
                 process = multiprocessing.Process(
                     target=process_work,
@@ -86,18 +86,28 @@ class InstallPackage(Handler):
     @staticmethod
     def undeploy_iso_handle(data):
         ip_set = set()
+        jobs = []
 
         for role in ({constant.EXECUTOR, constant.DEVKIT} & set(data.keys())):
             machine_dict = data[role + constant.MACHINE]
-
+            LOGGER.debug(f"{role} machine list to un-deploy iso: {list(machine_dict.keys())}")
             for machine_ip in machine_dict:
                 if machine_ip in ip_set:
                     continue
                 ip_set.add(machine_ip)
                 LOGGER.debug(f"ip_set to un-deploy iso: {ip_set}")
                 machine = machine_dict.get(machine_ip)
-                machine.undeploy_iso_work()
-                LOGGER.debug(f"Resume original mirror in machine: {machine_ip} ")
+                process = multiprocessing.Process(
+                    target=process_work,
+                    args=(machine,
+                          "UnOpenEulerMirrorISO",
+                          ),
+                )
+                jobs.append(process)
+                process.start()
+
+        for job in jobs:
+            job.join()
 
 
 def process_work(machine, *components: str):
