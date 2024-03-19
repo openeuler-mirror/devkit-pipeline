@@ -5,11 +5,16 @@ function configure_local_mirror() {
     mkdir -p /devkitmirror
     mount ${iso_file_path} /devkitmirror -o loop
     if [[ -d /etc/yum.repos.d/yum.repos.backup ]]; then
-        mv -rf /etc/yum.repos.d/yum.repos.backup /etc/yum.repos.backup
+        mv -f /etc/yum.repos.d/yum.repos.backup /etc/yum.repos.backup
     else
         mkdir -p /etc/yum.repos.backup
     fi
-    mv -f /etc/yum.repos.d/* /etc/yum.repos.backup
+
+    ls /etc/yum.repos.d/*
+    if [[ "$?" == "0" ]]; then
+        mv -f /etc/yum.repos.d/* /etc/yum.repos.backup
+    fi
+
     mv -f /etc/yum.repos.backup /etc/yum.repos.d/
     cat > /etc/yum.repos.d/local.repo <<'EOF'
 [local]

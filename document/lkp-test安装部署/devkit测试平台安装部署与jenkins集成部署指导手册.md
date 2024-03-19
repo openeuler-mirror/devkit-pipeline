@@ -2,10 +2,6 @@
 
 
 
-
-
-[TOC]
-
 ------
 测试平台使用的是lkp test 工具，以下均已lkp test描述测试平台
 ## 一、lkp test 添加测试用例介绍
@@ -310,7 +306,7 @@ cd ${HOME}/.local/compatibility_testing/Chinese/
 #jar_pid=$!
 #curl --location --request GET 'http://127.0.0.1:10037/api/v1/report?savePath=/'${HOME}'/.local/compatibility_testing/Chinese/log.json&file=/'${HOME}'/.local/compatibility_testing/Chinese/log.tar.gz'
 #kill -9 $jar_pid
-cp -rf ${HOME}/.local/compatibility_testing/template.html.bak /${HOME}/.local/compatibility_testing/template.html
+cp -rf ${HOME}/.local/compatibility_testing/template.html.bak ${HOME}/.local/compatibility_testing/template.html
 cd ${HOME}/.local/compatibility_testing/
 python3 ${HOME}/.local/compatibility_testing/json2html.py
 
@@ -381,7 +377,7 @@ stage('lkp test') {
 
 ### 6. lkp test报告内容(以云测工具(compatibility-test)为示例)
   ![源码迁移报告](./images/lkp-test报告内容.png)
-  
+
 ----
 
 ## 二、FAQ
@@ -502,5 +498,4 @@ hpc_certificate=
 binary_file=
 
 ```
-
 

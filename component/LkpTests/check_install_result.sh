@@ -1,8 +1,8 @@
 #!/bin/bash
 
 lkp_path=$(which lkp)
-if [[ "$?" == *"/bin/lkp"* ]]; then
+if [[ "${lkp_path}" == *"/bin/lkp"* ]]; then
     echo "true"
 else
-    echo "flase"
+    echo "false"
 fi

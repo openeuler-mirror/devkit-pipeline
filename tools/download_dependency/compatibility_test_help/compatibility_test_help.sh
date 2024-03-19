@@ -7,7 +7,7 @@ function main() {
   save_path=$1
   upload_path=$2
   cd ${save_path}
-  tar -zvxf ${save_path}/compatibility_testing.tar.gz
+  tar -zxf ${save_path}/compatibility_testing.tar.gz
   rm -rf ${save_path}/compatibility_testing/Chinese/compatibility_testing.sh
   mv ${save_path}/compatibility_testing.sh ${save_path}/compatibility_testing/Chinese/compatibility_testing.sh
   mv ${save_path}/json2html.py ${save_path}/compatibility_testing/
