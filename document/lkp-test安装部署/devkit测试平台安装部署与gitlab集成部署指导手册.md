@@ -1,4 +1,4 @@
-<center><big><b>《devkit 测试平台安装使用以及与Jenkins集成部署指导手册》</b></big></center>
+<center><big><b>《devkit 测试平台安装使用以及与gitlab集成部署指导手册》</b></big></center>
 
 
 
@@ -328,63 +328,39 @@ lkp split programs/compatibility-test/jobs/compatibility-test.yaml
 
 ln -s xxx/lkp-tests/programs/compatibility-test/run xxx/lkp-tests/tests/compatibility-test
 ```
+## 二、gitlab Pipeline 中集成lkp test (以云测工具(compatibility-test)为示例)
+### 1. 流水线代码示例
+```
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+  - deploy
+  
 
-## 二、Jenkins Pipeline 中集成lkp test (以云测工具(compatibility-test)为示例)
-### 1  groovy 代码
-
-```groovy
-
-stage('lkp test') {
-                			steps {
-                			    script{
-                			        echo '====== lkp test ======'
-                    			    sh '''
-                                    cp -rf /home/lj/test/compatibility_testing/template.html.bak /home/lj/test/compatibility_testing/template.html # 用于最终生成报告
-                    					sudo /home/lj/lkp-tests-master/bin/lkp run /home/lj/lkp-tests-master/programs/compatibility-test/compatibility-test-defaults.yaml
-    					                cp -rf /home/lj/test/compatibility_testing/compatibility_report.html ./compatibility_report.html
-                    				'''
-                                   sh(script: "sudo bash /home/lj/test/compatibility_testing/Chinese/test_result.sh", returnStdout:true).trim() # 用来根据报告结果设置流水线结果
-                                
-                			    }
-                			}
-                			post {
-                				always {
-                					publishHTML(target: [allowMissing: false,
-                											alwaysLinkToLastBuild: false,
-                											keepAll              : true,
-                											reportDir            : '.',
-                											reportFiles          : 'compatibility_report.html',
-                											reportName           : 'compatibility test Report']
-                					)
-                				}
-                			}
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  script:
+    - CURDIR=$(pwd)
+    - echo $CURDIR
+    - cp -rf /root/.local/compatibility_testing/template.html.bak /root/.local/compatibility_testing/template.html
+    - sudo /root/.local/lkp-tests/bin/lkp run /root/.local/lkp-tests/programs/compatibility-test/compatibility-test-defaults.yaml
+    - cp -rf /root/.local/compatibility_testing/compatibility_report.html $CURDIR/compatibility_report.html
+    - sudo sh /root/.local/compatibility_testing/Chinese/test_result.sh
+    - echo "请去 '${CURDIR}'/compatibility_report.html 查看报告 "
+  artifacts:   
+    paths:
+    - compatibility_report.html # 文件后缀.html根据-r参数配置，也可配置为 src-mig*.* 
+  tags:
+    - dlj # 对应gitlab-runner注册时的标签，可选择多个
 ```
 
-### 2 创建流水线
-![创建Pipeline任务01](./images/创建Pipeline任务01.png)![创建Pipeline任务02](./images/创建Pipeline任务02.png)![创建Pipeline任务03](./images/lkp-test适配jenkins流水线添加代码.png)
-----
-
-### 3. 执行任务
-
-![执行任务](./images/lkp-test立即构建.png)
-
-----
-
-### 4. 查看任务执行状态
+### 2. 创建流水线
+![创建Pipeline任务01](./images/gitlab创建项目.png)![创建Pipeline任务02](./images/gitlab创建项目2.png)
+![创建Pipeline任务03](./images/gitlab创建项目3.png)![创建Pipeline任务04](./images/gitlab创建项目4.png)
+![创建Pipeline任务05](./images/gitlab创建项目5.png)
 
 
-  ![传统方式查看任务执行状态](./images/lkp-test查看任务状态.png)
-
-----
-### 5. 查看报告
-![传统方式查阅报告](./images/lkp-test查看报告.png)
-
-### 6. lkp test报告内容(以云测工具(compatibility-test)为示例)
-  ![源码迁移报告](./images/lkp-test报告内容.png)
-  
-----
-
-## 二、FAQ
+## 三、FAQ
 
 ### lkp install 遇到的问题
 
@@ -450,7 +426,9 @@ export LKP_SRC=lkptest路径/lkp-tests
 ```shell
 lkp help
 lkp install
+
 ```
+
 ## 四、 云测工具
 
 要运行云测平台需要配置参数，在安装目录${HOME}/.local/compatibility_testing/Chinese/compatibility_testing.conf
