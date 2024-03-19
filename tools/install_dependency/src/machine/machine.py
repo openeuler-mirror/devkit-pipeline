@@ -13,7 +13,8 @@ from exception.connect_exception import CreatePkeyFailedException, ConnectRemote
 from download import component_collection_map
 from lkp_collect_map import lkp_collection_map
 from utils import (base_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
-                   CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, PROMPT_MAP)
+                   CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE,
+                   CHECK_MIRROR_INSTALL_STATUS, PROMPT_MAP)
 
 LOGGER = logging.getLogger("install_dependency")
 SHELL_FILE_LIST = ["install.sh", "check_install_result.sh"]
@@ -110,6 +111,7 @@ class Machine:
             "BiShengJDK8": self.default_install_component_handle,
             "LkpTests": self.lkptest_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
+            "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
         }
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
 
@@ -275,13 +277,13 @@ class Machine:
         try:
             stdin, stdout, stderr = ssh_client.exec_command(cmd, timeout=90)
         except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
-            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
+            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in this machine.")
             raise OSError(PROMPT_MAP.get(cmd, f"Remote machine {self.ip} exec '{cmd}' failed."))
         exit_status = stdout.channel.recv_exit_status()
-        LOGGER.debug(f"Remote machine {self.ip} exec '{cmd}' result: "
-                     f"{'success' if not exit_status else 'failed'}")
-        if exit_status:
-            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
+        if exit_status == 0:
+            LOGGER.debug(f"Remote machine {self.ip} exec '{cmd}' success.")
+        else:
+            LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed. Please run this command in this machine.")
             raise OSError(PROMPT_MAP.get(cmd, f"Remote machine {self.ip} exec '{cmd}' failed."))
 
     def transport_shell_file_and_execute(self, ssh_client, sftp_client, sh_file_local_path, sh_file_remote_path,
@@ -308,5 +310,29 @@ class Machine:
     def do_nothing(self, component_name, sftp_client, ssh_client):
         return
 
-    def undeploy_iso_work(self):
-        return
+    def undeploy_iso_handle(self, component_name, sftp_client, ssh_client):
+        # 需要检查本地镜像是否安装成功
+        self._remote_exec_command(CHECK_MIRROR_INSTALL_STATUS, ssh_client)
+
+        component_name = component_name.replace("Un", "")
+
+        LOGGER.info(f"Umount component in remote machine {self.ip}: {component_name}")
+        local_path = os.path.abspath(CommandLine.iso_path)
+        remote_path = os.path.join("/home", local_path.split('/')[-1])
+
+        # 上传并执行 卸载脚本
+        remote_file_list = []
+        for shell_file in ["uninstall.sh"]:
+            sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
+            sh_file_remote_path = os.path.join("/tmp/", component_name + shell_file)
+            sh_cmd = f"bash {sh_file_remote_path} {remote_path}"
+            execute_output = (
+                self.transport_shell_file_and_execute(
+                    ssh_client, sftp_client,
+                    sh_file_local_path=sh_file_local_path,
+                    sh_file_remote_path=sh_file_remote_path,
+                    sh_cmd=sh_cmd
+                ))
+            remote_file_list.append(sh_file_remote_path)
+        # 清理tmp临时文件
+        self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)

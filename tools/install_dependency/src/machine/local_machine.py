@@ -39,6 +39,7 @@ class LocalMachine:
             "BiShengJDK8": self.default_install_component_handle,
             "LkpTests": self.lkptest_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
+            "UnOpenEulerMirrorISO": self.undeploy_iso_handle(),
         }
         return component_name_to_func_dict.get(component_name)(component_name)
 
@@ -215,5 +216,9 @@ class LocalMachine:
     def do_nothing(self, component_name, sftp_client, ssh_client):
         return
 
-    def undeploy_iso_work(self):
-        return
+    def undeploy_iso_handle(self, component_name):
+        # 需要检查本地镜像是否安装成功
+        self._local_exec_command("test -d /etc/yum.repos.d/yum.repos.backup")
+
+        component_name = component_name.replace("Un", "")
+

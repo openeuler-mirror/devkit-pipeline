@@ -15,5 +15,6 @@ class BuilderMachine(Machine):
             "BiShengJDK8": self.default_install_component_handle,
             "LkpTests": self.do_nothing,
             "OpenEulerMirrorISO": self.do_nothing,
+            "UnOpenEulerMirrorISO": self.do_nothing,
         }
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
