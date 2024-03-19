@@ -80,43 +80,6 @@ source-code-migration:
 |  -l/--log-level |  0,1,2,3 | 可选参数。设置日志级别。0（DEBUG）、1（INFO）、2（WARNING）、3（ERROR），默认为1（INFO）。  |
 | -r/--report-type  | all,json,html,csv  | 可选参数。 扫描报告的格式。默认为all，选择all的时候json、csv和html报告都会生成。 |
 |  --ignore |  /opt/ignore.json |  可选参数。屏蔽扫描规则信息。 |
-
-
-##### 系统迁移：
-```
-stages:  
-  - build    
-  - migrating-applications
-
-system-migration:
-  stage: migrating-applications
-  tags:
-    - kunpeng_builder # 对应gitlab-runner注册时的标签，可选择多个
-  script:
-    - echo '====== 系统迁移 ======'
-    - devkit porting sys-mig -o ./ || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
-    
-    # 示例  devkit porting sys-mig -c stmt -cf porting/resources/sysmig default.conf -o ./ || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
-  artifacts:
-    paths:
-      - s*.*
-
-
-```
-具体参数如下(均为可选参数)
-|  参数 |  参数选项 |  说明 |
-| ------------ | ------------ | ------------ |
-|  -c/--command | stmt/sbom  |  收集信息的模式。stmt：收集台账信息。sbom：收集sbom信息。 |
-| -cf/--config  | configure_file_path  |  输入参数配置文件路径。 |
-|  -d/--directory | scan_path  | 输入扫描文件目录，支持输入多个目录，多个目录间以空格分隔。  |
-| -t/--template  |  stmt_template_path |  stmt模式参数，输入台账扫描结果模板路径，默认按照程序内置模板生成扫描结果。 |
-|  -o/--output |  report_dir | 报告输出目录，默认为二进制所在report目录。  |
-|  -f/--format | html/json  | sbom模式参数，输入生成报告格式，支持选择html、json格式，可以选择多个报告格式，默认为HTML格式，多个报告格式以空格间隔。  |
-| -e/--exclude-fields  |  version/checkOutPath |  sbom模式参数，表示需要隐藏的参数信息，可选参数范围：version和checkOutPath，支持同时选择。version表示成分版本号checkOutPath表示成分检出路径，多个参数信息以空格间隔。 |
-| -v/--version | - | 展示程序版本信息，无输入参数。  |
-| -h/--help  | -  | 帮助查询，无输入参数。  |
-| -l/--log-level  | 0,1,2,3  |  日志等级，可选参数：0（DEBUG）、1（INFO）、2（WARNING）、3（ERROR），默认为1（INFO）。 |
-
 ##### 64位运行模式检查：
 ```
 stages:  
@@ -134,7 +97,7 @@ stages:
     # 示例 devkit advisor mode-check -i /opt/DevKit/testcase/affinity/precheck/test005 -r html
   artifacts:
     paths:
-      - mode-check*.html # 文件后缀.html根据-r参数配置，也可配置为 mode-check*.*
+      - mode_check*.html # 文件后缀.html根据-r参数配置，也可配置为 mode_check*.*
 
 
 ```
