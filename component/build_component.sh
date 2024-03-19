@@ -15,6 +15,10 @@ function build_lkp_tests() {
     mkdir -p ${final_component_dir}/LkpTests
     bash ${current_dir}/LkpTests/build_lkp_tests_all.sh ${final_component_dir}/LkpTests
 
+    if [[ "$?" -ne "0" ]]; then
+        exit 1
+    fi
+
     cp -rf ${current_dir}/LkpTests/install.sh ${final_component_dir}/LkpTests
     cp -rf ${current_dir}/LkpTests/check_install_result.sh ${final_component_dir}/LkpTests
 }

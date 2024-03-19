@@ -12,14 +12,24 @@ function main() {
     fi
 
     git clone https://gitee.com/wu_fengguang/lkp-tests.git
+    if [[ "$?" -ne "0" ]]; then
+        exit 1
+    fi
+
     cd lkp-tests
     git apply ${current_dir}/devkit-pipeline.patch
     /bin/cp -rf ${current_dir}/compatibility-test ${current_dir}/lkp-tests/programs/compatibility-test
     dos2unix ${current_dir}/lkp-tests/programs/compatibility-test/run
+    if [[ "$?" -ne "0" ]]; then
+        exit 1
+    fi
 
     cd ${current_dir}
     echo "tar -zcf lkp-tests.tar.gz ./lkp-tests"
     tar -zcf lkp-tests.tar.gz ./lkp-tests
+    if [[ "$?" -ne "0" ]]; then
+        exit 1
+    fi
 
     echo "/bin/cp -rf lkp-tests.tar.gz ${upload_path}"
     /bin/cp -rf lkp-tests.tar.gz ${upload_path}
