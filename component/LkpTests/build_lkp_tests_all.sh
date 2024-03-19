@@ -13,7 +13,7 @@ function main() {
     fi
 
     cd ${current_dir}/compatibility_help/
-    wget -c https://mirrors.huaweicloud.com/kunpeng/archive/compatibility_testing/compatibility_testing.tar.gz
+    wget -c https://gitee.com/jerry-553/lkp_test_devkitpipeline/releases/download/lkp-all-resource/compatibility_testing.tar.gz
     if [[ "$?" -ne "0" ]]; then
         exit 1
     fi
