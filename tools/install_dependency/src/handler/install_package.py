@@ -4,6 +4,7 @@ import multiprocessing
 import constant
 from handler.handler_and_node import Handler
 from machine.klass_dict import KLASS_DICT
+from utils import available_role
 
 LOGGER = logging.getLogger("install_dependency")
 
@@ -30,7 +31,7 @@ class InstallPackage(Handler):
         ip_set = set()
         jobs = []
 
-        for role in ({constant.EXECUTOR, constant.DEVKIT} & set(data.keys())):
+        for role in available_role([constant.EXECUTOR, constant.DEVKIT], data):
             machine_dict = data[role + constant.MACHINE]
             LOGGER.debug(f"{role} machine list to deploy iso: {list(machine_dict.keys())}")
             for machine_ip in machine_dict:
@@ -57,7 +58,7 @@ class InstallPackage(Handler):
         ip_set = set()
         jobs = []
 
-        for role in (set(KLASS_DICT.keys()) & set(data.keys())):
+        for role in available_role(KLASS_DICT, data):
             machine_dict = data[role + constant.MACHINE]
             LOGGER.debug(f"{role} machine list: {list(machine_dict.keys())}")
             for machine_ip in machine_dict:
@@ -88,7 +89,7 @@ class InstallPackage(Handler):
         ip_set = set()
         jobs = []
 
-        for role in ({constant.EXECUTOR, constant.DEVKIT} & set(data.keys())):
+        for role in available_role([constant.EXECUTOR, constant.DEVKIT], data):
             machine_dict = data[role + constant.MACHINE]
             LOGGER.debug(f"{role} machine list to un-deploy iso: {list(machine_dict.keys())}")
             for machine_ip in machine_dict:

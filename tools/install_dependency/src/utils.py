@@ -22,3 +22,11 @@ def base_path(path):
     else:
         base_dir = os.path.dirname(__file__)
     return os.path.join(base_dir, path)
+
+
+def available_role(role_list, data):
+    list_after_verification = []
+    for role in role_list:
+        if role in data:
+            list_after_verification.append(role)
+    return list_after_verification

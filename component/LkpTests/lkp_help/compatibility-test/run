@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 ct_sh_path=${HOME}/.local/compatibility_testing/Chinese/compatibility_testing.sh
 cloud_jar=${HOME}/.local/compatibility_testing/cloudTest.jar
 
