@@ -12,7 +12,8 @@ from exception.connect_exception import CreatePkeyFailedException, ConnectRemote
     NotMatchedMachineTypeException
 from download import component_collection_map
 from lkp_collect_map import lkp_collection_map
-from utils import base_path
+from utils import (base_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
+                   CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, PROMPT_MAP)
 
 LOGGER = logging.getLogger("install_dependency")
 SHELL_FILE_LIST = ["install.sh", "check_install_result.sh"]
@@ -113,8 +114,8 @@ class Machine:
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
 
     def lkptest_install_component_handle(self, component_name, sftp_client, ssh_client):
-        self._remote_exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}", ssh_client)
-        self._remote_exec_command("yum install -y git wget rubygems", ssh_client)
+        self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)
+        self._remote_exec_command(YUM_INSTALL_LKP_DEPENDENCIES_CMD, ssh_client)
 
         # 上传 lkp-tests.tar.gz文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
@@ -193,7 +194,7 @@ class Machine:
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def deploy_iso_handle(self, component_name, sftp_client, ssh_client):
-        self._remote_exec_command("[[ $(df -m /home | awk 'NR==2' | awk '{print $4}') -gt 17*1024 ]]", ssh_client)
+        self._remote_exec_command(CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR, ssh_client)
 
         # 上传 镜像文件
         LOGGER.info(f"Deploy component in remote machine {self.ip}: {component_name}")
@@ -229,8 +230,8 @@ class Machine:
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def default_install_component_handle(self, component_name, sftp_client, ssh_client):
-        self._remote_exec_command(f"mkdir -p /tmp/{constant.DEPENDENCY_DIR}", ssh_client)
-        self._remote_exec_command("[[ $(df -m /tmp | awk 'NR==2' | awk '{print $4}') -gt 1024 ]]", ssh_client)
+        self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)
+        self._remote_exec_command(CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, ssh_client)
 
         # 上传 组件压缩包和校验文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
@@ -275,13 +276,13 @@ class Machine:
             stdin, stdout, stderr = ssh_client.exec_command(cmd, timeout=90)
         except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
             LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
-            raise OSError(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
+            raise OSError(PROMPT_MAP.get(cmd, f"Remote machine {self.ip} exec '{cmd}' failed."))
         exit_status = stdout.channel.recv_exit_status()
         LOGGER.debug(f"Remote machine {self.ip} exec '{cmd}' result: "
                      f"{'success' if not exit_status else 'failed'}")
         if exit_status:
             LOGGER.error(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
-            raise OSError(f"Remote machine {self.ip} exec '{cmd}' failed Please run this command in remote machine.")
+            raise OSError(PROMPT_MAP.get(cmd, f"Remote machine {self.ip} exec '{cmd}' failed."))
 
     def transport_shell_file_and_execute(self, ssh_client, sftp_client, sh_file_local_path, sh_file_remote_path,
                                          sh_cmd):
