@@ -8,11 +8,11 @@ import timeout_decorator
 
 import constant
 from command_line import CommandLine
-from exception.connect_exception import CreatePkeyFailedException, ConnectRemoteException, \
-    NotMatchedMachineTypeException
+from exception.connect_exception import (CreatePkeyFailedException, ConnectRemoteException,
+                                         NotMatchedMachineTypeException)
 from download import component_collection_map
 from lkp_collect_map import lkp_collection_map
-from utils import (base_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
+from utils import (base_path, validate_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
                    CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE,
                    CHECK_MIRROR_INSTALL_STATUS, PROMPT_MAP)
 
@@ -56,6 +56,9 @@ class Machine:
         return sftp
 
     def transport_connect(self, user, pkey_path, password=None):
+        if not validate_path(pkey_path) or not os.path.isfile(pkey_path):
+            LOGGER.error("Yaml file content not correct. Given pkey not exists.")
+            raise ConnectRemoteException()
         try:
             # 指定本地的RSA私钥文件。如果建立密钥对时设置的有密码，password为设定的密码，如无不用指定password参数
             pkey = paramiko.RSAKey.from_private_key_file(pkey_path, password=password)

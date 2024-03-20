@@ -46,16 +46,8 @@ class BaseCheck(Handler):
         if not pkey_path:
             LOGGER.error("Yaml file content not correct. Empty pkey.")
             return False
-        
-        if not BaseCheck.validate_path(pkey_path) or not os.path.isfile(pkey_path):
-            LOGGER.error("Yaml file content not correct. Given pkey not exists.")
-            return False
         return True
-    
-    @staticmethod
-    def validate_path(path: str) -> bool:
-        return path.startswith('/') and path.find('../') == -1 and path.find('./') == -1
-    
+
     @staticmethod
     def check_machine_ip(data):
         for machine_type in (set(KLASS_DICT.keys()) & set(data.keys())):

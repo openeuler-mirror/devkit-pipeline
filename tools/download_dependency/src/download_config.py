@@ -31,10 +31,6 @@ CompatibilityTesting = {
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/compatibility_testing.tar.gz",
 }
 
-DevkitDistribute = {
-    "component_name": "DevkitDistribute",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/devkit_distribute.tar.gz",
-}
 
 OpenEuler_2003_LTS = {
     "component_name": "openEuler_2003_LTS",
