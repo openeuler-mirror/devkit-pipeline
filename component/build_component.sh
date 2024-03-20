@@ -13,14 +13,13 @@ umask 077
 function build_lkp_tests() {
     # 单独处理LkpTests
     mkdir -p "${final_component_dir}"/LkpTests
-    bash "${current_dir}"/LkpTests/build_lkp_tests_all.sh "${final_component_dir}"/LkpTests
-
-    if [[ "$?" -ne "0" ]]; then
-        exit 1
-    fi
 
     cp -rf "${current_dir}"/LkpTests/install.sh "${final_component_dir}"/LkpTests
     cp -rf "${current_dir}"/LkpTests/check_install_result.sh "${final_component_dir}"/LkpTests
+}
+
+function build_devkit_distribute() {
+    bash "${current_dir}"/DevkitDistribute/build_devkit_distribute.sh
 }
 
 function main() {
@@ -31,15 +30,14 @@ function main() {
     mkdir -p "${final_component_dir}"
 
     component_arrays=(
-        "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "GCCforOpenEuler" "OpenEulerMirrorISO" "CompatibilityTesting" "CloudTest"
+        "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "GCCforOpenEuler" "OpenEulerMirrorISO" "CompatibilityTesting"
     )
     for element in "${component_arrays[@]}"; do
         cp -rf "${current_dir}/${element}" "${final_component_dir}"
     done
 
     build_lkp_tests
-
-    bash "${current_dir}"/DevkitDistribute/build_devkit_distribute.sh
+    build_devkit_distribute
 }
 
 main "$@"
