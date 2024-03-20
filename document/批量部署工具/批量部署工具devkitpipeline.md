@@ -6,7 +6,7 @@
 
 
 
-其中 **`devkitpipeline`** 为一键批量部署工具，与本项目仓库名称相同。`machine.yaml`文件为该工具倚赖的配置文件，具体填写内容说明见下文。`component` 文件夹为各组件包的安装和校验文件，从本项目源码仓库直接复制而来。在无网络环境下 **`download`** 一键下载工具为其提供所需组件包下载能力，windows版本 `download` 工具支持在windows机器上下载组件包。
+其中 **`devkitpipeline`** 为一键批量部署工具，与本项目仓库名称相同。`machine.yaml`文件为该工具倚赖的配置文件，具体填写内容说明见下文。在无网络环境下 **`download`** 一键下载工具为其提供所需组件包下载能力，windows版本 `download` 工具支持在windows机器上下载组件包。
 
 
 
@@ -66,10 +66,7 @@ devkit:
 ```shell
 ./devkitpipeline -h
 ```
-
-![](批量部署工具devkitpipeline.assets/一键部署命令行参数说明-17107556065365.PNG)
-
-
+![](image/批量部署工具devkitpipeline/一键部署命令行参数说明.PNG)
 
 除 **`-h`** 使用提示参数外，**`devkitpipeline`** 批量部署工具还提供 **`-f`**，**`-iso`** ，**`--debug`** 三个参数。
 
@@ -93,13 +90,13 @@ devkit:
 
 
 
-#### 批量部署工具目前支持批量部署 GCCforOpenEuler，BiShengCompiler，BiShengJDK8，BiShengJDK17。
+#### 批量部署工具目前支持批量部署 GCCforOpenEuler，BiShengCompiler，BiShengJDK8，BiShengJDK17，lkp-tests,并支持根据iso镜像文件挂载本地镜像。
 
 各工具下载版本为2024年2月各工具官网提供的最新版，可查看本项目源代码download_dependency工具目录下的 `download_config.py` 文件查看具体下载链接。
 
 BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置。默认BiShengJDK8版本优先。
 
-部署安装过程中会使用目标结点机器的 **`/tmp`** 目录作为临时文件所在目录，部署完成后将会删除 **`/tmp`** 目录下的临时文件。若目标结点机器 **`/tmp`** 目录磁盘空间不足，则会导致安装失败。
+部署安装过程中会使用目标结点机器的 **`/tmp`** 目录作为临时文件所在目录，部署完成后将会删除 **`/tmp`** 目录下的临时文件。若目标结点机器 **`/tmp`** 目录磁盘空间不足，则会导致安装失败。若使用挂载本地镜像方式安装，则安装完依赖后，本地镜像源将被取消挂载并恢复原来的镜像源配置。
 
 
 
@@ -121,7 +118,7 @@ BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置�
 ./download -h
 ```
 
-![](批量部署工具devkitpipeline.assets/一键下载命令行参数说明.PNG)
+![](image/批量部署工具devkitpipeline/一键下载命令行参数说明.PNG)
 
 除 **`-h`** 使用提示参数外，**`download`** 批量下载工具还提供 **`-iso`** 参数。
 
