@@ -2,7 +2,7 @@ import logging
 import os
 import subprocess
 import constant
-from download import download_dependence, component_collection_map
+from download import download_dependence, component_collection_map, lkp_collection_map
 from handler.handler_and_node import Handler
 
 LOGGER = logging.getLogger("install_dependency")
@@ -60,6 +60,7 @@ class GatherPackage(Handler):
         if not os.path.isdir(constant.DEPENDENCY_DIR):
             LOGGER.warning(f"The directory {constant.DEPENDENCY_DIR} not exists.")
             return False
+        component_collection_map.update(lkp_collection_map)
         for component_name in component_collection_map:
             shell_dict = component_collection_map.get(component_name)
             for shell_cmd in shell_dict:

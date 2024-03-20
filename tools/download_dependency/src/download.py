@@ -6,7 +6,7 @@ import shutil
 import tarfile
 import time
 import download_config
-from download_utils import download_dependence_handler, download_dependence_file, base_path
+from download_utils import download_dependence_handler, download_dependence_file
 from download_command_line import process_command_line, CommandLine
 
 FILE = "file"
@@ -36,6 +36,25 @@ component_collection_map = {
     )
 }
 
+lkp_collection_map = {
+    "LkpTests": {
+        "download file": {
+            URL: f"{download_config.LkpTests.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'lkp-tests.tar.gz')}",
+        },
+        "download gem dependency": {
+            URL: f"{download_config.LkpTests.get('gem dependency')}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'gem_dependencies.zip')}",
+        },
+    },
+    "CompatibilityTesting": {
+        "download file": {
+            URL: f"{download_config.CompatibilityTesting.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'compatibility_testing.tar.gz')}",
+        }
+    },
+}
+
 
 def download_dependence():
     if not os.path.exists(DEFAULT_PATH):
@@ -47,6 +66,7 @@ def download_dependence():
         pass
 
     ret = True
+    component_collection_map.update(lkp_collection_map)
     for component_name in component_collection_map:
         shell_dict = component_collection_map.get(component_name)
         ret = ret and download_dependence_handler(shell_dict)
