@@ -18,7 +18,7 @@ Pipeline solution to support building, deploying and automating any software pro
     各原子能力对接Jenkins流水线的脚本范例及使用说明
 1.  [Jenkins流水线配置迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/Jenkins安装部署/Jenkins流水线配置迁移、亲和门禁.md)
 2.  [DevKit测试平台安装部署与jenkins集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/lkp-test安装部署/devkit测试平台安装部署与jenkins集成部署指导手册.md)
-###### 原子能力对接流水线实践指导 (Jenkins)
+###### 原子能力对接流水线实践指导 (Gitlab)
     各原子能力对接Gitlab流水线的脚本范例及使用说明
 1.  [Gitlab流水线配置迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/gitlab安装部署/Gitlab流水线配置迁移、亲和门禁.md)
 2.  [DevKit测试平台安装部署与gitlab集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/lkp-test安装部署/devkit测试平台安装部署与gitlab集成部署指导手册.md)
