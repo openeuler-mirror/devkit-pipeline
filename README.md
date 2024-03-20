@@ -4,20 +4,24 @@
 Pipeline solution to support building, deploying and automating any software project on Kunpeng Architecture
 
 #### 软件架构
-软件架构说明
+支持鲲鹏架构下openEuler系操作系统
 
 #### 使用说明
-
-1.  [下载工具和部署工具使用文档](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/批量部署工具/批量部署工具devkitpipeline.md)
-2.  [安装部署Jenkins](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/Jenkins安装部署/安装部署Jenkins.md)
-3.  [Jenkins流水线配置迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/Jenkins安装部署/Jenkins流水线配置迁移、亲和门禁.md)
-4.  [安装部署Gitlab](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/gitlab安装部署/gitlab安装部署.md)
-5.  [Gitlab流水线配置迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/gitlab安装部署/Gitlab流水线配置迁移、亲和门禁.md)
-6.  [devkit测试平台安装部署与jenkins集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/lkp-test安装部署/devkit测试平台安装部署与jenkins集成部署指导手册.md)
-7.  [devkit测试平台安装部署与gitlab集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/lkp-test安装部署/devkit测试平台安装部署与gitlab集成部署指导手册.md)
+##### Jenkins及Gitlab流水线安装部署指导
+1.  [安装部署Jenkins](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/Jenkins安装部署/安装部署Jenkins.md)
+2.  [安装部署Gitlab](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/gitlab安装部署/gitlab安装部署.md)
+##### DevKit流水线原子能力安装部署指导
+###### 安装部署工具
+    通过一键下载、安装、部署工具，可将DevKit流水线上原子能力自动部署到指定的环境上
+1. [一键下载、安装、部署工具使用文档](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/批量部署工具/批量部署工具devkitpipeline.md)
+###### 原子能力对接流水线实践指导 (Jenkins)
+    各原子能力对接Jenkins流水线的脚本范例及使用说明
+1.  [Jenkins流水线配置迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/Jenkins安装部署/Jenkins流水线配置迁移、亲和门禁.md)
+2.  [DevKit测试平台安装部署与jenkins集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/lkp-test安装部署/devkit测试平台安装部署与jenkins集成部署指导手册.md)
+###### 原子能力对接流水线实践指导 (Jenkins)
+    各原子能力对接Gitlab流水线的脚本范例及使用说明
+1.  [Gitlab流水线配置迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/gitlab安装部署/Gitlab流水线配置迁移、亲和门禁.md)
+2.  [DevKit测试平台安装部署与gitlab集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/lkp-test安装部署/devkit测试平台安装部署与gitlab集成部署指导手册.md)
 #### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+    如果您想为本仓库贡献代码，请向本仓库任意maintainer发送邮件
+    如果您找到产品中的任何Bug，欢迎您提出ISSUE
