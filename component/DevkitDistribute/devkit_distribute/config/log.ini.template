@@ -3,7 +3,7 @@ keys=root
 
 
 [handlers] # handlers 对象列表
-keys=consoleHandler,fileHandler
+keys=consoleHandler
 
 [formatters] # formatters 对象列表
 keys=fmt
@@ -19,11 +19,6 @@ level = INFO
 formatter = fmt
 args = (sys.stdout,)
 
-[handler_fileHandler]#  fileHandler 控制器输出方向、级别、输出格式、参数
-class = FileHandler
-level = INFO
-formatter = fmt
-args = ("LOG_PATH/LOG_NAME.log", "a")
 
 [formatter_fmt]
 format=[%(asctime)s] [%(levelname)s] [processID:%(process)d][%(threadName)s] [%(module)s:%(funcName)s:%(lineno)d] %(message)s

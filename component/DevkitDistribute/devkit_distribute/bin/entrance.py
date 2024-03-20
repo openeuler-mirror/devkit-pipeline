@@ -2,9 +2,12 @@ import argparse
 import datetime
 import logging
 import os
+import threading
+import typing
 import uuid
 
 from devkit_utils import file_utils
+from devkit_utils import shell_tools
 from devkit_utils.devkit_client import DevKitClient
 from devkit_utils.error_coce import ErrorCodeEnum, ErrorCodeMsg
 from devkit_utils.log_config import config_log_ini
@@ -13,6 +16,61 @@ from devkit_utils.transport_utils import SSHClientFactory
 from report.report import Report
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
+
+
+class JmeterCommand:
+    def __init__(self, origin_command):
+        self.origin_command: str = origin_command
+        self.csv_file = None
+        self.result_dir = None
+        self.jmx_file = None
+
+    def check_and_init_jmeter_cmd(self):
+        if not self.origin_command:
+            return
+        jmeter_commands: typing.List[str] = self.origin_command.split()
+        command_length = len(jmeter_commands)
+        index = 0
+        while index < command_length:
+            if jmeter_commands[index] in ["sh", "bash", "/bin/bash", "/bin/sh"]:
+                index = index + 1
+                continue
+            elif jmeter_commands[index].endswith("jmeter.sh"):
+                index = index + 1
+                continue
+            elif jmeter_commands[index] == "-n":
+                index = index + 1
+                continue
+            elif jmeter_commands[index] == "-e":
+                index = index + 1
+                continue
+            elif jmeter_commands[index].endswith("t") and index + 1 < command_length:
+                self.jmx_file = jmeter_commands[index + 1]
+                index = index + 2
+                continue
+            elif jmeter_commands[index].endswith("l") and index + 1 < command_length:
+                self.csv_file = jmeter_commands[index + 1]
+                index = index + 2
+                continue
+            elif jmeter_commands[index].endswith("o") and index + 1 < command_length:
+                self.result_dir = jmeter_commands[index + 1]
+                index = index + 2
+                continue
+            else:
+                break
+        else:
+            return self.__check_param_resource()
+        raise Exception(
+            "The command line is not supported。example: sh jmeter.sh -n -t /home/demo.jmt "
+            "-l /home/jmeter/result.csv -e -o /home/jmeter/empty_dir/")
+
+    def __check_param_resource(self):
+        if os.path.exists(self.csv_file):
+            raise Exception(f"the file {self.csv_file} is exist")
+        if os.path.exists(self.result_dir) and os.path.getsize(self.result_dir) > 0:
+            raise Exception(f"the directory {self.result_dir} is exist or not empty")
+        if not os.path.exists(self.jmx_file):
+            raise Exception(f"the jmx file {self.jmx_file} is not exist")
 
 
 class Distributor:
@@ -34,13 +92,25 @@ class Distributor:
         self.devkit_user = args.devkit_user
         self.devkit_password = args.devkit_password
         file_utils.create_dir(self.data_path)
-        self.template_path=os.path.join(self.root_path, "config")
+        self.template_path = os.path.join(self.root_path, "config")
         self.git_path = args.git_path
+        self.jmeter_command: JmeterCommand = JmeterCommand(args.jmeter_command)
+        self.jmeter_thread: typing.Optional[threading.Thread] = None
+        self.enable_jmeter_command = True if args.jmeter_command else False
 
     def distribute(self):
+        # jmeter 命令校验
+        self.jmeter_command.check_and_init_jmeter_cmd()
+        # 校验联通性
+        self.__check_ips_connected()
+        # 启动jmeter
+        if self.enable_jmeter_command:
+            self.__start_jmeter_thread()
         task_id = str(uuid.uuid4())
         # 分发采集任务
         self.distribute_to_sample_task(task_id)
+        if self.enable_jmeter_command:
+            self.jmeter_thread.join()
         # 获取jfr文件，删除任务文件
         local_jfrs = list()
         self.obtain_jfrs(local_jfrs, task_id)
@@ -53,11 +123,30 @@ class Distributor:
         client.logout()
         # 清空本地jfr文件
         file_utils.clear_dir(self.data_path)
-        report = Report(report_path=self.data_path,template_path=self.template_path,
-                        git_path=self.git_path, devkit_tool_ip=self.devkit_ip,
-                        devkit_tool_port=self.devkit_port, devkit_user_name=self.devkit_user)
+        # 等待jmeter完成
+        if self.enable_jmeter_command:
+            report = Report(report_path=self.data_path, template_path=self.template_path,
+                            jmeter_report_path=self.jmeter_command.csv_file,
+                            git_path=self.git_path, devkit_tool_ip=self.devkit_ip,
+                            devkit_tool_port=self.devkit_port, devkit_user_name=self.devkit_user)
+        else:
+            report = Report(report_path=self.data_path, template_path=self.template_path,
+                            git_path=self.git_path, devkit_tool_ip=self.devkit_ip,
+                            devkit_tool_port=self.devkit_port, devkit_user_name=self.devkit_user)
         report.report()
         self.__print_result(jfr_names)
+
+    def __start_jmeter_thread(self):
+        self.jmeter_command.check_and_init_jmeter_cmd()
+        self.jmeter_thread = threading.Thread(target=self.__jmeter_start, args=(self.jmeter_command.origin_command,))
+        self.jmeter_thread.start()
+
+    @staticmethod
+    def __jmeter_start(command):
+        outcome = shell_tools.exec_shell(command, is_shell=True, timeout=None)
+        logging.info("return_code: %s", outcome.return_code)
+        logging.info("error: %s", outcome.err)
+        logging.info("out: %s", outcome.out)
 
     def __print_result(self, jfr_names):
         print("=============================================================")
@@ -67,6 +156,16 @@ class Distributor:
         print(f"Please open the following address to view：\n"
               f"https://{self.devkit_ip}:{self.devkit_port}")
         print(f"user :{self.devkit_user}, password: {self.devkit_password}")
+
+    def __check_ips_connected(self):
+        for ip in self.ips_list:
+            factory = SSHClientFactory(ip=ip, user=self.user, port=self.port, password=self.password,
+                                       pkey_file=self.pkey_file, pkey_content=self.pkey_content,
+                                       pkey_password=self.pkey_password)
+            ssh_client = factory.create_ssh_client()
+            ssh_client.close()
+        client = DevKitClient(self.devkit_ip, self.devkit_port, self.devkit_user, self.devkit_password)
+        client.logout()
 
     def obtain_jfrs(self, local_jfrs, task_id):
         # 顺序获取
@@ -194,6 +293,8 @@ def main():
                         help="the time of the sample")
     parser.add_argument("--git-path", required=True, dest="git_path", type=str,
                         help="git path")
+    parser.add_argument("--jmeter-command", dest="jmeter_command", type=str,
+                        help="the command that start jmeter tests")
     parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
     parser.set_defaults(password="")
     args = parser.parse_args()
