@@ -315,7 +315,6 @@ class Machine:
         self._remote_exec_command(CHECK_MIRROR_INSTALL_STATUS, ssh_client)
 
         component_name = component_name.replace("Un", "")
-
         LOGGER.info(f"Umount component in remote machine {self.ip}: {component_name}")
         local_path = os.path.abspath(CommandLine.iso_path)
         remote_path = os.path.join("/home", local_path.split('/')[-1])
@@ -325,7 +324,7 @@ class Machine:
         for shell_file in ["uninstall.sh"]:
             sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
             sh_file_remote_path = os.path.join("/tmp/", component_name + shell_file)
-            sh_cmd = f"bash {sh_file_remote_path} {remote_path}"
+            sh_cmd = f"bash {sh_file_remote_path}"
             execute_output = (
                 self.transport_shell_file_and_execute(
                     ssh_client, sftp_client,
@@ -334,5 +333,6 @@ class Machine:
                     sh_cmd=sh_cmd
                 ))
             remote_file_list.append(sh_file_remote_path)
+        remote_file_list.append(remote_path)
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)

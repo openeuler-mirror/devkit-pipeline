@@ -6,12 +6,11 @@ function resume_original_mirror() {
     rm -rf /etc/yum.repos.d/yum.repos.backup
 
     yum clean all
+    echo "yum makecache: "
     yum makecache
 }
 
 function main() {
-    iso_file_path=$1
-    rm -rf "${iso_file_path}"
     umount /devkitmirror
     rm -rf /devkitmirror
 
