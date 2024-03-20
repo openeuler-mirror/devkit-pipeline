@@ -1,6 +1,6 @@
 # 批量部署工具devkitpipeline
 
-获取本项目release包v0.1版本，解压之后，将tools/linux文件夹内所有内容上传至linux服务器，获取文件列表如下图：
+获取本项目release包v0.2版本，解压之后，将tools/linux文件夹内所有内容上传至linux服务器，获取文件列表如下图：
 
 ![image-文件列表](image/批量部署工具devkitpipeline/image-文件列表.png)
 
@@ -110,7 +110,7 @@ BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置�
 
 #### 一键下载工具linux版本
 
-该工具在release包v0.1版本，tools/linux文件夹下，在Linux机器上使用，用于下载组件包。
+该工具在release包v0.2版本，tools/linux文件夹下，在Linux机器上使用，用于下载组件包。
 
 在有网络环境的linux服务器上，一键下载工具所在路径，执行如下命令，可以查看该工具的使用提示。
 
@@ -138,7 +138,7 @@ BiShengJDK8 和 BiShengJDK17 均使用 `update-alternatives` 工具进行配置�
 
 #### 一键下载工具windows版本
 
-该工具在release包v0.1版本，tools/windows文件夹下，可在windows机器上使用，用于下载组件包。
+该工具在release包v0.2版本，tools/windows文件夹下，可在windows机器上使用，用于下载组件包。
 
 ![image-windows版本一键下载工具](image/批量部署工具devkitpipeline/image-windows版本一键下载工具.png)
 
