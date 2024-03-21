@@ -16,6 +16,10 @@ PROMPT_MAP = {
 }
 
 
+def validate_path(path: str) -> bool:
+    return path.startswith('/') and path.find('../') == -1 and path.find('./') == -1
+
+
 def base_path(path):
     if getattr(sys, 'frozen', False):
         base_dir = sys._MEIPASS
