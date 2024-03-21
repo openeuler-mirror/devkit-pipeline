@@ -1,5 +1,0 @@
-suite: compatibility-test
-category: functional
-
-file_path: /${HOME}/.local/compatibility_testing/Chinese/
-compatibility-test:
