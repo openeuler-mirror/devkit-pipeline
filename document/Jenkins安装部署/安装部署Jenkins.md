@@ -1,6 +1,7 @@
 <center><big><b>《安装部署 Jenkins》</b></big></center>
 
 ## 安装 Jenkins
+> **Jenkins 运行的 JDK 的最低要求为 JDK11 （官方推荐JDK17）**
 
 > [Jenkins 离线安装 官方文档](https://www.jenkins.io/doc/book/installing/offline/)
 > 
@@ -113,11 +114,11 @@ firewall-cmd --permanent --zone=public --list-all
 
    ![添加鲲鹏DevKitJenkinsCI插件凭据域01](./Jenkins.assets/添加鲲鹏DevKitJenkinsCI插件凭据域01.png)
    域名和描述按需输入，便于识别和管理即可
-   ![添加鲲鹏DevKitJenkinsCI插件凭据域02](./Jenkins.assets/添加凭据域.png)
+   ![添加鲲鹏DevKitJenkinsCI插件凭据域02](./Jenkins.assets/添加凭据域.PNG)
 
    添加凭据到凭据域下
 
-   ![添加凭据到DevKit凭据域下](./Jenkins.assets/凭据02.png)
+   ![添加凭据到DevKit凭据域下](./Jenkins.assets/凭据02.PNG)
 
    在 DevKit 凭据域下添加 aarch64 Jenkins 工作节点 SSH 凭据
 
@@ -328,10 +329,10 @@ pipeline {
 ### 2. 手动临时修改（重启jenkins后失效，需要再次手动执行命令）
 
   进入系统管理 -> 脚本命令行
-  ![](./Jenkins.assets/手动临时修改1.png)
-  ![](./Jenkins.assets/手动临时修改2.png)
+  ![](./Jenkins.assets/手动临时修改1.PNG)
+  ![](./Jenkins.assets/手动临时修改2.PNG)
   在输入框中添加命令后，点击运行即可（Result中的内容为修改前的值，可以再次点击运行查看是否修改成功）
-  ![](./Jenkins.assets/手动临时修改3.png)
+  ![](./Jenkins.assets/手动临时修改3.PNG)
   修改后查看cli报告即可(对修改前创建的报告同样有效，若仍然无效，可能等待1~2分钟后重试)
 
 ### 3. 永久自动修改（启动时自动执行）
@@ -341,16 +342,16 @@ pipeline {
    离线安装地址：
    groovy: [Groovy|Jenkins plugin](https://plugins.jenkins.io/groovy/releases/)
    startup-trigger: [Startup Trigger|Jenkins plugin](https://plugins.jenkins.io/startup-trigger-plugin/releases/)
-   ![](./Jenkins.assets/永久自动修改1.png)
+   ![](./Jenkins.assets/永久自动修改1.PNG)
    
    2-1. 新建一个Job
-   ![](./Jenkins.assets/永久自动修改2.png)
+   ![](./Jenkins.assets/永久自动修改2.PNG)
    
    2-2. 选择在jenkins启动后执行
-   ![](./Jenkins.assets/永久自动修改3.png)
+   ![](./Jenkins.assets/永久自动修改3.PNG)
    
    2-3. 构建步骤添加 Execute system Groovy script (注意不是Execute Groovy script)，填写脚本并授权
-   ![](./Jenkins.assets/永久自动修改4.png)
-   ![](./Jenkins.assets/永久自动修改5.png)
+   ![](./Jenkins.assets/永久自动修改4.PNG)
+   ![](./Jenkins.assets/永久自动修改5.PNG)
    
    2-4. 点击保存即可，可以手动触发一次job，后续jenkins重启后会自动执行
