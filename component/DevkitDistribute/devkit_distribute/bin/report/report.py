@@ -1,10 +1,8 @@
 import csv
 import json
 import os
-import subprocess
-import time
 import re
-
+import subprocess
 
 PORT_SUB_PATTERN = re.compile(r':[0-9]+')
 GIT_REMOTE_URL_COMMAND = """
@@ -19,10 +17,15 @@ JMETER_REPORT_NAME = "result.csv"
 HTML_TEMPLATE_NAME = "perf_report.html"
 DEVKIT_REPORT_DATA_LINE_NUM = 32
 GIT_REPORT_DATA_LINE_NUM = 41
+REPORT_VALID_LINE = 28
+JMETER_REPORT_DATA_HEADER_LEN = 35
+JMETER_REPORT_DATA_LINE_NUM = 36
 
 
 class Report:
-    def __init__(self, report_path="./", template_path="./", git_path="./", jmeter_report_path="./", devkit_tool_ip="", devkit_tool_port="8086", devkit_user_name="devadmin"):
+    def __init__(self, report_path="./", template_path="./", git_path="./",
+                 jmeter_report_path=None, devkit_tool_ip="",
+                 devkit_tool_port="8086", devkit_user_name="devadmin"):
         if not os.path.isdir(report_path):
             raise Exception(f"Report path:{report_path} illegal.")
         self.report_dir = report_path
@@ -32,6 +35,7 @@ class Report:
         self.devkit_tool_ip = devkit_tool_ip
         self.devkit_tool_port = devkit_tool_port
         self.devkit_user_name = devkit_user_name
+        self.jmeter_report_data_cols = 17
 
     def report(self):
         html_lines = self.read_template()
@@ -40,6 +44,11 @@ class Report:
 
         html_lines[DEVKIT_REPORT_DATA_LINE_NUM] = "report_tb_data: {}".format(devkit_report_json)
         html_lines[GIT_REPORT_DATA_LINE_NUM] = "git_tb_data: {},".format(git_log)
+        if self.jmeter_report_path:
+            html_lines[REPORT_VALID_LINE] = "const valid_pages = ['report', 'trend', 'git'];\n"
+            jmeter_report_data = self.jmeter_report_to_html()
+            html_lines[JMETER_REPORT_DATA_HEADER_LEN] = "trend_tb_cols: {},\n".format(self.jmeter_report_data_cols)
+            html_lines[JMETER_REPORT_DATA_LINE_NUM] = "trend_tb_data: {},\n".format(jmeter_report_data)
 
         final_report = os.path.join(self.report_dir, "devkit_performance_report.html")
         with open(final_report, "w") as file:
@@ -67,10 +76,14 @@ class Report:
         git_log = json.dumps(data)
         return git_log
 
-    def jmeter_report_to_html(self, jmeter_report_path):
-        all_data= []
-        jmeter_report = os.path.join(jmeter_report_path, JMETER_REPORT_NAME)
-        with open(jmeter_report, newline='') as csvfile:
+    def jmeter_report_to_html(self):
+        all_data = []
+        with open(self.jmeter_report_path) as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                self.jmeter_report_data_cols = len(row)
+                break
+        with open(self.jmeter_report_path, newline='') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
                 all_data.extend(row)

@@ -22,26 +22,35 @@ local devkit_password="admin100"
 local applications=""
 local duration=10
 local git_path=""
+local jmeter_command=""
 
-while getopts "i:u:f:a:d:D:g:" opts; do
-	case $opts in
-	  i)
-			ips_list=$OPTARG ;;
-	  u)
-			user=$OPTARG ;;
-		f)
-			pkey_file=$OPTARG ;;
-	  a)
-			applications=$OPTARG ;;
-	  d)
-			duration=$OPTARG ;;
-		D)
-			devkit_ip=$OPTARG ;;
-		g)
-			git_path=$OPTARG ;;
-		?)
-		  echo "not recogize paramters";;
-	esac
+while getopts "i:u:f:a:d:D:P:U:W:g:j:" opts; do
+    case $opts in
+      i)
+        ips_list=$OPTARG ;;
+      u)
+        user=$OPTARG ;;
+      f)
+        pkey_file=$OPTARG ;;
+      a)
+        applications=$OPTARG ;;
+      d)
+        duration=$OPTARG ;;
+      D)
+        devkit_ip=$OPTARG ;;
+      P)
+        devkit_port=$OPTARG ;;
+      U)
+        devkit_user=$OPTARG ;;
+      W)
+        devkit_password=$OPTARG ;;
+      g)
+        git_path=$OPTARG ;;
+      j)
+        jmeter_command=$OPTARG ;;
+      ?)
+        echo "The Parameters are not recognized";;
+    esac
 done
 
 sed -i "s?\${root_path}?${root_path}?g" "${root_path}/config/devkit_distribute.yaml"
@@ -57,6 +66,7 @@ sed -i "s/\${devkit_password}/${devkit_password}/g" "${root_path}/config/devkit_
 sed -i "s?\${applications}?${applications}?g" "${root_path}/config/devkit_distribute.yaml"
 sed -i "s?\${git_path}?${git_path}?g" "${root_path}/config/devkit_distribute.yaml"
 sed -i "s/\${duration}/${duration}/g" "${root_path}/config/devkit_distribute.yaml"
+sed -i "s?\${jmeter_command}?${jmeter_command}?g" "${root_path}/config/devkit_distribute.yaml"
 
 }
 

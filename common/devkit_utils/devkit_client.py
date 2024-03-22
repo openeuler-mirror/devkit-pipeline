@@ -2,7 +2,9 @@ import logging
 import os.path
 
 import requests
-from urllib3 import encode_multipart_formdata
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class DevKitClient:
@@ -69,7 +71,7 @@ class DevKitClient:
         except OSError as e:
             logging.exception(e)
             raise
-        encoded_data = encode_multipart_formdata(data)
+        encoded_data = urllib3.encode_multipart_formdata(data)
         _header = self.header.copy()
         _header.update({"Content-Type": encoded_data[1]})
         url = f"https://{self.ip}:{self.port}/plugin/api/v1.0/java_perf/api/records/actions/upload/"

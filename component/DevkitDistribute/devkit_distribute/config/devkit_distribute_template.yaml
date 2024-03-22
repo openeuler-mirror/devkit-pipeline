@@ -15,4 +15,5 @@ devkit_password: ${devkit_password}
 applications: ${applications}
 duration: ${duration}
 git_path: ${git_path}
+jmeter_command: "${jmeter_command}"
 
