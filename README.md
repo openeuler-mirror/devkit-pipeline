@@ -13,7 +13,7 @@ Pipeline solution to support building, deploying and automating any software pro
 ##### DevKit流水线原子能力安装部署指导
 ###### 安装部署工具
     通过一键下载、安装、部署工具，可将DevKit流水线上原子能力自动部署到指定的环境上
-1. [一键下载、安装、部署工具使用文档](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/批量部署工具/批量部署工具devkitpipeline.md)
+1. [一键下载、安装、部署工具使用文档](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/批量部署工具/批量部署工具和一键下载工具说明文档.md)
 ###### 原子能力对接流水线实践指导 (Jenkins)
     DevKit各原子能力对接Jenkins流水线的脚本范例及使用说明
 1.  [Jenkins流水线配置DevKit迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/Jenkins安装部署/Jenkins流水线配置迁移、亲和门禁.md)
