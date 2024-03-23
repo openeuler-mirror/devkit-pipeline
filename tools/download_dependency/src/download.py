@@ -4,6 +4,7 @@ import subprocess
 import sys
 import shutil
 import tarfile
+import wget
 import download_config
 from download_utils import download_dependence_handler, download_dependence_file
 from download_command_line import process_command_line, CommandLine
@@ -14,6 +15,16 @@ URL = "url"
 SAVE_PATH = "save_path"
 DEFAULT_PATH = "./devkitdependencies"
 DEPENDENCY_FILE = "devkitdependencies.tar.gz"
+
+# A-FOT files
+BASE_URL = "https://gitee.com/openeuler/A-FOT/raw/master/{}"
+A_FOT = "a-fot"
+A_FOT_INI = "a-fot.ini"
+AUTO_FDO_SH = "auto_fdo.sh"
+AUTO_BOLT_SH = "auto_bolt.sh"
+AUTO_PREFETCH = "auto_prefetch.sh"
+SPLIT_JSON_PY = "split_json.py"
+FILE_LIST = (A_FOT, A_FOT_INI, AUTO_FDO_SH, AUTO_BOLT_SH, AUTO_PREFETCH, SPLIT_JSON_PY)
 
 component_collection_map = {
     component.get("component_name"): {
@@ -70,6 +81,27 @@ def download_dependence():
         shell_dict = component_collection_map.get(component_name)
         ret = ret and download_dependence_handler(shell_dict)
     return ret
+
+
+def download_a_fot():
+    saved_path = os.path.join(DEFAULT_PATH, A_FOT)
+    try:
+        os.mkdir(saved_path)
+    except FileExistsError as e:
+        pass
+
+    try:
+        for f in FILE_LIST:
+            wget.download(BASE_URL.format(f), os.path.join(saved_path, f))
+
+        with tarfile.open(os.path.join(DEFAULT_PATH, "a-fot.tar.gz"), "w:gz") as t:
+            t.add(saved_path, arcname="a-fot")
+        return True
+    except Exception as e:
+        print(e)
+        return False
+    finally:
+        shutil.rmtree(saved_path)
 
 
 iso_collection_map = {
