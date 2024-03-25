@@ -14,6 +14,7 @@ class DevkitMachine(Machine):
             "BiShengJDK17": self.default_install_component_handle,
             "BiShengJDK8": self.default_install_component_handle,
             "LkpTests": self.do_nothing,
+            "NonInvasiveSwitching": self.nis_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
             "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
         }

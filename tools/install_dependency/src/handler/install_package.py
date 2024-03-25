@@ -74,7 +74,8 @@ class InstallPackage(Handler):
                           "BiShengCompiler",
                           "BiShengJDK17",
                           "BiShengJDK8",
-                          "LkpTests"
+                          "LkpTests",
+                          "NonInvasiveSwitching"
                           ),
                 )
                 jobs.append(process)

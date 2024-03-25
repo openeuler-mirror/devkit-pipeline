@@ -113,10 +113,37 @@ class Machine:
             "BiShengJDK17": self.default_install_component_handle,
             "BiShengJDK8": self.default_install_component_handle,
             "LkpTests": self.lkptest_install_component_handle,
+            "NonInvasiveSwitching": self.nis_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
             "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
         }
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
+
+    def nis_install_component_handle(self, component_name,  sftp_client, ssh_client):
+        remote_file_list = []
+        # 上传并执行 安装脚本, 校验安装结果脚本
+        install_result = ""
+        for shell_file in SHELL_FILE_LIST:
+            sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
+            sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, component_name + shell_file)
+            sh_cmd = f"bash {sh_file_remote_path}"
+            execute_output = (
+                self.transport_shell_file_and_execute(
+                    ssh_client, sftp_client,
+                    sh_file_local_path=sh_file_local_path,
+                    sh_file_remote_path=sh_file_remote_path,
+                    sh_cmd=sh_cmd
+                ))
+            remote_file_list.append(sh_file_remote_path)
+            if shell_file == SHELL_FILE_LIST[1]:
+                install_result = execute_output
+
+        if install_result == "true":
+            LOGGER.info(f"Remote machine {self.ip} install {component_name} success.")
+        else:
+            LOGGER.error(f"Remote machine {self.ip} install {component_name} failed.")
+        # 清理tmp临时文件
+        self.clear_tmp_file_at_remote_machine(remote_file_list)
 
     def lkptest_install_component_handle(self, component_name, sftp_client, ssh_client):
         self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)
