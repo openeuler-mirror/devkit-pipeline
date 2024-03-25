@@ -4,7 +4,6 @@ import subprocess
 import sys
 import shutil
 import tarfile
-import time
 import download_config
 from download_utils import download_dependence_handler, download_dependence_file
 from download_command_line import process_command_line, CommandLine
@@ -109,7 +108,6 @@ def download_iso():
     if platform.system() == "Windows" and CommandLine.download_iso == "auto":
         print("Please use '-iso' option in Linux machine if iso version is not specified. "
               "OpenEuler Operating System is recommended.")
-        time.sleep(10)
         sys.exit(1)
     if CommandLine.download_iso == "auto":
         result = subprocess.run("grep PRETTY_NAME /etc/os-release".split(' '),
