@@ -69,7 +69,7 @@ class AcceptanceTool(object):
                 contents += "<li>{}</li>".format(output_content)
 
         if not html_line:
-            print("""\033[31m未发现的devkit-pipeline相关工具报告、033[0m""")
+            print("""\033[31m未发现的devkit-pipeline相关工具报告\033[0m""")
 
         html_contents = '<html><body><div style="display:flex;border-bottom: 1px dashed;justify-content:center;margin-bottom:10px;"><h1>Acceptance report</h1></div><ul>{}</ul></body></html>'.format(
             contents)
