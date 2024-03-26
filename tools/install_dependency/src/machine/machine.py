@@ -27,6 +27,15 @@ class Machine:
         self.pkey = pkey
         self.password = password
         self.check_is_aarch64()
+        self.component_list = []
+        self.mirrors = False
+
+    def add_component(self, component):
+        self.component_list.extend(component)
+        self.component_list = list(set(self.component_list))
+
+    def set_mirror(self):
+        self.mirrors = True
 
     def check_is_aarch64(self):
         machine_type = self.get_machine_type()
@@ -104,6 +113,14 @@ class Machine:
         finally:
             ssh_client.close()
             sftp_client.close()
+
+    def install_components(self):
+        if self.mirrors:
+            self.install_component("OpenEulerMirrorISO")
+        for component in self.component_list:
+            self.install_component(component)
+        if self.mirrors:
+            self.install_component("UnOpenEulerMirrorISO")
 
     def install_component_handler(self, component_name, sftp_client, ssh_client):
         component_name_to_func_dict: typing.Dict[

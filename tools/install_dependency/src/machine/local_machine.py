@@ -18,6 +18,23 @@ class LocalMachine:
     def __init__(self, ip):
         self.ip = ip
         self.check_is_aarch64()
+        self.component_list = []
+        self.mirrors = False
+
+    def set_mirror(self):
+        self.mirrors = True
+
+    def add_component(self, component):
+        self.component_list.extend(component)
+        self.component_list = list(set(self.component_list))
+
+    def install_components(self):
+        if self.mirrors:
+            self.install_component("OpenEulerMirrorISO")
+        for component in self.component_list:
+            self.install_component(component)
+        if self.mirrors:
+            self.install_component("UnOpenEulerMirrorISO")
 
     def check_is_aarch64(self):
         machine_type = os.uname().machine.lower()

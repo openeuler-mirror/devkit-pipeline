@@ -1,4 +1,3 @@
-import os
 import re
 import logging
 import constant
@@ -6,8 +5,7 @@ from handler.handler_and_node import Handler
 from machine.klass_dict import KLASS_DICT
 
 LOGGER = logging.getLogger("install_dependency")
-MIN_SET = (constant.USER, constant.PKEY,
-           constant.EXECUTOR, constant.INSTRUCTION)
+MIN_SET = (constant.USER, constant.PKEY, constant.INSTRUCTION)
 MAX_SET = (constant.USER, constant.PKEY, constant.PASSWORD,
            constant.SCANNER, constant.BUILDER, constant.EXECUTOR, constant.DEVKIT, constant.INSTRUCTION)
 
