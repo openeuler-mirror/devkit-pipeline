@@ -29,7 +29,7 @@ class AcceptanceTool(object):
                              "byte-alignment-check.html": "字节对齐检查", "SourceCodeScanningReport.html": "源码迁移",
                              "compatibility_report.html": "云测工具"}
         print("解压完成。")
-        print("流水线{}构建{}devkit-pipeline相关工具报告扫描中...").format(devkit_pipeline_name, devkit_pipeline_id)
+        print("流水线{}构建{}devkit-pipeline相关工具报告扫描中...".format(devkit_pipeline_name, devkit_pipeline_id))
         html_line = ""
         contents = ""
         for file in file_names:
