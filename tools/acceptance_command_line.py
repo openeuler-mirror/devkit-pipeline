@@ -49,11 +49,11 @@ class AcceptanceTool(object):
                         elif "Software Package Path or Name" in html_line:
                             flag += 1
                             continue
-                if flag == 1:
-                    html_line = \
-                        html_line.replace("""<span class="info">""", "").replace("""</span>""", "").strip().split("/")[
-                            -1]
-                    break
+                        if flag == 1:
+                            html_line = \
+                                html_line.replace("""<span class="info">""", "").replace("""</span>""", "").strip().split("/")[
+                                    -1]
+                            break
                 else:
                     for html_line in content:
                         if "Compatibility_Application_Start" in html_line:
@@ -62,8 +62,8 @@ class AcceptanceTool(object):
                             html_line = html_line[str1 + 3 + 1: str2 - 2]
                             break
                 output_content = """{}:
-                        报告路径：{}
-                        被扫描软件名称：{}""".format(command_line_html.get(file.split("/")[-1]),
+            报告路径：{}
+            被扫描软件名称：{}""".format(command_line_html.get(file.split("/")[-1]),
                                                     os.path.join(current_path, file), html_line)
                 print(output_content)
                 contents += "<li>{}</li>".format(output_content)
