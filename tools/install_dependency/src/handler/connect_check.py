@@ -9,6 +9,12 @@ from exception.connect_exception import ConnectException
 
 LOGGER = logging.getLogger("install_dependency")
 
+ROLE_COMPONENT = {
+    "scanner": ["BiShengJDK17"],
+    "builder": ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17", "BiShengJDK8"],
+    "executor": ["BiShengJDK17", "LkpTests"]
+}
+
 
 class ConnectCheck(Handler):
 
@@ -25,25 +31,29 @@ class ConnectCheck(Handler):
     def machine_role_check(data, role, local_ip):
         builder_list = data.get(role)
         klass = KLASS_DICT.get(role)
-        data[role + constant.MACHINE] = dict()
+        data[constant.MACHINE] = dict()
         for ip in builder_list:
             if ip == local_ip or ip == "127.0.0.1":
                 ip = "127.0.0.1"
-                machine_instance = LocalMachine(ip)
-                data[role + constant.MACHINE][ip] = machine_instance
+                machine_instance = data[constant.MACHINE].get(ip, LocalMachine(ip))
+                machine_instance.add_component(ROLE_COMPONENT[role])
+                data[constant.MACHINE][ip] = machine_instance
                 continue
             try:
-                machine_instance = klass(ip, data[constant.USER], data[constant.PKEY],
-                                         data.get(constant.PASSWORD, None))
-                data[role + constant.MACHINE][ip] = machine_instance
+                machine_instance = data[constant.MACHINE].get(ip, klass(ip, data[constant.USER], data[constant.PKEY],
+                                                                        data.get(constant.PASSWORD, None)))
+                machine_instance.add_component(ROLE_COMPONENT[role])
+                data[constant.MACHINE][ip] = machine_instance
             except ConnectException:
                 LOGGER.error(f"-- [error] Connect {ip} failed. Please check.")
-                del data[role + constant.MACHINE]
+                del data[constant.MACHINE]
                 return False
             except Exception as e:
                 LOGGER.error(f"-- [error] Connect {ip} failed. Because of {str(e)}")
-                del data[role + constant.MACHINE]
+                del data[constant.MACHINE]
                 return False
+            if data.get(constant.INSTRUCTION) == "deploy_iso" and role in ("devkit", "executor"):
+                machine_instance.set_mirror()
         return True
 
     @staticmethod
