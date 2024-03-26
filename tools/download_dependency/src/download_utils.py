@@ -14,6 +14,8 @@ def download_dependence_handler(shell_dict):
 def download_dependence_file(shell_cmd, shell_dict):
     ret = True
     url_and_save_path = shell_dict.get(shell_cmd)
+    if os.path.exists(url_and_save_path.get('save_path')) and os.path.isfile(url_and_save_path.get('save_path')):
+        return ret
     try:
         print(f"Downloading from {url_and_save_path.get('url')}")
         download_result = wget.download(

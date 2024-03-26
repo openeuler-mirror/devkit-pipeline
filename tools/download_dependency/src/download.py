@@ -26,6 +26,7 @@ AUTO_PREFETCH = "auto_prefetch.sh"
 SPLIT_JSON_PY = "split_json.py"
 FILE_LIST = (A_FOT, A_FOT_INI, AUTO_FDO_SH, AUTO_BOLT_SH, AUTO_PREFETCH, SPLIT_JSON_PY)
 
+
 component_collection_map = {
     component.get("component_name"): {
         "download file":
@@ -56,9 +57,7 @@ lkp_collection_map = {
             URL: f"{download_config.LkpTests.get('gem dependency')}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'gem_dependencies.zip')}",
         },
-    },
-    "CompatibilityTesting": {
-        "download file": {
+        "download CompatibilityTesting": {
             URL: f"{download_config.CompatibilityTesting.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'compatibility_testing.tar.gz')}",
         }
@@ -66,18 +65,18 @@ lkp_collection_map = {
 }
 
 
-def download_dependence():
+def download_dependence(component_list):
     if not os.path.exists(DEFAULT_PATH):
         os.mkdir(DEFAULT_PATH)
     elif os.path.isfile(DEFAULT_PATH):
         print(f"[ERROR] The file {DEFAULT_PATH} exists. Please rename or remove this file.")
         return False
-    else:
-        pass
 
     ret = True
     component_collection_map.update(lkp_collection_map)
     for component_name in component_collection_map:
+        if component_name not in component_list:
+            continue
         shell_dict = component_collection_map.get(component_name)
         ret = ret and download_dependence_handler(shell_dict)
     return ret

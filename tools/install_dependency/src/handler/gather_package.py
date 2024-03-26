@@ -9,32 +9,28 @@ LOGGER = logging.getLogger("install_dependency")
 
 
 class GatherPackage(Handler):
+    def __init__(self):
+        super(GatherPackage, self).__init__()
+        self.component_list = list()
+
+    def generate_component_list(self, data):
+        component_list = []
+        for _, machine in data[constant.MACHINE].items():
+            component_list.extend(machine.get_components())
+        self.component_list = list(set(component_list))
 
     def handle(self, data) -> bool:
-        instruction_to_func_dict = {
-            "deploy_iso": GatherPackage.deploy_iso_handle,
-            "default": GatherPackage.default_handle,
-        }
-        return instruction_to_func_dict.get(data.get(constant.INSTRUCTION, "default"))()
-
-    @staticmethod
-    def deploy_iso_handle():
-        LOGGER.info("Iso file already checked.")
-        return GatherPackage.default_handle()
-
-    @staticmethod
-    def default_handle():
         LOGGER.debug("GatherPackage start!")
-        if GatherPackage.check_default_path_available():
-            LOGGER.info("Dependencies ready.")
-            return True
+        component_collection_map.update(lkp_collection_map)
+        self.generate_component_list(data)
 
-        if os.path.isfile(constant.DEPENDENCY_DIR):
-            LOGGER.error(f"The file {constant.DEPENDENCY_DIR} exists. Please rename or remove this file.")
+        try:
+            self.check_dependency()
+        except Exception as e:
             return False
 
         try:
-            ret = download_dependence()
+            ret = download_dependence(self.component_list)
         except Exception as e:
             LOGGER.error(f"Download dependencies failed. {str(e)}. Please execute download tool.")
             return False
@@ -45,7 +41,7 @@ class GatherPackage(Handler):
         return True
 
     @staticmethod
-    def check_default_path_available():
+    def check_dependency():
         if os.path.exists(constant.DEPENDENCY_FILE):
             try:
                 print(f"Now extract files from {constant.DEPENDENCY_FILE}:")
@@ -55,18 +51,7 @@ class GatherPackage(Handler):
                 LOGGER.warning(f"{constant.DEPENDENCY_FILE} may already extracted.")
             except Exception as e:
                 LOGGER.error(f"Extract {constant.DEPENDENCY_FILE} failed. {str(e)}")
-                return False
-
-        if not os.path.isdir(constant.DEPENDENCY_DIR):
-            LOGGER.warning(f"The directory {constant.DEPENDENCY_DIR} not exists.")
-            return False
-        component_collection_map.update(lkp_collection_map)
-        for component_name in component_collection_map:
-            shell_dict = component_collection_map.get(component_name)
-            for shell_cmd in shell_dict:
-                url_and_save_path = shell_dict.get(shell_cmd)
-                component = url_and_save_path.get("save_path")
-                if not os.path.isfile(component):
-                    LOGGER.warning(f"The file {component} not exists.")
-                    return False
-        return True
+                raise
+        if os.path.isfile(constant.DEPENDENCY_DIR):
+            LOGGER.error(f"The file {constant.DEPENDENCY_DIR} exists. Please rename or remove this file.")
+            raise Exception

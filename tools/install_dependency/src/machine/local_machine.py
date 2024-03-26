@@ -28,6 +28,9 @@ class LocalMachine:
         self.component_list.extend(component)
         self.component_list = list(set(self.component_list))
 
+    def get_components(self):
+        return self.component_list.copy()
+
     def install_components(self):
         if self.mirrors:
             self.install_component("OpenEulerMirrorISO")
