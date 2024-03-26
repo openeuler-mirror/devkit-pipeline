@@ -111,6 +111,7 @@ class Distributor:
         self.distribute_to_sample_task(task_id)
         if self.enable_jmeter_command:
             self.jmeter_thread.join()
+            self.send_jmeter_has_stopped(task_id)
         # 获取jfr文件，删除任务文件
         local_jfrs = list()
         self.obtain_jfrs(local_jfrs, task_id)
@@ -167,6 +168,19 @@ class Distributor:
         client = DevKitClient(self.devkit_ip, self.devkit_port, self.devkit_user, self.devkit_password)
         client.logout()
 
+    def send_jmeter_has_stopped(self, task_id):
+        # 顺序获取
+        for ip in self.ips_list:
+            factory = SSHClientFactory(ip=ip, user=self.user, port=self.port, password=self.password,
+                                       pkey_file=self.pkey_file, pkey_content=self.pkey_content,
+                                       pkey_password=self.pkey_password)
+            ssh_client = factory.create_ssh_client()
+            try:
+                logging.info("Wait for the server[%s]  to finish uploading the jfr file", ip)
+                ssh_client.exec_command(f"echo 1 > {task_id}/devkit_pipeline_agent/config/jmeter_has_stopped.ini")
+            except Exception as ex:
+                logging.exception(ex)
+
     def obtain_jfrs(self, local_jfrs, task_id):
         # 顺序获取
         for ip in self.ips_list:
@@ -191,6 +205,7 @@ class Distributor:
                 log_ip_name = ip.replace(".", "_")
                 sftp_client.get(f"{task_id}/devkit_pipeline_agent/log/devkit_pipeline_agent.log",
                                 f"{self.log_path}/devkit_pipeline_agent_{log_ip_name}.log")
+                self.print_agent_log_file(log_ip_name)
                 logging.info("download the jfr file from ip:%s", ip)
                 if not jfr_paths:
                     raise Exception(f"The jfr file {self.apps} cannot be generated")
@@ -205,6 +220,12 @@ class Distributor:
             finally:
                 self.__delete_agent(ssh_client, task_id)
                 ssh_client.close()
+
+    def print_agent_log_file(self, ip):
+        with open(file=f"{self.log_path}/devkit_pipeline_agent_{ip}.log", mode="r", encoding="utf-8") as file:
+            all_content = file.read()
+            logging.info("============agent [%s] log===start=============\n%s", ip, all_content)
+            logging.info("============agent [%s] log===end=============", ip)
 
     def distribute_to_sample_task(self, task_id):
         # 分发采集任务
@@ -228,9 +249,13 @@ class Distributor:
                 logging.info("upack tar.gz %s", stderr.readlines())
                 self.__close_pipeline(stdin, stdout, stderr)
                 logging.info("ip:%s start devkit pipeline agent", ip)
-                stdin, stdout, stderr = ssh_client.exec_command(
-                    f"sh {task_id}/devkit_pipeline_agent/bin/devkit_agent_start.sh "
-                    f"-a {self.apps} -d {self.duration} -t {task_id}")
+                if self.enable_jmeter_command:
+                    start_command = (f"bash {task_id}/devkit_pipeline_agent/bin/devkit_agent_start.sh -a {self.apps} "
+                                     f"-d {self.duration} -t {task_id} -w")
+                else:
+                    start_command = (f"bash {task_id}/devkit_pipeline_agent/bin/devkit_agent_start.sh -a {self.apps} "
+                                     f"-d {self.duration} -t {task_id}")
+                stdin, stdout, stderr = ssh_client.exec_command(start_command)
                 logging.info("start the sampling process on server %s:%s", ip, stderr.readlines())
                 self.__close_pipeline(stdin, stdout, stderr)
                 logging.info("ip:%s The devkit pipeline agent was successfully launched", ip)
@@ -250,6 +275,7 @@ class Distributor:
         while (datetime.datetime.now() - before).seconds < 6000 + self.duration:
             stdin, stdout, stderr = ssh_client.exec_command(f"cat {transport_file}")
             file_content = stdout.read().decode("utf-8").strip()
+            self.__close_pipeline(stdin, stdout, stderr)
             if file_content == str(ErrorCodeEnum.FINISHED):
                 return True
             elif file_content == str(ErrorCodeEnum.NOT_FOUND_JCMD):

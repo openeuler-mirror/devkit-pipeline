@@ -10,9 +10,6 @@ tag="v0.2"
 mkdir -p "${current_dir}"/build
 
 bash "${current_dir}"/component/build_component.sh
-if [[ "$?" -ne "0" ]]; then
-    exit 1
-fi
 
 bash "${current_dir}"/tools/download_dependency/build_download.sh
 
