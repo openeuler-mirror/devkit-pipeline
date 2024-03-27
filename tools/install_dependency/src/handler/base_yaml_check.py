@@ -2,7 +2,8 @@ import re
 import logging
 import constant
 from handler.handler_and_node import Handler
-from machine.klass_dict import KLASS_DICT
+from download import ROLE_LIST
+
 
 LOGGER = logging.getLogger("install_dependency")
 MIN_SET = (constant.USER, constant.PKEY, constant.INSTRUCTION)
@@ -48,11 +49,12 @@ class BaseCheck(Handler):
 
     @staticmethod
     def check_machine_ip(data):
-        for machine_type in (set(KLASS_DICT.keys()) & set(data.keys())):
-            if not data.get(machine_type) or not isinstance(data.get(machine_type), list):
-                LOGGER.error(f"Yaml file content not correct. Yaml file {machine_type} value not sequence.")
+        for role in (ROLE_LIST & data.keys()):
+            ip_list = data.get(role, [])
+            if not isinstance(ip_list, list):
+                LOGGER.error(f"Yaml file content not correct. Yaml file {role} value not sequence.")
                 return False
-            for ip in data.get(machine_type):
+            for ip in ip_list:
                 if not BaseCheck.validate_ip(ip):
                     LOGGER.error(f"Yaml file content not correct. Given ip: {ip} not correct.")
                     return False
