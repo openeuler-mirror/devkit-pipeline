@@ -8,7 +8,8 @@ from constant import ROLE_LIST
 LOGGER = logging.getLogger("install_dependency")
 MIN_SET = (constant.USER, constant.PKEY, constant.INSTRUCTION)
 MAX_SET = (constant.USER, constant.PKEY, constant.PASSWORD,
-           constant.SCANNER, constant.BUILDER, constant.EXECUTOR, constant.DEVKIT, constant.INSTRUCTION)
+           constant.SCANNER, constant.JAVA_BUILDER, constant.C_BUIDLER, constant.EXECUTOR,
+           constant.DEVKIT, constant.INSTRUCTION)
 
 
 class BaseCheck(Handler):
