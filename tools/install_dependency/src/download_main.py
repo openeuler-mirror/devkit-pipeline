@@ -5,13 +5,20 @@ import sys
 import shutil
 import tarfile
 import wget
+
 from download import download_config
-from download.download_utils import download_dependence_file, download_dependence
+from download.download_utils import download_dependence_file
 from download.download_command_line import process_command_line, CommandLine
+from handler.pipeline import PipeLine
+from handler.base_yaml_check import BaseCheck
+from handler.gather_package import GatherPackage
+from handler.compress_dep import CompressDep
 
 from utils import read_yaml_file
-from constant import URL, SHA256, SAVE_PATH, DEFAULT_PATH, FILE, DEPENDENCY_FILE, ROLE_LIST, ROLE_COMPONENT
+from constant import URL, SHA256, SAVE_PATH, DEFAULT_PATH, FILE, INSTRUCTION
 
+
+PIPELINE = [BaseCheck(), GatherPackage(), CompressDep()]
 
 # A-FOT files
 BASE_URL = "https://gitee.com/openeuler/A-FOT/raw/master/{}"
@@ -104,15 +111,6 @@ def download_iso():
     return download_dependence_file("download file", shell_dict)
 
 
-def generate_component_list(yaml_dict):
-    component_list = list()
-    for role in ROLE_LIST:
-        if role not in yaml_dict:
-            continue
-        component_list.extend(ROLE_COMPONENT[role])
-    return list(set(component_list))
-
-
 if __name__ == '__main__':
     try:
         process_command_line(program="download_dependency", description="devkit-pipeline download_dependency tool",
@@ -124,17 +122,11 @@ if __name__ == '__main__':
                 print("Download iso failed.")
             sys.exit(0)
         config_dict = read_yaml_file(CommandLine.yaml_path)
-        ret = download_dependence(generate_component_list(config_dict))
-        if ret:
-            print(f"Now compress dependencies to {DEPENDENCY_FILE}...")
-            with tarfile.open(DEPENDENCY_FILE, "w:gz") as tar:
-                tar.add(DEFAULT_PATH, arcname=os.path.basename(DEFAULT_PATH))
+        config_dict[INSTRUCTION] = "default"
+        pipe = PipeLine(config_dict)
+        pipe.add_tail(*PIPELINE)
+        pipe.start()
 
-            print(f"-- Compress dependencies to {DEPENDENCY_FILE} success. --")
-            shutil.rmtree(DEFAULT_PATH)
-            print("-- Delete dependencies directory. --")
-        else:
-            print("-- Download dependencies failed. Please try execute download tool again. --")
     except (KeyboardInterrupt, Exception) as e:
         print(f"\nDownload dependencies failed. {str(e)} Please try execute download tool again.")
         sys.exit(1)

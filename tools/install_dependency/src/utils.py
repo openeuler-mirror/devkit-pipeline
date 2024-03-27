@@ -1,6 +1,7 @@
 import os
 import sys
 import yaml
+from constant import ROLE_LIST, ROLE_COMPONENT
 
 MKDIR_TMP_DEVKITDEPENDENCIES_CMD = "mkdir -p /tmp/devkitdependencies"
 YUM_INSTALL_LKP_DEPENDENCIES_CMD = "yum install -y git wget rubygems"
@@ -51,3 +52,11 @@ def read_yaml_file(yaml_path):
         print(f"[ERROR] Incorrect yaml file. Error: {str(e)}")
         sys.exit(1)
     return yaml_dict
+
+def generate_component_list(yaml_dict):
+    component_list = list()
+    for role in ROLE_LIST:
+        if role not in yaml_dict:
+            continue
+        component_list.extend(ROLE_COMPONENT[role])
+    return list(set(component_list))
