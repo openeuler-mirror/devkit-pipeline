@@ -2,7 +2,7 @@ import re
 import logging
 import constant
 from handler.handler_and_node import Handler
-from download import ROLE_LIST
+from constant import ROLE_LIST
 
 
 LOGGER = logging.getLogger("install_dependency")

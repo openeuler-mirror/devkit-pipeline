@@ -1,5 +1,5 @@
 import argparse
-import download_config
+from download import download_config
 
 DEFAULT_YAML_PATH = "./machine.yaml"
 

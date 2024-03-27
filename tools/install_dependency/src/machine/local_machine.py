@@ -3,10 +3,10 @@ import logging
 import subprocess
 
 import constant
-from command_line import CommandLine
+from deploy.command_line import CommandLine
 from exception.connect_exception import NotMatchedMachineTypeException
-from download import component_collection_map
-from lkp_collect_map import lkp_collection_map
+from download.download_utils import component_collection_map
+from deploy.lkp_collect_map import lkp_collection_map
 from utils import (base_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
                    CHECK_MIRROR_INSTALL_STATUS, PROMPT_MAP)
 

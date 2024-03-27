@@ -14,6 +14,6 @@ mkdir -p "${build_dir}"
 
 cd "${build_dir}"
 
-pyinstaller -F "${current_dir}"/src/install.py -p "${current_dir}/src:${project_dir}/tools/download_dependency/src" --add-data "../../build/component:component"  --name "deploy_tool"
+pyinstaller -F "${current_dir}"/src/deploy_main.py -p "${current_dir}/src" --add-data "../../build/component:component"  --name "deploy_tool"
 
 cp "${current_dir}"/config/machine.yaml "${build_dir}"/dist/machine.yaml

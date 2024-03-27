@@ -2,7 +2,7 @@ import logging
 import os
 import subprocess
 import constant
-from download import download_dependence, component_collection_map, lkp_collection_map
+from download.download_utils import download_dependence, component_collection_map, lkp_collection_map
 from handler.handler_and_node import Handler
 
 LOGGER = logging.getLogger("install_dependency")

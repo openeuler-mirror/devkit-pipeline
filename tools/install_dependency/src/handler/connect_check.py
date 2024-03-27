@@ -6,7 +6,7 @@ from handler.handler_and_node import Handler
 from machine.local_machine import LocalMachine
 from machine.machine import Machine
 from exception.connect_exception import ConnectException
-from download import ROLE_COMPONENT, ROLE_LIST
+from constant import ROLE_COMPONENT, ROLE_LIST
 
 LOGGER = logging.getLogger("install_dependency")
 
