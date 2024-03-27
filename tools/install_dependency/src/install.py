@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 import logging
-import yaml
+
 
 import constant
 from log import config_logging
@@ -13,26 +13,11 @@ from handler.base_yaml_check import BaseCheck
 from handler.connect_check import ConnectCheck
 from handler.gather_package import GatherPackage
 from handler.install_package import InstallPackage
+from download import read_yaml_file
 
 LOGGER = logging.getLogger("install_dependency")
 PIPELINE = [BaseCheck(), ConnectCheck(), GatherPackage(), InstallPackage()]
 ISO_VERIFY_FLAG_STRING = "ISO 9660 CD-ROM filesystem data"
-
-
-def read_yaml_file(yaml_path):
-    try:
-        with open(yaml_path, "r") as file:
-            config_dict = yaml.safe_load(file)
-    except (FileNotFoundError, IsADirectoryError) as e:
-        LOGGER.error(f"Yaml file is not in specified path. Error: {str(e)}")
-        sys.exit(1)
-    except (yaml.parser.ParserError,
-            yaml.scanner.ScannerError,
-            yaml.composer.ComposerError,
-            yaml.constructor.ConstructorError) as e:
-        LOGGER.error(f"Incorrect yaml file. Error: {str(e)}")
-        sys.exit(1)
-    return config_dict
 
 
 def check_iso_available(iso_path):

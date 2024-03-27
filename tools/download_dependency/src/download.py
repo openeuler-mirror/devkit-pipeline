@@ -5,6 +5,7 @@ import sys
 import shutil
 import tarfile
 import wget
+import yaml
 import download_config
 from download_utils import download_dependence_handler, download_dependence_file
 from download_command_line import process_command_line, CommandLine
@@ -63,6 +64,33 @@ lkp_collection_map = {
         }
     },
 }
+SCANNER = "scanner"
+BUILDER = "builder"
+EXECUTOR = "executor"
+
+ROLE_COMPONENT = {
+    SCANNER: ["BiShengJDK17"],
+    BUILDER: ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17", "BiShengJDK8"],
+    EXECUTOR: ["BiShengJDK17", "LkpTests"]
+}
+
+ROLE_LIST = [SCANNER, BUILDER, EXECUTOR]
+
+
+def read_yaml_file(yaml_path):
+    try:
+        with open(yaml_path, "r") as file:
+            yaml_dict = yaml.safe_load(file)
+    except (FileNotFoundError, IsADirectoryError) as e:
+        print(f"[ERROR] Yaml file is not in specified path. Error: {str(e)}")
+        sys.exit(1)
+    except (yaml.parser.ParserError,
+            yaml.scanner.ScannerError,
+            yaml.composer.ComposerError,
+            yaml.constructor.ConstructorError) as e:
+        print(f"[ERROR] Incorrect yaml file. Error: {str(e)}")
+        sys.exit(1)
+    return yaml_dict
 
 
 def download_dependence(component_list):
@@ -162,6 +190,15 @@ def download_iso():
     return download_dependence_file("download file", shell_dict)
 
 
+def generate_component_list(yaml_dict):
+    component_list = list()
+    for role in ROLE_LIST:
+        if role not in yaml_dict:
+            continue
+        component_list.extend(ROLE_COMPONENT[role])
+    return list(set(component_list))
+
+
 if __name__ == '__main__':
     try:
         process_command_line(program="download_dependency", description="devkit-pipeline download_dependency tool",
@@ -172,8 +209,8 @@ if __name__ == '__main__':
             else:
                 print("Download iso failed.")
             sys.exit(0)
-
-        ret = download_dependence()
+        config_dict = read_yaml_file(CommandLine.yaml_path)
+        ret = download_dependence(generate_component_list(config_dict))
         if ret:
             print(f"Now compress dependencies to {DEPENDENCY_FILE}...")
             with tarfile.open(DEPENDENCY_FILE, "w:gz") as tar:

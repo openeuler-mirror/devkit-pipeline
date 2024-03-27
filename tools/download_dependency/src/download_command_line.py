@@ -1,12 +1,17 @@
 import argparse
 import download_config
 
+DEFAULT_YAML_PATH = "./machine.yaml"
+
 
 class CommandLine:
     download_iso = None
+    yaml_path = DEFAULT_YAML_PATH
 
     @classmethod
     def add_options(cls, parser):
+        parser.add_argument("-f", "--config", action="store", dest="yaml_path", default=DEFAULT_YAML_PATH,
+                            help="Assign yaml config file path. Default path is 'machine.yaml' in current directory.")
         parser.add_argument("-iso", action="store", dest="download_iso", default="",
                             choices=[
                                 component.get("component_name") for component in (

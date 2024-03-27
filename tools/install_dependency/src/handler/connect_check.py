@@ -6,14 +6,9 @@ from handler.handler_and_node import Handler
 from machine.local_machine import LocalMachine
 from machine.klass_dict import KLASS_DICT
 from exception.connect_exception import ConnectException
+from download import ROLE_COMPONENT
 
 LOGGER = logging.getLogger("install_dependency")
-
-ROLE_COMPONENT = {
-    "scanner": ["BiShengJDK17"],
-    "builder": ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17", "BiShengJDK8"],
-    "executor": ["BiShengJDK17", "LkpTests"]
-}
 
 
 class ConnectCheck(Handler):
