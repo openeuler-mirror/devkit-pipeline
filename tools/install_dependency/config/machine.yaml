@@ -4,8 +4,10 @@ scanner:
   - 192.168.0.1
   - 192.168.0.2
   - 192.168.0.3
-builder:
+java_builder:
   - 192.168.0.1
+c_cpp_builder:
+  - 192.168.0.2
 executor:
   - 192.168.0.1
 devkit:

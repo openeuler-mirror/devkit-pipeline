@@ -2,7 +2,8 @@ USER = "user"
 PKEY = "pkey"
 PASSWORD = "password"
 SCANNER = "scanner"
-BUILDER = "builder"
+JAVA_BUILDER = "java_builder"
+C_BUIDLER = "c_cpp_buidler"
 EXECUTOR = "executor"
 DEVKIT = "devkit"
 MACHINE = "machine"
@@ -13,11 +14,12 @@ INSTRUCTION = "instruction"
 
 ROLE_COMPONENT = {
     SCANNER: ["BiShengJDK17"],
-    BUILDER: ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17", "BiShengJDK8"],
+    C_BUIDLER: ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17"],
+    JAVA_BUILDER: ["BiShengJDK17", "BiShengJDK8"],
     EXECUTOR: ["BiShengJDK17", "LkpTests"]
 }
 
-ROLE_LIST = [SCANNER, BUILDER, EXECUTOR]
+ROLE_LIST = [SCANNER, C_BUIDLER, JAVA_BUILDER, EXECUTOR]
 
 FILE = "file"
 SHA256 = "sha256"
