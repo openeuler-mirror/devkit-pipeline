@@ -1,8 +1,15 @@
 import os
+import platform
+import subprocess
 import urllib.error
+import warnings
+
+import requests
 import wget
 from download import download_config
 from constant import URL, FILE, SAVE_PATH, SHA256, DEFAULT_PATH
+
+warnings.filterwarnings("ignore", message='Unverified HTTPS request')
 
 
 component_collection_map = {
@@ -63,33 +70,57 @@ def download_dependence(component_list):
 def download_dependence_handler(shell_dict):
     ret = True
     for shell_cmd in shell_dict:
-        ret = download_dependence_file(shell_cmd, shell_dict)
+        try:
+            ret = ret and download_dependence_file(shell_cmd, shell_dict)
+        except Exception as e:
+            ret = False
     return ret
 
 
 def download_dependence_file(shell_cmd, shell_dict):
     ret = True
     url_and_save_path = shell_dict.get(shell_cmd)
-    if os.path.exists(url_and_save_path.get('save_path')) and os.path.isfile(url_and_save_path.get('save_path')):
-        return ret
+    url_ = url_and_save_path.get("url")
+    save_path = url_and_save_path.get("save_path")
     try:
-        print(f"Downloading from {url_and_save_path.get('url')}")
-        download_result = wget.download(
-            url_and_save_path.get('url'), url_and_save_path.get('save_path')
-        )
-        print()
-    except (TimeoutError, urllib.error.URLError, OSError) as e:
+        print(f"Downloading from {url_}")
+        download(url_, save_path)
+    except (requests.exceptions.Timeout,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.HTTPError,
+            requests.exceptions.TooManyRedirects,
+            requests.exceptions.RequestException,
+            subprocess.CalledProcessError,
+            ValueError,
+            TimeoutError,
+            urllib.error.URLError,
+            OSError, IOError) as e:
         print(f"[ERROR] download error occurs: {str(e)} "
               f"\nPlease visit following url and download dependencies to default directory."
-              f"\n\t{url_and_save_path.get('url')}"
+              f"\n\t{url_}"
               )
         raise OSError(f"download error occurs: {str(e)}")
 
-    if not os.path.isfile(download_result):
+    if not os.path.isfile(save_path):
         print(f"[ERROR] Download dependencies failed. "
               f"Please visit following url and download dependencies to default directory."
-              f"\n\t{url_and_save_path.get('url')}"
+              f"\n\t{url_}"
               )
         ret = False
     return ret
 
+
+def download(url, save_path):
+    if platform.system() == "Windows":
+        if os.path.exists(save_path) and os.path.isfile(save_path):
+            return
+        wget.download(url, save_path)
+        print()
+    else:
+        req_ = requests.get(url, stream=True, verify=False)
+        total_size = int(req_.headers.get("Content-Length"))
+        if os.path.exists(save_path) and os.path.getsize(save_path) == total_size:
+            return
+        subprocess.run(f"wget -c {url} -O {save_path} --no-check-certificate".split(' '),
+                       capture_output=False, shell=False, stderr=subprocess.STDOUT)
+        print()
