@@ -1,5 +1,7 @@
 import os
 import sys
+import yaml
+from constant import ROLE_LIST, ROLE_COMPONENT
 
 MKDIR_TMP_DEVKITDEPENDENCIES_CMD = "mkdir -p /tmp/devkitdependencies"
 YUM_INSTALL_LKP_DEPENDENCIES_CMD = "yum install -y git wget rubygems"
@@ -34,3 +36,27 @@ def available_role(role_list, data):
         if role in data:
             list_after_verification.append(role)
     return list_after_verification
+
+
+def read_yaml_file(yaml_path):
+    try:
+        with open(yaml_path, "r") as file:
+            yaml_dict = yaml.safe_load(file)
+    except (FileNotFoundError, IsADirectoryError) as e:
+        print(f"[ERROR] Yaml file is not in specified path. Error: {str(e)}")
+        sys.exit(1)
+    except (yaml.parser.ParserError,
+            yaml.scanner.ScannerError,
+            yaml.composer.ComposerError,
+            yaml.constructor.ConstructorError) as e:
+        print(f"[ERROR] Incorrect yaml file. Error: {str(e)}")
+        sys.exit(1)
+    return yaml_dict
+
+def generate_component_list(yaml_dict):
+    component_list = list()
+    for role in ROLE_LIST:
+        if role not in yaml_dict:
+            continue
+        component_list.extend(ROLE_COMPONENT[role])
+    return list(set(component_list))

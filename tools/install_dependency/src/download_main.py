@@ -1,0 +1,132 @@
+import os
+import platform
+import subprocess
+import sys
+import shutil
+import tarfile
+import wget
+
+from download import download_config
+from download.download_utils import download_dependence_file
+from download.download_command_line import process_command_line, CommandLine
+from handler.pipeline import PipeLine
+from handler.base_yaml_check import BaseCheck
+from handler.gather_package import GatherPackage
+from handler.compress_dep import CompressDep
+
+from utils import read_yaml_file
+from constant import URL, SHA256, SAVE_PATH, DEFAULT_PATH, FILE, INSTRUCTION
+
+
+PIPELINE = [BaseCheck(), GatherPackage(), CompressDep()]
+
+# A-FOT files
+BASE_URL = "https://gitee.com/openeuler/A-FOT/raw/master/{}"
+A_FOT = "a-fot"
+A_FOT_INI = "a-fot.ini"
+AUTO_FDO_SH = "auto_fdo.sh"
+AUTO_BOLT_SH = "auto_bolt.sh"
+AUTO_PREFETCH = "auto_prefetch.sh"
+SPLIT_JSON_PY = "split_json.py"
+FILE_LIST = (A_FOT, A_FOT_INI, AUTO_FDO_SH, AUTO_BOLT_SH, AUTO_PREFETCH, SPLIT_JSON_PY)
+
+
+def download_a_fot():
+    saved_path = os.path.join(DEFAULT_PATH, A_FOT)
+    try:
+        os.mkdir(saved_path)
+    except FileExistsError as e:
+        pass
+
+    try:
+        for f in FILE_LIST:
+            wget.download(BASE_URL.format(f), os.path.join(saved_path, f))
+
+        with tarfile.open(os.path.join(DEFAULT_PATH, "a-fot.tar.gz"), "w:gz") as t:
+            t.add(saved_path, arcname="a-fot")
+        return True
+    except Exception as e:
+        print(e)
+        return False
+    finally:
+        shutil.rmtree(saved_path)
+
+
+iso_collection_map = {
+    component.get("component_name"): {
+        "download file":
+            {
+                URL: f"{component.get(FILE)}",
+                SAVE_PATH: f"{os.path.join('/', component.get(FILE).split('/')[-1])}"
+            },
+        "download sha256":
+            {
+                URL: f"{component.get(SHA256)}",
+                SAVE_PATH: f"{os.path.join('/', component.get(SHA256).split('/')[-1])}"
+            }
+    } for component in (
+        download_config.OpenEuler_2003_LTS,
+        download_config.OpenEuler_2003_LTS_SP1,
+        download_config.OpenEuler_2003_LTS_SP2,
+        download_config.OpenEuler_2003_LTS_SP3,
+        download_config.OpenEuler_2003_LTS_SP4,
+        download_config.OpenEuler_2009,
+        download_config.OpenEuler_2103,
+        download_config.OpenEuler_2109,
+        download_config.OpenEuler_2203_LTS,
+        download_config.OpenEuler_2203_LTS_SP1,
+        download_config.OpenEuler_2203_LTS_SP2,
+        download_config.OpenEuler_2203_LTS_SP3,
+        download_config.OpenEuler_2209,
+        download_config.OpenEuler_2303,
+        download_config.OpenEuler_2309,
+    )
+}
+
+
+def download_iso():
+    if platform.system() == "Windows" and CommandLine.download_iso == "auto":
+        print("Please use '-iso' option in Linux machine if iso version is not specified. "
+              "OpenEuler Operating System is recommended.")
+        sys.exit(1)
+    if CommandLine.download_iso == "auto":
+        result = subprocess.run("grep PRETTY_NAME /etc/os-release".split(' '),
+                                capture_output=True, shell=False)
+        output = result.stdout.decode().strip()
+        print(f"Get os-release output: {output}")
+
+        CommandLine.download_iso = (output.split("=")[1]
+                                    .replace("(", "")
+                                    .replace(")", "")
+                                    .replace(".", "")
+                                    .replace("\"", "")
+                                    .replace(" ", "_")
+                                    .replace("-", "_"))
+        print(f"Auto detect operating system version: {CommandLine.download_iso}")
+
+    shell_dict = iso_collection_map.get(CommandLine.download_iso, "")
+    if not shell_dict:
+        print("Please check /etc/os-release is changed or not.")
+        return False
+    return download_dependence_file("download file", shell_dict)
+
+
+if __name__ == '__main__':
+    try:
+        process_command_line(program="download_dependency", description="devkit-pipeline download_dependency tool",
+                             class_list=[CommandLine])
+        if CommandLine.download_iso:
+            if download_iso():
+                print("-- Download iso success. --")
+            else:
+                print("Download iso failed.")
+            sys.exit(0)
+        config_dict = read_yaml_file(CommandLine.yaml_path)
+        config_dict[INSTRUCTION] = "default"
+        pipe = PipeLine(config_dict)
+        pipe.add_tail(*PIPELINE)
+        pipe.start()
+
+    except (KeyboardInterrupt, Exception) as e:
+        print(f"\nDownload dependencies failed. {str(e)} Please try execute download tool again.")
+        sys.exit(1)

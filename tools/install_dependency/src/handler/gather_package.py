@@ -2,8 +2,9 @@ import logging
 import os
 import subprocess
 import constant
-from download import download_dependence, component_collection_map, lkp_collection_map
+from download.download_utils import download_dependence, component_collection_map, lkp_collection_map
 from handler.handler_and_node import Handler
+from utils import generate_component_list
 
 LOGGER = logging.getLogger("install_dependency")
 
@@ -13,16 +14,10 @@ class GatherPackage(Handler):
         super(GatherPackage, self).__init__()
         self.component_list = list()
 
-    def generate_component_list(self, data):
-        component_list = []
-        for _, machine in data[constant.MACHINE].items():
-            component_list.extend(machine.get_components())
-        self.component_list = list(set(component_list))
-
     def handle(self, data) -> bool:
         LOGGER.debug("GatherPackage start!")
         component_collection_map.update(lkp_collection_map)
-        self.generate_component_list(data)
+        self.component_list = generate_component_list(data)
 
         try:
             self.check_dependency()

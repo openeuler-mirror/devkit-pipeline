@@ -6,14 +6,14 @@ import logging
 
 import constant
 from log import config_logging
-from command_line import process_command_line, CommandLine
+from deploy.command_line import process_command_line, CommandLine
 
 from handler.pipeline import PipeLine
 from handler.base_yaml_check import BaseCheck
 from handler.connect_check import ConnectCheck
 from handler.gather_package import GatherPackage
 from handler.install_package import InstallPackage
-from download import read_yaml_file
+from utils import read_yaml_file
 
 LOGGER = logging.getLogger("install_dependency")
 PIPELINE = [BaseCheck(), ConnectCheck(), GatherPackage(), InstallPackage()]
