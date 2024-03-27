@@ -6,22 +6,16 @@ from handler.handler_and_node import Handler
 from machine.local_machine import LocalMachine
 from machine.klass_dict import KLASS_DICT
 from exception.connect_exception import ConnectException
+from download import ROLE_COMPONENT
 
 LOGGER = logging.getLogger("install_dependency")
 
-ROLE_COMPONENT = {
-    "scanner": ["BiShengJDK17"],
-    "builder": ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17", "BiShengJDK8"],
-    "executor": ["BiShengJDK17", "LkpTests"]
-}
-
 
 class ConnectCheck(Handler):
-
     def handle(self, data) -> bool:
         LOGGER.debug("ConnectCheck start!")
         local_ip = ConnectCheck.get_local_ip()
-
+        data[constant.MACHINE] = dict()
         ret = True
         for role in (set(KLASS_DICT.keys()) & set(data.keys())):
             ret = ret and ConnectCheck.machine_role_check(data, role, local_ip)
@@ -31,7 +25,6 @@ class ConnectCheck(Handler):
     def machine_role_check(data, role, local_ip):
         builder_list = data.get(role)
         klass = KLASS_DICT.get(role)
-        data[constant.MACHINE] = dict()
         for ip in builder_list:
             if ip == local_ip or ip == "127.0.0.1":
                 ip = "127.0.0.1"

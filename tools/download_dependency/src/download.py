@@ -5,6 +5,7 @@ import sys
 import shutil
 import tarfile
 import wget
+import yaml
 import download_config
 from download_utils import download_dependence_handler, download_dependence_file
 from download_command_line import process_command_line, CommandLine
@@ -25,6 +26,7 @@ AUTO_BOLT_SH = "auto_bolt.sh"
 AUTO_PREFETCH = "auto_prefetch.sh"
 SPLIT_JSON_PY = "split_json.py"
 FILE_LIST = (A_FOT, A_FOT_INI, AUTO_FDO_SH, AUTO_BOLT_SH, AUTO_PREFETCH, SPLIT_JSON_PY)
+
 
 component_collection_map = {
     component.get("component_name"): {
@@ -56,28 +58,53 @@ lkp_collection_map = {
             URL: f"{download_config.LkpTests.get('gem dependency')}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'gem_dependencies.zip')}",
         },
-    },
-    "CompatibilityTesting": {
-        "download file": {
+        "download CompatibilityTesting": {
             URL: f"{download_config.CompatibilityTesting.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'compatibility_testing.tar.gz')}",
         }
     },
 }
+SCANNER = "scanner"
+BUILDER = "builder"
+EXECUTOR = "executor"
+
+ROLE_COMPONENT = {
+    SCANNER: ["BiShengJDK17"],
+    BUILDER: ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17", "BiShengJDK8"],
+    EXECUTOR: ["BiShengJDK17", "LkpTests"]
+}
+
+ROLE_LIST = [SCANNER, BUILDER, EXECUTOR]
 
 
-def download_dependence():
+def read_yaml_file(yaml_path):
+    try:
+        with open(yaml_path, "r") as file:
+            yaml_dict = yaml.safe_load(file)
+    except (FileNotFoundError, IsADirectoryError) as e:
+        print(f"[ERROR] Yaml file is not in specified path. Error: {str(e)}")
+        sys.exit(1)
+    except (yaml.parser.ParserError,
+            yaml.scanner.ScannerError,
+            yaml.composer.ComposerError,
+            yaml.constructor.ConstructorError) as e:
+        print(f"[ERROR] Incorrect yaml file. Error: {str(e)}")
+        sys.exit(1)
+    return yaml_dict
+
+
+def download_dependence(component_list):
     if not os.path.exists(DEFAULT_PATH):
         os.mkdir(DEFAULT_PATH)
     elif os.path.isfile(DEFAULT_PATH):
         print(f"[ERROR] The file {DEFAULT_PATH} exists. Please rename or remove this file.")
         return False
-    else:
-        pass
 
     ret = True
     component_collection_map.update(lkp_collection_map)
     for component_name in component_collection_map:
+        if component_name not in component_list:
+            continue
         shell_dict = component_collection_map.get(component_name)
         ret = ret and download_dependence_handler(shell_dict)
     return ret
@@ -163,6 +190,15 @@ def download_iso():
     return download_dependence_file("download file", shell_dict)
 
 
+def generate_component_list(yaml_dict):
+    component_list = list()
+    for role in ROLE_LIST:
+        if role not in yaml_dict:
+            continue
+        component_list.extend(ROLE_COMPONENT[role])
+    return list(set(component_list))
+
+
 if __name__ == '__main__':
     try:
         process_command_line(program="download_dependency", description="devkit-pipeline download_dependency tool",
@@ -173,8 +209,8 @@ if __name__ == '__main__':
             else:
                 print("Download iso failed.")
             sys.exit(0)
-
-        ret = download_dependence()
+        config_dict = read_yaml_file(CommandLine.yaml_path)
+        ret = download_dependence(generate_component_list(config_dict))
         if ret:
             print(f"Now compress dependencies to {DEPENDENCY_FILE}...")
             with tarfile.open(DEPENDENCY_FILE, "w:gz") as tar:
