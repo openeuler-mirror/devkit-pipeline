@@ -74,6 +74,8 @@ class JmeterCommand:
 
 
 class Distributor:
+    SEVEN_DAYS = 60 * 60 * 24 * 7
+
     def __init__(self, args):
         self.ips_list = args.ips_list.split(",")
         self.port = args.port
@@ -99,6 +101,8 @@ class Distributor:
         self.enable_jmeter_command = True if args.jmeter_command else False
 
     def distribute(self):
+        # 清空本地jfr文件
+        file_utils.clear_dir(self.data_path)
         # jmeter 命令校验
         self.jmeter_command.check_and_init_jmeter_cmd()
         # 校验联通性
@@ -115,6 +119,9 @@ class Distributor:
         # 获取jfr文件，删除任务文件
         local_jfrs = list()
         self.obtain_jfrs(local_jfrs, task_id)
+        if not local_jfrs:
+            raise Exception(
+                f"The specified process could not be found by the -a param based on the parameter -a {self.apps}")
         # 发送至 Devkit
         client = DevKitClient(self.devkit_ip, self.devkit_port, self.devkit_user, self.devkit_password)
         jfr_names = list()
@@ -122,8 +129,6 @@ class Distributor:
             jfr_names.append(os.path.basename(jfr))
             client.upload_report_by_force(jfr)
         client.logout()
-        # 清空本地jfr文件
-        file_utils.clear_dir(self.data_path)
         # 等待jmeter完成
         if self.enable_jmeter_command:
             report = Report(report_path=self.data_path, template_path=self.template_path,
@@ -142,9 +147,8 @@ class Distributor:
         self.jmeter_thread = threading.Thread(target=self.__jmeter_start, args=(self.jmeter_command.origin_command,))
         self.jmeter_thread.start()
 
-    @staticmethod
-    def __jmeter_start(command):
-        outcome = shell_tools.exec_shell(command, is_shell=True, timeout=None)
+    def __jmeter_start(self, command):
+        outcome = shell_tools.exec_shell(command, is_shell=True, timeout=self.SEVEN_DAYS)
         logging.info("return_code: %s", outcome.return_code)
         logging.info("error: %s", outcome.err)
         logging.info("out: %s", outcome.out)

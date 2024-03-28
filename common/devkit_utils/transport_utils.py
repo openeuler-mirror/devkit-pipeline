@@ -4,6 +4,9 @@ import pathlib
 from io import StringIO
 
 import paramiko
+from cryptography.hazmat.primitives import serialization as crypto_serialization
+from cryptography.hazmat.primitives.asymmetric import ed25519, dsa, rsa, ec
+from paramiko import PKey
 
 
 class TransportException(Exception):
@@ -63,11 +66,11 @@ class SSHClientFactory:
 
     def __choose_pkey(self, pkey_path=None):
         if pkey_path:
-            return paramiko.RSAKey.from_private_key_file(pkey_path)
+            return self.__from_private_key_file(pkey_path)
         if self.pkey_file:
-            return paramiko.RSAKey.from_private_key_file(self.pkey_file, password=self.pkey_password)
+            return self.__from_private_key_file(self.pkey_file, password=self.pkey_password)
         if self.pkey_content:
-            return paramiko.RSAKey.from_private_key(StringIO(self.pkey_content), password=self.pkey_password)
+            return self.__from_private_key_content(self.pkey_content, password=self.pkey_password)
         raise TransportException()
 
     def __pkey(self, pkey_path=None):
@@ -85,6 +88,45 @@ class SSHClientFactory:
             raise TransportException()
         else:
             return pkey
+
+    def __from_private_key_file(self, pkey_file: str, password=None) -> PKey:
+        with open(pkey_file, mode="r", encoding="utf-8") as file:
+            key = self.__get_key_class(file.read())
+        if isinstance(key, rsa.RSAPrivateKey):
+            private_key = paramiko.RSAKey.from_private_key_file(pkey_file, password)
+        elif isinstance(key, ed25519.Ed25519PrivateKey):
+            private_key = paramiko.Ed25519Key.from_private_key_file(pkey_file, password)
+        elif isinstance(key, ec.EllipticCurvePrivateKey):
+            private_key = paramiko.ECDSAKey.from_private_key_file(pkey_file, password)
+        elif isinstance(key, dsa.DSAPrivateKey):
+            private_key = paramiko.DSSKey.from_private_key_file(pkey_file, password)
+        else:
+            raise TransportException()
+        return private_key
+
+    def __from_private_key_content(self, pkey_content: str, password=None) -> PKey:
+        key = self.__get_key_class(pkey_content)
+        if isinstance(key, rsa.RSAPrivateKey):
+            private_key = paramiko.RSAKey.from_private_key(StringIO(pkey_content), password)
+        elif isinstance(key, ed25519.Ed25519PrivateKey):
+            private_key = paramiko.Ed25519Key.from_private_key(StringIO(pkey_content), password)
+        elif isinstance(key, ec.EllipticCurvePrivateKey):
+            private_key = paramiko.ECDSAKey.from_private_key(StringIO(pkey_content), password)
+        elif isinstance(key, dsa.DSAPrivateKey):
+            private_key = paramiko.DSSKey.from_private_key(StringIO(pkey_content), password)
+        else:
+            raise TransportException()
+        return private_key
+
+    def __get_key_class(self, pkey_content: str):
+        file_bytes = bytes(pkey_content, "utf-8")
+        pkey_pass = None
+        if self.pkey_password:
+            pkey_pass = bytes(self.pkey_password, "utf-8")
+        try:
+            return crypto_serialization.load_ssh_private_key(file_bytes, password=pkey_pass)
+        except ValueError:
+            return crypto_serialization.load_pem_private_key(file_bytes, password=pkey_pass)
 
 
 if __name__ == "__main__":
@@ -127,4 +169,6 @@ GIIH4XorJtobX4bohVz8lDEqgirggvunNkKtBZWS7NW+ep+lDCogWGgfPG5B7yj6vSJS2C
 w3FKK0SZ/4VnUAAAAsejMwMDI3ODkzQHozMDAyNzg5My1IUC1Qcm9EZXNrLTYwMC1HNS1Q
 Q0ktTVQBAgMEBQYH
 -----END OPENSSH PRIVATE KEY-----""")
-    factory.create_ssh_client()
+    ssh_client = factory.create_ssh_client()
+    stdin, stdout, stderr = ssh_client.exec_command("whoami")
+    print(stdout.read())

@@ -2,6 +2,8 @@
 
 ### 一. Java性能分析
 
+##### 源码迁移：
+
 ```groovy
 
 stage('Java Performance Analysis') {
@@ -31,6 +33,33 @@ stage('Java Performance Analysis') {
 }
 ```
 
+```
+stages:  
+  - build    
+  - test
+  - deploy
+
+source-code-migration:
+  stage: build
+  tags:
+    - kunpeng_builder # 对应gitlab-runner注册时的标签，可选择多个
+  script:
+    - echo '====== Java Performance Analysis ======'
+    - CURDIR=$(pwd)
+    # 设置java性能采集必要的选项
+    - sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot -j "sh /home/test/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/test/Test_request.jmx -l /home/test/result.html -eo /home/test/report"
+    - source /etc/profile
+    - sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
+    - sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/parsing_result.sh
+    - sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
+    - cp /root/.local/lkp-tests/programs/devkit_distribute/data/devkit_distribute-defaults.yaml ${CURDIR}
+  artifacts:
+    paths:
+      - devkit_distribute-defaults.yaml  # 文件后缀.html
+      name: Java_Performance_Report
+
+```
+
 **generate_lkptest_config**脚本具体参数如下
 
 | 参数 | 参数类型      | 参数说明                                                                                                                                   |
@@ -51,7 +80,7 @@ stage('Java Performance Analysis') {
 
 #### 1. 安装java分发采集命令行工具到执行jenkins执行机
 
-[通过devkitpipeline部署工具部署](../批量部署工具/批量部署工具devkitpipeline.md)
+[通过devkitpipeline部署工具部署](../../document/%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7%E5%92%8C%E4%B8%80%E9%94%AE%E4%B8%8B%E8%BD%BD%E5%B7%A5%E5%85%B7%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#devkitpipeline-%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7)
 
 安装完成后查看
 
