@@ -42,7 +42,7 @@ yum install -y clamav-update
 freshclam
 ```
 
-![](.\image\更新病毒库.png)
+![](./image/更新病毒库.png)
 
 命令参数说明
 
@@ -79,7 +79,7 @@ freshclam
 ```shell
 clamscan -i -r /var/log/ -l clamav.log
 ```
-![](.\image\病毒扫描结果.png)
+![](./image/病毒扫描结果.png)
 
 ## Jenkins集成clamAV:
 
