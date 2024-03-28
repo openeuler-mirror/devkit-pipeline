@@ -108,7 +108,7 @@ public class ParseNetPerFiles implements CompatibilityFilesParser {
                 XxkbRate rxkbRate = new XxkbRate();
                 XxkbRate txkbRate = new XxkbRate();
                 for (Map.Entry<String, Map<String, List<String>>> entry : netIdleMap.entrySet()) {
-                    if (entry.getValue().get("rxkb").size() < 4 || entry.getValue().get("txkb").size() < 4) {
+                    if (entry.getValue().get("rxkb").size() < 0 || entry.getValue().get("txkb").size() < 0) {
                         continue;
                     }
 

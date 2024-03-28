@@ -1,77 +1,14 @@
 <center><big><b>《devkit 测试平台安装使用以及与gitlab集成部署指导手册》</b></big></center>
 
+[TOC]
+
 ------
 
 测试平台使用的是lkp test 工具，以下均已lkp test描述测试平台
 
-## 一、gitlab Pipeline 中集成lkp test (以云测工具(compatibility-test)为示例)
+## 一. 安装指导
 
-### 1. 流水线代码示例
-
-```
-stages:          # List of stages for jobs, and their order of execution
-  - build
-  - test
-  - deploy
-
-
-build-job:       # This job runs in the build stage, which runs first.
-  stage: build
-  script:
-    - CURDIR=$(pwd)
-    - echo $CURDIR
-    - cp -rf /root/.local/compatibility_testing/template.html.bak /root/.local/compatibility_testing/template.html
-    - sudo /root/.local/lkp-tests/bin/lkp run /root/.local/lkp-tests/programs/compatibility-test/compatibility-test-defaults.yaml
-    - cp -rf /root/.local/compatibility_testing/compatibility_report.html $CURDIR/compatibility_report.html
-    - sudo sh /root/.local/compatibility_testing/Chinese/test_result.sh
-    - echo "请去 '${CURDIR}'/compatibility_report.html 查看报告 "
-  artifacts:   
-    paths:
-    - compatibility_report.html # 文件后缀.html根据-r参数配置，也可配置为 src-mig*.* 
-  tags:
-    - dlj # 对应gitlab-runner注册时的标签，可选择多个
-```
-
-### 2. 创建流水线
-
-![创建Pipeline任务01](./images/gitlab创建项目.png)![创建Pipeline任务02](./images/gitlab创建项目2.png)
-![创建Pipeline任务03](./images/gitlab创建项目3.png)![创建Pipeline任务04](./images/gitlab创建项目4.png)
-![创建Pipeline任务05](./images/gitlab创建项目5.png)
-
-## 二、FAQ
-
-### lkp install 遇到的问题
-
-1. 报错，系统不支持
-   ![](./images/10.PNG)
-   [解决方式]：
-   环境变量中增加 LKP_SRC，路径和$LKP_PATH 一样
-   export PATH=$PATH:/home/lj/lkp-tests/sbin:/home/lj/lkp-tests/bin:/home/lj/lkp-tests/sbin:/home/lj/lkp-tests/bin
-   export LKP_PATH=/home/lj/lkp-tests
-   export LKP_SRC=/home/lj/lkp-tests
-
-## 2. lkp test 任务创建指导
-
-### 1. 文件介绍
-
-[doc/add-testcase.zh.md · Fengguang/lkp-tests - Gitee.com](https://gitee.com/wu_fengguang/lkp-tests/blob/master/doc/add-testcase.zh.md)
-
-### 2. 必须的文件
-
-run （可执行脚本）
-
-meta.yaml （介绍项目的详细信息）
-
-jobs 文件夹以及文件夹内需要包含一个与program同名的yaml文件
-
-```shell
-lkp split xxx.yaml # 这个yaml是jobs文件夹里的，在哪里执行这个命令，分割出来的任务就会在哪
-lkp run xxxx.yaml # 这个yaml是上一步分割完后生成的yaml
-```
-
-## 三. 离线安装指导
-
-可以使用一键部署工具去部署，如果只想单独部署测试平台可以按照以下操作
+可以使用一键部署工具去部署，如果只想单独部署测试平台可以按照以下操作（请用有root权限的用户去安装）
 
 ### 1. 下载依赖
 
@@ -81,7 +18,8 @@ lkp run xxxx.yaml # 这个yaml是上一步分割完后生成的yaml
 
 ### (1)yum源配置
 
-请配置everything的yum源 https://repo.huaweicloud.com/openeuler/openEuler-20.03-LTS/ISO/aarch64/
+请配置everything的yum源
+[https://repo.huaweicloud.com/openeuler/openEuler-20.03-LTS/ISO/aarch64/](https://repo.huaweicloud.com/openeuler/openEuler-20.03-LTS/ISO/aarch64/)
 
 运行
 
@@ -112,9 +50,167 @@ lkp install
 
 ### 3.安装云测工具
 
-直接解压缩compatibility_testing.tar.gz到指定路径就行
+直接解压缩compatibility_testing.tar.gz到${HOME}/.local就行
 
-## 四、 云测工具
+## 二. 添加项目至lkp tests测试平台
+
+### (1) 极简版项目添加,示例-云测工具（compatibility-test）
+
+以下所有文件夹在安装完lkp-tests 文件夹下面，如果使用一键部署工具则在${HOME}/.local下面
+
+1. 在programs 文件夹下创建compatibility-test文件夹，里面要包含以下几个文件，其余文件可以根据需求自行决定是否添加
+
+programs/compatibility-test/jobs/compatibility-test.yaml # 预定义compatibility-test的job，需要与文件夹名字一致
+
+programs/compatibility-test/meta.yaml # compatibility-test描述文件
+
+programs/compatibility-test/run # compatibility-test运行脚本
+
+2. 文件内容详情
+
+programs/compatibility-test/jobs/compatibility-test.yaml：
+
+```
+suite: compatibility-test # 项目介绍
+category: functional  # 项目类型（functional只跑用户自己写的run脚本）
+
+compatibility-test: # run 脚本的输入参数，此为极简版，默认用户的run脚本里面写了从哪里接收参数，无需通过 lkp 命令读取，只需保留与文件件相同的名字(compatibility-test:)即可
+```
+
+programs/compatibility-test/meta.yaml:
+
+```
+metadata:
+  name: compatibility-test  # 名字
+  summary: A program can run some basic tests # 这个项目的总结
+  description: run compatinility test and generate the report # 这个项目的介绍
+  homepage: https://gitee.com/openeuler/devkit-pipeline # 项目的网址
+type: workload # 项目类型，极简版保持一直就行
+depends: # 项目依赖，极简版默认用户知道自己运行脚本需要哪些依赖已经安装好，无需在运行lkp命令时按照为空即可
+params: # 需要的参数极简版默认用户在run脚本里处理参数，为空即可
+results: # 需要对结果进行处理，默认用户在run脚本里处理结果，为空即可
+```
+
+programs/compatibility-test/run：
+
+```
+# 这个文件是run脚本本质是一个shell脚本，此示例是用来运行云测平台的脚本，因为项目依赖，参数读取和结果处理均在run脚本里处理了，所以无需上面的文件中无任何添加
+
+#!/bin/bash
+
+set -e
+ct_sh_path=${HOME}/.local/compatibility_testing/Chinese/compatibility_testing.sh
+cloud_jar=${HOME}/.local/compatibility_testing/cloudTest.jar
+
+cd ${HOME}/.local/compatibility_testing/Chinese/
+sh $ct_sh_path
+
+java -jar $cloud_jar &
+sleep 15
+jar_pid=$!
+curl --location --request GET 'http://127.0.0.1:10037/api/v1/report?savePath=/'${HOME}'/.local/compatibility_testing/Chinese/log.json&file=/'${HOME}'/.local/compatibility_testing/Chinese/log.tar.gz'
+kill -9 $jar_pid
+cp -rf ${HOME}/.local/compatibility_testing/template.html.bak /${HOME}/.local/compatibility_testing/template.html
+cd ${HOME}/.local/compatibility_testing/
+python3 ${HOME}/.local/compatibility_testing/json2html.py
+```
+
+3. 必要步骤
+   在完成此文件夹的创建后，依然还需要两步操作去让lkp命令找到指定的运行文件
+
+```
+# 第一步 运行lkp slpit 命令去分隔jobs里面写的yaml文件，他会根据run文件以来的每个参数不同的输入值分成多个可执行的yaml文件，
+例如
+lkp split programs/compatibility-test/jobs/compatibility-test.yaml
+# 云测工具会得到输出 programs/compatibility-test/jobs/compatibility-test.yaml => ./compatibility-test-defaults.yaml，当我们每次更新jobs下面的yaml文件的输入参数后都需要重新运行 lkp split命令
+# 当我们lkp run的时候就要运行这个分隔后的yaml文件(在云测工具就是compatibility-test-defaults.yaml)
+# 第二步 需要增加一个软连接
+
+ln -s xxx/lkp-tests/programs/compatibility-test/run xxx/lkp-tests/tests/compatibility-test
+```
+
+### (2) 带参数版项目添加,示例-云测工具（compatibility-test）
+
+1. 在programs 文件夹下创建compatibility-test文件夹，里面要包含以下几个文件，其余文件可以根据需求自行决定是否添加
+
+programs/compatibility-test/jobs/compatibility-test.yaml # 预定义compatibility-test的job，需要与文件夹名字一致
+
+programs/compatibility-test/meta.yaml # compatibility-test描述文件
+
+programs/compatibility-test/run # compatibility-test运行脚本
+
+2. 文件内容详情
+
+programs/compatibility-test/jobs/compatibility-test.yaml：
+
+```
+suite: compatibility-test # 项目介绍
+category: functional  # 项目类型（functional只跑用户自己写的run脚本）
+
+compatibility-test: # run 脚本的输入参数
+    parameter1:
+        - value1
+        - value2
+
+    parameter2:
+        - value1
+        - value2
+    # 示例
+    file_path: ${HOME}/.local/compatibility_testing/Chinese、compatibility_testing.sh
+```
+
+programs/compatibility-test/meta.yaml:
+
+```
+metadata:
+  name: compatibility-test  # 名字
+  summary: A program can run some basic tests # 这个项目的总结
+  description: run compatinility test and generate the report # 这个项目的介绍
+  homepage: https://gitee.com/openeuler/devkit-pipeline # 项目的网址
+type: workload # 项目类型，极简版保持一直就行
+depends: # 项目依赖，极简版默认用户知道自己运行脚本需要哪些依赖已经安装好，无需在运行lkp命令时按照为空即可
+params: # 需要的参数
+    file_path:
+results: # 需要对结果进行处理，默认用户在run脚本里处理结果，为空即可
+```
+
+programs/compatibility-test/run：
+
+```
+#!/bin/bash
+
+set -e
+ct_sh_path=${file_path}
+cloud_jar=${HOME}/.local/compatibility_testing/cloudTest.jar
+
+cd ${HOME}/.local/compatibility_testing/Chinese/
+sh $ct_sh_path
+
+java -jar $cloud_jar &
+sleep 15
+jar_pid=$!
+curl --location --request GET 'http://127.0.0.1:10037/api/v1/report?savePath=/'${HOME}'/.local/compatibility_testing/Chinese/log.json&file=/'${HOME}'/.local/compatibility_testing/Chinese/log.tar.gz'
+kill -9 $jar_pid
+cp -rf ${HOME}/.local/compatibility_testing/template.html.bak /${HOME}/.local/compatibility_testing/template.html
+cd ${HOME}/.local/compatibility_testing/
+python3 ${HOME}/.local/compatibility_testing/json2html.py
+```
+
+3. 必要步骤
+   在完成此文件夹的创建后，依然还需要两步操作去让lkp命令找到指定的运行文件
+
+```
+# 第一步 运行lkp slpit 命令去分隔jobs里面写的yaml文件，他会根据run文件以来的每个参数不同的输入值分成多个可执行的yaml文件，
+例如
+lkp split programs/compatibility-test/jobs/compatibility-test.yaml
+# 云测工具会得到输出 programs/compatibility-test/jobs/compatibility-test.yaml => ./compatibility-test-defaults.yaml，当我们每次更新jobs下面的yaml文件的输入参数后都需要重新运行 lkp split命令
+# 当我们lkp run的时候就要运行这个分隔后的yaml文件(在云测工具就是compatibility-test-defaults.yaml)
+# 第二步 需要增加一个软连接
+
+ln -s xxx/lkp-tests/programs/compatibility-test/run xxx/lkp-tests/tests/compatibility-test
+```
+
+## 三、 云测工具
 
 要运行云测平台需要配置参数，在安装目录${HOME}/.local/compatibility_testing/Chinese/compatibility_testing.conf
 
@@ -124,25 +220,29 @@ lkp install
 #版本信息: 华为技术有限公司，版权所有（C） 2020-2022
 #修改记录: 2022-08-17 修改
 #使用方法：自动化采集开始前，请用户先配置compatibility_testing.conf，
-#                 填写待测试应用名称application_names,
+#          填写待测试应用名称application_names,
 #         待测试应用启动命令start_app_commands,
 #         待测试应用停止命令stop_app_commands
-#                 被测应用软件的压力测试工具启动命令start_performance_scripts,
+#          被测应用软件的压力测试工具启动命令start_performance_scripts,
 #         确认填写后
-#                 CentOS/中标麒麟/SUSE/openEuler：使用root用户执行，sh compatibility_testing.sh。
+#          CentOS/中标麒麟/SUSE/openEuler：使用root用户执行，sh compatibility_testing.sh。
 #         Ubuntu/银河麒麟/UOS：使用root用户执行，bash compatibility_testing.sh。
 #         多节点集群部署，在每台节点服务器上配置对自身节点和其他所有节点的SSH免密登录。并在控制节点（主节点）执行脚本。
 ###################################################################################
 
-# 待测试应用软件进程名称，多个应用名称以逗号隔开。
+
 # 可通过ps或者docker top 命令CMD所在列查找后台进程名称， Kubernetes集群环境下填写Pod名称。
-application_names=  test1           #请填写应用启动后的进程名
+application_names= test1 # 待测试应用软件进程名称，多个应用名称以逗号隔开。（必填）
 # 待测试应用软件启动命令，多个应用的启动命令以逗号隔开。
-start_app_commands= nohup python3 /xxx/test1.py &  # 如果是多行命令请写到脚本里，由脚本拉起，如果命令不是后台运行，请添加nohup参数变成后台运行
+start_app_commands= nohup python3 xxx/test1.py & # 如果是多行命令请写到脚本里，由脚本拉起，如果命令不是后台运行，请添加nohup参数变成后台运行（必填）
+# 空载采集时间
+idle_performance_time=1 # 在应用运行前后会对当前环境进行性能采集，填写采集时间（整数最小为1，必填，不要加空格，）
 # 待测试应用软件停止命令，多个应用的停止命令以逗号隔开。
-stop_app_commands=   #  应用软件停止命令
+stop_app_commands= # 如果应用有停止命令可以写上去，如果没有会根据进程名杀掉进程(非必填)
 # 被测应用软件的压力测试工具启动命令。
-start_performance_scripts= nohup python3 /home/lj/test2.py &
+start_performance_scripts= nohup python3 xxx/test3.py & # 
+# 被测应用软件的压力测试工具运行时间（分钟）。
+start_performance_time=1 # 如果写了压力测试工具启动命令，那么这个运行时间是必填的，用户要根据自己的压力测试工具能运行多久或者想测试多久去写时间（不要加空格， 整数最小为1）
 # Kubernetes集群填写"Y"。其他环境可置空。
 kubernetes_env=
 
@@ -165,7 +265,47 @@ hpc_certificate=
 binary_file=
 ```
 
-## 五、lkp test 添加测试用例介绍
+## 四、gitlab Pipeline 中集成lkp test (以云测工具(compatibility-test)为示例)
+
+请确保运行的用户有root权限
+
+### 1. 流水线代码示例
+
+```
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+  - deploy
+
+
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  script:
+    - CURDIR=$(pwd)
+    - echo $CURDIR
+    - cp -rf /root/.local/compatibility_testing/template.html.bak /root/.local/compatibility_testing/template.html
+    - sudo /root/.local/lkp-tests/bin/lkp run /root/.local/lkp-tests/programs/compatibility-test/compatibility-test-defaults.yaml
+    - cp -rf /root/.local/compatibility_testing/compatibility_report.html $CURDIR/compatibility_report.html
+    - sudo sh /root/.local/compatibility_testing/Chinese/test_result.sh # 
+    - echo "请去 '${CURDIR}'/compatibility_report.html 查看报告 "
+  artifacts:   
+    paths:
+    - compatibility_report.html # 文件后缀.html根据-r参数配置，也可配置为 src-mig*.* 
+  tags:
+    - dlj # 对应gitlab-runner注册时的标签，可选择多个
+  artifacts:   
+    paths:
+      - compatibility_report.html
+    name: compatibility_report
+```
+
+### 2. 创建流水线
+
+![创建Pipeline任务01](./images/gitlab创建项目.png)![创建Pipeline任务02](./images/gitlab创建项目2.png)
+![创建Pipeline任务03](./images/gitlab创建项目3.png)![创建Pipeline任务04](./images/gitlab创建项目4.png)
+![创建Pipeline任务05](./images/gitlab创建项目5.png)
+
+## 五、lkp test 添加测试用例全部功能介绍
 
 ### 样例
 
@@ -496,3 +636,15 @@ lkp split programs/compatibility-test/jobs/compatibility-test.yaml
 
 ln -s xxx/lkp-tests/programs/compatibility-test/run xxx/lkp-tests/tests/compatibility-test
 ```
+
+## 六、FAQ
+
+### lkp install 遇到的问题
+
+1. 报错，系统不支持
+   ![](./images/10.PNG)
+   [解决方式]：
+   环境变量中增加 LKP_SRC，路径和$LKP_PATH 一样
+   export PATH=$PATH:/home/lj/lkp-tests/sbin:/home/lj/lkp-tests/bin:/home/lj/lkp-tests/sbin:/home/lj/lkp-tests/bin
+   export LKP_PATH=/home/lj/lkp-tests
+   export LKP_SRC=/home/lj/lkp-tests
