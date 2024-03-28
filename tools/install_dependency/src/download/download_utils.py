@@ -64,6 +64,10 @@ lkp_collection_map = {
 
 
 def download_a_fot():
+    tar_file = os.path.join(DEFAULT_PATH, "a-fot.tar.gz")
+    if os.path.exists(tar_file) and os.path.isfile(tar_file):
+        return True
+
     saved_path = os.path.join(DEFAULT_PATH, A_FOT)
     try:
         os.mkdir(saved_path)
@@ -72,9 +76,10 @@ def download_a_fot():
 
     try:
         for f in FILE_LIST:
+            print(f"Downloading from {BASE_URL.format(f)}")
             wget.download(BASE_URL.format(f), os.path.join(saved_path, f))
-
-        with tarfile.open(os.path.join(DEFAULT_PATH, "a-fot.tar.gz"), "w:gz") as t:
+            print()
+        with tarfile.open(tar_file, "w:gz") as t:
             t.add(saved_path, arcname="a-fot")
         return True
     except Exception as e:
