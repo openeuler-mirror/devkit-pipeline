@@ -2,9 +2,6 @@ import os
 import platform
 import subprocess
 import sys
-import shutil
-import tarfile
-import wget
 
 from download import download_config
 from download.download_utils import download_dependence_file
@@ -15,41 +12,10 @@ from handler.gather_package import GatherPackage
 from handler.compress_dep import CompressDep
 
 from utils import read_yaml_file
-from constant import URL, SHA256, SAVE_PATH, DEFAULT_PATH, FILE, INSTRUCTION
+from constant import URL, SHA256, SAVE_PATH, FILE, INSTRUCTION
 
 
 PIPELINE = [BaseCheck(), GatherPackage(), CompressDep()]
-
-# A-FOT files
-BASE_URL = "https://gitee.com/openeuler/A-FOT/raw/master/{}"
-A_FOT = "a-fot"
-A_FOT_INI = "a-fot.ini"
-AUTO_FDO_SH = "auto_fdo.sh"
-AUTO_BOLT_SH = "auto_bolt.sh"
-AUTO_PREFETCH = "auto_prefetch.sh"
-SPLIT_JSON_PY = "split_json.py"
-FILE_LIST = (A_FOT, A_FOT_INI, AUTO_FDO_SH, AUTO_BOLT_SH, AUTO_PREFETCH, SPLIT_JSON_PY)
-
-
-def download_a_fot():
-    saved_path = os.path.join(DEFAULT_PATH, A_FOT)
-    try:
-        os.mkdir(saved_path)
-    except FileExistsError as e:
-        pass
-
-    try:
-        for f in FILE_LIST:
-            wget.download(BASE_URL.format(f), os.path.join(saved_path, f))
-
-        with tarfile.open(os.path.join(DEFAULT_PATH, "a-fot.tar.gz"), "w:gz") as t:
-            t.add(saved_path, arcname="a-fot")
-        return True
-    except Exception as e:
-        print(e)
-        return False
-    finally:
-        shutil.rmtree(saved_path)
 
 
 iso_collection_map = {
