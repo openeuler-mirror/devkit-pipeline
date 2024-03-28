@@ -21,15 +21,18 @@ stages:
 software-migration-assessment:
   stage: migrating-applications
   tags:
-    - kunpeng_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 软件迁移评估 ======'
     - devkit porting pkg-mig -i 待扫描软件包 -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
     
     # 示例 devkit porting pkg-mig -i impala-2.9.0+cdh5.12.1+0-1.cdh5.12.1.p0.3.el7.x86_64.rpm -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
+    - mv ./pkg-mig*.html ./SoftwareMigrationAssessment.html
+
   artifacts:
     paths:
-      - pkg-mig*.html # 文件后缀.html根据-r参数配置，也可配置为 pkg-mig*.*
+      - SoftwareMigrationAssessment.html
+    name: pkg-mig
     
 
 ```
@@ -54,15 +57,18 @@ stages:
 source-code-migration:
   stage: migrating-applications
   tags:
-    - kunpeng_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 源码迁移 ======'
     - devkit porting src-mig -i 待扫描源码的文件夹或压缩包路径 -c 源码的构建命令 -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
     
     # 示例 devkit porting src-mig -i wtdbg2-2.5 -c make -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
+    - mv ./src-mig*.html ./SourceCodeScanningReport.html
+
   artifacts:
     paths:
-      - src-mig*.html  # 文件后缀.html根据-r参数配置，也可配置为 src-mig*.*
+      - SourceCodeScanningReport.html
+    name: src-mig
 
 ```
 具体参数如下
@@ -89,22 +95,25 @@ stages:
 64-bit-running-mode-check:
   stage: affinity-analysis
   tags:
-    - kunpeng_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 64位运行模式检查 ======'
     - devkit advisor mode-check -i 待扫描的软件包路径 -r html
     
     # 示例 devkit advisor mode-check -i /opt/DevKit/testcase/affinity/precheck/test005 -r html
+    - mv ./mode_check*.html ./64-bit-running-mode-check.html
+
   artifacts:
     paths:
-      - mode_check*.html # 文件后缀.html根据-r参数配置，也可配置为 mode_check*.*
+      - 64-bit-running-mode-check.html
+    name: mode-check
 
 
 ```
 具体参数如下
 |  参数 |  参数选项 |  参数说明 |
 | ------------ | ------------ | ------------ |
-| -i/--input  |  package_path |  必选参数。待扫描的软件包路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1.jar, /home/test2.jar。 |
+| -i/--input  |  package_path |  必选参数。待扫描的源码文件夹路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1, /home/test2。 |
 | -o/--output  |  output_path |  可选参数。报告存放路径。报告默认存放在当前执行路径下，名称默认为“特性名称_时间戳”。 |
 | --set-timeout | time  |  可选参数。任务超时时间。默认无超时时间，任务将持续执行直到结束。 |
 | -l/--log-level  |  0,1,2,3 | 可选参数。日志等级，0（DEBUG）、1（INFO）、2（WARNING）、3（ERROR），默认为1（INFO）。  |
@@ -119,21 +128,24 @@ stages:
 byte-alignment-check:
   stage: affinity-analysis
   tags:
-    - kunpeng_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 字节对齐检查 ======'
     - devkit advisor byte-align -i 待扫描的软件包路径 -c 源码构建命令 -b 构建工具 -r html
     
     # 示例 devkit advisor byte-align -i /opt/DevKit/wtdbg2-2.5 -c make -b make -r html
+    - mv ./byte-align*.html ./byte-alignment-check.html
+
   artifacts:
     paths:
-      - byte-align*.html  # 文件后缀.html根据-r参数配置，也可配置为 byte-align*.*
+      - byte-alignment-check.html
+    name: byte-align
 
 ```
 具体参数如下
 | 参数  |  参数选项 | 参数说明  |
 | ------------ | ------------ | ------------ |
-| -i/--input  | package_path  |  必选参数。待扫描的软件包路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1.jar, /home/test2.jar。 |
+| -i/--input  | package_path  |  必选参数。待扫描的源码文件夹路径，若存在多个扫描路径需使用英文逗号分割。。例如：/home/test1, /home/test2。 |
 | -c/--cmd  |  cmd | 必选参数。源码构建命令。在服务器中正常执行的构建命令，命令中如有空格，要使用单引号包住。  |
 | -b/--build-tool  |  make,cmake,automake | 必选参数。构建工具。当前工具支持make，cmake，automake，默认选项为make。 如-c make -b make 、-c cmake -b cmake 、-c make -b automake |
 | -o/--output  |  output_path | 可选参数。报告存放路径。报告默认存放在当前执行路径下，名称默认为“特性名称_时间戳”。  |
@@ -151,15 +163,19 @@ stages:
 memory-consistency-check:
   stage: affinity-analysis
   tags:
-    - kunpeng_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 内存一致性检查 ======'
+    # 需编写生成的BC文件脚本
     - devkit advisor mem-cons -i BC文件对应的源码文件路径 -f BC文件路径 -r html
     
     # 示例 devkit advisor mem-cons -i /opt/DevKit/testcase/affinity/weak_cons/test-mulbc_sort -f /opt/DevKit/testcase/affinity/weak_cons/bc_file -r html
+    - mv ./mem-cons*.html ./memory-consistency-check.html
+
   artifacts:
     paths:
-      - mem-cons*.html # 文件后缀.html根据-r参数配置，也可配置为 mem-cons*.*
+      - memory-consistency-check.html
+    name: mem-cons
 ```
 具体参数如下
 | 参数  |  参数选项 | 参数说明  |
@@ -182,15 +198,19 @@ stages:
 vectorized-check:
   stage: affinity-analysis
   tags:
-    - kunpeng_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 向量化检查 ======'
+    # 需编写生成的BC文件脚本
     - devkit advisor vec-check -i BC文件对应的源码文件路径 -f BC文件路径 -c 源码的构建命令 -r html
       
     # 示例 devkit advisor vec-check -i /opt/DevKit/testcase/affinity/vec/simple -f /opt/DevKit/testcase/affinity/vec/BCfiles -c make -r html
+    - mv ./vec-check*.html ./vectorized-check.html
+
   artifacts:
     paths:
-      - vec-check*.html # 文件后缀.html根据-r参数配置，也可配置为 vec-check*.*
+      - vectorized-check.html
+    name: vec-check
 
 ```
 具体参数如下
