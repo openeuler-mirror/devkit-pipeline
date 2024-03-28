@@ -14,7 +14,7 @@
 
 应用迁移包含软件迁移评估、源码迁移和系统迁移，其命令行返回值如下：
 
-\##### 命令行状态码含义
+命令行状态码含义
 | 状态码 | 触发情况                                   |
 | ------ | ------------------------------------------ |
 | 0      | 无扫描建议                                 |
@@ -31,7 +31,7 @@
 ```groovy
 # devkit porting pkg-mig -i 待扫描软件包 -r 输出报告格式
 # 示例 devkit porting pkg-mig -i impala-2.9.0+cdh5.12.1+0-1.cdh5.12.1.p0.3.el7.x86_64.rpm  -r html
-
+# 该节点建议放在构建流程节点后
 stage('software-migration-assessment') {
                             steps {
                                 echo '====== 软件迁移评估 ======'
@@ -59,7 +59,7 @@ stage('software-migration-assessment') {
 
 | 参数             | 参数选项          | 参数说明                                                     |
 | ---------------- | ----------------- | ------------------------------------------------------------ |
-| -i/--input       | package_path      | 必选参数。待扫描的软件包路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1.jar, /home/test2.jar。 |
+| -i/--input       | package_path      | 必选参数。待扫描的软件包路径，若存在多个扫描路径需使用英文逗号分割。支持的软件包格式有包括RPM、DEB、JAR/WAR包、TAR、ZIP、GZIP压缩文件等。例如：/home/test1.jar, /home/test2.jar。 |
 | -t/--target-os   | target-os         | 可选参数。待扫描的目标操作系统。                             |
 | -o/--output      | output_path       | 可选参数。报告存放路径。报告默认存放在当前执行路径下，名称默认为“特性名称_时间戳”。 |
 | --set-timeout    | time              | 可选参数。任务超时时间。默认无超时时间，任务将持续执行直到结束。 |
@@ -72,7 +72,7 @@ stage('software-migration-assessment') {
 ```groovy
  # devkit porting src-mig  -i 待扫描源码的文件夹或压缩包路径 -c 源码的构建命令 -r 输出报告格式
  # 示例 devkit porting src-mig -i ./wtdbg2 -c make -r html
-    
+ # 该节点若是扫描软件包建议放在构建流程节点后，若是源码文件则建议放在构建流程节点前  
 stage('source-code-migration') {
                             steps {
                                 echo '====== 源码迁移 ======'
@@ -117,9 +117,9 @@ stage('source-code-migration') {
 - ##### 64位运行模式检查：
 
 ```groovy
-# devkit advisor mode-check -i 待扫描的软件包路径
+# devkit advisor mode-check -i 待扫描的源码文件夹路径
 # 示例 devkit advisor mode-check -i /opt/DevKit/testcase/affinity/precheck/test005
-
+# 该节点建议放在构建流程节点前
 stage('64-bit-running-mode-check') {
                             steps {
                                 echo '====== 64位运行模式 ======'
@@ -148,7 +148,7 @@ stage('64-bit-running-mode-check') {
 
 | 参数             | 参数选项          | 参数说明                                                     |
 | ---------------- | ----------------- | ------------------------------------------------------------ |
-| -i/--input       | package_path      | 必选参数。待扫描的软件包路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1.jar, /home/test2.jar。 |
+| -i/--input       | package_path      | 必选参数。待扫描的源码文件夹路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1, /home/test2。 |
 | -o/--output      | output_path       | 可选参数。报告存放路径。报告默认存放在当前执行路径下，名称默认为“特性名称_时间戳”。 |
 | --set-timeout    | time              | 可选参数。任务超时时间。默认无超时时间，任务将持续执行直到结束。 |
 | -l/--log-level   | 0,1,2,3           | 可选参数。日志等级，0（DEBUG）、1（INFO）、2（WARNING）、3（ERROR），默认为1（INFO）。 |
@@ -157,9 +157,9 @@ stage('64-bit-running-mode-check') {
 - ##### 字节对齐检查：
 
 ```groovy
-# devkit advisor byte-align -i 待扫描的软件包路径 -c 源码构建命令 -b 构建工具
+# devkit advisor byte-align -i 待扫描的源码文件夹路径 -c 源码构建命令 -b 构建工具
 # 示例 devkit advisor byte-align -i /opt/DevKit/wtdbg2-2.5 -c make -b make
-
+# 该节点建议放在构建流程节点前
 stage('byte-alignment-check') {
                             steps {
                                 echo '====== 字节对齐检查 ======'
@@ -187,7 +187,7 @@ stage('byte-alignment-check') {
 
 | 参数             | 参数选项            | 参数说明                                                     |
 | ---------------- | ------------------- | ------------------------------------------------------------ |
-| -i/--input       | package_path        | 必选参数。待扫描的软件包路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1.jar, /home/test2.jar。 |
+| -i/--input       | package_path        | 必选参数。待扫描的源码文件夹路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1, /home/test2。 |
 | -c/--cmd         | cmd                 | 必选参数。源码构建命令。在服务器中正常执行的构建命令，命令中如有空格，要使用单引号包住。 |
 | -b/--build-tool  | make,cmake,automake | 必选参数。构建工具。当前工具支持make，cmake，automake，默认选项为make。 如-c make -b make 、-c cmake -b cmake 、-c make -b automake |
 | -o/--output      | output_path         | 可选参数。报告存放路径。报告默认存放在当前执行路径下，名称默认为“特性名称_时间戳”。 |
@@ -199,9 +199,9 @@ stage('byte-alignment-check') {
   ##### 内存一致性检查：
 
 ```groovy
- # devkit advisor mem-cons -i BC文件对应的源码文件路径 -f BC文件路径
+ # devkit advisor mem-cons -i BC文件对应的源码文件路径 -f BC文件路径  （需要用户配合编写生成的BC文件脚本）
  # 示例 devkit advisor mem-cons -i /opt/DevKit/testcase/affinity/weak_cons/test-mulbc_sort -f /opt/DevKit/testcase/affinity/weak_cons/bc_file
-
+# 该节点建议放在构建流程节点前
 stage('memory-consistency-check') {
     agent {
                 label 'Linux_aarch64'
@@ -244,9 +244,9 @@ stage('memory-consistency-check') {
 - ##### 向量化检查：
 
 ```groovy
-# devkit advisor vec-check -i BC文件对应的源码文件路径 -f BC文件路径 -c 源码的构建命令  
+# devkit advisor vec-check -i BC文件对应的源码文件路径 -f BC文件路径 -c 源码的构建命令
 # 示例 devkit advisor vec-check -i /opt/DevKit/testcase/affinity/vec/simple -f /opt/DevKit/testcase/affinity/vec/BCfiles -c make
-
+# 该节点建议放在构建流程节点前
 stage('vectorized-check') {
                             steps {
                                 echo '====== 向量化检查 ======'
@@ -283,48 +283,6 @@ stage('vectorized-check') {
 | -l/--log-level   | 0,1,2,3           | 可选参数。日志等级，0（DEBUG）、1（INFO）、2（WARNING）、3（ERROR），默认为1（INFO）。 |
 | -r/--report-type | all,json,html,csv | 可选参数。扫描报告的格式。默认为all，即默认生成json、html、csv三种报告。 |
 | --sve-enable     | true,false        | 可选参数。是否启用sve。默认不开启。                          |
-
-
-- ##### Java性能分析：
-
-```groovy
-
-stage('Java Performance Analysis') {
-                            steps {
-                                echo '====== Java Performance Analysis ======'
-                                sh '''
-                                    CURDIR=$(pwd)
-                                    bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot
-                                    source /etc/profile
-                                    sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
-                                    sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
-                                '''
-                            }
-                            post {
-                                always {
-                                    publishHTML(target: [allowMissing: false,
-                                                alwaysLinkToLastBuild: false,
-                                                keepAll              : true,
-                                                reportDir            : '/root/.local/lkp-tests/programs/devkit_distribute/data',
-                                                reportFiles          : 'devkit_performance_report.html',
-                                                reportName           : 'Java Performance Report']
-                                                )
-                                }
-                            }
-                        }
-```
-
-具体参数如下
-
-| 参数               | 参数选项              | 参数说明                                                  |
-|------------------|-------------------|-------------------------------------------------------|
-| -i               | ipv4,ipv4         | 必选参数。需要采集的目标程序所在的服务器地址， 多个使用逗号隔离                      |
-| -u               | str               | 必选参数。服务器的用户名                                          |
-| -f               | str               | 必选参数。免密登陆的私钥地址                                        |
-| -D               | ipv4              | 必选参数。安装的Devkit工具的地址。                                  |
-| -a               | str               | 必选参数。需要采集的应用名称，多个采用逗号隔离                               |
-| -d               | num               | 必选参数。任务执行时间，默认单位s                                     |
-| -g               | str               | 必选参数。使用git clone下载到的本地的项目路径                           |
 
 
 ### 1. 示例在Jenkins中配置命令行创建 Pipeline 任务：
