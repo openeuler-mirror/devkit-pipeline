@@ -39,6 +39,8 @@ class LocalMachine:
         if self.mirrors:
             self.install_component("UnOpenEulerMirrorISO")
 
+        self.clear_tmp_file_at_local_machine([os.path.join("/tmp/", constant.DEPENDENCY_DIR)])
+
     def check_is_aarch64(self):
         machine_type = os.uname().machine.lower()
         LOGGER.info(f"{self.ip} machine type: {machine_type}")
@@ -267,9 +269,15 @@ class LocalMachine:
     def clear_tmp_file_at_local_machine(self, remote_file_list):
         LOGGER.debug(f"Clear tmp file at local machine {self.ip}")
         for remote_file in remote_file_list:
-            LOGGER.debug(f"Delete tmp file at local machine {self.ip}: {remote_file}")
-            subprocess.run(f"rm -f {remote_file}".split(' '),
-                           capture_output=False, shell=False, stderr=subprocess.STDOUT)
+            try:
+                remote_file = os.path.realpath(remote_file)
+                if not remote_file.startswith(os.path.join("/tmp", constant.DEPENDENCY_DIR)):
+                    continue
+                LOGGER.debug(f"Delete tmp file at local machine {self.ip}: {remote_file}")
+                subprocess.run(f"rm -fr {remote_file}".split(' '),
+                               capture_output=False, shell=False, stderr=subprocess.STDOUT)
+            except Exception as e:
+                LOGGER.debug(str(e))
 
     def do_nothing(self, component_name, sftp_client, ssh_client):
         return
