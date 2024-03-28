@@ -11,7 +11,7 @@
 | 5 |  扫描结果存在必须修改项 |
 | 15/20 | 扫描任务出现Ctrl+Z SIGTERM(15)/SIGTSTP(20) |
 
- **注：命令行中-i $(pwd)时为扫描本仓库代码** 
+ **注：命令行中 -i ./ 时为扫描本仓库代码** 
 ##### 软件迁移评估：
 
 ```
@@ -22,7 +22,7 @@ stages:
 software-migration-assessment:
   stage: migrating-applications
   tags:
-    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_cpp_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 软件迁移评估 ======'
     - devkit porting pkg-mig -i 待扫描软件包 -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
@@ -58,7 +58,7 @@ stages:
 source-code-migration:
   stage: migrating-applications
   tags:
-    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_cpp_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 源码迁移 ======'
     - devkit porting src-mig -i 待扫描源码的文件夹或压缩包路径 -c 源码的构建命令 -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
@@ -96,7 +96,7 @@ stages:
 64-bit-running-mode-check:
   stage: affinity-analysis
   tags:
-    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_cpp_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 64位运行模式检查 ======'
     - devkit advisor mode-check -i 待扫描的软件包路径 -r html
@@ -129,7 +129,7 @@ stages:
 byte-alignment-check:
   stage: affinity-analysis
   tags:
-    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_cpp_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 字节对齐检查 ======'
     - devkit advisor byte-align -i 待扫描的软件包路径 -c 源码构建命令 -b 构建工具 -r html
@@ -164,7 +164,7 @@ stages:
 memory-consistency-check:
   stage: affinity-analysis
   tags:
-    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_cpp_builder  # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 内存一致性检查 ======'
     # 需编写生成的BC文件脚本
@@ -199,7 +199,7 @@ stages:
 vectorized-check:
   stage: affinity-analysis
   tags:
-    - kunpeng_c_builder # 对应gitlab-runner注册时的标签，可选择多个
+    - kunpeng_c_cpp_builder # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 向量化检查 ======'
     # 需编写生成的BC文件脚本
