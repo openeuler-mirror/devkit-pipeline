@@ -153,7 +153,7 @@ cat ~/.ssh/id_ed25519_<推荐按照 *_*_*_* 格式填写目标服务器IP,便于
 | 描述                             | 按需填写,便于管理标识和即可，如aarch64node(ip)openeuler22.03                                                     |
 | Number of executors            | 默认为1                                                                                              |
 | 远程工作目录                         | /home/JenkinsWorkspace/                                                                           |
-| 标签                             | 流水线脚本中根据标签来选取执行机，可以打多个标签，用空格隔开，标签需要以kunpeng_为前缀，如kunpeng_scanner kunpeng_builder kunpeng_executor |
+| 标签                             | 流水线脚本中根据标签来选取执行机，可以打多个标签，用空格隔开，标签需要以kunpeng_为前缀，如kunpeng_scanner kunpeng_java_builder kunpeng_c_cpp_builder  kunpeng_executor |
 | 用法                             | Only build jobs with label expressions matching this node                                         |
 | 启动方式                           | Launch agents via SSH                                                                             |
 | 主机                             | 节点IP                                                                                              |
