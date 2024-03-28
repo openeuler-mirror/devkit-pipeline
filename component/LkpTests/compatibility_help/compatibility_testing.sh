@@ -327,12 +327,12 @@ tar_output() {
     "data/hardware/hardware_info.log"  "data/hardware/hardware_pcie.log"
     "data/product/product_name.log" "data/software/system_version.log"
     "data/test/performance/test_perf_cpu_1.log" "data/test/performance/test_perf_disk_1.log"
-    "data/test/performance/test_perf_mem_1.log"  "data/test/power/test_power_1.log"
+    "data/test/performance/test_perf_mem_1.log"
     "data/test/performance/test_perf_net_1.log" "data/test/compatiable/test_perf_cpu_0.log"
     "data/test/compatiable/test_perf_cpu_1.log" "data/test/compatiable/test_perf_disk_0.log"
     "data/test/compatiable/test_perf_disk_1.log" "data/test/compatiable/test_perf_mem_0.log"
     "data/test/compatiable/test_perf_mem_1.log" "data/test/compatiable/test_perf_net_0.log"
-    "data/test/compatiable/test_perf_net_1.log" "data/test/power/test_power_0.log")
+    "data/test/compatiable/test_perf_net_1.log")
     for data_file in "${result_files[@]}"; do
         if [[ ! -f "${data_file}" ]]; then
             write_messages  e 0 10 "数据目录下的日志文件${data_file}不存在"
