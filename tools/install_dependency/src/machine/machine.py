@@ -136,8 +136,20 @@ class Machine:
             "NonInvasiveSwitching": self.nis_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
             "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
+            "A-FOT": self.install_a_fot,
         }
+        self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)
+        self._remote_exec_command(CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, ssh_client)
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
+
+    def install_a_fot(self, component_name, sftp_client, ssh_client):
+        saved_path = os.path.join(constant.DEFAULT_PATH, "a-fot.tar.gz")
+        remote_file = os.path.abspath(os.path.join('/tmp', saved_path))
+        LOGGER.debug(f"Transport local_file: {saved_path} to remote machine {self.ip} "
+                     f"remote_file: {remote_file}")
+        sftp_client.put(localpath=f"{saved_path}", remotepath=f"{remote_file}")
+        self.nis_install_component_handle(component_name, sftp_client, ssh_client)
+        self.clear_tmp_file_at_remote_machine(ssh_client, [remote_file])
 
     def nis_install_component_handle(self, component_name,  sftp_client, ssh_client):
         remote_file_list = []
@@ -163,7 +175,7 @@ class Machine:
         else:
             LOGGER.error(f"Remote machine {self.ip} install {component_name} failed.")
         # 清理tmp临时文件
-        self.clear_tmp_file_at_remote_machine(remote_file_list)
+        self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def lkptest_install_component_handle(self, component_name, sftp_client, ssh_client):
         self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)

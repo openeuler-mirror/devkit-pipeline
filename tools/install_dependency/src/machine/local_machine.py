@@ -62,8 +62,19 @@ class LocalMachine:
             "NonInvasiveSwitching": self.nis_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
             "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
+            "A-FOT": self.install_a_fot,
         }
+        self._local_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD)
+        self._local_exec_command(YUM_INSTALL_LKP_DEPENDENCIES_CMD)
         return component_name_to_func_dict.get(component_name)(component_name)
+
+    def install_a_fot(self, component_name):
+        saved_path = os.path.join(constant.DEFAULT_PATH, "a-fot.tar.gz")
+        remote_file = os.path.abspath(os.path.join('/tmp', saved_path))
+        LOGGER.debug(f"Copy local_file: {saved_path} to local machine {self.ip} remote_file: {remote_file}")
+        self._local_exec_command(f"/bin/cp -f {saved_path} {remote_file}")
+        self.nis_install_component_handle(component_name)
+        self.clear_tmp_file_at_local_machine([remote_file])
 
     def nis_install_component_handle(self, component_name):
         remote_file_list = []

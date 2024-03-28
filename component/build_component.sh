@@ -30,7 +30,7 @@ function main() {
     mkdir -p "${final_component_dir}"
 
     component_arrays=(
-        "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "GCCforOpenEuler" "OpenEulerMirrorISO" "CompatibilityTesting" "NonInvasiveSwitching"
+        "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "GCCforOpenEuler" "OpenEulerMirrorISO" "CompatibilityTesting" "NonInvasiveSwitching" "A-FOT"
     )
     for element in "${component_arrays[@]}"; do
         cp -rf "${current_dir}/${element}" "${final_component_dir}"

@@ -14,7 +14,7 @@ INSTRUCTION = "instruction"
 
 ROLE_COMPONENT = {
     SCANNER: ["BiShengJDK17"],
-    C_BUIDLER: ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17"],
+    C_BUIDLER: ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17", "A-FOT"],
     JAVA_BUILDER: ["BiShengJDK17", "BiShengJDK8"],
     EXECUTOR: ["BiShengJDK17", "LkpTests"]
 }
