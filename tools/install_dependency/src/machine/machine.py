@@ -125,6 +125,9 @@ class Machine:
         if self.mirrors:
             self.install_component("UnOpenEulerMirrorISO")
 
+        self.clear_tmp_file_at_remote_machine(
+            self.ssh_client(), [os.path.join("/tmp/", constant.DEPENDENCY_DIR)])
+
     def install_component_handler(self, component_name, sftp_client, ssh_client):
         component_name_to_func_dict: typing.Dict[
             str, typing.Callable[[str, paramiko.SFTPClient, paramiko.SSHClient], typing.Any]] = {
@@ -366,8 +369,14 @@ class Machine:
     def clear_tmp_file_at_remote_machine(self, ssh_client, remote_file_list):
         LOGGER.debug(f"Clear tmp file at remote machine {self.ip}")
         for remote_file in remote_file_list:
-            LOGGER.debug(f"Delete tmp file at remote machine {self.ip}: {remote_file}")
-            ssh_client.exec_command(f"rm -f {remote_file}")
+            try:
+                remote_file = os.path.realpath(remote_file)
+                if not remote_file.startswith(os.path.join("/tmp", constant.DEPENDENCY_DIR)):
+                    continue
+                LOGGER.debug(f"Delete tmp file at remote machine {self.ip}: {remote_file}")
+                ssh_client.exec_command(f"rm -fr {remote_file}")
+            except Exception as e:
+                LOGGER.debug(str(e))
 
     def do_nothing(self, component_name, sftp_client, ssh_client):
         return
