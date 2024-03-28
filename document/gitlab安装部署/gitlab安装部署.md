@@ -155,7 +155,7 @@ chown -R Kunpeng_staff.Kunpeng_staff /home/gitlab-runner
 #### 7.gitlab runner注册服务
 登录gitlab，在管理中心Runner中新建一个runner
 ![](./gitlab/注册02.PNG) 
-标签多个时用逗号隔开，只可为kunpeng_scanner, kunpeng_builder, kunpeng_executor，
+标签多个时用逗号隔开，只可为kunpeng_scanner, kunpeng_c_cpp_builder, kunpeng_java_builder, kunpeng_executor
 其他选项按需填写
 ![](./gitlab/注册03.PNG) 
 根据所示url，token去gitlab-runner环境注册
