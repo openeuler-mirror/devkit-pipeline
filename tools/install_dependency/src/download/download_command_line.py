@@ -47,6 +47,7 @@ class CommandLine:
 
     @classmethod
     def process_args(cls, args):
+        cls.yaml_path = args.yaml_path if args.yaml_path and args.yaml_path != "./" else DEFAULT_YAML_PATH
         cls.download_iso = args.download_iso
         return cls.download_iso
 

@@ -30,14 +30,6 @@ def base_path(path):
     return os.path.join(base_dir, path)
 
 
-def available_role(role_list, data):
-    list_after_verification = []
-    for role in role_list:
-        if role in data:
-            list_after_verification.append(role)
-    return list_after_verification
-
-
 def read_yaml_file(yaml_path):
     try:
         with open(yaml_path, "r") as file:
