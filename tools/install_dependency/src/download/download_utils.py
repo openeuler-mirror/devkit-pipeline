@@ -42,6 +42,7 @@ component_collection_map = {
         download_config.GCCforOpenEuler,
         download_config.BiShengJDK8,
         download_config.BiShengJDK17,
+        download_config.DevKitWeb,
     )
 }
 

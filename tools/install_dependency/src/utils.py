@@ -45,6 +45,7 @@ def read_yaml_file(yaml_path):
         sys.exit(1)
     return yaml_dict
 
+
 def generate_component_list(yaml_dict):
     component_list = list()
     for role in ROLE_LIST:
