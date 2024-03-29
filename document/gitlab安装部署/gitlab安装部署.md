@@ -13,7 +13,7 @@ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-16.9.1-ce.
 #### 2.安装gitlab
 
 ```
-yum install -y git tar policycoreutils-python openssh-serve
+yum install -y git tar policycoreutils-python openssh-server
 rpm -ivh gitlab-ce-16.9.1-ce.0.el7.x86_64.rpm
 ```
 
@@ -164,6 +164,7 @@ chown -R Kunpeng_staff.Kunpeng_staff /home/gitlab-runner
 ![](./gitlab/注册09.PNG) 
 ![](./gitlab/注册10.PNG) 
 #### 8.脚本配置指导
+创建或者导入项目，进入项目后，在目录中选择构建，在流水线编辑器中编辑
 毕昇编译器调用示例：
 在流水线脚本中在某一步骤需要调用毕昇编译器进行编译时,以目标文件为”/opt/test.c“文件为例。
 
