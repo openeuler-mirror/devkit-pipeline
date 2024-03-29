@@ -30,7 +30,7 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - CURDIR=$(pwd)
     - echo $CURDIR
-    - source /usr/local/wrap-bin/devkit_pipeline.sh # 如果想要使用毕昇编译器的相关能力，请添加这条命令
+    - source "${HOME}"/.local/wrap-bin/devkit_pipeline.sh # 如果想要使用毕昇编译器的相关能力，请添加这条命令
     - cp -rf /root/.local/compatibility_testing/template.html.bak /root/.local/compatibility_testing/template.html
     - sudo /root/.local/lkp-tests/bin/lkp run /root/.local/lkp-tests/programs/compatibility-test/compatibility-test-defaults.yaml
     - cp -rf /root/.local/compatibility_testing/compatibility_report.html $CURDIR/compatibility_report.html

@@ -25,7 +25,7 @@ stage('lkp test') {
                                     echo '====== lkp test ======'
                                     sh '''
                                         CURDIR=$(pwd)
-                                        source /usr/local/wrap-bin/devkit_pipeline.sh # 如果想要使用毕昇编译器的相关能力，请添加这条命令
+                                        source ${HOME}/.local/wrap-bin/devkit_pipeline.sh # 如果想要使用毕昇编译器的相关能力，请添加这条命令
                                         cp -rf /xxx/compatibility_testing/template.html.bak /xxx/compatibility_testing/template.html
                                         sudo lkp run /xxx/lkp-tests/programs/compatibility-test/compatibility-test-defaults.yaml
                                         cp -rf /xxx/test/compatibility_testing/compatibility_report.html $CURDIR
