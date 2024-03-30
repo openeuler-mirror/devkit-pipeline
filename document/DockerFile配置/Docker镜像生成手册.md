@@ -5,7 +5,7 @@
 注意：RUN命令 执行了yum install 命令 确保git、wget、rubygems和make命令存在，如果你的镜像中存在这些依赖，可以直接删除dockerfile中的yum命令。
 如果你的镜像中不存在这些依赖，请确保yum命令可用。
 
-```commandline
+```dockerfile
 from openeuler-20.03-lts-sp2:latest
 WORKDIR  /root
 ADD lkp-tests.tar.gz /root/.local/
@@ -43,18 +43,18 @@ concurrent-ruby-1.1.10.gem ci_reporter-2.0.0.gem bundler-2.2.33.gem builder-3.2.
 
 #### 下载包到同一目录
 
-![](2024-03-30_14-33.png)
+![](01_准备资源.png)
 
-#### 执行命令
+#### 执行构建命令
 
 ```commandline
 docker build  -t mine_f2 -f devkit_pipeline.docker .
 ```
 
-![](2024-03-30_14-34.png)
+![](02_构建镜像.png)
 
-![](2024-03-30_14-34_1.png)
+![](03_构建成功.png)
 
-#### 查看结果
+#### 查看构建成功的镜像
 
-![](2024-03-30_14-39.png)
+![](04_查看构建成功的镜像.png)
