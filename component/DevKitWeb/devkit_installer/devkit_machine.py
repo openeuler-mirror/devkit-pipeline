@@ -82,7 +82,7 @@ class DevKitMachine:
             LOGGER.error(f"DevKit install package not exists: {package_file}")
             return False
 
-        cmd = f"cd {package_dir} && tar -zxf {package_name}"
+        cmd = f"cd {package_dir} && sudo tar -zxf {package_name}"
         stdin, stdout, stderr = ssh_client.exec_command(cmd)
         exit_status = stdout.channel.recv_exit_status()
         if exit_status == 0:
