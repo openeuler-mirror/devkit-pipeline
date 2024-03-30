@@ -2,38 +2,37 @@
 
 ### 一. Java性能分析
 
-```groovy
+##### 源码迁移：
 
-stage('Java Performance Analysis') {
-    steps {
-        echo '====== Java Performance Analysis ======'
-        sh '''
-            # 设置当返回不为0时 停止下一步，直接返回
-            set -e
-            CURDIR=$(pwd)
-            # 删除上次jmeter产生的报告 (jmeter 命令-l、-o指定的文件和路径)
-            sudo rm -rf /home/test/report /home/test/result.html 
-            # 设置java性能采集必要的选项
-            sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot -j "sh /home/test/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/test/Test_request.jmx -l /home/test/result.html -eo /home/test/report"
-            source /etc/profile
-            sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
-            # 判断 是否执行成功
-            sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/parsing_result.sh
-            sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
-        '''
-    }
-    post {
-        always {
-            publishHTML(target: [allowMissing: false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll              : true,
-                        reportDir            : '/root/.local/lkp-tests/programs/devkit_distribute/data',
-                        reportFiles          : 'devkit_performance_report.html',
-                        reportName           : 'Java Performance Report']
-                        )
-        }
-    }
-}
+```
+stages:  
+  - build    
+  - test
+  - deploy
+
+source-code-migration:
+  stage: build
+  tags:
+    - kunpeng_builder # 对应gitlab-runner注册时的标签，可选择多个
+  script:
+    - echo '====== Java Performance Analysis ======'
+    - CURDIR=$(pwd)
+    # 删除上次jmeter产生的报告 (jmeter 命令-l、-o指定的文件和路径)
+    sudo rm -rf /home/test/report /home/test/result.html 
+    # 设置java性能采集必要的选项
+    - sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot -j "sh /home/test/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/test/Test_request.jmx -l /home/test/result.html -eo /home/test/report"
+    - source /etc/profile
+    - sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
+    # 判断 是否执行成功
+    - sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/parsing_result.sh
+    - sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
+    - cp /root/.local/lkp-tests/programs/devkit_distribute/data/devkit_distribute-defaults.yaml ${CURDIR}
+  artifacts:
+    paths:
+      # 上传报告
+      - devkit_distribute-defaults.yaml  # 文件后缀.html
+      name: Java_Performance_Report
+
 ```
 
 **generate_lkptest_config**脚本具体参数如下
@@ -56,7 +55,7 @@ stage('Java Performance Analysis') {
 
 #### 1. 安装java分发采集命令行工具到执行jenkins执行机
 
-[通过devkitpipeline部署工具部署](../批量部署工具/批量部署工具devkitpipeline.md)
+[通过devkitpipeline部署工具部署](../../document/%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7%E5%92%8C%E4%B8%80%E9%94%AE%E4%B8%8B%E8%BD%BD%E5%B7%A5%E5%85%B7%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#devkitpipeline-%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7)
 
 安装完成后查看
 
@@ -74,30 +73,36 @@ stage('Java Performance Analysis') {
 
 #### 3. 配置流水线
 
-![创建Pipeline任务01](./DevkitPerformanceAnalysis.assets/创建Pipeline任务01.png)
-![创建Pipeline任务02](./DevkitPerformanceAnalysis.assets/创建Pipeline任务02.png)
-![配置流水线](./DevkitPerformanceAnalysis.assets/创建Pipeline任务03.png)
+![创建Pipeline任务01](./DevkitPerformanceAnalysis.assets/01_创建流水线.png)
+![创建Pipeline任务02](./DevkitPerformanceAnalysis.assets/02_编写流水线.png)
+
 ----
 
 #### 4. 执行任务
 
-![执行任务](./DevkitPerformanceAnalysis.assets/执行流水.png)
+![执行任务](./DevkitPerformanceAnalysis.assets/08_流水线执行.png)
+
+![执行任务](./DevkitPerformanceAnalysis.assets/09_流水线执行.png)
 
 ----
 
-#### 5. 查看任务执行状态和报告
+#### 5. 查看流水线执行状态和报告
 
-##### 5.1 失败执行
+##### 5.1查看流水线结果
 
-![执行结束打开报告](./DevkitPerformanceAnalysis.assets/失败状态.png)
+![执行结束打开报告](./DevkitPerformanceAnalysis.assets/03_查看流水线.png)
 
-![执行结束打开报告](./DevkitPerformanceAnalysis.assets/失败信息.png)
+##### 5.2 流水线失败
 
-##### 5.2 成功执行
+![执行结束打开报告](./DevkitPerformanceAnalysis.assets/04_流水线失败状态.png)
 
-![执行结束打开报告](./DevkitPerformanceAnalysis.assets/执行结束打开报告.png)
+![执行结束打开报告](./DevkitPerformanceAnalysis.assets/05_流水线失败原因.png)
 
-##### 5.3 最终报告
+##### 5.3 流水线成功
 
-![具体报告](./DevkitPerformanceAnalysis.assets/具体报告.png)
+![具体报告](./DevkitPerformanceAnalysis.assets/06_流水线执行成功.png)
+
+##### 5.4 下载的报告
+
+![具体报告](./DevkitPerformanceAnalysis.assets/07_下载的最终报告.png)
  

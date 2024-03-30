@@ -36,8 +36,7 @@ mkdir -p devkit_distribute/log
 
 cp "${build_dir}"/dist/entrance devkit_distribute/bin
 cp -rf "${current_dir}"/devkit_distribute/config devkit_distribute
-cp -rf "${current_dir}"/devkit_distribute/script/start.sh devkit_distribute/bin
-cp -rf "${current_dir}"/devkit_distribute/script/generate_lkptest_config.sh devkit_distribute/bin
+cp -rf "${current_dir}"/devkit_distribute/script/* devkit_distribute/bin
 cp devkit_pipeline_agent.tar.gz devkit_distribute/config
 
 tar -czf devkit_distribute.tar.gz devkit_distribute

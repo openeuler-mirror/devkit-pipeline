@@ -35,6 +35,7 @@ def exec_shell(command: str, is_shell=False, timeout=30) -> ExecutionOutcome:
             out, err = child.communicate(timeout=timeout)
         except Exception as exception:
             logging.error(exception, exc_info=True)
+            child.kill()
             raise exception
         else:
             return ExecutionOutcome(child.returncode, out, err)
