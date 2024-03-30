@@ -1,0 +1,60 @@
+##                          
+
+### 1. 创建dockerfile，内容例如：
+
+注意：RUN命令 执行了yum install 命令 确保git、wget、rubygems和make命令存在，如果你的镜像中存在这些依赖，可以直接删除dockerfile中的yum命令。
+如果你的镜像中不存在这些依赖，请确保yum命令可用。
+
+```commandline
+from openeuler-20.03-lts-sp2:latest
+WORKDIR  /root
+ADD lkp-tests.tar.gz /root/.local/
+ADD devkit_distribute.tar.gz /root/.local/lkp-tests/programs
+ADD compatibility_testing.tar.gz /root/.local/
+COPY gem_dependencies.zip  /usr/share/gems/gems/gem_dependencies.zip
+RUN   chmod 755 /root/.local/lkp-tests/programs/devkit_distribute/bin/start.sh && \
+  ln -s /root/.local/lkp-tests/programs/devkit_distribute/bin/start.sh /root/.local/lkp-tests/tests/devkit_distribute && \
+  yum install -y git wget rubygems make  && \
+  cd /usr/share/gems/gems && unzip gem_dependencies.zip && \
+  cd /usr/share/gems/gems/gem_dependencies && \
+  gems_name=(zeitwerk-2.6.5.gem unicode-display_width-2.5.0.gem tzinfo-2.0.5.gem tins-1.31.1.gem term-ansicolor-1.7.1.gem sync-0.5.0.gem \
+simplecov-rcov-0.3.1.gem simplecov-html-0.12.3.gem simplecov-0.21.2.gem simplecov_json_formatter-0.1.4.gem ruby-progressbar-1.11.0.gem \
+rubocop-ast-1.17.0.gem rubocop-1.12.1.gem rspec-support-3.12.0.gem rspec-mocks-3.12.0.gem rspec-expectations-3.12.0.gem \
+rspec-core-3.12.0.gem rspec-3.12.0.gem rexml-3.2.5.gem regexp_parser-2.6.0.gem rchardet-1.8.0.gem rainbow-3.1.1.gem public_suffix-4.0.7.gem \
+parser-3.1.2.1.gem parallel-1.22.1.gem minitest-5.15.0.gem i18n-1.12.0.gem gnuplot-2.6.2.gem git-1.7.0.gem docile-1.4.0.gem diff-lcs-1.5.0.gem \
+concurrent-ruby-1.1.10.gem ci_reporter-2.0.0.gem bundler-2.2.33.gem builder-3.2.4.gem ast-2.4.2.gem activesupport-6.1.7.gem) && \
+  for each in "${gems_name[@]}"; do \
+    gem install --local ${each}; \
+  done && \
+  cd /root/.local/lkp-tests/ && \
+  chmod +x /root/.local/lkp-tests/bin/lkp && \
+  make && \
+  chmod 777 /root/.local/lkp-tests/programs/compatibility-test/run && \
+  ln -s /root/.local/lkp-tests/programs/compatibility-test/run /root/.local/lkp-tests/tests/compatibility-test && \
+  echo "LKP_PATH=/root/.local/lkp-tests/" >> /etc/profile.d/lkp.sh && \
+  echo "LKP_SRC=/root/.local/lkp-tests/" >> /etc/profile.d/lkp.sh && \
+  echo "PATH=/root/.local/lkp-tests/sbin:/root/.local/lkp-tests/bin:$PATH" >> /etc/profile.d/lkp.sh && \
+  echo "export LKP_PATH LKP_SRC PATH" >> /etc/profile.d/lkp.sh && \
+  source /etc/profile && \
+  cd /root/.local/lkp-tests/programs/compatibility-test/ && \
+  lkp split /root/.local/lkp-tests/programs/compatibility-test/jobs/compatibility-test.yaml && \
+  chown -R root:root /root/.local/lkp-tests
+```
+
+#### 下载包到同一目录
+
+![](2024-03-30_14-33.png)
+
+#### 执行命令
+
+```commandline
+docker build  -t mine_f2 -f devkit_pipeline.docker .
+```
+
+![](2024-03-30_14-34.png)
+
+![](2024-03-30_14-34_1.png)
+
+#### 查看结果
+
+![](2024-03-30_14-39.png)

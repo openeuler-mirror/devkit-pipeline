@@ -4,35 +4,6 @@
 
 ##### 源码迁移：
 
-```groovy
-
-stage('Java Performance Analysis') {
-    steps {
-        echo '====== Java Performance Analysis ======'
-        sh '''
-            set -e
-            CURDIR=$(pwd)
-            sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot
-            source /etc/profile
-            sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
-            sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/parsing_result.sh
-            sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
-        '''
-    }
-    post {
-        always {
-            publishHTML(target: [allowMissing: false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll              : true,
-                        reportDir            : '/root/.local/lkp-tests/programs/devkit_distribute/data',
-                        reportFiles          : 'devkit_performance_report.html',
-                        reportName           : 'Java Performance Report']
-                        )
-        }
-    }
-}
-```
-
 ```
 stages:  
   - build    
@@ -46,15 +17,19 @@ source-code-migration:
   script:
     - echo '====== Java Performance Analysis ======'
     - CURDIR=$(pwd)
+    # 删除上次jmeter产生的报告 (jmeter 命令-l、-o指定的文件和路径)
+    sudo rm -rf /home/test/report /home/test/result.html 
     # 设置java性能采集必要的选项
     - sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot -j "sh /home/test/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/test/Test_request.jmx -l /home/test/result.html -eo /home/test/report"
     - source /etc/profile
     - sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
+    # 判断 是否执行成功
     - sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/parsing_result.sh
     - sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
     - cp /root/.local/lkp-tests/programs/devkit_distribute/data/devkit_distribute-defaults.yaml ${CURDIR}
   artifacts:
     paths:
+      # 上传报告
       - devkit_distribute-defaults.yaml  # 文件后缀.html
       name: Java_Performance_Report
 
@@ -98,24 +73,36 @@ source-code-migration:
 
 #### 3. 配置流水线
 
-![创建Pipeline任务01](./DevkitPerformanceAnalysis.assets/创建Pipeline任务01.png)
-![创建Pipeline任务02](./DevkitPerformanceAnalysis.assets/创建Pipeline任务02.png)
-![配置流水线](./DevkitPerformanceAnalysis.assets/创建Pipeline任务03.png)
+![创建Pipeline任务01](./DevkitPerformanceAnalysis.assets/01_创建流水线.png)
+![创建Pipeline任务02](./DevkitPerformanceAnalysis.assets/02_编写流水线.png)
+
 ----
 
 #### 4. 执行任务
 
-![执行任务](./DevkitPerformanceAnalysis.assets/执行流水.png)
+![执行任务](./DevkitPerformanceAnalysis.assets/08_流水线执行.png)
+
+![执行任务](./DevkitPerformanceAnalysis.assets/09_流水线执行.png)
 
 ----
 
-#### 5. 查看任务执行状态和报告
+#### 5. 查看流水线执行状态和报告
 
-##### 查看任务执行状态和报告位置
+##### 5.1查看流水线结果
 
-![执行结束打开报告](./DevkitPerformanceAnalysis.assets/执行结束打开报告.png)
+![执行结束打开报告](./DevkitPerformanceAnalysis.assets/03_查看流水线.png)
 
-##### 具体报告
+##### 5.2 流水线失败
 
-![具体报告](./DevkitPerformanceAnalysis.assets/具体报告.png)
+![执行结束打开报告](./DevkitPerformanceAnalysis.assets/04_流水线失败状态.png)
+
+![执行结束打开报告](./DevkitPerformanceAnalysis.assets/05_流水线失败原因.png)
+
+##### 5.3 流水线成功
+
+![具体报告](./DevkitPerformanceAnalysis.assets/06_流水线执行成功.png)
+
+##### 5.4 下载的报告
+
+![具体报告](./DevkitPerformanceAnalysis.assets/07_下载的最终报告.png)
  

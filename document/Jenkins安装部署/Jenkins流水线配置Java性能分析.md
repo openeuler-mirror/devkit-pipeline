@@ -8,11 +8,16 @@ stage('Java Performance Analysis') {
     steps {
         echo '====== Java Performance Analysis ======'
         sh '''
+            # 设置当返回不为0时 停止下一步，直接返回
             set -e
             CURDIR=$(pwd)
-            sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot
+            # 删除上次jmeter产生的报告 (jmeter 命令-l、-o指定的文件和路径)
+            sudo rm -rf /home/test/report /home/test/result.html 
+            # 设置java性能采集必要的选项
+            sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot -j "sh /home/test/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/test/Test_request.jmx -l /home/test/result.html -eo /home/test/report"
             source /etc/profile
             sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
+            # 判断 是否执行成功
             sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/parsing_result.sh
             sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
         '''
@@ -82,11 +87,17 @@ stage('Java Performance Analysis') {
 
 #### 5. 查看任务执行状态和报告
 
-##### 查看任务执行状态和报告位置
+##### 5.1 失败执行
+
+![执行结束打开报告](./DevkitPerformanceAnalysis.assets/失败状态.png)
+
+![执行结束打开报告](./DevkitPerformanceAnalysis.assets/失败信息.png)
+
+##### 5.2 成功执行
 
 ![执行结束打开报告](./DevkitPerformanceAnalysis.assets/执行结束打开报告.png)
 
-##### 具体报告
+##### 5.3 最终报告
 
 ![具体报告](./DevkitPerformanceAnalysis.assets/具体报告.png)
  
