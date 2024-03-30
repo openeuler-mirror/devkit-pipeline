@@ -22,6 +22,10 @@ function build_devkit_distribute() {
     bash "${current_dir}"/DevkitDistribute/build_devkit_distribute.sh
 }
 
+function build_devkit_installer() {
+    bash "${current_dir}"/DevKitWeb/build_devkit_installer.sh
+}
+
 function main() {
     if [[ -d ${final_component_dir} ]]; then
         rm -rf "${final_component_dir}"
@@ -38,6 +42,7 @@ function main() {
 
     build_lkp_tests
     build_devkit_distribute
+    build_devkit_installer
 }
 
 main "$@"

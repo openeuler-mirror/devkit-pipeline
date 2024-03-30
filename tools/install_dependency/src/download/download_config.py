@@ -31,6 +31,11 @@ CompatibilityTesting = {
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/compatibility_testing.tar.gz",
 }
 
+DevKitWeb = {
+    "component_name": "DevKitWeb",
+    "file": "https://kunpeng-repo.obs.cn-north-4.myhuaweicloud.com/Porting%20Advisor/Porting%20Advisor%2023.0.T30/DevKit-All-23.0.T30-Linux-Kunpeng.tar.gz",
+    "sha256": "https://kunpeng-repo.obs.cn-north-4.myhuaweicloud.com/Porting%20Advisor/Porting%20Advisor%2023.0.T30/DevKit-All-23.0.T30-Linux-Kunpeng.tar.gz.asc",
+}
 
 OpenEuler_2003_LTS = {
     "component_name": "openEuler_2003_LTS",

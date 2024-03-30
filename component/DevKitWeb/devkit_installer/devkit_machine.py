@@ -82,7 +82,7 @@ class DevKitMachine:
             LOGGER.error(f"DevKit install package not exists: {package_file}")
             return False
 
-        cmd = f"cd {package_dir} && tar -zxf {package_name}"
+        cmd = f"cd {package_dir} && sudo tar -zxf {package_name}"
         stdin, stdout, stderr = ssh_client.exec_command(cmd)
         exit_status = stdout.channel.recv_exit_status()
         if exit_status == 0:
@@ -110,7 +110,7 @@ class DevKitMachine:
         else:
             plugin_param = f"--plugin={plugin}"
 
-        cmd = (f"cd {self.install_dir} && yes | head -1 | ./{self.install_file} {plugin_param} -d={install_path} "
+        cmd = (f"cd {self.install_dir} && yes | head -1 | sudo bash {self.install_file} {plugin_param} -d={install_path} "
                f"--ip={server_ip} --map_ip={server_ip} -p={server_port} --http_port={http_port} "
                f"--rpc_ip={server_ip} --rpc_port={rpc_port} --normal-install=1")
         LOGGER.info(f"cmd: {cmd}")

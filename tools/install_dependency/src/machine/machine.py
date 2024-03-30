@@ -137,6 +137,7 @@ class Machine:
             "BiShengJDK8": self.default_install_component_handle,
             "LkpTests": self.lkptest_install_component_handle,
             "NonInvasiveSwitching": self.nis_install_component_handle,
+            "DevKitWeb": self.devkitweb_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
             "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
             "A-FOT": self.install_a_fot,
@@ -144,6 +145,32 @@ class Machine:
         self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)
         self._remote_exec_command(CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, ssh_client)
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
+
+    def devkitweb_install_component_handle(self, component_name, sftp_client, ssh_client):
+        # 上传 tar.gz 文件
+        LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
+        remote_file_list = []
+        shell_dict = component_collection_map.get(component_name)
+
+        url_and_save_path = shell_dict.get("download file")
+        local_file = url_and_save_path.get("save_path")
+        remote_file = os.path.abspath(os.path.join('/opt', local_file.split('/')[-1]))
+        LOGGER.debug(f"Transport local_file: {local_file} to remote machine {self.ip} "
+                     f"remote_file: {remote_file}")
+        remote_file_list.append(remote_file)
+        sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
+
+        stdin, stdout, stderr = ssh_client.exec_command(
+            f"{os.path.join(base_path('component'), component_name, 'devkit_installer')} "
+            f"-i {self.ip} -u {self.user} -p {self.pkey}")
+        exit_status = stdout.channel.recv_exit_status()
+        if exit_status == 0:
+            LOGGER.debug(f"Remote machine {self.ip} exec 'devkit_installer' success.")
+        else:
+            LOGGER.error(f"Remote machine {self.ip} exec 'devkit_installer' failed.")
+
+        # 清理tmp临时文件
+        self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def install_a_fot(self, component_name, sftp_client, ssh_client):
         saved_path = os.path.join(constant.DEFAULT_PATH, "a-fot.tar.gz")
