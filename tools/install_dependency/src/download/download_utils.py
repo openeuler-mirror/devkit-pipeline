@@ -153,16 +153,12 @@ def download_dependence_file(shell_cmd, shell_dict):
 
 
 def download(url, save_path):
+    if os.path.exists(save_path) and os.path.isfile(save_path):
+        return
     if platform.system() == "Windows":
-        if os.path.exists(save_path) and os.path.isfile(save_path):
-            return
         wget.download(url, save_path)
         print()
     else:
-        req_ = requests.get(url, stream=True, verify=False)
-        total_size = int(req_.headers.get("Content-Length"))
-        if os.path.exists(save_path) and os.path.getsize(save_path) == total_size:
-            return
         subprocess.run(f"wget -c {url} -O {save_path} --no-check-certificate".split(' '),
                        capture_output=False, shell=False, stderr=subprocess.STDOUT)
         print()
