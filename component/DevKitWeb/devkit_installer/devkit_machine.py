@@ -110,7 +110,7 @@ class DevKitMachine:
         else:
             plugin_param = f"--plugin={plugin}"
 
-        cmd = (f"cd {self.install_dir} && yes | head -1 | sudo bash {self.install_file} {plugin_param} -d={install_path} "
+        cmd = (f"cd {self.install_dir} && sudo bash {self.install_file} {plugin_param} -d={install_path} "
                f"--ip={server_ip} --map_ip={server_ip} -p={server_port} --http_port={http_port} "
                f"--rpc_ip={server_ip} --rpc_port={rpc_port} --normal-install=1")
         LOGGER.info(f"cmd: {cmd}")
@@ -123,39 +123,37 @@ class DevKitMachine:
         if not ssh_client:
             return False
         channel = DevKitMachine.channel_create(ssh_client)
-        result = self.channel_send_cmd(chan=channel, cmd=cmd, special_end=special_end,
+        result = self.channel_send_cmd(channel=channel, cmd=cmd, special_end=special_end,
                                        error_special_end=[environment_check], timeout=300)
         if not result or environment_check in result:
             # 授权工具处理环境检查失败项
-            result = self.channel_send_cmd(chan=channel, cmd="y\n", special_end=special_end, timeout=240)
+            result = self.channel_send_cmd(channel=channel, cmd="y\n", special_end=special_end, timeout=240)
         if special_end in result:
             ssh_client.close()
             return True
         ssh_client.close()
         return False
 
-    def channel_send_cmd(self, chan, cmd, special_end="", error_special_end=None, timeout=60):
+    def channel_send_cmd(self, channel, cmd, special_end="", error_special_end=None, timeout=60):
         if error_special_end is None:
             error_special_end = []
         try:
-            chan.settimeout(timeout)
+            channel.settimeout(timeout)
             if not cmd.endswith('\n'):
                 cmd = cmd + '\n'
-            chan.send(cmd)
+            channel.send(cmd)
 
             while True:
-                time.sleep(5)
-                buff = chan.recv(65535)
+                buff = channel.recv(65535)
                 buff_decode = buff.decode("utf8", errors='ignore')
+                LOGGER.debug(buff_decode)
                 if special_end in buff_decode:
                     break
                 for error_end in error_special_end:
                     if error_end in buff_decode:
                         break
 
-            result = buff.decode("utf8", errors="ignore")
-            LOGGER.info("result: {}".format(result.split('\n')[-2]))
-            return result
+            return buff_decode
         except Exception as e:
             LOGGER.info(f"Exec '{cmd}' error occurs: {str(e)}")
             return ""
