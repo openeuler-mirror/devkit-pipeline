@@ -30,7 +30,7 @@ class DevKitInstaller:
         )
         if not decompress_result:
             LOGGER.error("Decompress package failed.")
-            exit(1)
+            sys.exit(1)
         LOGGER.info("Decompress package success.")
 
     def install_java_perf(self):
@@ -42,14 +42,14 @@ class DevKitInstaller:
                                                             rpc_port=50051)
         if not install_result:
             LOGGER.error(f"Install DevKit failed.")
-            exit(1)
+            sys.exit(1)
         LOGGER.info(f"Install DevKit success.")
 
     def set_up_password(self):
         # 初始化管理员密码
         result_dict = self.user_manage.first_login(username=self.admin_username, password=self.admin_password)
         if not result_dict:
-            exit(1)
+            sys.exit(1)
         LOGGER.info("DevKitInstaller executive success.")
 
 
