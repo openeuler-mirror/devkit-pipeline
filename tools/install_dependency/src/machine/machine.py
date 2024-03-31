@@ -1,6 +1,7 @@
 import logging
 import os
 import socket
+import subprocess
 import typing
 
 import paramiko
@@ -160,14 +161,11 @@ class Machine:
         remote_file_list.append(remote_file)
         sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
 
-        stdin, stdout, stderr = ssh_client.exec_command(
-            f"{os.path.join(base_path('component'), component_name, 'devkit_installer')} "
-            f"-i {self.ip} -u {self.user} -p {self.pkey}")
-        exit_status = stdout.channel.recv_exit_status()
-        if exit_status == 0:
-            LOGGER.debug(f"Remote machine {self.ip} exec 'devkit_installer' success.")
-        else:
-            LOGGER.error(f"Remote machine {self.ip} exec 'devkit_installer' failed.")
+        cmd = f"{os.path.join(base_path('component'), component_name, 'devkit_installer')} " \
+              f"-i {self.ip} -u {self.user} -p {self.pkey} -paname {local_file.split('/')[-1]}"
+        LOGGER.debug(f"Executing command: {cmd}")
+        subprocess.run(cmd.split(' '),
+                       capture_output=False, shell=False, stderr=subprocess.STDOUT)
 
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)

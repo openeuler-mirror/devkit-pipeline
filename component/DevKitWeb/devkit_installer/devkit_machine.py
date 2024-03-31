@@ -118,25 +118,29 @@ class DevKitMachine:
         special_end = f"https://{server_ip}:{server_port}"
         environment_check = ("Do you want to "
                              "authorize the tool to handle the items failed in the installation environment check")
+        continue_statement = "Do you want to continue?"
+        use_statement = "do you want to use it?"
+        error_special_end = "you want to"
 
         ssh_client = self.ssh_client()
         if not ssh_client:
             return False
         channel = DevKitMachine.channel_create(ssh_client)
         result = self.channel_send_cmd(channel=channel, cmd=cmd, special_end=special_end,
-                                       error_special_end=[environment_check], timeout=300)
-        if not result or environment_check in result:
-            # 授权工具处理环境检查失败项
-            result = self.channel_send_cmd(channel=channel, cmd="y\n", special_end=special_end, timeout=240)
-        if special_end in result:
+                                       error_special_end=error_special_end, timeout=300)
+
+        while result.find(error_special_end) != -1:
+            # 授权工具安装继续运行
+            result = self.channel_send_cmd(channel=channel, cmd="y\n", special_end=special_end,
+                                           error_special_end=error_special_end, timeout=300)
+        if result.find(special_end) != -1:
             ssh_client.close()
             return True
         ssh_client.close()
         return False
 
-    def channel_send_cmd(self, channel, cmd, special_end="", error_special_end=None, timeout=60):
-        if error_special_end is None:
-            error_special_end = []
+    def channel_send_cmd(self, channel, cmd, special_end, error_special_end, timeout=60):
+        buff_decode = ""
         try:
             channel.settimeout(timeout)
             if not cmd.endswith('\n'):
@@ -145,16 +149,14 @@ class DevKitMachine:
 
             while True:
                 buff = channel.recv(65535)
-                buff_decode = buff.decode("utf8", errors='ignore')
-                LOGGER.debug(buff_decode)
-                if special_end in buff_decode:
+                buff_decode = str(buff.decode("utf8", errors='ignore'))
+                LOGGER.debug(buff_decode.replace("\n", ""))
+                if buff_decode.find(special_end) != -1:
                     break
-                for error_end in error_special_end:
-                    if error_end in buff_decode:
-                        break
+                if buff_decode.find(error_special_end) != -1:
+                    break
+            LOGGER.debug(f"process_result: {buff_decode}")
 
-            return buff_decode
         except Exception as e:
             LOGGER.info(f"Exec '{cmd}' error occurs: {str(e)}")
-            return ""
-
+        return buff_decode
