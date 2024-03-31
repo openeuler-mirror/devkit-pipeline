@@ -13,7 +13,8 @@ from exception.connect_exception import (CreatePkeyFailedException, ConnectRemot
                                          NotMatchedMachineTypeException)
 from download.download_utils import component_collection_map
 from deploy.lkp_collect_map import lkp_collection_map
-from utils import (base_path, validate_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
+from utils import (base_path, validate_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD,
+                   YUM_INSTALL_TAR_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
                    CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE,
                    CHECK_MIRROR_INSTALL_STATUS, PROMPT_MAP)
 
@@ -143,6 +144,7 @@ class Machine:
             "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
             "A-FOT": self.install_a_fot,
         }
+        self._remote_exec_command(YUM_INSTALL_TAR_CMD, ssh_client)
         self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)
         self._remote_exec_command(CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, ssh_client)
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
