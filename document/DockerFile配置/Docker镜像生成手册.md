@@ -31,11 +31,6 @@ concurrent-ruby-1.1.10.gem ci_reporter-2.0.0.gem bundler-2.2.33.gem builder-3.2.
   make && \
   chmod 777 /root/.local/lkp-tests/programs/compatibility-test/run && \
   ln -s /root/.local/lkp-tests/programs/compatibility-test/run /root/.local/lkp-tests/tests/compatibility-test && \
-  echo "LKP_PATH=/root/.local/lkp-tests/" >> /etc/profile.d/lkp.sh && \
-  echo "LKP_SRC=/root/.local/lkp-tests/" >> /etc/profile.d/lkp.sh && \
-  echo "PATH=/root/.local/lkp-tests/sbin:/root/.local/lkp-tests/bin:$PATH" >> /etc/profile.d/lkp.sh && \
-  echo "export LKP_PATH LKP_SRC PATH" >> /etc/profile.d/lkp.sh && \
-  source /etc/profile && \
   cd /root/.local/lkp-tests/programs/compatibility-test/ && \
   lkp split /root/.local/lkp-tests/programs/compatibility-test/jobs/compatibility-test.yaml && \
   chown -R root:root /root/.local/lkp-tests
