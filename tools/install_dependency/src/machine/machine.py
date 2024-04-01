@@ -13,7 +13,7 @@ from exception.connect_exception import (CreatePkeyFailedException, ConnectRemot
                                          NotMatchedMachineTypeException)
 from download.download_utils import component_collection_map
 from utils import (base_path, validate_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD,
-                   CHECK_TAR_AVAILABLE_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
+                   CHECK_TAR_AVAILABLE_CMD, CHECK_PERF_AVAILABLE_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
                    CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE,
                    CHECK_MIRROR_INSTALL_STATUS, PROMPT_MAP)
 
@@ -143,7 +143,6 @@ class Machine:
             "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
             "A-FOT": self.install_a_fot,
         }
-        self._remote_exec_command(CHECK_TAR_AVAILABLE_CMD, ssh_client)
         self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)
         self._remote_exec_command(CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, ssh_client)
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
@@ -172,7 +171,7 @@ class Machine:
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def install_a_fot(self, component_name, sftp_client, ssh_client):
-        self._remote_exec_command("sudo yum install -y perf", ssh_client)
+        self._remote_exec_command(CHECK_PERF_AVAILABLE_CMD, ssh_client)
         saved_path = os.path.join(constant.DEFAULT_PATH, "a-fot.tar.gz")
         remote_file = os.path.abspath(os.path.join('/tmp', saved_path))
         LOGGER.debug(f"Transport local_file: {saved_path} to remote machine {self.ip} "
@@ -323,6 +322,7 @@ class Machine:
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def default_install_component_handle(self, component_name, sftp_client, ssh_client):
+        self._remote_exec_command(CHECK_TAR_AVAILABLE_CMD, ssh_client)
         self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)
         self._remote_exec_command(CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, ssh_client)
 
