@@ -4,7 +4,7 @@
 Pipeline solution to support building, deploying and automating any software project on Kunpeng Architecture
 
 #### 软件架构
-支持鲲鹏架构下openEuler系操作系统
+支持x86/鲲鹏多样性算力下openEuler系操作系统
 
 #### 使用说明
 ##### Jenkins及Gitlab流水线安装部署指导

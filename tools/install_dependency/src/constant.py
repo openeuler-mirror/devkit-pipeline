@@ -13,7 +13,7 @@ DEPENDENCY_DIR = "devkitdependencies"
 INSTRUCTION = "instruction"
 
 ROLE_COMPONENT = {
-    SCANNER: ["BiShengJDK17"],
+    SCANNER: ["BiShengJDK17", "DevKitCLI"],
     C_BUIDLER: ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17", "A-FOT", "NonInvasiveSwitching"],
     JAVA_BUILDER: ["BiShengJDK17", "BiShengJDK8"],
     EXECUTOR: ["BiShengJDK17", "LkpTests"],

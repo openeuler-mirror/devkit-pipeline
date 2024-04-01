@@ -87,6 +87,13 @@ component_collection_map = {
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevKitWeb.get(FILE).split('/')[-1])}",
         },
     },
+
+    "DevKitCLI": {
+        "download file": {
+            URL: f"{download_config.DevKitCLI.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz')}",
+        }
+    },
 }
 
 

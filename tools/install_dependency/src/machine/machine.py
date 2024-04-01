@@ -139,6 +139,7 @@ class Machine:
             "LkpTests": self.lkptest_install_component_handle,
             "NonInvasiveSwitching": self.nis_install_component_handle,
             "DevKitWeb": self.devkitweb_install_component_handle,
+            "DevKitCLI": self.default_install_component_handle,
             "OpenEulerMirrorISO": self.deploy_iso_handle,
             "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
             "A-FOT": self.install_a_fot,

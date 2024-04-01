@@ -38,6 +38,11 @@ DevKitWeb = {
     "file": "https://kunpeng-repo.obs.cn-north-4.myhuaweicloud.com/Porting%20Advisor/Porting%20Advisor%2023.0.T30/DevKit-All-23.0.T30-Linux-Kunpeng.tar.gz",
 }
 
+DevKitCLI = {
+    "component_name": "DevKitCLI",
+    "file": "https://www.hikunpeng.com/",
+}
+
 
 OpenEuler_2003_LTS = {
     "component_name": "openEuler_2003_LTS",
