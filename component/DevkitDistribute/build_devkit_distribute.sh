@@ -42,6 +42,5 @@ cp devkit_pipeline_agent.tar.gz devkit_distribute/config
 tar -czf devkit_distribute.tar.gz devkit_distribute
 
 mkdir -p "${project_dir}"/build/component/DevkitDistribute
-cp devkit_distribute.tar.gz "${project_dir}"/build/component/DevkitDistribute
 cp "${current_dir}/check_install_result.sh" "${project_dir}"/build/component/DevkitDistribute
 cp "${current_dir}/install.sh" "${project_dir}"/build/component/DevkitDistribute

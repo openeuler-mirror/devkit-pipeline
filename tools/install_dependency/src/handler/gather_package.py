@@ -2,7 +2,7 @@ import logging
 import os
 import subprocess
 import constant
-from download.download_utils import download_dependence, component_collection_map, lkp_collection_map
+from download.download_utils import download_dependence
 from handler.handler_and_node import Handler
 from utils import generate_component_list
 
@@ -16,7 +16,6 @@ class GatherPackage(Handler):
 
     def handle(self, data) -> bool:
         LOGGER.debug("GatherPackage start!")
-        component_collection_map.update(lkp_collection_map)
         self.component_list = generate_component_list(data)
 
         try:

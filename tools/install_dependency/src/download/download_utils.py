@@ -26,41 +26,72 @@ FILE_LIST = (A_FOT, A_FOT_INI, AUTO_FDO_SH, AUTO_BOLT_SH, AUTO_PREFETCH, SPLIT_J
 
 
 component_collection_map = {
-    component.get("component_name"): {
-        "download file":
-            {
-                URL: f"{component.get(FILE)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, component.get(FILE).split('/')[-1])}"
-            },
-        "download sha256":
-            {
-                URL: f"{component.get(SHA256)}",
-                SAVE_PATH: f"{os.path.join(DEFAULT_PATH, component.get(SHA256).split('/')[-1])}"
-            }
-    } for component in (
-        download_config.BiShengCompiler,
-        download_config.GCCforOpenEuler,
-        download_config.BiShengJDK8,
-        download_config.BiShengJDK17,
-        download_config.DevKitWeb,
-    )
-}
+    "BiShengCompiler": {
+        "download file": {
+            URL: f"{download_config.BiShengCompiler.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengCompiler.get(FILE).split('/')[-1])}",
+        },
+        "download sha256": {
+            URL: f"{download_config.BiShengCompiler.get(SHA256)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengCompiler.get(SHA256).split('/')[-1])}",
+        },
+    },
+    "GCCforOpenEuler": {
+        "download file": {
+            URL: f"{download_config.GCCforOpenEuler.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.GCCforOpenEuler.get(FILE).split('/')[-1])}",
+        },
+        "download sha256": {
+            URL: f"{download_config.GCCforOpenEuler.get(SHA256)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.GCCforOpenEuler.get(SHA256).split('/')[-1])}",
+        },
+    },
+    "BiShengJDK8": {
+        "download file": {
+            URL: f"{download_config.BiShengJDK8.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengJDK8.get(FILE).split('/')[-1])}",
+        },
+        "download sha256": {
+            URL: f"{download_config.BiShengJDK8.get(SHA256)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengJDK8.get(SHA256).split('/')[-1])}",
+        },
+    },
+    "BiShengJDK17": {
+        "download file": {
+            URL: f"{download_config.BiShengJDK17.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengJDK17.get(FILE).split('/')[-1])}",
+        },
+        "download sha256": {
+            URL: f"{download_config.BiShengJDK17.get(SHA256)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengJDK17.get(SHA256).split('/')[-1])}",
+        },
+    },
 
-lkp_collection_map = {
     "LkpTests": {
         "download file": {
             URL: f"{download_config.LkpTests.get(FILE)}",
-            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'lkp-tests.tar.gz')}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get(FILE).split('/')[-1])}",
         },
-        "download gem dependency": {
-            URL: f"{download_config.LkpTests.get('gem dependency')}",
-            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'gem_dependencies.zip')}",
+        "GemDependency": {
+            URL: f"{download_config.LkpTests.get('GemDependency')}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('GemDependency').split('/')[-1])}",
         },
-        "download CompatibilityTesting": {
-            URL: f"{download_config.CompatibilityTesting.get(FILE)}",
-            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'compatibility_testing.tar.gz')}",
+        "CompatibilityTesting": {
+            URL: f"{download_config.LkpTests.get('CompatibilityTesting')}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('CompatibilityTesting').split('/')[-1])}",
+        },
+        "DevkitDistribute": {
+            URL: f"{download_config.LkpTests.get('DevkitDistribute')}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('DevkitDistribute').split('/')[-1])}",
         }
     },
+
+    "DevKitWeb": {
+        "download file": {
+            URL: f"{download_config.DevKitWeb.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevKitWeb.get(FILE).split('/')[-1])}",
+        },
+    }
 }
 
 
@@ -98,7 +129,6 @@ def download_dependence(component_list):
         return False
 
     ret = True
-    component_collection_map.update(lkp_collection_map)
     for component_name in component_collection_map:
         if component_name not in component_list:
             continue

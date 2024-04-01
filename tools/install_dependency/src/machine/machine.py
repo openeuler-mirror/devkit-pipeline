@@ -8,13 +8,12 @@ import paramiko
 import timeout_decorator
 
 import constant
-from deploy.command_line import CommandLine
+from deploy.deploy_command_line import CommandLine
 from exception.connect_exception import (CreatePkeyFailedException, ConnectRemoteException,
                                          NotMatchedMachineTypeException)
 from download.download_utils import component_collection_map
-from deploy.lkp_collect_map import lkp_collection_map
 from utils import (base_path, validate_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD,
-                   YUM_INSTALL_TAR_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
+                   CHECK_TAR_AVAILABLE_CMD, YUM_INSTALL_LKP_DEPENDENCIES_CMD,
                    CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE,
                    CHECK_MIRROR_INSTALL_STATUS, PROMPT_MAP)
 
@@ -144,7 +143,7 @@ class Machine:
             "UnOpenEulerMirrorISO": self.undeploy_iso_handle,
             "A-FOT": self.install_a_fot,
         }
-        self._remote_exec_command(YUM_INSTALL_TAR_CMD, ssh_client)
+        self._remote_exec_command(CHECK_TAR_AVAILABLE_CMD, ssh_client)
         self._remote_exec_command(MKDIR_TMP_DEVKITDEPENDENCIES_CMD, ssh_client)
         self._remote_exec_command(CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, ssh_client)
         return component_name_to_func_dict.get(component_name)(component_name, sftp_client, ssh_client)
@@ -214,7 +213,7 @@ class Machine:
         # 上传 lkp-tests.tar.gz文件
         LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
         remote_file_list = []
-        shell_dict = lkp_collection_map.get(component_name)
+        shell_dict = component_collection_map.get(component_name)
         for shell_cmd in shell_dict:
             url_and_save_path = shell_dict.get(shell_cmd)
             local_file = url_and_save_path.get("save_path")
@@ -250,24 +249,23 @@ class Machine:
         self.__install_component_on_lkptest("CompatibilityTesting", sftp_client, ssh_client)
         self.__install_component_on_lkptest("DevkitDistribute", sftp_client, ssh_client)
 
-    def __install_component_on_lkptest(self, component_name, sftp_client, ssh_client):
+    def __install_component_on_lkptest(self, sub_component_name, sftp_client, ssh_client):
         # 上传 tar.gz 文件
-        LOGGER.info(f"Install component in remote machine {self.ip}: {component_name}")
+        LOGGER.info(f"Install component in remote machine {self.ip}: {sub_component_name}")
         remote_file_list = []
-        shell_dict = lkp_collection_map.get(component_name)
-        for shell_cmd in shell_dict:
-            url_and_save_path = shell_dict.get(shell_cmd)
-            local_file = url_and_save_path.get("save_path")
-            remote_file = os.path.abspath(os.path.join('/tmp', constant.DEPENDENCY_DIR, local_file.split('/')[-1]))
-            LOGGER.debug(f"Transport local_file: {local_file} to remote machine {self.ip} "
-                         f"remote_file: {remote_file}")
-            remote_file_list.append(remote_file)
-            sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
+        url_and_save_path = component_collection_map.get("LkpTests").get(sub_component_name)
+
+        local_file = url_and_save_path.get("save_path")
+        remote_file = os.path.abspath(os.path.join('/tmp', constant.DEPENDENCY_DIR, local_file.split('/')[-1]))
+        LOGGER.debug(f"Transport local_file: {local_file} to remote machine {self.ip} "
+                     f"remote_file: {remote_file}")
+        remote_file_list.append(remote_file)
+        sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
         # 上传并执行 安装脚本, 校验安装结果脚本
         install_result = ""
         for shell_file in SHELL_FILE_LIST:
-            sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
-            sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, component_name + shell_file)
+            sh_file_local_path = os.path.join(base_path("component"), sub_component_name, shell_file)
+            sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, sub_component_name + shell_file)
             sh_cmd = f"bash {sh_file_remote_path} {remote_file_list[0]}"
             execute_output = (
                 self.transport_shell_file_and_execute(
@@ -281,9 +279,9 @@ class Machine:
                 install_result = execute_output
 
         if install_result == "true":
-            LOGGER.info(f"Remote machine {self.ip} install {component_name} success.")
+            LOGGER.info(f"Remote machine {self.ip} install {sub_component_name} success.")
         else:
-            LOGGER.error(f"Remote machine {self.ip} install {component_name} failed.")
+            LOGGER.error(f"Remote machine {self.ip} install {sub_component_name} failed.")
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
