@@ -229,7 +229,7 @@ class Machine:
         for shell_file in SHELL_FILE_LIST:
             sh_file_local_path = os.path.join(base_path("component"), component_name, shell_file)
             sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, component_name + shell_file)
-            sh_cmd = f"sudo bash {sh_file_remote_path} {remote_file_list[0]} {remote_file_list[1]}"
+            sh_cmd = f"sudo bash {sh_file_remote_path}"
             execute_output = (
                 self.transport_shell_file_and_execute(
                     ssh_client, sftp_client,
