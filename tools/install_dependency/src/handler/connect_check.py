@@ -36,7 +36,7 @@ class ConnectCheck(Handler):
                 LOGGER.error(f"-- [error] Connect {ip} failed. Because of {str(e)}")
                 del data[constant.MACHINE]
                 return False
-            if data.get(constant.INSTRUCTION) == "deploy_iso" and role in ("devkit", "executor"):
+            if data.get(constant.INSTRUCTION) == "deploy_iso":
                 machine_instance.set_mirror()
         return True
 

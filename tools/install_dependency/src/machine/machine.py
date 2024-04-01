@@ -172,6 +172,7 @@ class Machine:
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
 
     def install_a_fot(self, component_name, sftp_client, ssh_client):
+        self._remote_exec_command("sudo yum install -y perf", ssh_client)
         saved_path = os.path.join(constant.DEFAULT_PATH, "a-fot.tar.gz")
         remote_file = os.path.abspath(os.path.join('/tmp', saved_path))
         LOGGER.debug(f"Transport local_file: {saved_path} to remote machine {self.ip} "
