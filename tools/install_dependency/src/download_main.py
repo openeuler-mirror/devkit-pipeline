@@ -12,7 +12,7 @@ from handler.gather_package import GatherPackage
 from handler.compress_dep import CompressDep
 
 from utils import read_yaml_file
-from constant import URL, SHA256, SAVE_PATH, FILE, INSTRUCTION
+from constant import URL, SAVE_PATH, FILE, SHA256, FILE_SIZE, INSTRUCTION
 
 
 PIPELINE = [BaseCheck(), GatherPackage(), CompressDep()]
@@ -20,16 +20,11 @@ PIPELINE = [BaseCheck(), GatherPackage(), CompressDep()]
 
 iso_collection_map = {
     component.get("component_name"): {
-        "download file":
-            {
-                URL: f"{component.get(FILE)}",
-                SAVE_PATH: f"{os.path.join('./', component.get(FILE).split('/')[-1])}"
-            },
-        "download sha256":
-            {
-                URL: f"{component.get(SHA256)}",
-                SAVE_PATH: f"{os.path.join('./', component.get(SHA256).split('/')[-1])}"
-            }
+        "download file": {
+            URL: f"{component.get(FILE)}",
+            SAVE_PATH: f"{os.path.join('./', component.get(FILE).split('/')[-1])}",
+            FILE_SIZE: f"{component.get(FILE_SIZE)}",
+        },
     } for component in (
         download_config.OpenEuler_2003_LTS,
         download_config.OpenEuler_2003_LTS_SP1,

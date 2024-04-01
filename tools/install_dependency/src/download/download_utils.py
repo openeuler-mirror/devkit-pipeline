@@ -7,7 +7,7 @@ import warnings
 import requests
 import wget
 from download import download_config
-from constant import URL, FILE, SAVE_PATH, SHA256, DEFAULT_PATH
+from constant import URL, SAVE_PATH, FILE, SHA256, FILE_SIZE, DEFAULT_PATH
 
 
 warnings.filterwarnings("ignore", message='Unverified HTTPS request')
@@ -18,40 +18,48 @@ component_collection_map = {
         "download file": {
             URL: f"{download_config.BiShengCompiler.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengCompiler.get(FILE).split('/')[-1])}",
+            FILE_SIZE: "1051195289",
         },
         "download sha256": {
             URL: f"{download_config.BiShengCompiler.get(SHA256)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengCompiler.get(SHA256).split('/')[-1])}",
+            FILE_SIZE: "107",
         },
     },
     "GCCforOpenEuler": {
         "download file": {
             URL: f"{download_config.GCCforOpenEuler.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.GCCforOpenEuler.get(FILE).split('/')[-1])}",
+            FILE_SIZE: "274901693",
         },
         "download sha256": {
             URL: f"{download_config.GCCforOpenEuler.get(SHA256)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.GCCforOpenEuler.get(SHA256).split('/')[-1])}",
+            FILE_SIZE: "106",
         },
     },
     "BiShengJDK8": {
         "download file": {
             URL: f"{download_config.BiShengJDK8.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengJDK8.get(FILE).split('/')[-1])}",
+            FILE_SIZE: "117055434",
         },
         "download sha256": {
             URL: f"{download_config.BiShengJDK8.get(SHA256)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengJDK8.get(SHA256).split('/')[-1])}",
+            FILE_SIZE: "105",
         },
     },
     "BiShengJDK17": {
         "download file": {
             URL: f"{download_config.BiShengJDK17.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengJDK17.get(FILE).split('/')[-1])}",
+            FILE_SIZE: "196772672",
         },
         "download sha256": {
             URL: f"{download_config.BiShengJDK17.get(SHA256)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.BiShengJDK17.get(SHA256).split('/')[-1])}",
+            FILE_SIZE: "107",
         },
     },
 
@@ -59,18 +67,22 @@ component_collection_map = {
         "download file": {
             URL: f"{download_config.LkpTests.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get(FILE).split('/')[-1])}",
+            FILE_SIZE: "29333270",
         },
         "GemDependency": {
             URL: f"{download_config.LkpTests.get('GemDependency')}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('GemDependency').split('/')[-1])}",
+            FILE_SIZE: "4206309",
         },
         "CompatibilityTesting": {
             URL: f"{download_config.LkpTests.get('CompatibilityTesting')}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('CompatibilityTesting').split('/')[-1])}",
+            FILE_SIZE: "76645477",
         },
         "DevkitDistribute": {
             URL: f"{download_config.LkpTests.get('DevkitDistribute')}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('DevkitDistribute').split('/')[-1])}",
+            FILE_SIZE: "13349673",
         }
     },
 
@@ -78,13 +90,15 @@ component_collection_map = {
         "download file": {
             URL: f"{download_config.A_FOT.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.A_FOT.get(FILE).split('/')[-1])}",
+            FILE_SIZE: "15740",
         }
     },
 
     "DevKitWeb": {
         "download file": {
             URL: f"{download_config.DevKitWeb.get(FILE)}",
-            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevKitWeb.get(FILE).split('/')[-1])}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'DevKit-All-23.0.T30-Linux-Kunpeng.tar.gz')}",
+            FILE_SIZE: "1143374523",
         },
     },
 
@@ -92,6 +106,7 @@ component_collection_map = {
         "download file": {
             URL: f"{download_config.DevKitCLI.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz')}",
+            FILE_SIZE: "300000000",
         }
     },
 }
@@ -128,9 +143,10 @@ def download_dependence_file(shell_cmd, shell_dict):
     url_and_save_path = shell_dict.get(shell_cmd)
     url_ = url_and_save_path.get("url")
     save_path = url_and_save_path.get("save_path")
+    file_size = url_and_save_path.get("file_size")
     try:
         print(f"Downloading from {url_}")
-        download(url_, save_path)
+        download(url_, save_path, file_size)
     except (requests.exceptions.Timeout,
             requests.exceptions.ConnectionError,
             requests.exceptions.HTTPError,
@@ -156,8 +172,8 @@ def download_dependence_file(shell_cmd, shell_dict):
     return ret
 
 
-def download(url, save_path):
-    if os.path.exists(save_path) and os.path.isfile(save_path):
+def download(url, save_path, file_size):
+    if os.path.exists(save_path) and os.path.isfile(save_path) and str(os.path.getsize(save_path)) == file_size:
         return
     if platform.system() == "Windows":
         wget.download(url, save_path)
