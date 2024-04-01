@@ -156,7 +156,7 @@ compatibility-test: # run 脚本的输入参数
         - value1
         - value2
     # 示例
-    file_path: ${HOME}/.local/compatibility_testing/Chinese、compatibility_testing.sh
+    file_path: ${HOME}/.local/compatibility_testing/Chinese/compatibility_testing.sh
 ```
 
 programs/compatibility-test/meta.yaml:
@@ -168,7 +168,7 @@ metadata:
   description: run compatinility test and generate the report # 这个项目的介绍
   homepage: https://gitee.com/openeuler/devkit-pipeline # 项目的网址
 type: workload # 项目类型，极简版保持一直就行
-depends: # 项目依赖，极简版默认用户知道自己运行脚本需要哪些依赖已经安装好，无需在运行lkp命令时按照为空即可
+depends: # 项目依赖，极简版默认用户知道自己运行脚本需要哪些依赖已经安装好，无需在运行lkp命令时安装，为空即可
 params: # 需要的参数
     file_path:
 results: # 需要对结果进行处理，默认用户在run脚本里处理结果，为空即可
@@ -286,7 +286,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - cp -rf /root/.local/compatibility_testing/template.html.bak /root/.local/compatibility_testing/template.html
     - sudo /root/.local/lkp-tests/bin/lkp run /root/.local/lkp-tests/programs/compatibility-test/compatibility-test-defaults.yaml
     - cp -rf /root/.local/compatibility_testing/compatibility_report.html $CURDIR/compatibility_report.html
-    - sudo sh /root/.local/compatibility_testing/Chinese/test_result.sh # 
+    - sudo sh /root/.local/compatibility_testing/report_result.sh 
     - echo "请去 '${CURDIR}'/compatibility_report.html 查看报告 "
   artifacts:   
     paths:
