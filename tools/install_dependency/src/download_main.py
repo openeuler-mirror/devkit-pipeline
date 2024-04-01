@@ -23,12 +23,12 @@ iso_collection_map = {
         "download file":
             {
                 URL: f"{component.get(FILE)}",
-                SAVE_PATH: f"{os.path.join('/', component.get(FILE).split('/')[-1])}"
+                SAVE_PATH: f"{os.path.join('./', component.get(FILE).split('/')[-1])}"
             },
         "download sha256":
             {
                 URL: f"{component.get(SHA256)}",
-                SAVE_PATH: f"{os.path.join('/', component.get(SHA256).split('/')[-1])}"
+                SAVE_PATH: f"{os.path.join('./', component.get(SHA256).split('/')[-1])}"
             }
     } for component in (
         download_config.OpenEuler_2003_LTS,

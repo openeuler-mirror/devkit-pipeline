@@ -28,6 +28,10 @@ LkpTests = {
     "DevkitDistribute": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/devkit_distribute.tar.gz",
 }
 
+A_FOT = {
+    "component_name": "A-FOT",
+    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/a-fot.tar.gz",
+}
 
 DevKitWeb = {
     "component_name": "DevKitWeb",

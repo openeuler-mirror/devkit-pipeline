@@ -1,8 +1,6 @@
 import os
 import platform
 import subprocess
-import shutil
-import tarfile
 import urllib.error
 import warnings
 
@@ -13,16 +11,6 @@ from constant import URL, FILE, SAVE_PATH, SHA256, DEFAULT_PATH
 
 
 warnings.filterwarnings("ignore", message='Unverified HTTPS request')
-
-# A-FOT files
-BASE_URL = "https://gitee.com/openeuler/A-FOT/raw/master/{}"
-A_FOT = "a-fot"
-A_FOT_INI = "a-fot.ini"
-AUTO_FDO_SH = "auto_fdo.sh"
-AUTO_BOLT_SH = "auto_bolt.sh"
-AUTO_PREFETCH = "auto_prefetch.sh"
-SPLIT_JSON_PY = "split_json.py"
-FILE_LIST = (A_FOT, A_FOT_INI, AUTO_FDO_SH, AUTO_BOLT_SH, AUTO_PREFETCH, SPLIT_JSON_PY)
 
 
 component_collection_map = {
@@ -86,39 +74,20 @@ component_collection_map = {
         }
     },
 
+    "A-FOT": {
+        "download file": {
+            URL: f"{download_config.A_FOT.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.A_FOT.get(FILE).split('/')[-1])}",
+        }
+    },
+
     "DevKitWeb": {
         "download file": {
             URL: f"{download_config.DevKitWeb.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevKitWeb.get(FILE).split('/')[-1])}",
         },
-    }
+    },
 }
-
-
-def download_a_fot():
-    tar_file = os.path.join(DEFAULT_PATH, "a-fot.tar.gz")
-    if os.path.exists(tar_file) and os.path.isfile(tar_file):
-        return True
-
-    saved_path = os.path.join(DEFAULT_PATH, A_FOT)
-    try:
-        os.mkdir(saved_path)
-    except FileExistsError as e:
-        pass
-
-    try:
-        for f in FILE_LIST:
-            print(f"Downloading from {BASE_URL.format(f)}")
-            wget.download(BASE_URL.format(f), os.path.join(saved_path, f))
-            print()
-        with tarfile.open(tar_file, "w:gz") as t:
-            t.add(saved_path, arcname="a-fot")
-        return True
-    except Exception as e:
-        print(e)
-        return False
-    finally:
-        shutil.rmtree(saved_path)
 
 
 def download_dependence(component_list):
@@ -134,8 +103,6 @@ def download_dependence(component_list):
             continue
         shell_dict = component_collection_map.get(component_name)
         ret = ret and download_dependence_handler(shell_dict)
-    if "A-FOT" in component_list:
-        ret &= download_a_fot()
     return ret
 
 
