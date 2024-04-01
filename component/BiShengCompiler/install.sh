@@ -7,7 +7,7 @@ if [[ ${verify_signature} -eq "0" ]]; then
         mkdir -p ${HOME}/.local
 
         echo "Decompress BiShengCompiler-3.2.0-aarch64-linux.tar.gz to ${HOME}/.local"
-        tar -zxf /tmp/devkitdependencies/BiShengCompiler-3.2.0-aarch64-linux.tar.gz -C ${HOME}/.local
+        tar --no-same-owner -zxf /tmp/devkitdependencies/BiShengCompiler-3.2.0-aarch64-linux.tar.gz -C ${HOME}/.local
         echo "Decompress BiShengCompiler-3.2.0-aarch64-linux.tar.gz to ${HOME}/.local finished."
     fi
 

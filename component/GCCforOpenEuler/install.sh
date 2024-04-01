@@ -7,7 +7,7 @@ if [[ ${verify_signature} -eq "0" ]]; then
         mkdir -p ${HOME}/.local
 
         echo "Decompress gcc-10.3.1-2023.12-aarch64-linux.tar.gz to ${HOME}/.local"
-        tar -zxf /tmp/devkitdependencies/gcc-10.3.1-2023.12-aarch64-linux.tar.gz -C ${HOME}/.local
+        tar --no-same-owner -zxf /tmp/devkitdependencies/gcc-10.3.1-2023.12-aarch64-linux.tar.gz -C ${HOME}/.local
         echo "Decompress gcc-10.3.1-2023.12-aarch64-linux.tar.gz to ${HOME}/.local finished."
     fi
 

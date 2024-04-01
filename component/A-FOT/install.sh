@@ -7,7 +7,7 @@ if [[ ! -d ${HOME}/.local/a-fot ]]; then
     mkdir -p ${HOME}/.local
 
     echo "Decompress a-fot.tar.gz to ${HOME}/.local"
-    tar -zxf /tmp/devkitdependencies/a-fot.tar.gz -C ${HOME}/.local
+    tar --no-same-owner -zxf /tmp/devkitdependencies/a-fot.tar.gz -C ${HOME}/.local
     chmod 750 -R ${HOME}/.local/a-fot
     echo "Decompress a-fot.tar.gz to ${HOME}/.local finished."
 fi
