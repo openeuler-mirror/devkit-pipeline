@@ -29,14 +29,6 @@ function main() {
   chmod 777 "${HOME}"/.local/lkp-tests/programs/compatibility-test/run
   ln -s "${HOME}"/.local/lkp-tests/programs/compatibility-test/run "${HOME}"/.local/lkp-tests/tests/compatibility-test
 
-  cat > /etc/profile.d/lkp.sh <<'EOF'
-LKP_PATH=${HOME}/.local/lkp-tests/
-LKP_SRC="${LKP_PATH}"
-PATH="${LKP_PATH}"/sbin:"${LKP_PATH}"/bin:$PATH
-export LKP_PATH LKP_SRC PATH
-EOF
-
-  source /etc/profile
   cd "${HOME}"/.local/lkp-tests/programs/compatibility-test/
   lkp split "${HOME}"/.local/lkp-tests/programs/compatibility-test/jobs/compatibility-test.yaml
 
