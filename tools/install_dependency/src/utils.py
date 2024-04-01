@@ -4,6 +4,7 @@ import yaml
 from constant import ROLE_LIST, ROLE_COMPONENT
 
 CHECK_TAR_AVAILABLE_CMD = "which tar"
+CHECK_PERF_AVAILABLE_CMD = "which perf"
 MKDIR_TMP_DEVKITDEPENDENCIES_CMD = "mkdir -p /tmp/devkitdependencies"
 YUM_INSTALL_LKP_DEPENDENCIES_CMD = "sudo yum install -y git wget rubygems"
 CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR = "[[ $(df -m /home | awk 'NR==2' | awk '{print $4}') -gt 17*1024 ]]"
@@ -12,6 +13,7 @@ CHECK_MIRROR_INSTALL_STATUS = "test -d /etc/yum.repos.d/yum.repos.backup"
 
 PROMPT_MAP = {
     CHECK_TAR_AVAILABLE_CMD: "'tar' command not available.",
+    CHECK_PERF_AVAILABLE_CMD: "'perf' command not available.",
     MKDIR_TMP_DEVKITDEPENDENCIES_CMD: "Directory /tmp/devkitdependencies not exists.",
     YUM_INSTALL_LKP_DEPENDENCIES_CMD: "Yum install lkp dependencies failed.",
     CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR: "Machine /home space not sufficient for mirror.",
