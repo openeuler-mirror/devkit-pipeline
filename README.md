@@ -33,6 +33,11 @@ Pipeline solution to support building, deploying and automating any software pro
 2.  [DevKit测试平台安装部署与Gitlab集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/测试平台安装部署/devkit测试平台安装部署与gitlab集成部署指导手册.md)
 3.  [Jenkins流水线无感切换bisheng编译器](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/无感切换/无感切换与gitlab集成部署指导手册.md)
 4. [Jenkins流水线配置Java性能分析](document/gitlab安装部署/Gitlab流水线配置Java性能分析.md)
+
+###### Docker镜像生成
+
+1. [Docker镜像生成样例](./document/DockerFile配置/Docker镜像生成手册.md)
+
 #### 参与贡献
     如果您想为本仓库贡献代码，请向本仓库任意maintainer发送邮件
     如果您找到产品中的任何Bug，欢迎您提出ISSUE
