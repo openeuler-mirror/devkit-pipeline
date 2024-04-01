@@ -21,7 +21,7 @@ function main() {
     gem install --local ${each}
   done
   mkdir -p "${HOME}"/.local/
-  tar -zxf ${lkp_tar} -C "${HOME}"/.local/
+  tar --no-same-owner -zxf ${lkp_tar} -C "${HOME}"/.local/
   cd "${HOME}"/.local/lkp-tests/
   chmod +x "${HOME}"/.local/lkp-tests/bin/lkp
   make
