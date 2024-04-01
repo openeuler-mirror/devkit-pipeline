@@ -11,8 +11,8 @@ parser-3.1.2.1.gem parallel-1.22.1.gem minitest-5.15.0.gem i18n-1.12.0.gem gnupl
 concurrent-ruby-1.1.10.gem ci_reporter-2.0.0.gem bundler-2.2.33.gem builder-3.2.4.gem ast-2.4.2.gem activesupport-6.1.7.gem)
 
 function main() {
-  lkp_tar=$1
-  gem_zip=$2
+  lkp_tar=/tmp/devkitdependencies/lkp-tests.tar.gz
+  gem_zip=/tmp/devkitdependencies/gem_dependencies.zip
   if [[ ! -d /usr/share/gems/gems/gem_dependencies ]]; then
     unzip -d /usr/share/gems/gems ${gem_zip}
   fi
