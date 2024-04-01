@@ -6,7 +6,7 @@ import logging
 
 import constant
 from log import config_logging
-from deploy.command_line import process_command_line, CommandLine
+from deploy.deploy_command_line import process_command_line, CommandLine
 
 from handler.pipeline import PipeLine
 from handler.base_yaml_check import BaseCheck
