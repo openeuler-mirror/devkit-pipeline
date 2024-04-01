@@ -35,6 +35,7 @@ function main() {
 
     component_arrays=(
         "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "GCCforOpenEuler" "OpenEulerMirrorISO" "CompatibilityTesting" "NonInvasiveSwitching" "A-FOT"
+        "DevKitCLI" "clamAV"
     )
     for element in "${component_arrays[@]}"; do
         cp -rf "${current_dir}/${element}" "${final_component_dir}"
