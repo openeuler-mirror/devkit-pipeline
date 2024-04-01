@@ -113,6 +113,10 @@ A-FOT是一款用于提升编译器GCC for openEuler自动反馈优化特性的�
   - 选择“Wrapper”构建模式，会使用A-FOT中的包装器编译。
   - 选择“Bear”构建模式，会进行两次编译。
 
+3）脚本工作目录
+
+在配置文件中，脚本工作目录示例在/opt下，实际应用中请修改为家目录或者./目录下
+
 ### 6.启动优化：
 
 ```shell
@@ -123,8 +127,8 @@ a-fot --config_file a-fot.ini
 
 ```shell
 # 命令格式为 a-fot [OPTION1 ARG1] [OPTION2 ARG2]
-# 例如以优化模式为AutoFDO,GCC路径/usr,应用运行脚本路径/root/run.sh,构建模式为Bear,命令如下
-a-fot  --opt_mode AutoFDO  --gcc_path /usr --run_script /root/run.sh --build_mode Wrapper
+# 例如以优化模式为AutoFDO,GCC路径/usr,应用运行脚本路径/root/run.sh,应用构建脚本路径/root/build.sh构建模式为Bear, 脚本工作目录为当前目录，命令如下
+a-fot  --opt_mode AutoFDO  --gcc_path /usr --run_script /root/run.sh --build_script /root/build.sh --build_mode Wrapper --work_path ./
 ```
 
 详细命令行参数如下：
@@ -202,7 +206,7 @@ pipeline {
                 label 'Linux_aarch64'
             }
             steps{
-				sh 'a-fot  --opt_mode AutoFDO  --gcc_path /usr --run_script /root/run.sh --build_mode Wrapper'
+				sh 'a-fot  --opt_mode AutoFDO  --gcc_path /usr --run_script /root/run.sh --build_script /root/build.sh --build_mode Wrapper --work_path ./'
             }
         }
     }
