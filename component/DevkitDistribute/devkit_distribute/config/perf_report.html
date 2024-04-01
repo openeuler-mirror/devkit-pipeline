@@ -6,15 +6,16 @@
       },
       trend: {
         trend_tb_cols: 4,
-        trend_tb_data: ['TimeStamp', 'Elapsed', 'label', 'responseCode', '1234567', '7524', 'home_page', 'Non HTTP response code: java.net.SocketException', '2345678', '13369', 'home_page', 'Non HTTP response code: java.net.SocketException'],
-        trend_chart_labels: ['TimeStamp', 'Elapsed'], // must be countable, idx_0 represents x-axis
+        trend_tb_data: ['timeStamp', 'elapsed', 'label', 'responseCode', '1711941391631', '7524', 'home_page', 'Non HTTP response code: java.net.SocketException', '1711941393000', '13369', 'home_page', 'Non HTTP response code: java.net.SocketException', '3', '14369', 'home_page', 'Non'],
+        trend_chart_labels: ['timeStamp', 'elapsed'], // must be countable, idx_0 represents x-axis
+        fixed_width: [180, 120, 230, 270, 200, 200, 130, 120, 180, 120, 150, 150, 150, 600, 120, 120, 120],
       },
       git: {
         git_tb_cols: 2,
         git_tb_data: ['Key', 'Value', 'commit', '478ea28ce27fdc003334c6f', 'author', 'huxiongbin 00637742', 'author_email', 'huxiongbin3@huawei.com', 'date', 'Wed Nov 22 11:14:15 2023 +0800', 'message', 'merge-master-into-master'],
       },
       chart: {
-        chart_json: {'sys': {'cpu': {'user': [111,222,333,444], 'system': [321,432,321,432]}}},
+        chart_json: {'sys': {'cpu': {'user': [111,222,333,444], 'system': [321,432,321,432]}, 'mem': {'user': [555,222,333,444], 'system': [621,432,321,432]}}},
       },
     }
 -->
@@ -26,16 +27,17 @@
   <title>Kunpeng DevKit</title>
   <script>
     const full_pages = ['report', 'trend', 'git', 'chart'];
-    const valid_pages = ['report', 'git'];
+    const valid_pages = ['report', 'trend'];
     const pipelineData = {
       report: {
         report_tb_cols: 2,
         report_tb_data: [],
       },
       trend: {
-        trend_tb_cols: 4,
+        trend_tb_cols: 17,
         trend_tb_data: [], // must be countable, idx_0 represents x-axis
-        trend_chart_labels: ["TimeStamp", "Elapsed"],
+        trend_chart_labels: ["timeStamp", "elapsed"],
+        fixed_width: [180, 120, 230, 270, 200, 200, 130, 120, 180, 120, 150, 150, 150, 600, 120, 120, 120],
       },
       git: {
         git_tb_cols: 5,
@@ -159,10 +161,11 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
     };
     const consumeTableData = (target, collect = false) => {
       const dataCopy = structuredClone(pipelineData[target]?.[`${target}_tb_data`]);
+      const fixedWidth = pipelineData[target]?.['fixed_width'];
       const colsCount = pipelineData[target]?.[`${target}_tb_cols`];
       const originDataRef = pipelineData[target]?.[`${target}_tb_data`];
       if (colsCount > 0 && originDataRef.length % colsCount === 0) {
-        const columns = Array.from({length: colsCount}).map((_, i) => {name: dataCopy.shift()});
+        const columns = Array.from({length: colsCount}).map((_, i) => ({name: dataCopy.shift(), width: fixedWidth ? fixedWidth[i] : undefined}));
         const dataSet = Array.from({length: originDataRef.length / colsCount - 1}).map((_, i) => dataCopy.slice(i * colsCount, (i+1) * colsCount));
         let curPage = 1;
         $('div#tb-wrapper').Grid({
@@ -206,12 +209,16 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
       let xAxisData = xAxisMap;
       if (!Array.isArray(xAxisMap)) {
         xAxisName = xAxisMap.keys().next().value;
-        xAxisData = xAxisMap.values().next().value;
+        xAxisData = xAxisMap.values().next().value.map((item) => {
+          const d = new Date(item);
+          return `${d.toLocaleString()}.${d.getMilliseconds()}`;
+        });
       }
       const option = {
         title: {text: title},
         tooltip: {trigger: 'axis'},
         legend: {data: Array.from(yAxisMap.keys())},
+        dataZoom: [{type: 'inside'}],
         xAxis: {data: xAxisData, name: xAxisName},
         yAxis: {type: 'value'},
         series: Array.from(yAxisMap.keys()).map((key) => ({
