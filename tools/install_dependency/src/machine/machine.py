@@ -105,6 +105,17 @@ class Machine:
         transport.connect(username=user, pkey=pkey)
         return transport
 
+    def install_components(self):
+        if self.mirrors:
+            self.install_component("OpenEulerMirrorISO")
+        for component in self.component_list:
+            self.install_component(component)
+        if self.mirrors:
+            self.install_component("UnOpenEulerMirrorISO")
+
+        self.clear_tmp_file_at_remote_machine(
+            self.ssh_client(), [os.path.join("/tmp/", constant.DEPENDENCY_DIR)])
+
     def install_component(self, component_name):
         ssh_client = self.ssh_client()
         sftp_client = self.sftp_client()
@@ -117,17 +128,6 @@ class Machine:
         finally:
             ssh_client.close()
             sftp_client.close()
-
-    def install_components(self):
-        if self.mirrors:
-            self.install_component("OpenEulerMirrorISO")
-        for component in self.component_list:
-            self.install_component(component)
-        if self.mirrors:
-            self.install_component("UnOpenEulerMirrorISO")
-
-        self.clear_tmp_file_at_remote_machine(
-            self.ssh_client(), [os.path.join("/tmp/", constant.DEPENDENCY_DIR)])
 
     def install_component_handler(self, component_name, sftp_client, ssh_client):
         component_name_to_func_dict: typing.Dict[
