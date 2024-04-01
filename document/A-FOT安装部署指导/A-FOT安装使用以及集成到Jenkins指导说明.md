@@ -10,10 +10,15 @@ A-FOT(automatic feedback-directed optimization tool)是一款用于提升编译�
 2.本工具目前仅支持单实例应用优化，即应用在执行时只有一个进程
 3.用户需保证执行脚本启动的应用程序测试用例与实际生产环境行为相同，否则可能会导致负优化
 
-## 3.环境依赖
+## 3.环境依赖需要满足以下条件：
 
-1.编译器： openEuler GCC 10.3.1
-2.架构： x86_64 aarch64
+1.编译器： GCC for openEuler2.3.2及以上
+
+2.架构： 鲲鹏ARM
+
+3.操作系统PRETTY_NAME：openEuler 22.03 LTS、openEuler 22.03（LTS-SP1）、openEuler 22.03（LTS-SP2）、openEuler 22.03（LTS-SP3）、Ubuntu 18.04.4 LTS、Ubuntu 20.04.2  LTS、Kylin  Linux Advanced  Server V10（Tercel）、UOS 20 、UnionTech OS  Server 20、CentOS Linux 7 (AltArch)。注：PRETTY_NAME为Centos Linux 7 (AltArch)操作系统的redhat-release值须是Centos Linux release 7.6.1810(Altarch)
+
+4.软件包：perf
 
 ## 4.安装
 
