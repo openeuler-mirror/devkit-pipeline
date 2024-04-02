@@ -74,7 +74,7 @@ def download_iso():
 
 if __name__ == '__main__':
     try:
-        process_command_line(program="download_dependency", description="devkit-pipeline download_dependency tool",
+        process_command_line(program="download_tool", description="devkit-pipeline download_tool",
                              class_list=[CommandLine])
         if CommandLine.download_iso:
             if download_iso():

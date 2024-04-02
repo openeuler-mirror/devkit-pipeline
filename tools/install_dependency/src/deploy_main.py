@@ -38,7 +38,7 @@ def check_iso_available(iso_path):
 
 if __name__ == '__main__':
     try:
-        process_command_line(program="install_dependency", description="devkit-pipeline install_dependency tool",
+        process_command_line(program="deploy_tool", description="devkit-pipeline deploy_tool",
                              class_list=[CommandLine])
         config_logging(CommandLine.debug)
         config_dict = read_yaml_file(CommandLine.yaml_path)
