@@ -65,10 +65,13 @@ class JmeterCommand:
             "-l /home/jmeter/result.csv -e -o /home/jmeter/empty_dir/")
 
     def __check_param_resource(self):
+        if not self.csv_file:
+            raise Exception(f"the -l parameter of the jmeter command is not specified")
         if os.path.exists(self.csv_file):
             raise Exception(f"the file {self.csv_file} is exist")
-        if os.path.exists(self.result_dir) and os.path.getsize(self.result_dir) > 0:
-            raise Exception(f"the directory {self.result_dir} is exist or not empty")
+        if self.result_dir:
+            if os.path.exists(self.result_dir) and os.path.getsize(self.result_dir) > 0:
+                raise Exception(f"the directory {self.result_dir} is exist or not empty")
         if not os.path.exists(self.jmx_file):
             raise Exception(f"the jmx file {self.jmx_file} is not exist")
 
@@ -301,7 +304,7 @@ def main():
                         help="the machine ips on which the java application is running ")
     parser.add_argument("-u", "--user", required=True, dest="user", default="root",
                         help="the user of the ips")
-    parser.add_argument("-P", "--port", dest="port", type=int, default=22,
+    parser.add_argument("--port", dest="port", type=int, default=22,
                         help="the ssh port of the ips")
     parser.add_argument("-f", "--pkey-file", dest="pkey_file",
                         help="the file path of the private key")
@@ -309,21 +312,21 @@ def main():
                         help="the content of the private key")
     parser.add_argument("-w", "--pkey-password", dest="pkey_password",
                         help="the private key password")
-    parser.add_argument("--devkit-ip", dest="devkit_ip", required=True,
+    parser.add_argument("-D", "--devkit-ip", dest="devkit_ip", required=True,
                         help="the ip of the kunpeng DevKit server")
-    parser.add_argument("--devkit-port", dest="devkit_port", default="8086",
+    parser.add_argument("-P", "--devkit-port", dest="devkit_port", default="8086",
                         help="the port of the kunpeng DevKit server")
-    parser.add_argument("--devkit-user", dest="devkit_user", default="devadmin",
+    parser.add_argument("-U", "--devkit-user", dest="devkit_user", default="devadmin",
                         help="the user of the kunpeng DevKit server")
-    parser.add_argument("--devkit-password", dest="devkit_password", default="admin100",
+    parser.add_argument("-W", "--devkit-password", dest="devkit_password", default="admin100",
                         help="the password of the user of the kunpeng DevKit server")
     parser.add_argument("-a", "--app", required=True, dest="applications",
                         help="the process names that can be multiple, each separated by a comma")
     parser.add_argument("-d", "--duration", required=True, dest="duration", type=int,
                         help="the time of the sample")
-    parser.add_argument("--git-path", required=True, dest="git_path", type=str,
+    parser.add_argument("-g", "--git-path", dest="git_path", type=str, default="",
                         help="git path")
-    parser.add_argument("--jmeter-command", dest="jmeter_command", type=str,
+    parser.add_argument("-j", "--jmeter-command", dest="jmeter_command", type=str,
                         help="the command that start jmeter tests")
     parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
     parser.set_defaults(password="")

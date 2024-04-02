@@ -39,17 +39,21 @@ class Report:
 
     def report(self):
         html_lines = self.read_template()
-        git_log = self.generate_git_log()
         devkit_report_json = self.generate_devkit_html()
-
+        valid_page = list()
+        valid_page.append("'report'")
         html_lines[DEVKIT_REPORT_DATA_LINE_NUM] = "report_tb_data: {}".format(devkit_report_json)
-        html_lines[GIT_REPORT_DATA_LINE_NUM] = "git_tb_data: {},".format(git_log)
         if self.jmeter_report_path:
+            valid_page.append("'trend'")
             html_lines[REPORT_VALID_LINE] = "const valid_pages = ['report', 'trend', 'git'];\n"
             jmeter_report_data = self.jmeter_report_to_html()
             html_lines[JMETER_REPORT_DATA_HEADER_LEN] = "trend_tb_cols: {},\n".format(self.jmeter_report_data_cols)
             html_lines[JMETER_REPORT_DATA_LINE_NUM] = "trend_tb_data: {},\n".format(jmeter_report_data)
-
+        if self.git_path:
+            valid_page.append("'git'")
+            git_log = self.generate_git_log()
+            html_lines[GIT_REPORT_DATA_LINE_NUM] = "git_tb_data: {},".format(git_log)
+        html_lines[REPORT_VALID_LINE] = "const valid_pages = [{}];\n".format(",".join(valid_page))
         final_report = os.path.join(self.report_dir, "devkit_performance_report.html")
         with open(final_report, "w") as file:
             file.writelines(html_lines)
