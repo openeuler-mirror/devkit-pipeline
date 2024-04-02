@@ -79,9 +79,13 @@ component_collection_map = {
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('CompatibilityTesting').split('/')[-1])}",
             FILE_SIZE: "76645477",
         },
-        "DevkitDistribute": {
-            URL: f"{download_config.LkpTests.get('DevkitDistribute')}",
-            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('DevkitDistribute').split('/')[-1])}",
+        
+    },
+
+    "DevkitDistribute": {
+        "download file": {
+            URL: f"{download_config.DevkitDistribute.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevkitDistribute.get(FILE).split('/')[-1])}",
             FILE_SIZE: "13349694",
         }
     },

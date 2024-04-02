@@ -136,6 +136,7 @@ class Machine:
             "BiShengCompiler": self.default_install_component_handle,
             "BiShengJDK17": self.default_install_component_handle,
             "BiShengJDK8": self.default_install_component_handle,
+            "DevkitDistribute": self.default_install_component_handle,
             "LkpTests": self.lkptest_install_component_handle,
             "NonInvasiveSwitching": self.nis_install_component_handle,
             "DevKitWeb": self.devkitweb_install_component_handle,
@@ -248,7 +249,6 @@ class Machine:
         # 清理tmp临时文件
         self.clear_tmp_file_at_remote_machine(ssh_client, remote_file_list)
         self.__install_component_on_lkptest("CompatibilityTesting", sftp_client, ssh_client)
-        self.__install_component_on_lkptest("DevkitDistribute", sftp_client, ssh_client)
 
     def __install_component_on_lkptest(self, sub_component_name, sftp_client, ssh_client):
         # 上传 tar.gz 文件

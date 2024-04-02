@@ -25,7 +25,11 @@ LkpTests = {
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/lkp-tests.tar.gz",
     "GemDependency": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/gem_dependencies.zip",
     "CompatibilityTesting": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/compatibility_testing.tar.gz",
-    "DevkitDistribute": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/devkit_distribute.tar.gz",
+}
+
+DevkitDistribute = {
+    "component_name": "DevkitDistribute",
+    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/devkit_distribute.tar.gz",
 }
 
 A_FOT = {
