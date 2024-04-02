@@ -7,7 +7,7 @@ current_dir=$(cd $(dirname "$0"); pwd)
 root_path=$(realpath "${current_dir}/..")
 
 if [[ ! -e "${root_path}/data/result" ]] ; then
-  eixt -1
+  exit 1
 fi
 
 # shellcheck disable=SC2013

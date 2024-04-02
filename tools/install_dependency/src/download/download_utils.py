@@ -6,9 +6,9 @@ import warnings
 
 import requests
 import wget
-from download import download_config
-from constant import URL, SAVE_PATH, FILE, SHA256, FILE_SIZE, DEFAULT_PATH
 
+from constant import URL, SAVE_PATH, FILE, SHA256, FILE_SIZE, DEFAULT_PATH
+from download import download_config
 
 warnings.filterwarnings("ignore", message='Unverified HTTPS request')
 
@@ -82,7 +82,7 @@ component_collection_map = {
         "DevkitDistribute": {
             URL: f"{download_config.LkpTests.get('DevkitDistribute')}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('DevkitDistribute').split('/')[-1])}",
-            FILE_SIZE: "13349673",
+            FILE_SIZE: "13349694",
         }
     },
 
