@@ -15,11 +15,12 @@ stage('Java Performance Analysis') {
             sudo rm -rf /home/test/report /home/test/result.html 
             # 设置java性能采集必要的选项
             sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot -j "sh /home/test/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/test/Test_request.jmx -l /home/test/result.html -eo /home/test/report"
-            source /etc/profile
+            # 通过lkp命令生成devkit_distribute-defaults.yaml
             sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
+            # 运行
+            sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
             # 判断 是否执行成功
             sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/parsing_result.sh
-            sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
         '''
     }
     post {
@@ -56,11 +57,38 @@ stage('Java Performance Analysis') {
 
 #### 1. 安装java分发采集命令行工具到执行jenkins执行机
 
+##### 1.1 使用deploy_tool命令安装
+
 [通过devkitpipeline部署工具部署](../批量部署工具/批量部署工具devkitpipeline.md)
 
 安装完成后查看
 
 ![安装成功](./DevkitPerformanceAnalysis.assets/安装成功.png)
+
+##### 1.2 离线安装
+
+###### 1.2.1 确定lkp-test已经安装
+
+如果没有安装，参考[lkp-test离线安装](../测试平台安装部署/devkit测试平台安装部署与jenkins集成部署指导手册.md#一-安装指导)
+。以下确定lkp-test是否安装。
+
+![lkp_test是否存在校验.png](DevkitPerformanceAnalysis.assets/lkp_test是否存在校验.png)
+
+###### 1.2.2 下载离线包，后执行以下命令
+
+发行版中下载<font color=white>**最新**</font>的devkit_distribute.tar.gz
+![下载Devkit_Distribute](DevkitPerformanceAnalysis.assets/下载Devkit_Distribute.png)
+
+执行以下命令：
+
+```shell
+  tar --no-same-owner -zxf devkit_distribute.tar.gz -C "${HOME}"/.local/lkp-tests/programs
+  chmod 755 "${HOME}"/.local/lkp-tests/programs/devkit_distribute/bin/start.sh
+  ln -s "${HOME}"/.local/lkp-tests/programs/devkit_distribute/bin/start.sh "${HOME}"/.local/lkp-tests/tests/devkit_distribute
+```
+
+安装成功：
+![Devkit_Distribute离线安装成功.png](DevkitPerformanceAnalysis.assets/Devkit_Distribute离线安装成功.png)
 
 #### 2. 确定需要采集的java程序所在机器存在jcmd命令
 
@@ -100,4 +128,3 @@ stage('Java Performance Analysis') {
 ##### 5.3 最终报告
 
 ![具体报告](./DevkitPerformanceAnalysis.assets/具体报告.png)
- 
