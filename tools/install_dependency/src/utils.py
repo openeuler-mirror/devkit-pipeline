@@ -6,7 +6,7 @@ from constant import ROLE_LIST, ROLE_COMPONENT
 CHECK_TAR_AVAILABLE_CMD = "which tar"
 CHECK_PERF_AVAILABLE_CMD = "which perf"
 MKDIR_TMP_DEVKITDEPENDENCIES_CMD = "mkdir -p /tmp/devkitdependencies"
-YUM_INSTALL_LKP_DEPENDENCIES_CMD = "sudo yum install -y git wget rubygems"
+YUM_INSTALL_LKP_DEPENDENCIES_CMD = "sudo yum install -y make git wget rubygems"
 CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR = "[[ $(df -m /home | awk 'NR==2' | awk '{print $4}') -gt 17*1024 ]]"
 CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE = "[[ $(df -m /tmp | awk 'NR==2' | awk '{print $4}') -gt 1024 ]]"
 CHECK_MIRROR_INSTALL_STATUS = "test -d /etc/yum.repos.d/yum.repos.backup"
