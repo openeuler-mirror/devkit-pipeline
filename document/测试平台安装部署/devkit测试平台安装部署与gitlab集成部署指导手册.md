@@ -31,7 +31,15 @@ yum install -y git wget rubygems
 
 请去代码仓拷贝 component/LkpTests/install.sh到服务器上
 
-脚本的第一个的参数是lkp-tests.zip的路径，第二个参数是gem_dependencies.tar.gz的路径（在上一步下载的）运行这个脚本执行安装
+```
+# 第14，15 行
+  lkp_tar=/tmp/devkitdependencies/lkp-tests.tar.gz
+  gem_zip=/tmp/devkitdependencies/gem_dependencies.zip
+
+# 请修改为这两个文件上传后的绝对路径地址
+```
+
+运行这个脚本执行安装
 
 ### (3) 安装后校验
 
