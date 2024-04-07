@@ -86,7 +86,7 @@ component_collection_map = {
         "download file": {
             URL: f"{download_config.DevkitDistribute.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevkitDistribute.get(FILE).split('/')[-1])}",
-            FILE_SIZE: "13349694",
+            FILE_SIZE: "13349798",
         }
     },
 
