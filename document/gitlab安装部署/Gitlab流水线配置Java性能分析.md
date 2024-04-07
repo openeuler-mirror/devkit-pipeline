@@ -1,8 +1,6 @@
-## Jenkins Pipeline 中集成 Java性能分析
+## gitlab中集成Java性能分析
 
 ### 一. Java性能分析
-
-##### 源码迁移：
 
 ```
 stages:  
@@ -18,15 +16,10 @@ source-code-migration:
     - echo '====== Java Performance Analysis ======'
     - CURDIR=$(pwd)
     # 删除上次jmeter产生的报告 (jmeter 命令-l、-o指定的文件和路径)
-    sudo rm -rf /home/test/report /home/test/result.html 
-    # 设置java性能采集必要的选项
-    - sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/generate_lkptest_config.sh -i 160.0.1.2,160.0.1.3 -u root -f /home/Jenkens/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/Jenkens/spring-boot -j "sh /home/test/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/test/Test_request.jmx -l /home/test/result.html -eo /home/test/report"
-    - source /etc/profile
-    - sudo /root/.local/lkp-tests/bin/lkp split-job /root/.local/lkp-tests/programs/devkit_distribute/config/devkit_distribute.yaml
-    # 判断 是否执行成功
-    - sudo bash /root/.local/lkp-tests/programs/devkit_distribute/bin/parsing_result.sh
-    - sudo /root/.local/lkp-tests/bin/lkp run ${CURDIR}/devkit_distribute-defaults.yaml
-    - cp /root/.local/lkp-tests/programs/devkit_distribute/data/devkit_distribute-defaults.yaml ${CURDIR}
+    - rm -rf /home/zpp/report /home/zpp/result.html 
+    # 运行java性能采集
+    - /home/zpp/.local//devkit_distribute/bin/entrance -i 160.0.1.2,160.0.1.3 -u root -f /home/zpp/.ssh/id_rsa -D 160.0.1.5 -a spring-boot -d 10 -g /home/zpp/spring-boot -j "sh /home/zpp/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/zpp/Test_request.jmx -l /home/zpp/result.html -eo /home/zpp/report"
+    - cp /home/zpp/.local/devkit_distribute/data/devkit_distribute-defaults.yaml ${CURDIR}
   artifacts:
     paths:
       # 上传报告
@@ -35,7 +28,7 @@ source-code-migration:
 
 ```
 
-**generate_lkptest_config**脚本具体参数如下
+**entrance**具体参数如下
 
 | 参数 | 参数类型      | 参数说明                                                                                                                                   |
 |----|-----------|----------------------------------------------------------------------------------------------------------------------------------------|
@@ -49,17 +42,37 @@ source-code-migration:
 | -D | ipv4      | 必选参数。Devkit工具的地址。                                                                                                                      |
 | -P | num       | 可选参数。Devkit工具的端口，默认值8086。                                                                                                              |
 | -U | str       | 可选参数。Devkit工具的用户名，默认值devadmin。                                                                                                         |
-| -W | str       | 可选参数。Devkit工具的密码，默认值admin100。                                                                                                          |
+| -W | str       | 可选参数。Devkit工具的密码，默认值devkit123。                                                                                                         |
 
 ### 二. 配置示例
 
 #### 1. 安装java分发采集命令行工具到执行jenkins执行机
 
-[通过devkitpipeline部署工具部署](../../document/%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7%E5%92%8C%E4%B8%80%E9%94%AE%E4%B8%8B%E8%BD%BD%E5%B7%A5%E5%85%B7%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md#devkitpipeline-%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7)
+##### 1.1 使用deploy_tool命令安装角色executor
+
+[通过deploy_tool部署工具部署executor](../批量部署工具/批量部署工具和一键下载工具说明文档.md)
 
 安装完成后查看
 
 ![安装成功](./DevkitPerformanceAnalysis.assets/安装成功.png)
+
+##### 1.2 离线安装
+
+###### 1.2.1 下载离线包
+
+发行版中下载<font color=white>**最新**</font>的devkit_distribute.tar.gz
+![下载Devkit_Distribute](DevkitPerformanceAnalysis.assets/下载Devkit_Distribute.png)
+
+###### 1.2.2 执行以下命令：
+
+```shell
+  mkdir -p "${HOME}"/.local
+  tar --no-same-owner -zxf devkit_distribute.tar.gz -C "${HOME}"/.local/
+```
+
+###### 1.2.3 安装成功：
+
+![Devkit_Distribute离线安装成功.png](DevkitPerformanceAnalysis.assets/Devkit_Distribute离线安装成功.png)
 
 #### 2. 确定需要采集的java程序所在机器存在jcmd命令
 

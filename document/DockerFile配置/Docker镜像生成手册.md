@@ -9,7 +9,7 @@
 from openeuler-20.03-lts-sp2:latest
 WORKDIR  /root
 ADD lkp-tests.tar.gz /root/.local/
-ADD devkit_distribute.tar.gz /root/.local/lkp-tests/programs
+ADD devkit_distribute.tar.gz /root/.local/
 ADD compatibility_testing.tar.gz /root/.local/
 COPY gem_dependencies.zip  /usr/share/gems/gems/gem_dependencies.zip
 RUN   chmod 755 /root/.local/lkp-tests/programs/devkit_distribute/bin/start.sh && \
@@ -38,6 +38,7 @@ concurrent-ruby-1.1.10.gem ci_reporter-2.0.0.gem bundler-2.2.33.gem builder-3.2.
 
 #### 下载包到同一目录
 
+![](00_下载资源.png)
 ![](01_准备资源.png)
 
 #### 执行构建命令
