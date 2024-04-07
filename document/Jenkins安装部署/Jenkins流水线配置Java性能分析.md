@@ -39,9 +39,9 @@ stage('Java Performance Analysis') {
 | -u | str       | 必选参数。服务器的用户名                                                                                                                           |
 | -f | str       | 必选参数。执行机免密登陆所有服务器（-i指定的）的私钥路径                                                                                                          |
 | -a | str       | 必选参数。需要采集的应用名称，多个采用逗号隔离                                                                                                                |
-| -g | str       | 必选参数。执行机上通过git clone下载的代码路径                                                                                                            |
+| -g | str       | 可选参数。执行机上通过git clone下载的代码路径                                                                                                            |
 | -j | str       | 可选参数。jmeter执行命令。例如 bash /opt/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/xxx/Request.jmx -l /home/xxx/result.html -eo /home/xxx/report |
-| -d | num       | 可选参数。任务采集执行时间，默认43200s（12 hour），当存在-j参数时，jmeter结束或者到达采集执行时间，结束采集。                                                                      |
+| -d | num       | 必选参数。任务采集执行时间，单位秒。当存在-j参数时，jmeter结束或者到达采集执行时间，结束采集。                                                                                    |
 | -D | ipv4      | 必选参数。Devkit工具的地址。                                                                                                                      |
 | -P | num       | 可选参数。Devkit工具的端口，默认值8086。                                                                                                              |
 | -U | str       | 可选参数。Devkit工具的用户名，默认值devadmin。                                                                                                         |
