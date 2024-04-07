@@ -101,16 +101,16 @@ component_collection_map = {
     "DevKitWeb": {
         "download file": {
             URL: f"{download_config.DevKitWeb.get(FILE)}",
-            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'DevKit-All-23.0.T30-Linux-Kunpeng.tar.gz')}",
-            FILE_SIZE: "1143374523",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevKitWeb.get(FILE).split('/')[-1])}",
+            FILE_SIZE: "1013920336",
         },
     },
 
     "DevKitCLI": {
         "download file": {
             URL: f"{download_config.DevKitCLI.get(FILE)}",
-            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, 'DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz')}",
-            FILE_SIZE: "300000000",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevKitCLI.get(FILE).split('/')[-1])}",
+            FILE_SIZE: "413491454",
         }
     },
 }
