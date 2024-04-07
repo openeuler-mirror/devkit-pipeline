@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -e "${HOME}"/.local/lkp-tests/programs/devkit_distribute ] ; then
+if [ -e "${HOME}"/.local/devkit_distribute ] ; then
   echo "true"
 else
   echo "false"
