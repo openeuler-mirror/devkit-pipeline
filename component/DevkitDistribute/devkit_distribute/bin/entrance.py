@@ -318,7 +318,7 @@ def main():
                         help="the port of the kunpeng DevKit server")
     parser.add_argument("-U", "--devkit-user", dest="devkit_user", default="devadmin",
                         help="the user of the kunpeng DevKit server")
-    parser.add_argument("-W", "--devkit-password", dest="devkit_password", default="admin100",
+    parser.add_argument("-W", "--devkit-password", dest="devkit_password", default="devkit123",
                         help="the password of the user of the kunpeng DevKit server")
     parser.add_argument("-a", "--app", required=True, dest="applications",
                         help="the process names that can be multiple, each separated by a comma")
