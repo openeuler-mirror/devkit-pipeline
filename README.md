@@ -31,8 +31,8 @@ Pipeline solution to support building, deploying and automating any software pro
     DevKit各原子能力对接Gitlab流水线的脚本范例及使用说明
 1.  [Gitlab流水线配置DevKit迁移、亲和门禁](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/gitlab安装部署/Gitlab流水线配置迁移、亲和门禁.md)
 2.  [DevKit测试平台安装部署与Gitlab集成部署指导手册](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/测试平台安装部署/devkit测试平台安装部署与gitlab集成部署指导手册.md)
-3.  [Jenkins流水线无感切换bisheng编译器](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/无感切换/无感切换与gitlab集成部署指导手册.md)
-4. [Jenkins流水线配置Java性能分析](document/gitlab安装部署/Gitlab流水线配置Java性能分析.md)
+3. [Gitlab流水线无感切换bisheng编译器](https://gitee.com/openeuler/devkit-pipeline/blob/master/document/无感切换/无感切换与gitlab集成部署指导手册.md)
+4. [Gitlab流水线配置Java性能分析](document/gitlab安装部署/Gitlab流水线配置Java性能分析.md)
 
 ###### Docker镜像生成
 
