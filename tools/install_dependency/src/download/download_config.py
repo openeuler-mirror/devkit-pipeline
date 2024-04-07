@@ -35,12 +35,12 @@ A_FOT = {
 
 DevKitWeb = {
     "component_name": "DevKitWeb",
-    "file": "https://kunpeng-repo.obs.cn-north-4.myhuaweicloud.com/Porting%20Advisor/Porting%20Advisor%2023.0.T30/DevKit-All-23.0.T30-Linux-Kunpeng.tar.gz",
+    "file": "https://kunpeng-repo.obs.cn-north-4.myhuaweicloud.com/Kunpeng%20DevKit/Kunpeng%20DevKit%2024.0.RC1/DevKit-All-24.0.RC1-Linux-Kunpeng.tar.gz",
 }
 
 DevKitCLI = {
     "component_name": "DevKitCLI",
-    "file": "https://www.hikunpeng.com/",
+    "file": "https://kunpeng-repo.obs.cn-north-4.myhuaweicloud.com/Kunpeng%20DevKit/Kunpeng%20DevKit%2024.0.RC1/DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz",
 }
 
 
