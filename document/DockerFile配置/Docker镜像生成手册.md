@@ -1,4 +1,4 @@
-##                          
+##            
 
 ### 1. 创建dockerfile，内容例如：
 
@@ -8,13 +8,12 @@
 ```dockerfile
 from openeuler-20.03-lts-sp2:latest
 WORKDIR  /root
+ADD bisheng-jdk-17.0.10-linux-aarch64.tar.gz /root/.local/
 ADD lkp-tests.tar.gz /root/.local/
 ADD devkit_distribute.tar.gz /root/.local/
 ADD compatibility_testing.tar.gz /root/.local/
 COPY gem_dependencies.zip  /usr/share/gems/gems/gem_dependencies.zip
-RUN   chmod 755 /root/.local/lkp-tests/programs/devkit_distribute/bin/start.sh && \
-  ln -s /root/.local/lkp-tests/programs/devkit_distribute/bin/start.sh /root/.local/lkp-tests/tests/devkit_distribute && \
-  yum install -y git wget rubygems make  && \
+RUN  yum install -y git rubygems make  && \
   cd /usr/share/gems/gems && unzip gem_dependencies.zip && \
   cd /usr/share/gems/gems/gem_dependencies && \
   gems_name=(zeitwerk-2.6.5.gem unicode-display_width-2.5.0.gem tzinfo-2.0.5.gem tins-1.31.1.gem term-ansicolor-1.7.1.gem sync-0.5.0.gem \
@@ -33,12 +32,16 @@ concurrent-ruby-1.1.10.gem ci_reporter-2.0.0.gem bundler-2.2.33.gem builder-3.2.
   ln -s /root/.local/lkp-tests/programs/compatibility-test/run /root/.local/lkp-tests/tests/compatibility-test && \
   cd /root/.local/lkp-tests/programs/compatibility-test/ && \
   lkp split /root/.local/lkp-tests/programs/compatibility-test/jobs/compatibility-test.yaml && \
-  chown -R root:root /root/.local/lkp-tests
+  chown -R root:root /root/.local/lkp-tests /root/.local/devkit_distribute /root/.local/bisheng-jdk-17.0.10 /root/.local/compatibility_testing
 ```
 
 #### 下载包到同一目录
 
-![](00_下载资源.png)
+[下载毕昇JDK17](https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_jdk/bisheng-jdk-17.0.10-linux-aarch64.tar.gz)
+![](00_下载资源01.png)
+[测试平台依赖下载](https://gitee.com/openeuler/devkit-pipeline/releases/tag/v0.2)
+![](00_下载资源02.png)
+
 ![](01_准备资源.png)
 
 #### 执行构建命令
