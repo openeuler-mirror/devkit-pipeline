@@ -62,7 +62,7 @@ lkp install
 
 ## 二. 添加项目至lkp tests测试平台
 
-### (1) 极简版项目添加,示例-云测工具（compatibility-test）
+### (1) 极简版项目添加,示例-云测工具（compatibility-test已完成添加）
 
 以下所有文件夹在安装完lkp-tests 文件夹下面，如果使用一键部署工具则在${HOME}/.local下面
 
@@ -137,7 +137,7 @@ lkp split programs/compatibility-test/jobs/compatibility-test.yaml
 ln -s xxx/lkp-tests/programs/compatibility-test/run xxx/lkp-tests/tests/compatibility-test
 ```
 
-### (2) 带参数版项目添加,示例-云测工具（compatibility-test）
+### (2) 带参数版项目添加,示例-云测工具（compatibility-test已完成添加）
 
 1. 在programs 文件夹下创建compatibility-test文件夹，里面要包含以下几个文件，其余文件可以根据需求自行决定是否添加
 
@@ -218,7 +218,11 @@ lkp split programs/compatibility-test/jobs/compatibility-test.yaml
 ln -s xxx/lkp-tests/programs/compatibility-test/run xxx/lkp-tests/tests/compatibility-test
 ```
 
-## 三、 云测工具
+## 三 、测试平台能力介绍
+
+[测试平台能力和使用介绍](https://www.hikunpeng.com/document/detail/zh/kunpengdevps/cloudtests/usermanual/cloudtestguide_001.html)
+
+## 三、 如何配置以及使用兼容性测试工具-云测工具
 
 要运行云测平台需要配置参数，在安装目录${HOME}/.local/compatibility_testing/Chinese/compatibility_testing.conf
 
@@ -272,6 +276,8 @@ hpc_certificate=
 # 以下为C/C++编译的应用填写，请填写待测试应用二进制文件的绝对路径。
 binary_file=
 ```
+
+之后如何运行请看pipeline实例代码
 
 ## 四、Jenkins Pipeline 中集成lkp test (以云测工具(compatibility-test)为示例)
 

@@ -74,12 +74,14 @@ component_collection_map = {
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('GemDependency').split('/')[-1])}",
             FILE_SIZE: "4206309",
         },
-        "CompatibilityTesting": {
+    },
+
+    "CompatibilityTesting": {
+        "download file":{
             URL: f"{download_config.LkpTests.get('CompatibilityTesting')}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.LkpTests.get('CompatibilityTesting').split('/')[-1])}",
             FILE_SIZE: "76645477",
-        },
-        
+        }
     },
 
     "DevkitDistribute": {
