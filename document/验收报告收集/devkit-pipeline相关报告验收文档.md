@@ -29,5 +29,5 @@ DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路�
 将文件夹压缩成tar.gz、zip或bz2其中任何一种格式即可
 ![](./Jenkins.assets/打包13.PNG)
 1. 后台手动运行验收报告打包
-在服务任意目录创建名为htmlreports的文件夹，将生成的报告拷贝至该文件夹下，将文件夹压缩成tar.gz、zip或bz2其中任何一种格式即可
+在服务器任意目录创建名为htmlreports的文件夹，将生成的报告拷贝至该文件夹下，将文件夹压缩成tar.gz、zip或bz2其中任何一种格式即可
 ![](./Jenkins.assets/打包117.PNG)
