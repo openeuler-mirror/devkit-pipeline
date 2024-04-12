@@ -7,6 +7,9 @@
 ![](./Jenkins.assets/打包112.PNG)
 4. 点击上图红框中的报告进入报告页面，点击右上角的zip下载报告至本地
 ![](./Jenkins.assets/打包03.PNG)
+5.若Jenkins中未配置Devkit测试平台，报告中不包含如图所示的compatibility test Report，请参考第3节（非Jenkins和Gitlab验收报告收集）中的DevKit测试平台报告收集进行收集，请将compatibility_report.html下载至本地，并与下载至本地的zip压缩包放置于同一目录
+![](./Jenkins.assets/打包112.PNG)
+
 # 2.devkit-pipeline Gitlab验收报告收集
 
 1. 选择需要收集报告的仓库
@@ -14,6 +17,8 @@
 
 2. 进入仓库后，点击流水线，选择需要收集流水，下载报告至本地（流水线中下载的报告均默认为zip格式）
 ![](./Jenkins.assets/打包10.PNG)
+3.若Gitlab中未配置Devkit测试平台，报告中不包含上图所示的lkp-test:archive，请参考第3节（非Jenkins和Gitlab验收报告收集）中的DevKit测试平台报告收集进行收集，
+请将compatibility_report.html下载至本地，并与下载至本地的zip压缩包放置于同一目录
 # 3.非Jenkins和Gitlab验收报告收集
 1. DevKit测试平台报告收集
 DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路径，以安装在/root/.local路径为例，需要进入到`/root/.local/compatibility_testing/`目录，该目录下名为compatibility_report.html文件为验收报告
