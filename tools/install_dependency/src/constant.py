@@ -16,7 +16,7 @@ ROLE_COMPONENT = {
     SCANNER: ["BiShengJDK17", "DevKitCLI"],
     C_BUIDLER: ["GCCforOpenEuler", "BiShengCompiler", "BiShengJDK17", "A-FOT", "NonInvasiveSwitching"],
     JAVA_BUILDER: ["BiShengJDK17", "BiShengJDK8"],
-    EXECUTOR: ["BiShengJDK17", "DevkitDistribute", "LkpTests"],
+    EXECUTOR: ["BiShengJDK17", "LkpTests", "CompatibilityTesting", "DevkitDistribute"],
     DEVKIT: ["DevKitWeb"]
 }
 

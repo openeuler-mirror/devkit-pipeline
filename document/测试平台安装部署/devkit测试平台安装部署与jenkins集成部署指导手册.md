@@ -4,9 +4,19 @@
 
 ------
 
-测试平台使用的是lkp test 工具，以下均已lkp test描述测试平台 
+测试平台使用的是lkp test 工具，以下均已lkp test描述测试平台
 
-## 一. 安装指导
+## 一. 云测工具介绍
+
+lkp test是运行云测工具描述验证应用在鲲鹏服务器上的运行情况的必要依赖
+
+云测工具是用来运行兼容性测试和可靠性测试的应用
+
+| 兼容性测试 | 通过待测试应用软件在鲲鹏环境启动前后资源波动异常检测、验证应用软件启动和停止，自动检测应用软件在鲲鹏平台上的可运行性、兼容性问题。      |
+| ----- | ---------------------------------------------------------------------- |
+| 可靠性测试 | 通过待测试应用软件在稳定运行期间的系统资源内存的波动异常检测、在异常终止测试场景检测应用运行，自动评估应用软件在鲲鹏平台上的稳定性和可靠性。 |
+
+## 二. 安装指导
 
 可以使用一键部署工具去部署，如果只想单独部署测试平台可以按照以下操作（请用有root权限的用户去安装）
 
@@ -60,9 +70,11 @@ lkp install
 
 直接解压缩compatibility_testing.tar.gz到${HOME}/.local就行
 
-## 二. 添加项目至lkp tests测试平台
+## 三. 添加项目至lkp tests测试平台（云测工具已完成添加，无需再次添加，以下仅用来介绍如何再lkp tests里面添加项目）
 
-### (1) 极简版项目添加,示例-云测工具（compatibility-test）
+如果想要添加别的项目请按照下方指导，无需重安云测工具
+
+### (1) 极简版项目添加,示例-云测工具（compatibility-test已完成添加）
 
 以下所有文件夹在安装完lkp-tests 文件夹下面，如果使用一键部署工具则在${HOME}/.local下面
 
@@ -137,7 +149,7 @@ lkp split programs/compatibility-test/jobs/compatibility-test.yaml
 ln -s xxx/lkp-tests/programs/compatibility-test/run xxx/lkp-tests/tests/compatibility-test
 ```
 
-### (2) 带参数版项目添加,示例-云测工具（compatibility-test）
+### (2) 带参数版项目添加,示例-云测工具（compatibility-test已完成添加）
 
 1. 在programs 文件夹下创建compatibility-test文件夹，里面要包含以下几个文件，其余文件可以根据需求自行决定是否添加
 
@@ -218,7 +230,7 @@ lkp split programs/compatibility-test/jobs/compatibility-test.yaml
 ln -s xxx/lkp-tests/programs/compatibility-test/run xxx/lkp-tests/tests/compatibility-test
 ```
 
-## 三、 云测工具
+## 四、 如何配置以及使用兼容性测试工具-云测工具
 
 要运行云测平台需要配置参数，在安装目录${HOME}/.local/compatibility_testing/Chinese/compatibility_testing.conf
 
@@ -273,7 +285,9 @@ hpc_certificate=
 binary_file=
 ```
 
-## 四、Jenkins Pipeline 中集成lkp test (以云测工具(compatibility-test)为示例)
+之后如何运行请看pipeline实例代码
+
+## 五、Jenkins Pipeline 中集成lkp test (以云测工具(compatibility-test)为示例)
 
 请确保运行的用户有root权限
 
@@ -335,7 +349,7 @@ stage('lkp test') {
 
 ----
 
-## 五、lkp test 添加测试用例全部功能介绍
+## 六、lkp test 添加测试用例全部功能介绍
 
 ### 样例
 
@@ -589,7 +603,7 @@ programs/$program/PKGBUILD # when $package=$program
 makedepends_debian_11=(lam4-dev libopenmpi-dev libmpich-dev pvm-dev)
 ```
 
-## 六、FAQ
+## 七、FAQ
 
 ### lkp install 遇到的问题
 
