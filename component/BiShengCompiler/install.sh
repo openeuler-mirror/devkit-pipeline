@@ -13,13 +13,14 @@ if [[ ${verify_signature} -eq "0" ]]; then
 
     clang_path=$(which clang)
     if [[ ${clang_path} != ${HOME}/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang ]]; then
-        sed -i '/#*export BISHENG_COMPILER_HOME=${HOME}\/.local/d' ${HOME}/.bashrc
-        sed -i '/#*export PATH=${BISHENG_COMPILER_HOME}:${PATH}/d' ${HOME}/.bashrc
+        sed -i '/.*export BISHENG_COMPILER_HOME=${HOME}\/.local/d' ${HOME}/.bashrc
+        sed -i '/.*export .*=${BISHENG_COMPILER_HOME}.*/d' ${HOME}/.bashrc
 
         echo "change ${HOME}/.bashrc"
         cat >> ${HOME}/.bashrc <<'EOF'
-export BISHENG_COMPILER_HOME=${HOME}/.local/BiShengCompiler-3.2.0-aarch64-linux/bin
-export PATH=${BISHENG_COMPILER_HOME}:${PATH}
+export BISHENG_COMPILER_HOME=${HOME}/.local/BiShengCompiler-3.2.0-aarch64-linux
+export PATH=${BISHENG_COMPILER_HOME}/bin:${PATH}
+export LD_LIBRARY_PATH=${BISHENG_COMPILER_HOME}/lib:${BISHENG_COMPILER_HOME}/lib/aarch64-unknown-linux-gnu:${LD_LIBRARY_PATH}
 EOF
         echo "source ${HOME}/.bashrc"
         set +x

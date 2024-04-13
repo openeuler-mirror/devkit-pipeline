@@ -3,19 +3,19 @@ set -e
 function main() {
     cat > "${HOME}"/.local/wrap-bin/clang <<'EOF'
 set -x
-"${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang "$@" -mcpu=tsv110 --O2 -g
+"${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang "$@" -mcpu=tsv110 -O3 -g
 EOF
       cat > "${HOME}"/.local/wrap-bin/clang++ <<'EOF'
 set -x
-"${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang++ "$@" -mcpu=tsv110 --O2 -g
+"${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang++ "$@" -mcpu=tsv110 -O3 -g
 EOF
       cat > "${HOME}"/.local/wrap-bin/gcc <<'EOF'
 set -x
-"${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang "$@" -mcpu=tsv110 --O2 -g
+"${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang "$@" -mcpu=tsv110 -O3 -g
 EOF
       cat > "${HOME}"/.local/wrap-bin/g++ <<'EOF'
 set -x
-"${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang++ "$@" -mcpu=tsv110 --O2 -g
+"${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang++ "$@" -mcpu=tsv110 -O3 -g
 EOF
 chmod +x "${HOME}"/.local/wrap-bin/clang
 chmod +x "${HOME}"/.local/wrap-bin/clang++
