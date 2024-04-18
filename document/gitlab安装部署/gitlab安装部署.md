@@ -17,8 +17,6 @@ yum install -y git tar policycoreutils-python openssh-server
 rpm -ivh gitlab-ce-16.9.1-ce.0.el7.x86_64.rpm
 ```
 
-
-
 安装成功会有如下信息：
 ![](./gitlab/安装01.PNG) 
 
@@ -117,6 +115,7 @@ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-runner/yum/el7-aarch64/gitlab-r
 yum install -y git tar 
 rpm -ivh gitlab-runner-16.9.0-1.aarch64.rpm
 ```
+
 #### 3.指定gitlab-runner
 
 ```
@@ -128,8 +127,8 @@ gitlab-runner install --working-directory /home/Kunpeng_staff --user root
 useradd Kunpeng_staff 
 gitlab-runner install --working-directory /home/Kunpeng_staff --user Kunpeng_staff
 ```
-#### 4.启动gitlab-runner
 
+#### 4.启动gitlab-runner
 
 ```
 systemctl daemon-reload                   #重新加载配置
@@ -137,11 +136,13 @@ systemctl start gitlab-runner             #启动服务
 systemctl enable gitlab-runner            #设置开机启动
 systemctl restart gitlab-runner           #重启服务
 ```
+
 #### 5.查看gitlab-runner
 
 ```
 systemctl status gitlab-runner
 ```
+
 成功启动如下图所示
 ![](./gitlab/gitlab-runner启动.PNG) 
 
@@ -152,7 +153,9 @@ chown -R root.root /home/gitlab-runner
 # 指定单一时用户运行
 chown -R Kunpeng_staff.Kunpeng_staff /home/gitlab-runner
 ```
+
 #### 7.gitlab runner注册服务
+
 登录gitlab，在管理中心Runner中新建一个runner
 ![](./gitlab/注册02.PNG) 
 标签多个时用逗号隔开，只可为kunpeng_scanner, kunpeng_c_cpp_builder, kunpeng_java_builder, kunpeng_executor
@@ -163,35 +166,5 @@ chown -R Kunpeng_staff.Kunpeng_staff /home/gitlab-runner
 点击进入runners页面
 ![](./gitlab/注册09.PNG) 
 ![](./gitlab/注册10.PNG) 
-#### 8.脚本配置指导
-创建或者导入项目，进入项目后，在目录中选择构建，在流水线编辑器中编辑
-毕昇编译器调用示例：
-在流水线脚本中在某一步骤需要调用毕昇编译器进行编译时,以目标文件为”/opt/test.c“文件为例。
 
-```
-stages:          
-  - build
-
-clang_job:
-  stage: build
-  tags:
-    - kunpeng_scanner #对应gitlab-runner注册时的标签，可选择多个
-  script:
-    - /root/BiShengCompiler-3.2.0-aarch64-linux/bin/clang /opt/test.c -o 输出路径 #所在机器上应保障已安装毕昇编译器,路径根据视情况填写
-  
-```
-GCC for openEuler调用示例：
-在流水线脚本中在某一步骤需要调用GCC for openEuler进行编译时,以目标文件为”/opt/test.c“文件为例。
-
-```
-stages:          
-  - build
-
-gcc_job:
-  stage: build
-  tags:
-    - kunpeng_scanner #对应gitlab-runner注册时的标签，可选择多个
-  script:
-    - /root/gcc-10.3.1-2023.12-aarch64-linux/bin/gcc /opt/test.c -o 输出路径 #所在机器上应保障已安装GCC for openEule,路径根据视情况填写
-
-
+# 

@@ -1,6 +1,7 @@
 <center><big><b>《安装部署 Jenkins》</b></big></center>
 
 ## 安装 Jenkins
+
 > **Jenkins 运行的 JDK 的最低要求为 JDK11 （官方推荐JDK17）**
 
 > [Jenkins 离线安装 官方文档](https://www.jenkins.io/doc/book/installing/offline/)
@@ -147,132 +148,24 @@ cat ~/.ssh/id_ed25519_<推荐按照 *_*_*_* 格式填写目标服务器IP,便于
 
    ![工作节点设置01](./Jenkins.assets/工作节点设置01.png)![工作节点设置02](./Jenkins.assets/工作节点设置02.png)
 
-| 配置项                            | 配置说明                                                                                              |
-| ------------------------------ | ------------------------------------------------------------------------------------------------- |
-| 名字                             | 与节点名称保持一致                                                                                         |
-| 描述                             | 按需填写,便于管理标识和即可，如aarch64node(ip)openeuler22.03                                                     |
-| Number of executors            | 默认为1                                                                                              |
-| 远程工作目录                         | /home/JenkinsWorkspace/                                                                           |
+| 配置项                            | 配置说明                                                                                                                          |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| 名字                             | 与节点名称保持一致                                                                                                                     |
+| 描述                             | 按需填写,便于管理标识和即可，如aarch64node(ip)openeuler22.03                                                                                 |
+| Number of executors            | 默认为1                                                                                                                          |
+| 远程工作目录                         | /home/JenkinsWorkspace/                                                                                                       |
 | 标签                             | 流水线脚本中根据标签来选取执行机，可以打多个标签，用空格隔开，标签需要以kunpeng_为前缀，如kunpeng_scanner kunpeng_java_builder kunpeng_c_cpp_builder  kunpeng_executor |
-| 用法                             | Only build jobs with label expressions matching this node                                         |
-| 启动方式                           | Launch agents via SSH                                                                             |
-| 主机                             | 节点IP                                                                                              |
-| Credentials                    | 已添加的凭据                                                                                            |
-| Host Key Verification Strategy | Known hosts file Verification Strategy                                                            |
-| 可用性                            | Keep this agent online as much as possible                                                        |
-| 节点属性(可选)                       | 若需要配置环境变量可选择Environment variables                                                                 |
+| 用法                             | Only build jobs with label expressions matching this node                                                                     |
+| 启动方式                           | Launch agents via SSH                                                                                                         |
+| 主机                             | 节点IP                                                                                                                          |
+| Credentials                    | 已添加的凭据                                                                                                                        |
+| Host Key Verification Strategy | Known hosts file Verification Strategy                                                                                        |
+| 可用性                            | Keep this agent online as much as possible                                                                                    |
+| 节点属性(可选)                       | 若需要配置环境变量可选择Environment variables                                                                                             |
 
 ![工作节点设置03](./Jenkins.assets/工作节点设置05.PNG)![工作节点设置04](./Jenkins.assets/工作节点设置04.png)
 
-### 3.脚本配置指导
-
-1.jenkins流水线详细语法博客：https://www.jenkins.io/zh/doc/book/pipeline/syntax/
-
-毕昇编译器调用示例：
-
-```groovy
-def clang(String path) {
-  sh "${BISHENG_COMPILER_HOME}/bin/clang ${path}"
-}
-
-pipeline {
-  agent any
-  stages {
-      stage('Bisheng Compiler') {
-          agent {
-              label 'Linux_aarch64'
-          }
-          steps {
-              clang("/root/temp/hello.c")
-          }
-      }
-  }
-}   
-```
-
-**备注：jenkins所在机器上应保障已安装毕昇编译器，可根据安装地址自由修改第二行代码处的编译器路径**
-
-在流水线脚本中在某一步骤需要调用毕昇编译器进行编译时,以目标文件为”/root/temp/hello.c“文件为例，在上侧代码13行处，调用clang()方法,并配置好目标文件路径即可。
-
-1. GCC for openEuler调用示例
-   
-   ```groovy
-   def gcc(String path) {
-     sh "${GCC_HOME}/bin/gcc ${path}"
-   }
-   
-   pipeline {
-     agent any
-     stages {
-         stage('GCC for openEuler') {
-             agent {
-                 label 'Linux_aarch64'
-             }
-             steps {
-                 gcc("/root/temp/hello.c")
-             }
-         }
-     }
-   }  
-   ```
-   
-   **备注：jenkins所在机器上应保障已安装GCC for openEuler，可根据安装地址自由修改第二行代码处GCC for openEuler路径**
-   
-   在流水线脚本中在某一步骤需要调用GCC for openEuler进行编译时,以目标文件为”/root/temp/hello.c“文件为例，在上侧代码13行处，调用gcc()方法,并配置好目标文件路径即可。1.jenkins流水线详细语法博客：https://www.jenkins.io/zh/doc/book/pipeline/syntax/
-   
-   1. 毕昇编译器调用示例：
-      
-      ```groovy
-      def clang(String path) {
-        sh "${BISHENG_COMPILER_HOME}/bin/clang ${path}"
-      }
-      
-      pipeline {
-        agent any
-        stages {
-            stage('Bisheng Compiler') {
-                agent {
-                    label 'Linux_aarch64'
-                }
-                steps {
-                    clang("/root/temp/hello.c")
-                }
-            }
-        }
-      }   
-      ```
-      
-      **备注：jenkins所在机器上应保障已安装毕昇编译器，可根据安装地址自由修改第二行代码处的编译器路径**
-      
-      在流水线脚本中在某一步骤需要调用毕昇编译器进行编译时,以目标文件为”/root/temp/hello.c“文件为例，在上侧代码13行处，调用clang()方法,并配置好目标文件路径即可。
-   
-   2. GCC for openEuler调用示例
-      
-      ```groovy
-      def gcc(String path) {
-        sh "${GCC_HOME}/bin/gcc ${path}"
-      }
-      
-      pipeline {
-        agent any
-        stages {
-            stage('GCC for openEuler') {
-                agent {
-                    label 'Linux_aarch64'
-                }
-                steps {
-                    gcc("/root/temp/hello.c")
-                }
-            }
-        }
-      }  
-      ```
-      
-      **备注：jenkins所在机器上应保障已安装GCC for openEuler，可根据安装地址自由修改第二行代码处GCC for openEuler路径**
-      
-      在流水线脚本中在某一步骤需要调用GCC for openEuler进行编译时,以目标文件为”/root/temp/hello.c“文件为例，在上侧代码13行处，调用gcc()方法,并配置好目标文件路径即可。
-
-### 4.FAQ
+### 3.FAQ
 
    ![Jenkins工作节点连接失败FAQ](./Jenkins.assets/Jenkins工作节点连接失败FAQ.png)
 
