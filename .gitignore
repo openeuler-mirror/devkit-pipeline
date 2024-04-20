@@ -10,3 +10,6 @@ component/LkpTests/lkp_help/lkp-tests.tar.gz
 component/DevkitDistribute/devkit_distribute/config/log.ini
 component/DevkitDistribute/devkit_distribute/config/devkit_distribute.yaml
 devkitdependencies
+component/DevkitDistribute/JFRParser/.idea
+component/DevkitDistribute/JFRParser/.gitignore
+component/DevkitDistribute/JFRParser/target
