@@ -302,7 +302,7 @@ stage('lkp test') {
                                         CURDIR=$(pwd)
                                         cp -rf /xxx/compatibility_testing/template.html.bak /xxx/compatibility_testing/template.html
                                         sudo lkp run /xxx/lkp-tests/programs/compatibility-test/compatibility-test-defaults.yaml
-                                        cp -rf /xxx/test/compatibility_testing/compatibility_report.html $CURDIR
+                                        cp -rf /xxx/compatibility_testing/compatibility_report.html $CURDIR
                                     '''
                                    sh(script: "sudo bash /xxx/compatibility_testing/report_result.sh", returnStdout:true).trim() # 这个是用于判断lkp 命令后生成的结果是否符合预期，需要根据不同的run脚本生成的结果文件去做不同的结果判断结果
 
