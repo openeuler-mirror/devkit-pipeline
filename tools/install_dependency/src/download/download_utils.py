@@ -167,7 +167,7 @@ def download_dependence_file(shell_cmd, shell_dict):
               )
         raise OSError(f"download error occurs: {str(e)}")
 
-    if not os.path.isfile(save_path):
+    if not os.path.isfile(save_path) or not str(os.path.getsize(save_path)) == file_size:
         print(f"[ERROR] Download dependencies failed. "
               f"Please visit following url and download dependencies to default directory."
               f"\n\t{url_}"
