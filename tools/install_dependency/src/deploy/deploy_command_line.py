@@ -6,7 +6,7 @@ DEFAULT_YAML_PATH = "./machine.yaml"
 class CommandLine:
     yaml_path = DEFAULT_YAML_PATH
     iso_path = None
-    debug = False
+    silent = False
 
     @classmethod
     def add_options(cls, parser):
@@ -14,13 +14,15 @@ class CommandLine:
                             help="Assign yaml config file path. Default path is 'machine.yaml' in current directory.")
         parser.add_argument("-iso", action="store", dest="iso_path", default=None,
                             help="Assign prepared iso file path.")
-        parser.add_argument("--debug", action="store_true", dest="debug", default=False, help="Open debug log.")
+        parser.add_argument("--debug", action="store_true", dest="debug", default=True,
+                            help="Open debug log. Default is True.")
+        parser.add_argument("--silent", action="store_true", dest="silent", default=False, help="Close debug log.")
 
     @classmethod
     def process_args(cls, args):
         cls.yaml_path = args.yaml_path if args.yaml_path and args.yaml_path != "./" else DEFAULT_YAML_PATH
         cls.iso_path = args.iso_path
-        cls.debug = args.debug
+        cls.silent = args.silent
         return cls.yaml_path
 
 

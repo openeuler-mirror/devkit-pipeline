@@ -40,7 +40,7 @@ if __name__ == '__main__':
     try:
         process_command_line(program="deploy_tool", description="devkit-pipeline deploy_tool",
                              class_list=[CommandLine])
-        config_logging(CommandLine.debug)
+        config_logging(CommandLine.silent)
         config_dict = read_yaml_file(CommandLine.yaml_path)
 
         if CommandLine.iso_path:
