@@ -2,7 +2,7 @@ import logging
 import sys
 
 
-def config_logging(debug=False):
+def config_logging(silent=False):
     logger = logging.getLogger("install_dependency")
     logger.setLevel(logging.DEBUG)
 
@@ -12,7 +12,7 @@ def config_logging(debug=False):
         " %(message)s")
 
     handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(logging.DEBUG if debug else logging.INFO)
+    handler.setLevel(logging.INFO if silent else logging.DEBUG)
     handler.setFormatter(formatter)
 
     logger.addHandler(handler)
