@@ -24,8 +24,8 @@ chmod +x "${HOME}"/.local/wrap-bin/g++
 
   cat > "${HOME}"/.local/wrap-bin/devkit_pipeline.sh <<'EOF'
 
-export PATH="${HOME}"/.local/wrap-bin:/usr/local/bin:$PATH
-export LD_LIBRARY_PATH="${HOME}"/.local/lib:$LD_LIBRARY_PATH
+export PATH="${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin:/usr/local/bin:$PATH
+export LD_LIBRARY_PATH="${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/lib:$LD_LIBRARY_PATH
 EOF
 chmod 755 "${HOME}"/.local/wrap-bin/devkit_pipeline.sh
 }
