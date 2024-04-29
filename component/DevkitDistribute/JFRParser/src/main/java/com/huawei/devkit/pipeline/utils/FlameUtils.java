@@ -7,6 +7,12 @@ import java.util.Objects;
 
 public class FlameUtils {
 
+    /**
+     * 合并两个多个json数据
+     *
+     * @param subMap         某个pid的火焰图
+     * @param externalSubMap 另一个pid的火焰图
+     */
     public static void mergeSubFlame(Map<String, FlameItem> subMap, Map<String, FlameItem> externalSubMap) {
         if (Objects.isNull(externalSubMap)) {
             return;

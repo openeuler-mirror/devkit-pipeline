@@ -1,7 +1,11 @@
 package com.huawei.devkit.pipeline.bo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.huawei.devkit.pipeline.utils.JfrMethodSignatureParser;
 import jdk.jfr.consumer.RecordedFrame;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +18,14 @@ public class FlameItem {
         this.subMap = new HashMap<>();
     }
 
+    @JsonProperty("ｎ")
     private String name;
+    @JsonProperty("ｖ")
     private int value;
-    private List<FlameItem> sub;
+    @JsonProperty("ｃ")
+    private Collection<FlameItem> sub;
 
+    @JsonIgnore
     private final Map<String, FlameItem> subMap;
 
     public String getName() {
@@ -40,11 +48,11 @@ public class FlameItem {
         this.value++;
     }
 
-    public List<FlameItem> getSub() {
+    public Collection<FlameItem> getSub() {
         return sub;
     }
 
-    public void setSub(List<FlameItem> sub) {
+    public void setSub(Collection<FlameItem> sub) {
         this.sub = sub;
     }
 
@@ -52,11 +60,20 @@ public class FlameItem {
         return subMap;
     }
 
+    public void toStandardFlame() {
+        this.sub = this.subMap.values();
+        for (FlameItem item : this.sub) {
+            item.toStandardFlame();
+        }
+    }
+
     public void addFlameItem(List<RecordedFrame> frames) {
         Map<String, FlameItem> loopMap = subMap;
         for (int i = frames.size() - 1; i >= 0; i--) {
             RecordedFrame frame = frames.get(i);
-            String name = frame.getMethod().getType().getName() + "." + frame.getMethod().getName() + ":" + frame.getLineNumber();
+            String methodName = frame.getMethod().getType().getName() + "." + frame.getMethod().getName();
+            String name = JfrMethodSignatureParser
+                    .convertMethodSignatureWithoutReturnType(frame.getMethod().getDescriptor(), methodName);
             FlameItem item = loopMap.get(name);
             if (item != null) {
                 item.increase();
