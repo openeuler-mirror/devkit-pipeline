@@ -76,7 +76,7 @@ source-code-migration:
 | 参数  |  参数选项 | 参数说明  |
 | ------------ | ------------ | ------------ |
 |  -i/--input-path |  path | 必选参数。待扫描源码的文件夹或压缩包路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1,/home/test2。  |
-| -c/--cmd  |  cmd |  必选参数。源码的构建命令。例如：make all。 |
+| -c/--cmd  |  cmd | 指定源代码的构建命令，例如：make all。如果扫描的源码只包含解释型语言，则为**可选参数**，否则为**必选参数** |
 | -s/--source-type  | c,c++,asm,fortran,go, interpreted  |  可选参数。待扫描源码类型。 |
 |  -t/--target-os |  target-os | 可选参数。迁移的目标操作系统。如果用户不输入则默认为当前操作系统。例如：bclinux7.7。  |
 | -p/--compiler  |  gcc,clang | 可选参数。编译器版本。默认为选定目标操作系统的默认GCC版本。例如：gcc7.8.5  |

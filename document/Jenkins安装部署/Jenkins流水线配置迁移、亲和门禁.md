@@ -30,29 +30,29 @@
 
 ```groovy
 # devkit porting pkg-mig -i 待扫描软件包 -r 输出报告格式
-# 示例 devkit porting pkg-mig -i impala-2.9.0+cdh5.12.1+0-1.cdh5.12.1.p0.3.el7.x86_64.rpm  -r html
+# 示例 devkit porting pkg-mig -i impala-2.9.0+cdh5.12.1+0-1.cdh5.12.1.p0.3.el7.x86_64.rpm -r html
 # 该节点建议放在构建流程节点后
 stage('software-migration-assessment') {
-                            steps {
-                                echo '====== 软件迁移评估 ======'
-                                sh '''
-                                    /usr/bin/rm -rf ./pkg-mig*.html
-                                    devkit porting pkg-mig -i impala-2.9.0+cdh5.12.1+0-1.cdh5.12.1.p0.3.el7.x86_64.rpm  -r html
-                                    mv ./pkg-mig*.html ./SoftwareMigrationAssessment.html
-                                '''
-                            }
-                            post {
-                                always {
-                                    publishHTML(target: [allowMissing: false,
-                                                alwaysLinkToLastBuild: false,
-                                                keepAll              : true,
-                                                reportDir            : '.',
-                                                reportFiles          : 'SoftwareMigrationAssessment.html',
-                                                reportName           : 'SoftwareMigrationAssessment Report']
-                                                )
-                                }
-                            }
-                        }
+    steps {
+        echo '====== 软件迁移评估 ======'
+        sh '''
+            /usr/bin/rm -rf ./pkg-mig*.html
+            devkit porting pkg-mig -i impala-2.9.0+cdh5.12.1+0-1.cdh5.12.1.p0.3.el7.x86_64.rpm  -r html
+            mv ./pkg-mig*.html ./SoftwareMigrationAssessment.html
+        '''
+    }
+    post {
+        always {
+            publishHTML(target: [allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir            : '.',
+                        reportFiles          : 'SoftwareMigrationAssessment.html',
+                        reportName           : 'SoftwareMigrationAssessment Report']
+                        )
+        }
+    }
+}
 ```
 
 具体参数如下
@@ -74,35 +74,71 @@ stage('software-migration-assessment') {
  # 示例 devkit porting src-mig -i ./wtdbg2 -c make -r html
  # 该节点若是扫描软件包建议放在构建流程节点后，若是源码文件则建议放在构建流程节点前  
 stage('source-code-migration') {
-                            steps {
-                                echo '====== 源码迁移 ======'
-                                sh '''
-                                    /usr/bin/rm -rf ./src-mig*.html
-                                    devkit porting src-mig -i ./wtdbg2 -c make -r html
-                                    mv ./src-mig*.html ./SourceCodeScanningReport.html
-                                '''
-                            }
-                            post {
-                                always {
-                                    publishHTML(target: [allowMissing: false,
-                                                alwaysLinkToLastBuild: false,
-                                                keepAll              : true,
-                                                reportDir            : '.',
-                                                reportFiles          : 'SourceCodeScanningReport.html',
-                                                reportName           : 'Source Code Scanning Report']
-                                                )
-                                }
-                            }
-                        }
-    
+    steps {
+        echo '====== 源码迁移 ======'
+        script{
+            def STATUS_CODE = sh(returnStatus: true, script: '''
+                                /usr/bin/rm -rf ./src-mig*.html ./SourceCodeScanningReport.html
+                                devkit porting src-mig -i /root/complier/dataRelocation/ -c make -r html
+                                ''')
+            sh '''
+                html_file_name=$(find ./ -name src-mig*.html)
+                if [[ ${html_file_name} ]]; then 
+                    mv ${html_file_name} ./SourceCodeScanningReport.html
+                fi
+            '''
+            switch(STATUS_CODE) {
+                case 0:
+                    echo '【源码迁移】--> 无扫描建议 <--'
+                    break
+                case 1:
+                    currentBuild.result = 'UNSTABLE'
+                    echo '【源码迁移】--> 扫描结果只存在建议项 <--'
+                    break
+                case 3:
+                    currentBuild.result = 'ABORTED'
+                    echo '【源码迁移】--> 扫描结果超时 <--'
+                    break
+                case 4:
+                    currentBuild.result = 'ABORTED'
+                    echo '【源码迁移】--> 扫描命令错误 <--'
+                    break
+                case 5:
+                    currentBuild.result = 'FAILURE'
+                    echo '【源码迁移】--> 扫描结果存在必须修改项 <--'
+                    error('【源码迁移】--> 扫描结果存在必须修改项 <--')
+                    break
+                default:
+                    currentBuild.result = 'ABORTED'
+                    echo '【源码迁移】--> 异常终断开{Ctrl + C | Ctrl + Z} <--'
+                    break
+            }
+        }
+    }
+    post {
+        always {
+            publishHTML(target: [allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir            : '.',
+                        reportFiles          : 'SourceCodeScanningReport.html',
+                        reportName           : 'Source Code Scanning Report']
+                        )
+        }
+    }
+}
 ```
+>**若流水失败且此`Stage`提示`【源码迁移】--> 扫描结果存在必须修改项 <--`时，则说明此源码扫描结果中存在规则项。此时需要根据扫描报告中的规则项提示判断是否修改，如果要忽略这些规则项提示，则可以将这些规则项添加到ignore_rules.json文件（此文件在Devkit CLI工具中的路径如：`/path/DevKit-CLI-24.0.RC1-Linux-Kunpeng/porting/ignore_rules.json`）并在后续执行源码迁移命令中使用--ignore指定此文件。示例如下：**
+>
+>**devkit porting src-mig -i ./wtdbg2 -c make -r html --ignore /path/DevKit-CLI-24.0.RC1-Linux-Kunpeng/porting/ignore_rules.json**
+
 
 具体参数如下
 
 | 参数                  | 参数选项                          | 参数说明                                                     |
 | --------------------- | --------------------------------- | ------------------------------------------------------------ |
 | -i/--input-path       | path                              | 必选参数。待扫描源码的文件夹或压缩包路径，若存在多个扫描路径需使用英文逗号分割。例如：/home/test1,/home/test2。 |
-| -c/--cmd              | cmd                               | 必选参数。源码的构建命令。例如：make all。                   |
+| -c/--cmd              | cmd                               | 指定源代码的构建命令，例如：make all。如果扫描的源码只包含解释型语言，则为**可选参数**，否则为**必选参数** |
 | -s/--source-type      | c,c++,asm,fortran,go, interpreted | 可选参数。待扫描源码类型。                                   |
 | -t/--target-os        | target-os                         | 可选参数。迁移的目标操作系统。如果用户不输入则默认为当前操作系统。例如：bclinux7.7。 |
 | -p/--compiler         | gcc,clang                         | 可选参数。编译器版本。默认为选定目标操作系统的默认GCC版本。例如：gcc7.8.5 |
@@ -118,30 +154,29 @@ stage('source-code-migration') {
 
 ```groovy
 # devkit advisor mode-check -i 待扫描的源码文件夹路径
-# 示例 devkit advisor mode-check -i /opt/DevKit/testcase/affinity/precheck/test005
+# 示例 devkit advisor mode-check -i /opt/DevKit/testcase/affinity/precheck/test005 -r html
 # 该节点建议放在构建流程节点前
 stage('64-bit-running-mode-check') {
-                            steps {
-                                echo '====== 64位运行模式 ======'
-                                sh '''
-                                    /usr/bin/rm -rf ./mode_check*.html
-                                    devkit advisor mode-check -i /opt/DevKit/testcase/affinity/precheck/test005
-                                    mv ./mode_check*.html ./64-bit-running-mode-check.html
-                                '''
-                            }
-                            post {
-                                always {
-                                    publishHTML(target: [allowMissing: false,
-                                                alwaysLinkToLastBuild: false,
-                                                keepAll              : true,
-                                                reportDir            : '.',
-                                                reportFiles          : '64-bit-running-mode-check.html',
-                                                reportName           : '64-bit-running-mode-check Report']
-                                                )
-                                }
-                            }
-                        }
-
+    steps {
+        echo '====== 64位运行模式 ======'
+        sh '''
+            /usr/bin/rm -rf ./mode_check*.html
+            devkit advisor mode-check -i /opt/DevKit/testcase/affinity/precheck/test005 -r html
+            mv ./mode_check*.html ./64-bit-running-mode-check.html
+        '''
+    }
+    post {
+        always {
+            publishHTML(target: [allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir            : '.',
+                        reportFiles          : '64-bit-running-mode-check.html',
+                        reportName           : '64-bit-running-mode-check Report']
+                        )
+        }
+    }
+}
 ```
 
 具体参数如下
@@ -158,29 +193,29 @@ stage('64-bit-running-mode-check') {
 
 ```groovy
 # devkit advisor byte-align -i 待扫描的源码文件夹路径 -c 源码构建命令 -b 构建工具
-# 示例 devkit advisor byte-align -i /opt/DevKit/wtdbg2-2.5 -c make -b make
+# 示例 devkit advisor byte-align -i /opt/DevKit/wtdbg2-2.5 -c make -b make -r html
 # 该节点建议放在构建流程节点前
 stage('byte-alignment-check') {
-                            steps {
-                                echo '====== 字节对齐检查 ======'
-                                sh '''
-                                    /usr/bin/rm -rf ./byte-align*.html
-                                    devkit advisor byte-align -i /opt/DevKit/wtdbg2-2.5 -c make -b make
-                                    mv ./byte-align*.html ./byte-alignment-check.html
-                                '''
-                            }
-                            post {
-                                always {
-                                    publishHTML(target: [allowMissing: false,
-                                                alwaysLinkToLastBuild: false,
-                                                keepAll              : true,
-                                                reportDir            : '.',
-                                                reportFiles          : 'byte-alignment-check.html',
-                                                reportName           : 'byte-alignment-check Report']
-                                                )
-                                }
-                            }
-                        }
+    steps {
+        echo '====== 字节对齐检查 ======'
+        sh '''
+            /usr/bin/rm -rf ./byte-align*.html
+            devkit advisor byte-align -i /opt/DevKit/wtdbg2-2.5 -c make -b make -r html
+            mv ./byte-align*.html ./byte-alignment-check.html
+        '''
+    }
+    post {
+        always {
+            publishHTML(target: [allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir            : '.',
+                        reportFiles          : 'byte-alignment-check.html',
+                        reportName           : 'byte-alignment-check Report']
+                        )
+        }
+    }
+}
 ```
 
 具体参数如下
@@ -200,32 +235,32 @@ stage('byte-alignment-check') {
 
 ```groovy
  # devkit advisor mem-cons -i BC文件对应的源码文件路径 -f BC文件路径  （需要用户配合编写生成的BC文件脚本）
- # 示例 devkit advisor mem-cons -i /opt/DevKit/testcase/affinity/weak_cons/test-mulbc_sort -f /opt/DevKit/testcase/affinity/weak_cons/bc_file
+ # 示例 devkit advisor mem-cons -i /opt/DevKit/testcase/affinity/weak_cons/test-mulbc_sort -f /opt/DevKit/testcase/affinity/weak_cons/bc_file -r html
 # 该节点建议放在构建流程节点前
 stage('memory-consistency-check') {
     agent {
-                label 'Linux_aarch64'
-            }
-                            steps {
-                                echo '====== 内存一致性检查 ======'
-                                sh '''
-                                    /usr/bin/rm -rf ./mem-cons*.html
-                                    devkit advisor mem-cons -i /opt/DevKit/testcase/affinity/weak_cons/test-mulbc_sort -f 												/opt/DevKit/testcase/affinity/weak_cons/bc_file
-                                    mv ./mem-cons*.html ./memory-consistency-check.html
-                                '''
-                            }
-                            post {
-                                always {
-                                    publishHTML(target: [allowMissing: false,
-                                                alwaysLinkToLastBuild: false,
-                                                keepAll              : true,
-                                                reportDir            : '.',
-                                                reportFiles          : 'memory-consistency-check.html',
-                                                reportName           : 'memory-consistency-check Report']
-                                                )
-                                }
-                            }
-                        }
+            label 'Linux_aarch64'
+    }
+    steps {
+        echo '====== 内存一致性检查 ======'
+        sh '''
+            /usr/bin/rm -rf ./mem-cons*.html
+            devkit advisor mem-cons -i /opt/DevKit/testcase/affinity/weak_cons/test-mulbc_sort -f /opt/DevKit/testcase/affinity/weak_cons/bc_file -r html
+            mv ./mem-cons*.html ./memory-consistency-check.html
+        '''
+    }
+    post {
+        always {
+            publishHTML(target: [allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir            : '.',
+                        reportFiles          : 'memory-consistency-check.html',
+                        reportName           : 'memory-consistency-check Report']
+                        )
+        }
+    }
+}
 ```
 
 具体参数如下
@@ -245,29 +280,29 @@ stage('memory-consistency-check') {
 
 ```groovy
 # devkit advisor vec-check -i BC文件对应的源码文件路径 -f BC文件路径 -c 源码的构建命令
-# 示例 devkit advisor vec-check -i /opt/DevKit/testcase/affinity/vec/simple -f /opt/DevKit/testcase/affinity/vec/BCfiles -c make
+# 示例 devkit advisor vec-check -i /opt/DevKit/testcase/affinity/vec/simple -f /opt/DevKit/testcase/affinity/vec/BCfiles -c make -r html
 # 该节点建议放在构建流程节点前
 stage('vectorized-check') {
-                            steps {
-                                echo '====== 向量化检查 ======'
-                                sh '''
-                                    /usr/bin/rm -rf ./vec-check*.html
-                                    devkit advisor vec-check -i /opt/DevKit/testcase/affinity/vec/simple -f 															/opt/DevKit/testcase/affinity/vec/BCfiles -c make
-                                    mv ./vec-check*.html ./vectorized-check.html
-                                '''
-                            }
-                            post {
-                                always {
-                                    publishHTML(target: [allowMissing: false,
-                                                alwaysLinkToLastBuild: false,
-                                                keepAll              : true,
-                                                reportDir            : '.',
-                                                reportFiles          : 'vectorized-check.html',
-                                                reportName           : 'vectorized-check Report']
-                                                )
-                                }
-                            }
-                        }
+    steps {
+        echo '====== 向量化检查 ======'
+        sh '''
+            /usr/bin/rm -rf ./vec-check*.html
+            devkit advisor vec-check -i /opt/DevKit/testcase/affinity/vec/simple -f /opt/DevKit/testcase/affinity/vec/BCfiles -c make -r html
+            mv ./vec-check*.html ./vectorized-check.html
+        '''
+    }
+    post {
+        always {
+            publishHTML(target: [allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir            : '.',
+                        reportFiles          : 'vectorized-check.html',
+                        reportName           : 'vectorized-check Report']
+                        )
+        }
+    }
+}
 ```
 
 具体参数如下
@@ -324,12 +359,45 @@ stage('vectorized-check') {
 >                        stages{
 >                            stage('source-code-migration') {
 >                                steps {
->                                    echo '====== 源码迁移 ======'
->                                    sh '''
->                                        /usr/bin/rm -rf ./*.html
->                                        devkit porting src-mig -i ./wtdbg2 -c make -r html
->                                        mv ./src-mig*.html ./SourceCodeScanningReport.html
->                                    '''
+>                                   echo '====== 源码迁移 ======'
+>                                   script{
+>                                        def STATUS_CODE = sh(returnStatus: true, script: '''
+>                                                            /usr/bin/rm -rf ./src-mig*.html ./SourceCodeScanningReport.html
+>                                                            devkit porting src-mig -i /root/complier/dataRelocation/ -c make -r html
+>                                                            ''')
+>                                        sh '''
+>                                            html_file_name=$(find ./ -name src-mig*.html)
+>                                            if [[ ${html_file_name} ]]; then 
+>                                                mv ${html_file_name} ./SourceCodeScanningReport.html
+>                                            fi
+>                                        '''
+>                                        switch(STATUS_CODE) {
+>                                            case 0:
+>                                                echo '【源码迁移】--> 无扫描建议 <--'
+>                                                break
+>                                            case 1:
+>                                                currentBuild.result = 'UNSTABLE'
+>                                                echo '【源码迁移】--> 扫描结果只存在建议项 <--'
+>                                                break
+>                                            case 3:
+>                                                currentBuild.result = 'ABORTED'
+>                                                echo '【源码迁移】--> 扫描结果超时 <--'
+>                                                break
+>                                            case 4:
+>                                                currentBuild.result = 'ABORTED'
+>                                                echo '【源码迁移】--> 扫描命令错误 <--'
+>                                                break
+>                                            case 5:
+>                                                currentBuild.result = 'FAILURE'
+>                                                echo '【源码迁移】--> 扫描结果存在必须修改项 <--'
+>                                                error('【源码迁移】--> 扫描结果存在必须修改项 <--')
+>                                                break
+>                                            default:
+>                                                currentBuild.result = 'ABORTED'
+>                                                echo '【源码迁移】--> 异常终断开{Ctrl + C | Ctrl + Z} <--'
+>                                                break
+>                                        }
+>                                    }
 >                                }
 >                                post {
 >                                    always {
@@ -369,7 +437,7 @@ stage('vectorized-check') {
 >            }
 >        }
 >    }
->    ```
+> ```
 
 ![创建Pipeline任务01](./鲲鹏DevKitCLI与Jenkins集成部署指导手册.assets/创建Pipeline任务01.png)![创建Pipeline任务02](./鲲鹏DevKitCLI与Jenkins集成部署指导手册.assets/创建Pipeline任务02.png)![创建Pipeline任务03](./鲲鹏DevKitCLI与Jenkins集成部署指导手册.assets/创建Pipeline任务03.png)
 
@@ -390,7 +458,6 @@ stage('vectorized-check') {
 - ##### 现代方式查看任务执行状态
 
   ![现代方式查看任务执行状态](./鲲鹏DevKitCLI与Jenkins集成部署指导手册.assets/现代方式查看任务执行状态.png)
-
 
 ----
 
