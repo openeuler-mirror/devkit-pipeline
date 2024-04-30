@@ -28,15 +28,16 @@ yum upgrade -y
 ```
 ### 2.配置 JDK
 ```shell
-创建 JDK 安装目录
 #================================================================================#
-  mkdir -p /usr/local/lib64/jvm/bisheng
+#创建 JDK 安装目录
+mkdir -p /usr/local/lib64/jvm/bisheng
 #================================================================================#
-下载并解压 JDK 到对应的安装目录
+
 #================================================================================#
+#下载并解压 JDK 到对应的安装目录
 wget -c https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_jdk/bisheng-jdk-17.0.10-linux-aarch64.tar.gz -O - | tar -C /usr/local/lib64/jvm/bisheng/ -xzf - --no-same-owner
 #================================================================================#
-配置 JDK
+
 #===============================================================================#
 # 创建自动配置脚本
 cat > "${HOME}"/SetJavaAlternatives.sh << 'EOF'
@@ -61,6 +62,7 @@ for ManFilePath in "${jdk_home_path}"/man/man1/*; do
   fi
 done
 EOF
+
 #-------------------------------------------------------------------------------#
 # 执行自动配置脚本
 /bin/bash "${HOME}"/SetJavaAlternatives.sh
