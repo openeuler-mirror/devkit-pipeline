@@ -26,8 +26,66 @@ rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
 yum upgrade -y
 #=====================================================================================================================#
 ```
+### 2.配置 JDK
+```shell
+#================================================================================#
+#创建 JDK 安装目录
+mkdir -p /usr/local/lib64/jvm/bisheng
+#================================================================================#
 
-### 2.部署 Jenkins
+#================================================================================#
+#下载并解压 JDK 到对应的安装目录
+wget -c https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_jdk/bisheng-jdk-17.0.10-linux-aarch64.tar.gz -O - | tar -C /usr/local/lib64/jvm/bisheng/ -xzf - --no-same-owner
+#================================================================================#
+
+#===============================================================================#
+# 创建自动配置脚本
+cat > "${HOME}"/SetJavaAlternatives.sh << 'EOF'
+#!/bin/bash
+jvm_path=/usr/lib/jvm
+mkdir -p "${jvm_path}"
+jdk_home_path=/usr/local/lib64/jvm/bisheng/bisheng-jdk-17.0.10
+PRIORITY_ID=901700010
+update-alternatives --install "${jvm_path}"/java-17 java_sdk_17 "${jdk_home_path}" "${PRIORITY_ID}"
+update-alternatives --install "${jvm_path}"/java-17-openjdk java_sdk_17_openjdk "${jdk_home_path}" "${PRIORITY_ID}"
+update-alternatives --install "${jvm_path}"/java-openjdk java_sdk_openjdk "${jdk_home_path}" "${PRIORITY_ID}"
+for BinFilePath in "${jdk_home_path}"/bin/*; do
+  if [ -x "${BinFilePath}" ]; then
+      BinFileName="$(basename "${BinFilePath}")"
+      update-alternatives --install /usr/bin/"${BinFileName}" "${BinFileName}" "${BinFilePath}" "${PRIORITY_ID}"
+  fi
+done
+for ManFilePath in "${jdk_home_path}"/man/man1/*; do
+  if [ -f "${ManFilePath}" ]; then
+      ManFileName="$(basename "${ManFilePath}")"
+      update-alternatives --install /usr/share/man/man1/"${ManFileName}" "${ManFileName}" "${ManFilePath}" "${PRIORITY_ID}"
+  fi
+done
+EOF
+
+#-------------------------------------------------------------------------------#
+# 执行自动配置脚本
+/bin/bash "${HOME}"/SetJavaAlternatives.sh
+#-------------------------------------------------------------------------------#
+# 移除自动配置脚本
+rm -rf "${HOME}"/SetJavaAlternatives.sh
+#===============================================================================#
+配置 JDK 环境变量
+#===============================================================================#
+ # 一键设置 Java 环境变量
+cat > /etc/profile.d/JavaEnvironmentVariable.sh << 'EOF'
+# SET JDK Enviroment
+JAVA_HOME=/usr/lib/jvm/java-17
+PATH=$PATH:$JAVA_HOME/bin
+export JAVA_HOME PATH
+EOF
+#===============================================================================#
+# 加载系统环境变量
+source /etc/profile
+#===============================================================================#
+```
+
+### 3.部署 Jenkins
 
 ```shell
 #=====================================================================================================================#
@@ -54,7 +112,7 @@ firewall-cmd --permanent --zone=public --list-all
 
    c43a88c4c6c2ba8eabf474d7555fdc0803dc93a0
 
-### 3.Jenkins 初始化设置
+### 4.Jenkins 初始化设置
 
    在浏览器端口键入以下地址访问 Jenkins 服务,并根据提示进行 Jenkins 的初始配置 **http://<服务器IP>:8080**
 
@@ -95,7 +153,7 @@ firewall-cmd --permanent --zone=public --list-all
   
   ![Jenkins初始化设置07](./Jenkins.assets/Jenkins初始化设置07.png)
 
-### 4.Jenkins 基础插件安装『插件的离线安装方式请访问插件主页下载符合目标要求的插件安装包 (.hpi)』
+### 5.Jenkins 基础插件安装『插件的离线安装方式请访问插件主页下载符合目标要求的插件安装包 (.hpi)』
 
 > 有关 Jenkins 插件管理请阅读以下文章： [管理插件 (jenkins.io)](https://www.jenkins.io/doc/book/managing/plugins/)
 
