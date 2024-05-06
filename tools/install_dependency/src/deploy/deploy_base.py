@@ -26,9 +26,9 @@ class DeployBase:
         self.install_param = False
         self.password = password
         self.deploy_helper = DeployHelp(ip, user, pkey, password, self.LOGGER)
-        # todo 把这个用的时候在创建
         self.sftp_client = None
         self.ssh_client = None
+        self.sudo = False
         self.remote_file_list = []
         # 去掉这个，每个component直接以compoent去调用
 
@@ -84,9 +84,15 @@ class DeployBase:
             sh_file_local_path = os.path.join(base_path("component"), self.component, shell_file)
             sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, self.component + shell_file)
             if self.install_param:
-                sh_cmd = f"bash {sh_file_remote_path} {sh_file_remote_path}"
+                if self.sudo:
+                    sh_cmd = f"sudo bash {sh_file_remote_path} {sh_file_remote_path}"
+                else:
+                    sh_cmd = f"bash {sh_file_remote_path} {sh_file_remote_path}"
             else:
-                sh_cmd = f"bash {sh_file_remote_path}"
+                if self.sudo:
+                    sh_cmd = f"sudo bash {sh_file_remote_path}"
+                else:
+                    sh_cmd = f"bash {sh_file_remote_path}"
             execute_output = (
                 self.transport_shell_file_and_execute(
                     sh_file_local_path=sh_file_local_path,

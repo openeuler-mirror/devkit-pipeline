@@ -13,6 +13,7 @@ concurrent-ruby-1.1.10.gem ci_reporter-2.0.0.gem bundler-2.2.33.gem builder-3.2.
 function main() {
   lkp_tar=/tmp/devkitdependencies/lkp-tests.tar.gz
   gem_zip=/tmp/devkitdependencies/gem_dependencies.zip
+  rm -rf "${HOME}"/.local/lkp-tests/
   if [[ ! -d /usr/share/gems/gems/gem_dependencies ]]; then
     unzip -d /usr/share/gems/gems ${gem_zip}
   fi
