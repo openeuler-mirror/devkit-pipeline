@@ -67,7 +67,12 @@ public class FlameItem {
         }
     }
 
-    public void addFlameItem(List<RecordedFrame> frames) {
+    public void addSubFlameItem(FlameItem item) {
+        this.subMap.put(item.getName(), item);
+        this.value += item.getValue();
+    }
+
+    public void addFlameItemByRecordedFrame(List<RecordedFrame> frames) {
         Map<String, FlameItem> loopMap = subMap;
         for (int i = frames.size() - 1; i >= 0; i--) {
             RecordedFrame frame = frames.get(i);

@@ -10,6 +10,7 @@ import java.util.Map;
 public class JfrMethodSignatureParser {
 
     private static final Map<Character, String> TYPE_MAPPINGS;
+    private static final int PARAMS_START_INDEX = 1;
 
     static {
         TYPE_MAPPINGS = new HashMap<>();
@@ -24,19 +25,31 @@ public class JfrMethodSignatureParser {
         TYPE_MAPPINGS.put('S', "short");
     }
 
+    /**
+     * 转换成正常方法签名
+     *
+     * @param signature  方法签名
+     * @param methodName 方法名
+     * @return 正常的方法签名
+     */
     public static String convertMethodSignature(String signature, String methodName) {
         List<String> params = new ArrayList<>();
-        int end = parseParams(signature, 1, params);
-        String paramDesc = "(" + Strings.join(params.iterator(), ',') + ")";
+        int end = parseParams(signature, params);
         String returnDesc = parseReturn(signature, end);
-        return returnDesc + " " + methodName + paramDesc;
+        return returnDesc + " " + methodName + "(" + Strings.join(params.iterator(), ',') + ")";
     }
 
+    /**
+     * 转换成没有返回值正常方法签名
+     *
+     * @param signature  方法签名
+     * @param methodName 方法名
+     * @return 正常的方法签名
+     */
     public static String convertMethodSignatureWithoutReturnType(String signature, String methodName) {
         List<String> params = new ArrayList<>();
-        parseParams(signature, 1, params);
-        String paramDesc = "(" + Strings.join(params.iterator(), ',') + ")";
-        return methodName + paramDesc;
+        parseParams(signature, params);
+        return methodName + "(" + Strings.join(params.iterator(), ',') + ")";
     }
 
     private static String parseReturn(String signature, int indexForRetrun) {
@@ -68,41 +81,42 @@ public class JfrMethodSignatureParser {
         throw new IllegalArgumentException("Invalid type character in signature: " + signature);
     }
 
-    private static int parseParams(String signature, int i, List<String> params) {
-        while (i < signature.length()) {
-            char c = signature.charAt(i);
+    private static int parseParams(String signature, List<String> params) {
+        int index = PARAMS_START_INDEX;
+        while (index < signature.length()) {
+            char c = signature.charAt(index);
             if (c == ')') {
-                i++;
+                index++;
                 break; // End of parameters, start of return type
             } else if (c == 'L') {
-                int endIndex = signature.indexOf(';', i);
+                int endIndex = signature.indexOf(';', index);
                 if (endIndex == -1) {
                     throw new IllegalArgumentException("Invalid method signature: " + signature);
                 }
-                String className = signature.substring(i + 1, endIndex).replace('/', '.');
+                String className = signature.substring(index + 1, endIndex).replace('/', '.');
                 params.add(className);
-                i = endIndex + 1;
+                index = endIndex + 1;
             } else if (c == '[') {
                 // Skip over array dimensions
                 int arrayDimension = 0;
-                while (i < signature.length() && signature.charAt(i) == '[') {
-                    i++;
+                while (index < signature.length() && signature.charAt(index) == '[') {
+                    index++;
                     arrayDimension++;
                 }
-                if (i == signature.length()) {
+                if (index == signature.length()) {
                     throw new IllegalArgumentException("Invalid method signature: " + signature);
                 }
                 StringBuilder builder = new StringBuilder();
-                i = setNameToClassParamDesc(signature, i, builder);
+                index = setNameToClassParamDesc(signature, index, builder);
                 params.add(builder.append("[]".repeat(arrayDimension)).toString());
             } else if (TYPE_MAPPINGS.containsKey(c)) {
                 params.add(TYPE_MAPPINGS.get(c));
-                i++;
+                index++;
             } else {
                 throw new IllegalArgumentException("Invalid type character in signature: " + c);
             }
         }
-        return i;
+        return index;
     }
 
     private static int setNameToClassParamDesc(String signature, int index, StringBuilder builder) {

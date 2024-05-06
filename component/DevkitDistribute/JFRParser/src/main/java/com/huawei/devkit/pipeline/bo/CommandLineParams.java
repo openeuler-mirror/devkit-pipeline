@@ -8,13 +8,13 @@ import java.util.List;
 
 public class CommandLineParams {
 
-    @Option(name = "-j", usage = "the jmeter result path", metaVar = "jmeter_result_path", required = true, help = true)
+    @Option(name = "-j", usage = "the jmeter result path", metaVar = "jmeter_result_path", help = true, required = true)
     private String jmeterResult;
 
-    @Option(name = "-o", usage = "the output path", metaVar = "output")
+    @Option(name = "-o", usage = "the output path", metaVar = "output", required = true)
     private String output;
 
-    @Option(name = "-f", usage = "the jfr path", metaVar = "display",
+    @Option(name = "-f", usage = "the jfr path", metaVar = "display", required = true,
             handler = MultiHandlerFactory.MultiFieldOptionHandler.class)
     private List<String> jfrPaths;
 
