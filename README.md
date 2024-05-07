@@ -25,6 +25,7 @@ Pipeline solution to support building, deploying and automating any software pro
 4. [Jenkins流水线配置Java性能分析](document/Jenkins安装部署/Jenkins流水线配置Java性能分析.md)
 5. [clamAV安装部署指导](document/clamAV安装更新指导/clamav安装部署指导资料.md)
 6. [A-FOT安装部署指导](document/A-FOT安装部署指导/A-FOT安装使用以及集成到Jenkins指导说明.md)
+7. [代码检查工具安装部署指导](document/代码检查工具/代码检查.md)
 
 
 ###### 原子能力对接流水线实践指导 (Gitlab)
