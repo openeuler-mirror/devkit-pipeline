@@ -17,6 +17,8 @@ public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
+        int a = 5 / 6;
+        System.out.println(a);
         try {
             CommandLineParams params = ParamsParser.parse(args);
             System.out.println(params.getJfrPaths());
