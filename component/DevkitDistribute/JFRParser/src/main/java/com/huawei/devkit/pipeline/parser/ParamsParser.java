@@ -1,4 +1,4 @@
-package com.huawei.devkit.pipeline.parse;
+package com.huawei.devkit.pipeline.parser;
 
 import com.huawei.devkit.pipeline.bo.CommandLineParams;
 import org.kohsuke.args4j.CmdLineException;

@@ -1,20 +1,21 @@
 package com.huawei.devkit.pipeline.bo;
 
-import com.huawei.devkit.pipeline.parse.JFRParser;
+import com.huawei.devkit.pipeline.parser.JFRParser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PerformanceTestResult {
 
-    private String rt;
+    private List<JmeterReportSummary> summaries;
 
-    private String frt;
+    private Map<String, List<JmeterRT>> rt;
 
-    private String tps;
+    private Map<String, List<JmeterRT>> frt;
 
-    private String qps;
+    private Map<String, List<JmeterTPS>> tps;
 
     private Map<String, List<MemInfo>> memory;
 
@@ -23,6 +24,10 @@ public class PerformanceTestResult {
     private Map<Long, FlameItem> flame;
 
     public PerformanceTestResult() {
+        this.summaries = new ArrayList<>();
+        this.rt = new HashMap<>();
+        this.frt = new HashMap<>();
+        this.tps = new HashMap<>();
         this.memory = new HashMap<>();
         this.cpu = new HashMap<>();
         this.flame = new HashMap<>();
@@ -36,36 +41,36 @@ public class PerformanceTestResult {
         }
     }
 
-    public String getRt() {
+    public List<JmeterReportSummary> getSummaries() {
+        return summaries;
+    }
+
+    public void setSummaries(List<JmeterReportSummary> summaries) {
+        this.summaries = summaries;
+    }
+
+    public Map<String, List<JmeterRT>> getRt() {
         return rt;
     }
 
-    public void setRt(String rt) {
+    public void setRt(Map<String, List<JmeterRT>> rt) {
         this.rt = rt;
     }
 
-    public String getFrt() {
+    public Map<String, List<JmeterRT>> getFrt() {
         return frt;
     }
 
-    public void setFrt(String frt) {
+    public void setFrt(Map<String, List<JmeterRT>> frt) {
         this.frt = frt;
     }
 
-    public String getTps() {
+    public Map<String, List<JmeterTPS>> getTps() {
         return tps;
     }
 
-    public void setTps(String tps) {
+    public void setTps(Map<String, List<JmeterTPS>> tps) {
         this.tps = tps;
-    }
-
-    public String getQps() {
-        return qps;
-    }
-
-    public void setQps(String qps) {
-        this.qps = qps;
     }
 
     public Map<Long, FlameItem> getFlame() {

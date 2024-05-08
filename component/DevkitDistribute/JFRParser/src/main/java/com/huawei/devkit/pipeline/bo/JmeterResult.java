@@ -4,11 +4,13 @@ public class JmeterResult {
     private long startTime;
     private int responseCode;
     private int latency;
+    private String label;
 
-    public JmeterResult(long startTime, int responseCode, int latency) {
+    public JmeterResult(long startTime, int responseCode, int latency, String label) {
         this.startTime = startTime;
         this.responseCode = responseCode;
         this.latency = latency;
+        this.label = label;
     }
 
     public long getStartTime() {
@@ -33,5 +35,13 @@ public class JmeterResult {
 
     public void setLatency(int latency) {
         this.latency = latency;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

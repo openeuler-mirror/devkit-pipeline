@@ -1,7 +1,15 @@
-package com.huawei.devkit.pipeline.parse;
+package com.huawei.devkit.pipeline.parser;
 
-import com.huawei.devkit.pipeline.bo.*;
-import jdk.jfr.consumer.*;
+import com.huawei.devkit.pipeline.bo.CpuInfo;
+import com.huawei.devkit.pipeline.bo.FlameItem;
+import com.huawei.devkit.pipeline.bo.LatencyTopInfo;
+import com.huawei.devkit.pipeline.bo.MemInfo;
+import com.huawei.devkit.pipeline.bo.PerformanceTestResult;
+import jdk.jfr.consumer.RecordedEvent;
+import jdk.jfr.consumer.RecordedFrame;
+import jdk.jfr.consumer.RecordedObject;
+import jdk.jfr.consumer.RecordedStackTrace;
+import jdk.jfr.consumer.RecordingFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,7 +20,7 @@ import java.util.List;
 public class JFRParser {
     public static Long ALL = -1L;
 
-    public static void parse(String filePath, List<LatencyTopInfo> top10, PerformanceTestResult result) throws Exception {
+    public static void parse(String filePath, List<LatencyTopInfo> top10, int timeGap, PerformanceTestResult result) throws Exception {
         Path path = Paths.get(filePath);
         if (!Files.exists(path)) {
             throw new Exception("the file not exist");
@@ -25,7 +33,7 @@ public class JFRParser {
         try (RecordingFile file = new RecordingFile(path)) {
             while (file.hasMoreEvents()) {
                 RecordedEvent event = file.readEvent();
-                long startTime = event.getStartTime().toEpochMilli();
+                long startTime = event.getStartTime().toEpochMilli() + timeGap;
                 if (event.getEventType().getName().equals("jdk.GCHeapSummary")) {
                     RecordedObject headSpace = event.getValue("heapSpace");
                     long committedSize = headSpace.getLong("committedSize");
