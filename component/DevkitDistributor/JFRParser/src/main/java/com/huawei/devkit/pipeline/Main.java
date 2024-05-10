@@ -34,10 +34,12 @@ public class Main {
             // jfr解析
             logger.info("start to parse jfr !!!");
             List<LatencyTopInfo> latencyKes = Top10RT.getTopTen(result.getRtMap().get(TOTAL_LABEL), Top10RT.TOP10);
-            for (Map.Entry<String, String> entry : params.getJfrPathMap().entrySet()) {
+            for (Map.Entry<String, List<String>> entry : params.getJfrPathMap().entrySet()) {
                 String gap = params.getNodesTimeGapMap().get(entry.getKey());
                 int timeGap = gap == null ? 0 : Integer.parseInt(gap);
-                JFRParser.parse(entry.getValue(), latencyKes, timeGap, result);
+                for (String jfrPath : entry.getValue()) {
+                    JFRParser.parse(jfrPath, latencyKes, timeGap, result);
+                }
             }
             result.toStandardFlames();
             result.toSimpleObject();

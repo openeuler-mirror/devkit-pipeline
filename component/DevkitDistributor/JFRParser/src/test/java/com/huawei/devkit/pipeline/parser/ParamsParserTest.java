@@ -13,22 +13,18 @@ class ParamsParserTest {
                 "-o", "/home/zpp/devkit_jmeter.html",
                 "-f", "10.110.0.2:/home/zpp/demo.jfr,127.0.0.1:/home/zpp/demo2.jfr2",
                 "-n", "10.110.0.2:+10,127.0.0.1:-15"};
-        try {
-            CommandLineParams params = ParamsParser.parse(args);
-            params.fillMaps();
-            Assertions.assertEquals(params.getOutput(), "/home/zpp/devkit_jmeter.html");
-            Assertions.assertEquals(params.getJmeterResult(), "/home/zpp/jmeter.csv");
-            Assertions.assertEquals(params.getJfrPaths().get(0), "10.110.0.2:/home/zpp/demo.jfr");
-            Assertions.assertEquals(params.getJfrPaths().get(1), "127.0.0.1:/home/zpp/demo2.jfr2");
-            Assertions.assertEquals(params.getJfrPathMap().get("10.110.0.2"), "/home/zpp/demo.jfr");
-            Assertions.assertEquals(params.getJfrPathMap().get("127.0.0.1"), "/home/zpp/demo2.jfr2");
-            Assertions.assertEquals(params.getNodeTimeGaps().get(0), "10.110.0.2:+10");
-            Assertions.assertEquals(params.getNodeTimeGaps().get(1), "127.0.0.1:-15");
-            Assertions.assertEquals(params.getNodesTimeGapMap().get("10.110.0.2"), "+10");
-            Assertions.assertEquals(params.getNodesTimeGapMap().get("127.0.0.1"), "-15");
-        } catch (CmdLineException e) {
-            throw e;
-        }
+        CommandLineParams params = ParamsParser.parse(args);
+        params.fillMaps();
+        Assertions.assertEquals(params.getOutput(), "/home/zpp/devkit_jmeter.html");
+        Assertions.assertEquals(params.getJmeterResult(), "/home/zpp/jmeter.csv");
+        Assertions.assertEquals(params.getJfrPaths().get(0), "10.110.0.2:/home/zpp/demo.jfr");
+        Assertions.assertEquals(params.getJfrPaths().get(1), "127.0.0.1:/home/zpp/demo2.jfr2");
+        Assertions.assertEquals(params.getJfrPathMap().get("10.110.0.2").toString(), "[/home/zpp/demo.jfr]");
+        Assertions.assertEquals(params.getJfrPathMap().get("127.0.0.1").toString(), "[/home/zpp/demo2.jfr2]");
+        Assertions.assertEquals(params.getNodeTimeGaps().get(0), "10.110.0.2:+10");
+        Assertions.assertEquals(params.getNodeTimeGaps().get(1), "127.0.0.1:-15");
+        Assertions.assertEquals(params.getNodesTimeGapMap().get("10.110.0.2"), "+10");
+        Assertions.assertEquals(params.getNodesTimeGapMap().get("127.0.0.1"), "-15");
     }
 
     @Test

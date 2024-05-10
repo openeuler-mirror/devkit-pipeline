@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CommandLineParams {
 
@@ -26,7 +27,7 @@ public class CommandLineParams {
             handler = MultiHandlerFactory.MultiFieldOptionHandler.class)
     private List<String> jfrPaths;
 
-    private Map<String, String> jfrPathMap;
+    private Map<String, List<String>> jfrPathMap;
 
     public CommandLineParams() {
         this.jmeterResult = "";
@@ -40,7 +41,12 @@ public class CommandLineParams {
     public void fillMaps() {
         for (String argument : jfrPaths) {
             String[] values = argument.split(":");
-            jfrPathMap.put(values[0], values[1]);
+            List<String> jfrs = jfrPathMap.get(values[0]);
+            if (Objects.isNull(jfrs)) {
+                jfrs = new ArrayList<>();
+                jfrPathMap.put(values[0], jfrs);
+            }
+            jfrs.add(values[1]);
         }
 
         for (String argument : nodeTimeGaps) {
@@ -89,11 +95,11 @@ public class CommandLineParams {
         this.jfrPaths = jfrPaths;
     }
 
-    public Map<String, String> getJfrPathMap() {
+    public Map<String, List<String>> getJfrPathMap() {
         return jfrPathMap;
     }
 
-    public void setJfrPathMap(Map<String, String> jfrPathMap) {
+    public void setJfrPathMap(Map<String, List<String>> jfrPathMap) {
         this.jfrPathMap = jfrPathMap;
     }
 }

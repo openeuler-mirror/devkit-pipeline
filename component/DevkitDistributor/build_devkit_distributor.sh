@@ -7,7 +7,7 @@ current_dir=$(cd $(dirname "$0"); pwd)
 project_dir=$(realpath "${current_dir}/../..")
 umask 077
 
-build_dir=${project_dir}/build/distribute
+build_dir=${project_dir}/build/distributor
 rm -rf "${build_dir}"
 mkdir -p "${build_dir}"
 
@@ -33,11 +33,17 @@ pyinstaller -F "${current_dir}"/devkit_distributor/bin/entrance.py --runtime-tmp
 mkdir -p devkit_distributor/bin
 mkdir -p devkit_distributor/data
 mkdir -p devkit_distributor/log
+mkdir -p devkit_distributor/lib
 
 cp "${build_dir}"/dist/entrance devkit_distributor/bin
 cp -rf "${current_dir}"/devkit_distributor/config devkit_distributor
 cp -rf "${current_dir}"/devkit_distributor/script/* devkit_distributor/bin
 cp devkit_distributor_agent.tar.gz devkit_distributor/config
+
+bash "${current_dir}"/JFRParser/build.sh
+
+cp -rf "${current_dir}"/JFRParser/target/JFRParser/* devkit_distributor
+
 
 tar -czf devkit_distributor.tar.gz devkit_distributor
 

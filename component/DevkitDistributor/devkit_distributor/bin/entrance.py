@@ -3,6 +3,7 @@ import datetime
 import logging
 import os
 import threading
+import time
 import typing
 import uuid
 
@@ -102,6 +103,8 @@ class Distributor:
         self.jmeter_command: JmeterCommand = JmeterCommand(args.jmeter_command)
         self.jmeter_thread: typing.Optional[threading.Thread] = None
         self.enable_jmeter_command = True if args.jmeter_command else False
+        self.node_time_gap = dict()
+        self.node_jfr_path = dict()
 
     def distribute(self):
         # 清空本地jfr文件
@@ -134,6 +137,7 @@ class Distributor:
         client.logout()
         # 等待jmeter完成
         if self.enable_jmeter_command:
+            self.__generate_jmeter_data()
             report = Report(report_path=self.data_path, template_path=self.template_path,
                             jmeter_report_path=self.jmeter_command.csv_file,
                             git_path=self.git_path, devkit_tool_ip=self.devkit_ip,
@@ -144,6 +148,18 @@ class Distributor:
                             devkit_tool_port=self.devkit_port, devkit_user_name=self.devkit_user)
         report.report()
         self.__print_result(jfr_names)
+
+    def __generate_jmeter_data(self):
+        time_gap = ','.join(f"{k}:{v}" for k, v in self.node_time_gap.items())
+        jfr_path = ','.join(f"{k}:{item}" for k, v in self.node_jfr_path.items() for item in v)
+        command = (f"bash {self.root_path}/bin/generate_jmeter_result.sh -o {self.data_path} "
+                   f"-j {self.jmeter_command.csv_file} "
+                   f"-n {time_gap}"
+                   f"-f {jfr_path}")
+        outcome = shell_tools.exec_shell(command, timeout=0)
+        logging.info("return_code: %s", outcome.return_code)
+        logging.info("error: %s", outcome.err)
+        logging.info("out: %s", outcome.out)
 
     def __start_jmeter_thread(self):
         self.jmeter_command.check_and_init_jmeter_cmd()
@@ -171,6 +187,14 @@ class Distributor:
                                        pkey_file=self.pkey_file, pkey_content=self.pkey_content,
                                        pkey_password=self.pkey_password)
             ssh_client = factory.create_ssh_client()
+            start_time = time.time_ns()
+            stdin, stdout, stderr = ssh_client.exec_command("date +%s%N")
+            end_time = time.time_ns()
+            node_time = stdout.read().strip().decode("utf-8")
+            # 毫秒差值
+            time_gap = int(((end_time + start_time) / 2 - int(node_time)) / 1000000)
+            self.node_time_gap[ip] = time_gap
+            self.__close_pipeline(stdin, stdout, stderr)
             ssh_client.close()
         client = DevKitClient(self.devkit_ip, self.devkit_port, self.devkit_user, self.devkit_password)
         client.logout()
@@ -216,10 +240,13 @@ class Distributor:
                 logging.info("download the jfr file from ip:%s", ip)
                 if not jfr_paths:
                     raise Exception(f"The jfr file {self.apps} cannot be generated")
+                local_paths = list()
                 for jfr_path in jfr_paths:
                     local_path = os.path.join(self.data_path, os.path.basename(jfr_path))
                     sftp_client.get(jfr_path, local_path)
                     local_jfrs.append(local_path)
+                    local_paths.append(local_path)
+                self.node_jfr_path[ip] = local_paths
                 sftp_client.close()
                 logging.info("the server[%s] has finish uploading the jfr file or has timeout 6000", ip)
             except Exception as ex:
