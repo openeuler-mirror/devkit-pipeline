@@ -13,18 +13,18 @@ mkdir -p "${build_dir}"
 
 cd "${build_dir}"
 
-pyinstaller -F "${current_dir}"/devkit_pipeline_agent/bin/flight_records_sample.py --runtime-tmpdir . \
+pyinstaller -F "${current_dir}"/devkit_distributor_agent/bin/flight_records_sample.py --runtime-tmpdir . \
     -p "${project_dir}"/common
 
-mkdir -p devkit_pipeline_agent/bin
-mkdir -p devkit_pipeline_agent/data
-mkdir -p devkit_pipeline_agent/log
+mkdir -p devkit_distributor_agent/bin
+mkdir -p devkit_distributor_agent/data
+mkdir -p devkit_distributor_agent/log
 
-cp "${build_dir}"/dist/flight_records_sample devkit_pipeline_agent/bin
-cp "${current_dir}"/devkit_pipeline_agent/script/devkit_agent_start.sh devkit_pipeline_agent/bin
-cp -rf "${current_dir}"/devkit_pipeline_agent/config devkit_pipeline_agent
+cp "${build_dir}"/dist/flight_records_sample devkit_distributor_agent/bin
+cp "${current_dir}"/devkit_distributor_agent/script/devkit_agent_start.sh devkit_distributor_agent/bin
+cp -rf "${current_dir}"/devkit_distributor_agent/config devkit_distributor_agent
 
-tar -czf devkit_pipeline_agent.tar.gz devkit_pipeline_agent
+tar -czf devkit_distributor_agent.tar.gz devkit_distributor_agent
 
 
 pyinstaller -F "${current_dir}"/devkit_distribute/bin/entrance.py --runtime-tmpdir . \
@@ -37,7 +37,7 @@ mkdir -p devkit_distribute/log
 cp "${build_dir}"/dist/entrance devkit_distribute/bin
 cp -rf "${current_dir}"/devkit_distribute/config devkit_distribute
 cp -rf "${current_dir}"/devkit_distribute/script/* devkit_distribute/bin
-cp devkit_pipeline_agent.tar.gz devkit_distribute/config
+cp devkit_distributor_agent.tar.gz devkit_distribute/config
 
 tar -czf devkit_distribute.tar.gz devkit_distribute
 

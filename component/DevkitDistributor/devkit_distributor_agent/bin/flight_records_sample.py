@@ -174,7 +174,7 @@ def main():
                         help="the sample stop when the jmeter stop")
     parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
     args = parser.parse_args()
-    config_log_ini(args.root_path, "devkit_pipeline_agent")
+    config_log_ini(args.root_path, "devkit_distributor_agent")
     logging.info("start")
     factory = FlightRecordsFactory(args.applications, args.duration, args.root_path, args.waiting, args.task_id)
     factory.start_sample()

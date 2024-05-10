@@ -1,4 +1,4 @@
-suite: devkit_distribute
+suite: devkit_distributor
 category: functional
 
 devkit_distribute:
