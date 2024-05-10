@@ -29,7 +29,7 @@ LkpTests = {
 
 DevkitDistribute = {
     "component_name": "DevkitDistributor",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/devkit_distribute.tar.gz",
+    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/devkit_distributor.tar.gz",
 }
 
 A_FOT = {

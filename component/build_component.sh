@@ -18,8 +18,8 @@ function build_lkp_tests() {
     cp -rf "${current_dir}"/LkpTests/check_install_result.sh "${final_component_dir}"/LkpTests
 }
 
-function build_devkit_distribute() {
-    bash "${current_dir}"/DevkitDistribute/build_devkit_distribute.sh
+function build_devkit_distributor() {
+    bash "${current_dir}"/DevkitDistributor/build_devkit_distributor.sh
 }
 
 function build_devkit_installer() {
@@ -42,7 +42,7 @@ function main() {
     done
 
     build_lkp_tests
-    build_devkit_distribute
+    build_devkit_distributor
     build_devkit_installer
 }
 

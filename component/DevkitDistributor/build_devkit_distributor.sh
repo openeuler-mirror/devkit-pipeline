@@ -27,20 +27,20 @@ cp -rf "${current_dir}"/devkit_distributor_agent/config devkit_distributor_agent
 tar -czf devkit_distributor_agent.tar.gz devkit_distributor_agent
 
 
-pyinstaller -F "${current_dir}"/devkit_distribute/bin/entrance.py --runtime-tmpdir . \
+pyinstaller -F "${current_dir}"/devkit_distributor/bin/entrance.py --runtime-tmpdir . \
     -p "${project_dir}"/common
 
-mkdir -p devkit_distribute/bin
-mkdir -p devkit_distribute/data
-mkdir -p devkit_distribute/log
+mkdir -p devkit_distributor/bin
+mkdir -p devkit_distributor/data
+mkdir -p devkit_distributor/log
 
-cp "${build_dir}"/dist/entrance devkit_distribute/bin
-cp -rf "${current_dir}"/devkit_distribute/config devkit_distribute
-cp -rf "${current_dir}"/devkit_distribute/script/* devkit_distribute/bin
-cp devkit_distributor_agent.tar.gz devkit_distribute/config
+cp "${build_dir}"/dist/entrance devkit_distributor/bin
+cp -rf "${current_dir}"/devkit_distributor/config devkit_distributor
+cp -rf "${current_dir}"/devkit_distributor/script/* devkit_distributor/bin
+cp devkit_distributor_agent.tar.gz devkit_distributor/config
 
-tar -czf devkit_distribute.tar.gz devkit_distribute
+tar -czf devkit_distributor.tar.gz devkit_distributor
 
-mkdir -p "${project_dir}"/build/component/DevkitDistribute
-cp "${current_dir}/check_install_result.sh" "${project_dir}"/build/component/DevkitDistribute
-cp "${current_dir}/install.sh" "${project_dir}"/build/component/DevkitDistribute
+mkdir -p "${project_dir}"/build/component/DevkitDistributor
+cp "${current_dir}/check_install_result.sh" "${project_dir}"/build/component/DevkitDistributor
+cp "${current_dir}/install.sh" "${project_dir}"/build/component/DevkitDistributor
