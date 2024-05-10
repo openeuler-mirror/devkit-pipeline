@@ -20,6 +20,11 @@ import java.util.List;
 public class JFRParser {
     public static Long ALL = -1L;
 
+    private static final String GC_HEAP_SUMMARY_EVENT = "jdk.GCHeapSummary";
+    private static final String EXECUTION_SAMPLE_EVENT = "jdk.ExecutionSample";
+    private static final String NATIVE_METHOD_SAMPLE_EVENT = "jdk.NativeMethodSample";
+    private static final String CPU_LOAD_EVENT = "jdk.CPULoad";
+
     public static void parse(String filePath, List<LatencyTopInfo> top10, int timeGap, PerformanceTestResult result) throws Exception {
         Path path = Paths.get(filePath);
         if (!Files.exists(path)) {
@@ -34,21 +39,21 @@ public class JFRParser {
             while (file.hasMoreEvents()) {
                 RecordedEvent event = file.readEvent();
                 long startTime = event.getStartTime().toEpochMilli() + timeGap;
-                if (event.getEventType().getName().equals("jdk.GCHeapSummary")) {
+                if (event.getEventType().getName().equals(GC_HEAP_SUMMARY_EVENT)) {
                     RecordedObject headSpace = event.getValue("heapSpace");
                     long committedSize = headSpace.getLong("committedSize");
                     long reservedSize = headSpace.getLong("reservedSize");
                     long heapUsed = event.getLong("heapUsed");
                     memInfos.add(new MemInfo(startTime, committedSize, reservedSize, heapUsed));
-                } else if (event.getEventType().getName().equals("jdk.ExecutionSample")) {
+                } else if (event.getEventType().getName().equals(EXECUTION_SAMPLE_EVENT)) {
                     RecordedStackTrace stackTrace = event.getStackTrace();
                     flame.addFlameItemByRecordedFrame(stackTrace.getFrames());
                     addDurationFlame(startTime, stackTrace.getFrames(), top10);
-                } else if (event.getEventType().getName().equals("jdk.NativeMethodSample")) {
+                } else if (event.getEventType().getName().equals(NATIVE_METHOD_SAMPLE_EVENT)) {
                     RecordedStackTrace stackTrace = event.getStackTrace();
                     flame.addFlameItemByRecordedFrame(stackTrace.getFrames());
                     addDurationFlame(startTime, stackTrace.getFrames(), top10);
-                } else if (event.getEventType().getName().equals("jdk.CPULoad")) {
+                } else if (event.getEventType().getName().equals(CPU_LOAD_EVENT)) {
                     float jvmSystem = event.getFloat("jvmSystem");
                     float jvmUser = event.getFloat("jvmUser");
                     float machineTotal = event.getFloat("machineTotal");
@@ -56,8 +61,8 @@ public class JFRParser {
                 }
             }
         }
-        result.getCpu().put(fileName, cpuInfos);
-        result.getMemory().put(fileName, memInfos);
+        result.getCpuMap().put(fileName, cpuInfos);
+        result.getMemoryMap().put(fileName, memInfos);
         result.getFlame().get(ALL).addSubFlameItem(flame);
         for (LatencyTopInfo latencyTop : top10) {
             result.getFlame().put(latencyTop.getKey(), latencyTop.getFlame());

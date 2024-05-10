@@ -20,4 +20,12 @@ public class JmeterRT {
     public double getResponseTime() {
         return responseTime;
     }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setResponseTime(double responseTime) {
+        this.responseTime = responseTime;
+    }
 }

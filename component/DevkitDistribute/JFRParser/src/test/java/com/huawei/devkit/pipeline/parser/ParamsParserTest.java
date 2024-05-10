@@ -8,7 +8,7 @@ import org.kohsuke.args4j.CmdLineException;
 class ParamsParserTest {
 
     @Test
-    public void testParse() {
+    public void testParse() throws CmdLineException {
         String[] args = new String[]{"-j", "/home/zpp/jmeter.csv",
                 "-o", "/home/zpp/devkit_jmeter.html",
                 "-f", "10.110.0.2:/home/zpp/demo.jfr,127.0.0.1:/home/zpp/demo2.jfr2",
@@ -27,7 +27,7 @@ class ParamsParserTest {
             Assertions.assertEquals(params.getNodesTimeGapMap().get("10.110.0.2"), "+10");
             Assertions.assertEquals(params.getNodesTimeGapMap().get("127.0.0.1"), "-15");
         } catch (CmdLineException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 

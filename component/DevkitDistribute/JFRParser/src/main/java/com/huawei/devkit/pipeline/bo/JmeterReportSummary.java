@@ -24,6 +24,10 @@ public class JmeterReportSummary {
 
     private long throughput;
 
+    public JmeterReportSummary(String label) {
+        this.label = label;
+    }
+
     public void samplesIncrease() {
         this.samples++;
     }

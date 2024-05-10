@@ -5,15 +5,14 @@ public class LatencyTopInfo {
     private long endTime;
     private long key;
 
-    public FlameItem getFlame() {
-        return flame;
-    }
-
-    public void setFlame(FlameItem flame) {
-        this.flame = flame;
-    }
-
     private FlameItem flame;
+
+    public LatencyTopInfo(long startTime, long endTime, long key) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.key = key;
+        this.flame = new FlameItem("all", 0);
+    }
 
     public long getStartTime() {
         return startTime;
@@ -38,4 +37,13 @@ public class LatencyTopInfo {
     public void setKey(long key) {
         this.key = key;
     }
+
+    public FlameItem getFlame() {
+        return flame;
+    }
+
+    public void setFlame(FlameItem flame) {
+        this.flame = flame;
+    }
+
 }

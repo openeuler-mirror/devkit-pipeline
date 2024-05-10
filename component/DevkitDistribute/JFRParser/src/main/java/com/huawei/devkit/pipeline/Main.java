@@ -7,13 +7,15 @@ import com.huawei.devkit.pipeline.bo.PerformanceTestResult;
 import com.huawei.devkit.pipeline.parser.JFRParser;
 import com.huawei.devkit.pipeline.parser.JmeterResultParser;
 import com.huawei.devkit.pipeline.parser.ParamsParser;
+import com.huawei.devkit.pipeline.utils.Top10RT;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.huawei.devkit.pipeline.constants.JFRConstants.TOTAL_LABEL;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
@@ -26,19 +28,19 @@ public class Main {
             PerformanceTestResult result = new PerformanceTestResult();
             // jmeter结果解析
             logger.info("start to parse jmeter result !!!");
-            JmeterResultParser jmeterResultParser = new JmeterResultParser();
-//            jmeterResultParser.parse(params.getJmeterResult());
+            JmeterResultParser.parse(params.getJmeterResult(), result);
             logger.info("finish to parse jmeter result !!!");
 
             // jfr解析
             logger.info("start to parse jfr !!!");
-            List<LatencyTopInfo> latencyKes = new ArrayList<>();
+            List<LatencyTopInfo> latencyKes = Top10RT.getTopTen(result.getRtMap().get(TOTAL_LABEL), Top10RT.TOP10);
             for (Map.Entry<String, String> entry : params.getJfrPathMap().entrySet()) {
                 String gap = params.getNodesTimeGapMap().get(entry.getKey());
                 int timeGap = gap == null ? 0 : Integer.parseInt(gap);
                 JFRParser.parse(entry.getValue(), latencyKes, timeGap, result);
             }
             result.toStandardFlames();
+            result.toSimpleObject();
             logger.info("finish to parse jfr !!!");
 
             //数据持久化
