@@ -28,7 +28,7 @@ LkpTests = {
 }
 
 DevkitDistribute = {
-    "component_name": "DevkitDistributor",
+    "component_name": "DevKitDistributor",
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/devkit_distributor.tar.gz",
 }
 

@@ -2,7 +2,7 @@ suite: devkit_distributor
 category: functional
 
 devkit_distribute:
-root_path: /home/z30027893/Workspace/devkit-pipeline/component/DevkitDistributor/devkit_distributor
+root_path: /home/z30027893/Workspace/devkit-pipeline/component/DevKitDistributor/devkit_distributor
 ips_list: 
 user: root
 port: 22

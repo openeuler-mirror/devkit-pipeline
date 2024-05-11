@@ -44,7 +44,6 @@ bash "${current_dir}"/JFRParser/build.sh
 
 cp -rf "${current_dir}"/JFRParser/target/JFRParser/* devkit_distributor
 
-
 tar -czf devkit_distributor.tar.gz devkit_distributor
 
 mkdir -p "${project_dir}"/build/component/DevkitDistributor
