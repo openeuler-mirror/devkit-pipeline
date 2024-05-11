@@ -18,11 +18,11 @@ public class FlameItem {
         this.subMap = new HashMap<>();
     }
 
-    @JsonProperty("ｎ")
+    @JsonProperty("n")
     private String name;
-    @JsonProperty("ｖ")
+    @JsonProperty("v")
     private int value;
-    @JsonProperty("ｃ")
+    @JsonProperty("c")
     private Collection<FlameItem> sub;
 
     @JsonIgnore

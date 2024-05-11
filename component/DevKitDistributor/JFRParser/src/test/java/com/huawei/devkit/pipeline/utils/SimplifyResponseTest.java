@@ -28,10 +28,10 @@ public final class SimplifyResponseTest {
     @Test
     public void testSimplify() {
         List<JmeterRT> jmeterRTList = new ArrayList<>();
-        jmeterRTList.add(new JmeterRT(1L, 1));
-        jmeterRTList.add(new JmeterRT(2L, 2));
-        jmeterRTList.add(new JmeterRT(3L, 3));
-        jmeterRTList.add(new JmeterRT(4L, 4));
+        jmeterRTList.add(new JmeterRT(1L, 1d));
+        jmeterRTList.add(new JmeterRT(2L, 2d));
+        jmeterRTList.add(new JmeterRT(3L, 3d));
+        jmeterRTList.add(new JmeterRT(4L, 4d));
         Map<String, List<Object>> simplified = SimplifyResponse.simplify(jmeterRTList, JmeterRT.class);
         Assertions.assertEquals(simplified.get("responseTime").size(), 4);
         Assertions.assertEquals(simplified.get("startTime").toString(), List.of(1, 2, 3, 4).toString());

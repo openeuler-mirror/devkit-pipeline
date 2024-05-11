@@ -45,8 +45,15 @@ public class JmeterResultParser {
 
     public static void parse(String resultPath, PerformanceTestResult result) throws Exception {
         List<JmeterResult> results = JmeterResultTransfer.transfer(resultPath);
+        if (results.isEmpty()) {
+            result.getSummaries().add(new JmeterReportSummary(TOTAL_LABEL));
+            return;
+        }
+        long startTime = results.get(0).getStartTime();
+        long endTime = getEndTime(startTime, results.get(results.size() - 1).getStartTime());
+
         JmeterResultParser parser = new JmeterResultParser(TOTAL_LABEL);
-        parser.calcTPSAndRT(results);
+        parser.calcTPSAndRT(results, startTime, endTime);
         result.getSummaries().add(parser.getSummary());
         result.getRtMap().put(TOTAL_LABEL, parser.getRtList());
         result.getFrtMap().put(TOTAL_LABEL, parser.getFrtList());
@@ -54,7 +61,7 @@ public class JmeterResultParser {
         Map<String, List<JmeterResult>> map = results.stream().collect(Collectors.groupingBy(JmeterResult::getLabel));
         for (Map.Entry<String, List<JmeterResult>> entry : map.entrySet()) {
             JmeterResultParser parserPer = new JmeterResultParser(entry.getKey());
-            parserPer.calcTPSAndRT(results);
+            parserPer.calcTPSAndRT(results, startTime, endTime);
             result.getSummaries().add(parserPer.getSummary());
             result.getRtMap().put(entry.getKey(), parserPer.getRtList());
             result.getFrtMap().put(entry.getKey(), parserPer.getFrtList());
@@ -62,55 +69,51 @@ public class JmeterResultParser {
         }
     }
 
-    private void calcTPSAndRT(List<JmeterResult> results) {
+    private void calcTPSAndRT(List<JmeterResult> results, long startTime, long endTime) {
         if (Objects.isNull(results) || results.isEmpty()) {
             return;
         }
-        JmeterResult result = results.get(0);
-        long start = result.getStartTime();
-        long startTime = start;
-        long end = start + JFRConstants.MS_1000;
-        int count = 1;
-        int latencyTotalPerSec = result.getLatency();
-        int latencyFailPerSec = 0;
-        if (result.getResponseCode() >= MIN_ERROR_CODE) {
-            summary.failSamplesIncrease();
-            latencyFailPerSec = result.getLatency();
-        }
-        long latencyTotal = result.getLatency();
-        summary.samplesIncrease();
 
-        for (int i = 1; i < results.size(); i++) {
-            JmeterResult item = results.get(i);
-            summary.samplesIncrease();
-            latencyTotal += item.getLatency();
-            if (item.getStartTime() < end) {
-                latencyTotalPerSec += item.getLatency();
-                count++;
+        int samplePer = 0;
+        int latencyTotalPerSec = 0;
+        int latencyFailPerSec = 0;
+        long latencyTotal = 0;
+
+        long start = startTime;
+        long end = startTime + JFRConstants.MS_1000;
+
+        boolean exist = false;
+        for (int i = 0; start < endTime; start += JFRConstants.MS_1000, end += JFRConstants.MS_1000) {
+
+            while (i < results.size() && results.get(i).getStartTime() >= start && results.get(i).getStartTime() < end) {
+                summary.samplesIncrease();
+                latencyTotalPerSec += results.get(i).getLatency();
+                latencyTotal += results.get(i).getLatency();
+                samplePer++;
+                if (results.get(i).getResponseCode() >= MIN_ERROR_CODE) {
+                    summary.failSamplesIncrease();
+                    latencyFailPerSec += results.get(i).getLatency();
+                }
+                i++;
+                exist = true;
+            }
+            if (exist) {
+                rtList.add(new JmeterRT(start, latencyTotalPerSec / (double) samplePer));
+                frtList.add(new JmeterRT(start, latencyFailPerSec / (double) samplePer));
+                tpsList.add(new JmeterTPS(start, samplePer));
             } else {
-                // re init
-                rtList.add(new JmeterRT(start, latencyTotalPerSec / (double) count));
-                frtList.add(new JmeterRT(start, latencyFailPerSec / (double) count));
-                tpsList.add(new JmeterTPS(start, count));
-                do {
-                    start = start + JFRConstants.MS_1000;
-                    end = start + JFRConstants.MS_1000;
-                } while (!(item.getStartTime() < end && item.getStartTime() >= start));
-                latencyTotalPerSec = item.getLatency();
-                count = 1;
-                latencyFailPerSec = 0;
+                rtList.add(new JmeterRT(start, null));
+                frtList.add(new JmeterRT(start, null));
+                tpsList.add(new JmeterTPS(start, 0));
             }
-            if (item.getResponseCode() >= MIN_ERROR_CODE) {
-                summary.failSamplesIncrease();
-                latencyFailPerSec += item.getLatency();
-            }
+            // re init
+            latencyTotalPerSec = 0;
+            samplePer = 0;
+            latencyFailPerSec = 0;
+            exist = false;
         }
-        long endTime = end;
         summary.setThroughput(summary.getSamples() * JFRConstants.MS_TO_S / (endTime - startTime));
         summary.setAverageLatency(latencyTotal / (double) summary.getSamples());
-        rtList.add(new JmeterRT(start, latencyTotalPerSec / (double) count));
-        frtList.add(new JmeterRT(start, latencyFailPerSec / (double) count));
-        tpsList.add(new JmeterTPS(start, count));
         this.filledSummary(results);
     }
 
@@ -160,5 +163,10 @@ public class JmeterResultParser {
         summary.setLatency95(jmeterResults.get(position95).getLatency());
         int position99 = jmeterResults.size() * PERCENT_99 / 100 - 1;
         summary.setLatency99(jmeterResults.get(position99).getLatency());
+    }
+
+    private static long getEndTime(long startTime, long lastTime) {
+        long duration = (lastTime - startTime) / JFRConstants.MS_1000 + 1;
+        return duration * JFRConstants.MS_1000 + startTime;
     }
 }

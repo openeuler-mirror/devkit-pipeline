@@ -23,6 +23,9 @@ public class Top10RT {
                 Comparator.comparingDouble(JmeterRT::getResponseTime));
 
         for (JmeterRT item : rtList) {
+            if (item.getResponseTime() == null) {
+                continue;
+            }
             // 如果堆的大小小于10，或者当前数字大于堆顶元素（即当前最小的元素）
             if (minHeap.size() < topN || item.getResponseTime() > Objects.requireNonNull(minHeap.peek()).getResponseTime()) {
                 if (minHeap.size() == topN) {

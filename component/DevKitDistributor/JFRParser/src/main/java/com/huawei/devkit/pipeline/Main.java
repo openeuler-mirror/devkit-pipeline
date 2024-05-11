@@ -50,7 +50,7 @@ public class Main {
             mapper.writeValue(new File("result.json"), result);
             logger.info("the end");
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error(ex.getMessage(), ex);
         }
     }
 }

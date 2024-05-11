@@ -1,10 +1,11 @@
 package com.huawei.devkit.pipeline.bo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class JmeterTPS {
-    @JsonProperty("t")
-    private long startTime;
+    @JsonIgnore
+    private Long startTime;
     @JsonProperty("s")
     private int tps;
 
@@ -12,4 +13,5 @@ public class JmeterTPS {
         this.startTime = startTime;
         this.tps = tps;
     }
+
 }

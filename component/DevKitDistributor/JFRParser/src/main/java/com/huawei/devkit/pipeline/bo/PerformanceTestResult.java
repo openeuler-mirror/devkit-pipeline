@@ -1,6 +1,7 @@
 package com.huawei.devkit.pipeline.bo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.huawei.devkit.pipeline.constants.JFRConstants;
 import com.huawei.devkit.pipeline.parser.JFRParser;
 import com.huawei.devkit.pipeline.utils.SimplifyResponse;
 
@@ -8,10 +9,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PerformanceTestResult {
 
     private List<JmeterReportSummary> summaries;
+
+    private List<Long> startTime;
 
     @JsonIgnore
     private Map<String, List<JmeterRT>> rtMap;
@@ -42,6 +46,7 @@ public class PerformanceTestResult {
 
     public PerformanceTestResult() {
         this.summaries = new ArrayList<>();
+        this.startTime = new ArrayList<>();
         this.rtMap = new HashMap<>();
         this.rt = new HashMap<>();
         this.frtMap = new HashMap<>();
@@ -61,9 +66,13 @@ public class PerformanceTestResult {
      * 简化返回的响应结果，进一部节省字节
      */
     public void toSimpleObject() {
-        this.toSimpleObject(this.rtMap, this.rt, JmeterRT.class);
-        this.toSimpleObject(this.frtMap, this.frt, JmeterRT.class);
-        this.toSimpleObject(this.tpsMap, this.tps, JmeterTPS.class);
+        List<JmeterRT> totalRTS = this.rtMap.get(JFRConstants.TOTAL_LABEL);
+        if (totalRTS != null) {
+            this.startTime = totalRTS.stream().map(JmeterRT::getStartTime).collect(Collectors.toList());
+            this.toSimpleObject(this.rtMap, this.rt, JmeterRT.class);
+            this.toSimpleObject(this.frtMap, this.frt, JmeterRT.class);
+            this.toSimpleObject(this.tpsMap, this.tps, JmeterTPS.class);
+        }
         this.toSimpleObject(this.memoryMap, this.memory, MemInfo.class);
         this.toSimpleObject(this.cpuMap, this.cpu, CpuInfo.class);
     }
@@ -168,6 +177,14 @@ public class PerformanceTestResult {
 
     public void setCpu(Map<String, Map<String, List<Object>>> cpu) {
         this.cpu = cpu;
+    }
+
+    public List<Long> getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(List<Long> startTime) {
+        this.startTime = startTime;
     }
 
     private <T> void toSimpleObject(Map<String, List<T>> origin, Map<String, Map<String, List<Object>>> target, Class<T> clazz) {

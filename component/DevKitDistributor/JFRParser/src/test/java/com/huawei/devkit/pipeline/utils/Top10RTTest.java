@@ -102,9 +102,9 @@ public final class Top10RTTest {
         rtList.add(jmeterRT1);
         JmeterRT jmeterRT2 = new JmeterRT(10L, 1.0);
         rtList.add(jmeterRT2);
-        JmeterRT jmeterRT3 = new JmeterRT(5L, 2);
+        JmeterRT jmeterRT3 = new JmeterRT(5L, 2d);
         rtList.add(jmeterRT3);
-        JmeterRT jmeterRT4 = new JmeterRT(2, 10);
+        JmeterRT jmeterRT4 = new JmeterRT(2, 10d);
         rtList.add(jmeterRT4);
 
         List<LatencyTopInfo> actual = Top10RT.getTopTen(rtList, 2);
