@@ -21,20 +21,18 @@
 请将compatibility_report.html下载至本地，并与下载至本地的zip压缩包放置于同一目录
 # 3.非Jenkins和Gitlab验收报告收集
 3.1、 DevKit测试平台报告收集
-
 DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路径，以安装在/root/.local路径为例，需要进入到`/root/.local/compatibility_testing/`目录，该目录下名为compatibility_report.html文件为验收报告
 ![](./Jenkins.assets/打包113.PNG)
 3.2、 迁移扫描工具和亲和工具扫描报告收集
-
 后台手动运行扫描工具，工具会给出报告生成的路径，以迁移扫描工具为例，/root/pkg-mig_20240411014930_eeb4.html文件为验收报告
 ![](./Jenkins.assets/打包116.PNG)
 # 4.验收报告打包
-
 4.1、 Jenkins和Gitlab验收报告打包
 将下载的的验收报告放置于同一个文件夹中
 ![](./Jenkins.assets/打包11.PNG)
 将文件夹压缩成tar.gz、zip或bz2其中任何一种格式即可
 ![](./Jenkins.assets/打包13.PNG)
+
 4.2、 非Jenkins和Gitlab验收报告打包
 在服务器任意目录创建名为htmlreports的文件夹，将生成的报告拷贝至该文件夹下，将文件夹压缩成tar.gz、zip或bz2其中任何一种格式即可
 ![](./Jenkins.assets/打包117.PNG)
