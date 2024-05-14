@@ -14,10 +14,10 @@ git --git-dir={}/.git log --since=1.day \
 """
 JMETER_REPORT_NAME = "result.csv"
 HTML_TEMPLATE_NAME = "perf_report.html"
-REPORT_VALID_LINE = 6
-DEVKIT_REPORT_DATA_LINE_NUM = 10
-JMETER_REPORT_DATA_LINE_NUM = 12
-GIT_REPORT_DATA_LINE_NUM = 15
+REPORT_VALID_LINE = 5
+DEVKIT_REPORT_DATA_LINE_NUM = 9
+JMETER_REPORT_DATA_LINE_NUM = 11
+GIT_REPORT_DATA_LINE_NUM = 14
 
 
 class Report:
@@ -49,7 +49,7 @@ class Report:
             valid_page.append("'git'")
             git_log = self.generate_git_log()
             html_lines[GIT_REPORT_DATA_LINE_NUM] = "git_tb_data: {},\n".format(git_log)
-        html_lines[REPORT_VALID_LINE] = "const valid_pages = [{}];\n".format(",".join(valid_page))
+        html_lines[REPORT_VALID_LINE] = "const validPages = [{}];\n".format(",".join(valid_page))
         final_report = os.path.join(self.report_dir, "devkit_performance_report.html")
         with open(final_report, "w") as file:
             file.writelines(html_lines)
