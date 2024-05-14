@@ -154,8 +154,9 @@ class Distributor:
         jfr_path = ','.join(f"{k}:{item}" for k, v in self.node_jfr_path.items() for item in v)
         command = (f"bash {self.root_path}/bin/generate_jmeter_result.sh -o {self.data_path} "
                    f"-j {self.jmeter_command.csv_file} "
-                   f"-n {time_gap}"
-                   f"-f {jfr_path}")
+                   f"-n {time_gap} "
+                   f"-f {jfr_path} ")
+        logging.info("command is %s", command)
         outcome = shell_tools.exec_shell(command, timeout=0)
         logging.info("return_code: %s", outcome.return_code)
         logging.info("error: %s", outcome.err)
