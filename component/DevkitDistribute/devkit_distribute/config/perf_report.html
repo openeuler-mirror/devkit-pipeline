@@ -547,7 +547,7 @@ class FlameData {
                             valueFormatter: (value) => category === 'cpu' ? value + '%' : value + ' Mb',
                         },
                         legend: {},
-                        dataZoom: [{type: 'slider', start: 0, end: 50 / scales * 100, moveHandleStyle: {color: 'black'}},{type: 'inside', start: 0, end: 50 / scales * 100}],
+                        dataZoom: [{type: 'slider', start: 0, end: 50 / bars[category].ts.length * 100, moveHandleStyle: {color: 'black'}},{type: 'inside', start: 0, end: 50 / bars[category].ts.length * 100}],
                         grid: {
                             left: '3%',
                             right: '4%',
