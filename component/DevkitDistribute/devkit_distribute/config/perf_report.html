@@ -3,6 +3,7 @@
 <head>
     <script>
         const randomTest = false;
+        const validPages = ['report', 'perf', 'git'];
         const pipelineData = {
             report: {
                 report_tb_cols: 2,
@@ -71,16 +72,16 @@ var Xr={},Ur={};var Zr,jr=function(){function t(t,e,n){var i=this;this._sleepAft
                     </div>
                 </div>
                 <div id="nav-group">
-                    <div id="nav-report" @click="navigation('report')" :class="{'cur-nav': curPage === 'report'}">
+                    <div id="nav-report" v-if="validPages.includes('report')" @click="navigation('report')" :class="{'cur-nav': curPage === 'report'}">
                         <img style="scale: 1.1;"
                             src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPgo8c3ZnIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTcxLjgsMjVoLTJhLjk0Ljk0LDAsMCwwLTEsMXY0YTgsOCwwLDAsMS03LjkzLDhIMzkuMWE4LDgsMCwwLDEtNy45My04VjI2YS45NC45NCwwLDAsMC0xLTFoLTJhNiw2LDAsMCwwLTUuOTUsNlY3NGE2LDYsMCwwLDAsNS45NSw2SDcxLjhhNiw2LDAsMCwwLDUuOTUtNlYzMUE2LDYsMCwwLDAsNzEuOCwyNVpNNDMuMDYsNjZhMiwyLDAsMCwxLTIsMmgtMmEyLDIsMCwwLDEtMi0yVjU2YTIsMiwwLDAsMSwyLTJoMmEyLDIsMCwwLDEsMiwyWk01Myw2NmEyLDIsMCwwLDEtMiwySDQ5YTIsMiwwLDAsMS0yLTJWNDdhMiwyLDAsMCwxLDItMmgyYTIsMiwwLDAsMSwyLDJabTkuOTEsMGEyLDIsMCwwLDEtMiwyaC0yYTIsMiwwLDAsMS0yLTJWNTFhMiwyLDAsMCwxLDItMmgyYTIsMiwwLDAsMSwyLDJaIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cGF0aCBkPSJNMzkuMSwzMkg2MC45YTIsMiwwLDAsMCwyLTJWMjZhNiw2LDAsMCwwLTUuOTUtNkg0My4wNmE2LDYsMCwwLDAtNS45NSw2djRBMiwyLDAsMCwwLDM5LjEsMzJaIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4="/>
                         <span>性能劣化门禁报告</span>
                     </div>
-                    <div id="nav-perf" @click="navigation('perf')" :class="{'cur-nav': curPage === 'perf'}">
+                    <div id="nav-perf" v-if="validPages.includes('perf')" @click="navigation('perf')" :class="{'cur-nav': curPage === 'perf'}">
                         <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIEdlbmVyYXRvcjogU1ZHIFJlcG8gTWl4ZXIgVG9vbHMgLS0+DQo8c3ZnIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDx0aXRsZT5wZXJmb3JtYW5jZV9saW5lPC90aXRsZT4NCiAgICA8ZyBpZD0i6aG16Z2iLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPg0KICAgICAgICA8ZyBpZD0iRGV2ZWxvcG1lbnQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC04NjQuMDAwMDAwLCAwLjAwMDAwMCkiIGZpbGwtcnVsZT0ibm9uemVybyI+DQogICAgICAgICAgICA8ZyBpZD0icGVyZm9ybWFuY2VfbGluZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODY0LjAwMDAwMCwgMC4wMDAwMDApIj4NCiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjQsMCBMMjQsMjQgTDAsMjQgTDAsMCBMMjQsMCBaIE0xMi41OTM0OTAxLDIzLjI1Nzg0MSBMMTIuNTgxOTQwMiwyMy4yNTk1MTMxIEwxMi41MTA4Nzc3LDIzLjI5NTA0MzkgTDEyLjQ5MTg3OTEsMjMuMjk4NzQ2OSBMMTIuNDkxODc5MSwyMy4yOTg3NDY5IEwxMi40NzY3MTUyLDIzLjI5NTA0MzkgTDEyLjQwNTY1NDgsMjMuMjU5NTEzMSBDMTIuMzk1ODIyOSwyMy4yNTYzNjYyIDEyLjM4NzA0OTMsMjMuMjU5MDIzNSAxMi4zODIxNDIxLDIzLjI2NDkwNzQgTDEyLjM3ODAzMjMsMjMuMjc1ODMxIEwxMi4zNjA5NDEsMjMuNzAzMTA5NyBMMTIuMzY1ODk0NywyMy43MjM0OTk0IEwxMi4zNzY5MDQ4LDIzLjczNTcxMzkgTDEyLjQ4MDQ3NzcsMjMuODA5NjkzMSBMMTIuNDk1MzQ5MSwyMy44MTM2MTM0IEwxMi40OTUzNDkxLDIzLjgxMzYxMzQgTDEyLjUwNzExNTIsMjMuODA5NjkzMSBMMTIuNjEwNjkwMiwyMy43MzU3MTM5IEwxMi42MjMyOTM4LDIzLjcxOTY3MzMgTDEyLjYyMzI5MzgsMjMuNzE5NjczMyBMMTIuNjI2NjUyNywyMy43MDMxMDk3IEwxMi42MDk1NjEsMjMuMjc1ODMxIEMxMi42MDc1NzI0LDIzLjI2NTcwMTMgMTIuNjAxMDExMiwyMy4yNTkyOTkzIDEyLjU5MzQ5MDEsMjMuMjU3ODQxIEwxMi41OTM0OTAxLDIzLjI1Nzg0MSBaIE0xMi44NTgzOTA2LDIzLjE0NTI4NjIgTDEyLjg0NDU0ODUsMjMuMTQ3MzA3MiBMMTIuNjU5ODQ0MywyMy4yMzk2NTk3IEwxMi42NDk4ODIyLDIzLjI0OTkwNTIgTDEyLjY0OTg4MjIsMjMuMjQ5OTA1MiBMMTIuNjQ3MTk0MywyMy4yNjExMTE0IEwxMi42NjUwOTQzLDIzLjY5MDYzODkgTDEyLjY2OTkzNDksMjMuNzAzNDE3OCBMMTIuNjY5OTM0OSwyMy43MDM0MTc4IEwxMi42NzgzODYsMjMuNzEwNDkzMSBMMTIuODc5MzQwMiwyMy44MDMyMzg5IEMxMi44OTE0Mjg1LDIzLjgwNjg5OTkgMTIuOTAyMjMzMywyMy44MDI5ODc1IDEyLjkwNzgyODYsMjMuNzk1MjI2NCBMMTIuOTExODIzNSwyMy43ODExNjM5IEwxMi44Nzc2Nzc3LDIzLjE2NjUzMzEgQzEyLjg3NTI4ODIsMjMuMTU0NTg5NyAxMi44Njc0MTAyLDIzLjE0NzAwMTYgMTIuODU4MzkwNiwyMy4xNDUyODYyIEwxMi44NTgzOTA2LDIzLjE0NTI4NjIgWiBNMTIuMTQzMDQ3MywyMy4xNDczMDcyIEMxMi4xMzMyMTc4LDIzLjE0MjM5MjUgMTIuMTIyMTc2MywyMy4xNDUyNjA2IDEyLjExNTYzNjUsMjMuMTUyNTk1NCBMMTIuMTA5OTE3MywyMy4xNjY1MzMxIEwxMi4wNzU3NzE0LDIzLjc4MTE2MzkgQzEyLjA3NTEzMjMsMjMuNzkyNjYzOSAxMi4wODI4MDk5LDIzLjgwMTg2MDIgMTIuMDkyNjQ4MSwyMy44MDQ1Njc2IEwxMi4xMDgyNTYsMjMuODAzMjM4OSBMMTIuMzA5MjEwNiwyMy43MTA0OTMxIEwxMi4zMTg2NDk3LDIzLjcwMjQzNDcgTDEyLjMxODY0OTcsMjMuNzAyNDM0NyBMMTIuMzIyNTA0MywyMy42OTA2Mzg5IEwxMi4zNDA0MDEsMjMuMjYxMTExNCBMMTIuMzM3MjQ1LDIzLjI0ODUxNzYgTDEyLjMzNzI0NSwyMy4yNDg1MTc2IEwxMi4zMjc3NTMxLDIzLjIzOTY1OTcgTDEyLjE0MzA0NzMsMjMuMTQ3MzA3MiBaIiBpZD0iTWluZ0N1dGUiIGZpbGwtcnVsZT0ibm9uemVybyI+DQoNCjwvcGF0aD4NCiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTksMyBDMjAuMTA0NiwzIDIxLDMuODk1NDMgMjEsNSBMMjEsMTkgQzIxLDIwLjEwNDYgMjAuMTA0NiwyMSAxOSwyMSBMNSwyMSBDMy44OTU0MywyMSAzLDIwLjEwNDYgMywxOSBMMyw1IEMzLDMuODk1NDMgMy44OTU0MywzIDUsMyBMMTksMyBaIE0xOSw1IEw1LDUgTDUsMTkgTDE5LDE5IEwxOSw1IFogTTEyLjAzNzEsNy43Mjg1NSBDMTIuMzA4MjczOSw2Ljg2MDk3NTIyIDEzLjQ3NzcyOTksNi43NzgxMzkxOSAxMy44ODc4Mzg1LDcuNTQ0ODczMzMgTDEzLjkzODksNy42NTQ3IEwxNS42NzcsMTIgTDE3LDEyIEMxNy41NTIzLDEyIDE4LDEyLjQ0NzcgMTgsMTMgQzE4LDEzLjUxMjg1IDE3LjYxMzk3MywxMy45MzU1MDkyIDE3LjExNjYyMzksMTMuOTkzMjcyNSBMMTcsMTQgTDE1LjAwNjgsMTQgQzE0LjYzNTEsMTQgMTQuMjk3MDk2LDEzLjc5NjM2NiAxNC4xMjEzODM2LDEzLjQ3NjA2NzcgTDE0LjA2OSwxMy4zNjUxIEwxMy4xMTU4LDEwLjk4MjEgTDExLjQ2MTksMTYuMjc0NiBDMTEuMjAzMDI3MywxNy4xMDI3NjM2IDEwLjEwNzI1NjgsMTcuMjI3Nzg3NCA5LjY1NDYwOTE1LDE2LjUzMDI1NTkgTDkuNTk0NDgsMTYuNDI1IEw4LjM4MTk3LDE0IEw3LDE0IEM2LjQ0NzcyLDE0IDYsMTMuNTUyMyA2LDEzIEM2LDEyLjQ4NzE1IDYuMzg2MDQ0MjksMTIuMDY0NDkwOCA2Ljg4MzM3OTc1LDEyLjAwNjcyNzUgTDcsMTIgTDguOTkzODIsMTIgQzkuMzMzODgyMjIsMTIgOS42NDc5ODg4OSwxMi4xNzA3NDU3IDkuODMzNzQ3MDIsMTIuNDQ5MDI3MiBMOS44OTcxOSwxMi41NTgzIEwxMC4yODUzLDEzLjMzNDUgTDEyLjAzNzEsNy43Mjg1NSBaIiBpZD0i5b2i54q2IiBmaWxsPSIjRkZGRkZGIj4NCg0KPC9wYXRoPg0KICAgICAgICAgICAgPC9nPg0KICAgICAgICA8L2c+DQogICAgPC9nPg0KPC9zdmc+"/>
                         <span>性能测试报告</span>
                     </div>
-                    <div id="nav-git" @click="navigation('git')" :class="{'cur-nav': curPage === 'git'}">
+                    <div id="nav-git" v-if="validPages.includes('git')" @click="navigation('git')" :class="{'cur-nav': curPage === 'git'}">
                         <img style="scale: 0.9;"
                             src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPg0KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTMuNDE0MiAzLjgyODQzQzEyLjYzMzIgMy4wNDczOCAxMS4zNjY4IDMuMDQ3MzggMTAuNTg1OCAzLjgyODQzTDkuOTE0MjEgNC41TDExLjQ4MiA2LjA2Nzc0QzExLjY0NzIgNi4wMjM1NiAxMS44MjA4IDYgMTIgNkMxMy4xMDQ2IDYgMTQgNi44OTU0MyAxNCA4QzE0IDguMTc5MTYgMTMuOTc2NCA4LjM1MjgyIDEzLjkzMjMgOC41MTgwNEwxNS45ODIgMTAuNTY3N0MxNi4xNDcyIDEwLjUyMzYgMTYuMzIwOCAxMC41IDE2LjUgMTAuNUMxNy42MDQ2IDEwLjUgMTguNSAxMS4zOTU0IDE4LjUgMTIuNUMxOC41IDEzLjYwNDYgMTcuNjA0NiAxNC41IDE2LjUgMTQuNUMxNS4zOTU0IDE0LjUgMTQuNSAxMy42MDQ2IDE0LjUgMTIuNUMxNC41IDEyLjMyMDggMTQuNTIzNiAxMi4xNDcyIDE0LjU2NzcgMTEuOTgyTDEzIDEwLjQxNDJWMTUuMjY3NkMxMy41OTc4IDE1LjYxMzQgMTQgMTYuMjU5NyAxNCAxN0MxNCAxOC4xMDQ2IDEzLjEwNDYgMTkgMTIgMTlDMTAuODk1NCAxOSAxMCAxOC4xMDQ2IDEwIDE3QzEwIDE2LjI1OTcgMTAuNDAyMiAxNS42MTM0IDExIDE1LjI2NzZWOS43MzI0NEMxMC40MDIyIDkuMzg2NjMgMTAgOC43NDAyOCAxMCA4QzEwIDcuODIwODQgMTAuMDIzNiA3LjY0NzE4IDEwLjA2NzcgNy40ODE5Nkw4LjUgNS45MTQyMUwzLjgyODQzIDEwLjU4NThDMy4wNDczOCAxMS4zNjY4IDMuMDQ3MzggMTIuNjMzMiAzLjgyODQzIDEzLjQxNDJMMTAuNTg1OCAyMC4xNzE2QzExLjM2NjggMjAuOTUyNiAxMi42MzMyIDIwLjk1MjYgMTMuNDE0MiAyMC4xNzE2TDIwLjE3MTYgMTMuNDE0MkMyMC45NTI2IDEyLjYzMzIgMjAuOTUyNiAxMS4zNjY4IDIwLjE3MTYgMTAuNTg1OEwxMy40MTQyIDMuODI4NDNaTTkuMTcxNTcgMi40MTQyMUMxMC43MzM3IDAuODUyMTE1IDEzLjI2NjMgMC44NTIxMTkgMTQuODI4NCAyLjQxNDIyTDIxLjU4NTggOS4xNzE1N0MyMy4xNDc5IDEwLjczMzcgMjMuMTQ3OSAxMy4yNjYzIDIxLjU4NTggMTQuODI4NEwxNC44Mjg0IDIxLjU4NThDMTMuMjY2MyAyMy4xNDc5IDEwLjczMzcgMjMuMTQ3OSA5LjE3MTU3IDIxLjU4NThMMi40MTQyMSAxNC44Mjg0QzAuODUyMTE1IDEzLjI2NjMgMC44NTIxMTkgMTAuNzMzNyAyLjQxNDIyIDkuMTcxNTdMOS4xNzE1NyAyLjQxNDIxWiIgZmlsbD0iI0ZGRkZGRiIvPg0KPC9zdmc+"/>
                         <span>Git 日志</span>
@@ -391,6 +392,7 @@ class FlameData {
     const App = {
         data() {
             return {
+                validPages,
                 reportTableData,
                 gitTableData,
                 charts: ['rt', 'frt', 'tps'],
@@ -407,7 +409,7 @@ class FlameData {
                     }
                 }),
                 summary: pipelineData.perf.summaries,
-                curPage: 'perf',
+                curPage: '',
                 myCt0: null,
                 myCt1: null,
                 myCt2: null,
@@ -417,8 +419,7 @@ class FlameData {
             };
         },
         mounted() {
-            this.drawCharts();
-            this.drawFlameGraph();
+            this.navigation(this.validPages[0]);
         },
         methods: {
             navigation(target) {
