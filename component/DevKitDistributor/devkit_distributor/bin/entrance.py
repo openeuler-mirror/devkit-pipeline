@@ -157,7 +157,7 @@ class Distributor:
                    f"-n {time_gap} "
                    f"-f {jfr_path} ")
         logging.info("command is %s", command)
-        outcome = shell_tools.exec_shell(command, timeout=0)
+        outcome = shell_tools.exec_shell(command, timeout=None)
         logging.info("return_code: %s", outcome.return_code)
         logging.info("error: %s", outcome.err)
         logging.info("out: %s", outcome.out)
