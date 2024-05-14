@@ -14,10 +14,10 @@ git --git-dir={}/.git log --since=1.day \
 """
 JMETER_REPORT_NAME = "result.csv"
 HTML_TEMPLATE_NAME = "perf_report.html"
-DEVKIT_REPORT_DATA_LINE_NUM = 33
-GIT_REPORT_DATA_LINE_NUM = 43
-REPORT_VALID_LINE = 29
-JMETER_REPORT_DATA_LINE_NUM = 37
+REPORT_VALID_LINE = 6
+DEVKIT_REPORT_DATA_LINE_NUM = 10
+JMETER_REPORT_DATA_LINE_NUM = 12
+GIT_REPORT_DATA_LINE_NUM = 15
 
 
 class Report:
@@ -39,7 +39,7 @@ class Report:
         devkit_report_json = self.generate_devkit_html()
         valid_page = list()
         valid_page.append("'report'")
-        html_lines[DEVKIT_REPORT_DATA_LINE_NUM] = "report_tb_data: {}".format(devkit_report_json)
+        html_lines[DEVKIT_REPORT_DATA_LINE_NUM] = "report_tb_data: {} \n".format(devkit_report_json)
         if self.jmeter_report_path:
             valid_page.append("'perf'")
             jmeter_report = os.path.join(self.report_dir, "result.json")
@@ -48,7 +48,7 @@ class Report:
         if self.git_path:
             valid_page.append("'git'")
             git_log = self.generate_git_log()
-            html_lines[GIT_REPORT_DATA_LINE_NUM] = "git_tb_data: {},".format(git_log)
+            html_lines[GIT_REPORT_DATA_LINE_NUM] = "git_tb_data: {},\n".format(git_log)
         html_lines[REPORT_VALID_LINE] = "const valid_pages = [{}];\n".format(",".join(valid_page))
         final_report = os.path.join(self.report_dir, "devkit_performance_report.html")
         with open(final_report, "w") as file:
