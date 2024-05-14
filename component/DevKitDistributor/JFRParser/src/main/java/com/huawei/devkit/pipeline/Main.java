@@ -47,7 +47,8 @@ public class Main {
 
             //数据持久化
             ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(new File("result.json"), result);
+            File file = new File(params.getOutput() + "/result.json");
+            mapper.writeValue(file, result);
             logger.info("the end");
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
