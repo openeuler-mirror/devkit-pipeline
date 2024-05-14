@@ -1,4 +1,3 @@
-import csv
 import json
 import os
 import re
@@ -18,7 +17,6 @@ HTML_TEMPLATE_NAME = "perf_report.html"
 DEVKIT_REPORT_DATA_LINE_NUM = 33
 GIT_REPORT_DATA_LINE_NUM = 43
 REPORT_VALID_LINE = 29
-JMETER_REPORT_DATA_HEADER_LEN = 36
 JMETER_REPORT_DATA_LINE_NUM = 37
 
 
@@ -35,7 +33,6 @@ class Report:
         self.devkit_tool_ip = devkit_tool_ip
         self.devkit_tool_port = devkit_tool_port
         self.devkit_user_name = devkit_user_name
-        self.jmeter_report_data_cols = 17
 
     def report(self):
         html_lines = self.read_template()
@@ -44,11 +41,10 @@ class Report:
         valid_page.append("'report'")
         html_lines[DEVKIT_REPORT_DATA_LINE_NUM] = "report_tb_data: {}".format(devkit_report_json)
         if self.jmeter_report_path:
-            valid_page.append("'trend'")
-            html_lines[REPORT_VALID_LINE] = "const valid_pages = ['report', 'trend', 'git'];\n"
-            jmeter_report_data = self.jmeter_report_to_html()
-            html_lines[JMETER_REPORT_DATA_HEADER_LEN] = "trend_tb_cols: {},\n".format(self.jmeter_report_data_cols)
-            html_lines[JMETER_REPORT_DATA_LINE_NUM] = "trend_tb_data: {},\n".format(jmeter_report_data)
+            valid_page.append("'perf'")
+            jmeter_report = os.path.join(self.report_dir, "result.json")
+            with open(jmeter_report, 'r') as file:
+                html_lines[JMETER_REPORT_DATA_LINE_NUM] = "perf: {},\n".format(file.read())
         if self.git_path:
             valid_page.append("'git'")
             git_log = self.generate_git_log()
@@ -79,18 +75,3 @@ class Report:
             data.extend([value.strip("'").rstrip("'") if key != "commit" else git_url + value.strip("'").rstrip("'") for key, value in json.loads(x).items()])
         git_log = json.dumps(data)
         return git_log
-
-    def jmeter_report_to_html(self):
-        all_data = []
-        with open(self.jmeter_report_path) as csvfile:
-            reader = csv.reader(csvfile)
-            for row in reader:
-                self.jmeter_report_data_cols = len(row)
-                break
-        with open(self.jmeter_report_path, newline='') as csvfile:
-            reader = csv.reader(csvfile)
-            for row in reader:
-                all_data.extend(row)
-
-        all_data_json = json.dumps(all_data)
-        return all_data_json
