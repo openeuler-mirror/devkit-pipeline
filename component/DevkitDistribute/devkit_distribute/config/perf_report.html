@@ -2,7 +2,7 @@
 <html>
 <head>
     <script>
-        const randomTest = true;
+        const randomTest = false;
         const pipelineData = {
             report: {
                 report_tb_cols: 2,
@@ -108,9 +108,6 @@ var Xr={},Ur={};var Zr,jr=function(){function t(t,e,n){var i=this;this._sleepAft
                             </el-collapse>
                         </div>
                         <h3>Charts</h3>
-                        <div style="width: 100%; height: 60px;">
-                            <div id="ct0" style="width: 100%; height: 100%;"></div>
-                        </div>
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <h4>Response Time</h4>
                             <el-switch
@@ -121,7 +118,7 @@ var Xr={},Ur={};var Zr,jr=function(){function t(t,e,n){var i=this;this._sleepAft
                                 inactive-text="Fold FlameGraph"
                             ></el-switch>
                         </div>
-                        <div style="width: 100%; height: 180px;">
+                        <div style="width: 100%; height: 230px;">
                             <div id="ct1" style="width: 100%; height: 100%;"></div>
                         </div>
                         <div :style="{'display': isUnfold ? 'block' : 'none'}" style="background: #f4f6fa; padding: 5px 10px; margin: 10px 0px; border-radius: 10px;">
@@ -149,11 +146,11 @@ var Xr={},Ur={};var Zr,jr=function(){function t(t,e,n){var i=this;this._sleepAft
                             <svg id="ffg"></svg>
                         </div>
                         <h4>Failed Response Time</h4>
-                        <div style="width: 100%; height: 180px;">
+                        <div style="width: 100%; height: 230px;">
                             <div id="ct2" style="width: 100%; height: 100%;"></div>
                         </div>
                         <h4>tps/qps</h4>
-                        <div style="width: 100%; height: 180px;">
+                        <div style="width: 100%; height: 230px;">
                             <div id="ct3" style="width: 100%; height: 100%;"></div>
                         </div>
                         <h4>Memory Usage</h4>
@@ -438,98 +435,70 @@ class FlameData {
                 }
             },
             drawCharts() {
-                this.myCt0 = Vue.markRaw(echarts.init(document.getElementById('ct0')));
                 this.myCt1 = Vue.markRaw(echarts.init(document.getElementById('ct1')));
                 this.myCt2 = Vue.markRaw(echarts.init(document.getElementById('ct2')));
                 this.myCt3 = Vue.markRaw(echarts.init(document.getElementById('ct3')));
-                const order = {'headless-control': this.myCt0, 'rt': this.myCt1, 'frt': this.myCt2, 'tps': this.myCt3};
+                const order = {'rt': this.myCt1, 'frt': this.myCt2, 'tps': this.myCt3};
                 const subColor = {'rt': '#0077FF', 'frt': '#279C6E', 'tps': '#D53F78'};
                 const color = {'rt': '#88b7ab', 'frt': '#989054', 'tps': '#ae88cc'};
                 for (const [category, chartObj] of Object.entries(order)) {
-                    let option;
-                    if (category === 'headless-control') {
-                        option = {
-                            xAxis: {
-                                data: group.ts.map(item => timeFormatter(item)),
+                    const option = {
+                        xAxis: {
+                            data: group.ts.map(item => timeFormatter(item)),
+                            axisTick: {
                                 show: false
                             },
-                            yAxis: {
-                                show: false
-                            },
-                            dataZoom: [{type: 'slider', start: 0, end: 50 / scales * 100, top: 0, realtime: true, moveHandleSize: 15, height: 40, moveHandleStyle: {color: 'black'}}],
-                            grid: {x: 50, y: 0, x2: 50, y2: 0},
-                            series: [
-                                {
-                                    data: Array.from({length: group.ts.length}, (_, i) => randomInt(5)),
-                                    type: 'line',
-                                    animation: false,
-                                    showSymbol: false,
-                                    lineStyle: {
-                                        opacity: 0,
-                                    },
-                                    silent: true
-                                }
-                            ]
-                        };
-                    } else {
-                        option = {
-                            xAxis: {
-                                data: group.ts.map(item => timeFormatter(item)),
-                                axisTick: {
-                                    show: false
-                                },
-                                axisLine: {
-                                    lineStyle: {
-                                        opacity: 0.1
-                                    }
-                                }
-                            },
-                            yAxis: {
-                                splitLine: {
-                                    lineStyle: {
-                                        type: [1, 4]
-                                    }
-                                },
-                                splitNumber: 2
-                            },
-                            dataZoom: [{type: 'inside', start: 0, end: 50 / scales * 100}],
-                            tooltip: {
-                                trigger: 'axis'
-                            },
-                            legend: {
-                                data: Object.keys(group[category])
-                            },
-                            grid: {
-                                left: '3%',
-                                right: '4%',
-                                bottom: '3%',
-                                containLabel: true
-                            },
-                            series: Object.keys(group[category]).map((key, idx, arr) => ({
-                                data: group[category][key],
-                                name: key,
-                                type: 'line',
-                                emphasis: {
-                                    scale: true,
-                                    focus: 'series'
-                                },
-                                showSymbol: false,
-                                smooth: 0.05,
-                                connectNulls: true,
+                            axisLine: {
                                 lineStyle: {
-                                    color: colorRank(subColor[category], color[category], arr.length, idx),
-                                    shadowColor: colorRank(subColor[category], color[category], arr.length, idx) + '80',
-                                    shadowBlur: 15,
-                                    shaodwOffsetY: 5,
-                                },
-                                symbol: 'emptyCircle',
-                                symbolSize: 8,
-                                itemStyle: {
-                                    color: colorRank(subColor[category], color[category], arr.length, idx)
+                                    opacity: 0.1
                                 }
-                            }))
-                        };
-                    }
+                            }
+                        },
+                        yAxis: {
+                            splitLine: {
+                                lineStyle: {
+                                    type: [1, 4]
+                                }
+                            },
+                            splitNumber: 2
+                        },
+                        dataZoom: [{type: 'slider', start: 0, end: 50 / scales * 100, moveHandleStyle: {color: 'black'}}, {type: 'inside', start: 0, end: 50 / scales * 100}],
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: Object.keys(group[category])
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: 50,
+                            containLabel: true
+                        },
+                        series: Object.keys(group[category]).map((key, idx, arr) => ({
+                            data: group[category][key],
+                            name: key,
+                            type: 'line',
+                            emphasis: {
+                                scale: true,
+                                focus: 'series'
+                            },
+                            showSymbol: false,
+                            smooth: 0.05,
+                            connectNulls: true,
+                            lineStyle: {
+                                color: colorRank(subColor[category], color[category], arr.length, idx),
+                                shadowColor: colorRank(subColor[category], color[category], arr.length, idx) + '80',
+                                shadowBlur: 15,
+                                shaodwOffsetY: 5,
+                            },
+                            symbol: 'emptyCircle',
+                            symbolSize: 8,
+                            itemStyle: {
+                                color: colorRank(subColor[category], color[category], arr.length, idx)
+                            }
+                        }))
+                    };
                     chartObj.setOption(option);
                 }
                 echarts.connect(Object.values(order));
@@ -551,7 +520,7 @@ class FlameData {
                         grid: {
                             left: '3%',
                             right: '4%',
-                            bottom: 45,
+                            bottom: 50,
                             containLabel: true
                         },
                         xAxis: {
