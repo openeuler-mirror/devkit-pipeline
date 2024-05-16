@@ -84,7 +84,7 @@ component_collection_map = {
         }
     },
 
-    "DevKitDistributor": {
+    "DevKitTester": {
         "download file": {
             URL: f"{download_config.DevkitDistribute.get(FILE)}",
             SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevkitDistribute.get(FILE).split('/')[-1])}",

@@ -7,9 +7,9 @@ tools/install_dependency/src/component
 component/LkpTests/compatibility_help/compatibility_testing
 component/LkpTests/compatibility_help/compatibility_testing.tar.gz
 component/LkpTests/lkp_help/lkp-tests.tar.gz
-component/DevKitDistributor/devkit_distributor/config/log.ini
-component/DevKitDistributor/devkit_distributor/config/devkit_distribute.yaml
+component/DevKitTester/devkit_tester/config/log.ini
+component/DevKitTester/devkit_tester/config/devkit_distribute.yaml
 devkitdependencies
-component/DevKitDistributor/JFRParser/.idea
-component/DevKitDistributor/JFRParser/.gitignore
-component/DevKitDistributor/JFRParser/target
+component/DevKitTester/JFRParser/.idea
+component/DevKitTester/JFRParser/.gitignore
+component/DevKitTester/JFRParser/target
