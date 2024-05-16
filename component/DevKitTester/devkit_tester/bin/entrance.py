@@ -209,7 +209,7 @@ class Distributor:
             ssh_client = factory.create_ssh_client()
             try:
                 logging.info("Wait for the server[%s]  to finish uploading the jfr file", ip)
-                ssh_client.exec_command(f"echo 1 > {task_id}/devkit_distributor_agent/config/jmeter_has_stopped.ini")
+                ssh_client.exec_command(f"echo 1 > {task_id}/devkit_tester_agent/config/jmeter_has_stopped.ini")
             except Exception as ex:
                 logging.exception(ex)
 
@@ -223,19 +223,19 @@ class Distributor:
             try:
                 logging.info("Wait for the server[%s]  to finish uploading the jfr file", ip)
                 self.__blocking_util_upload_success(ssh_client,
-                                                    f"{task_id}/devkit_distributor_agent/config/complete_the_upload.ini",
+                                                    f"{task_id}/devkit_tester_agent/config/complete_the_upload.ini",
                                                     ip)
 
                 logging.info("obtain the jfr file name from ip:%s", ip)
                 stdin, stdout, stderr = ssh_client.exec_command(
-                    f"cat {task_id}/devkit_distributor_agent/config/upload_sample.ini")
+                    f"cat {task_id}/devkit_tester_agent/config/upload_sample.ini")
                 jfr_paths_all = stdout.read().decode("utf-8")
                 jfr_paths = jfr_paths_all.split(os.linesep) if jfr_paths_all else []
                 logging.info("jfr path:%s", jfr_paths)
                 self.__close_pipeline(stdin, stdout, stderr)
                 sftp_client = ssh_client.open_sftp()
                 log_ip_name = ip.replace(".", "_")
-                sftp_client.get(f"{task_id}/devkit_distributor_agent/log/devkit_distributor_agent.log",
+                sftp_client.get(f"{task_id}/devkit_tester_agent/log/devkit_tester_agent.log",
                                 f"{self.log_path}/devkit_distributor_agent_{log_ip_name}.log")
                 self.print_agent_log_file(log_ip_name)
                 logging.info("download the jfr file from ip:%s", ip)
@@ -273,24 +273,24 @@ class Distributor:
                 logging.info("ip:%s create %s directory ", ip, task_id)
                 stdin, stdout, stderr = ssh_client.exec_command(f"mkdir {task_id}")
                 self.__close_pipeline(stdin, stdout, stderr)
-                agent_package = os.path.join(self.root_path, "config/devkit_distributor_agent.tar.gz")
-                logging.info("ip:%s upload devkit_distributor_agent.tar.gz", ip)
+                agent_package = os.path.join(self.root_path, "config/devkit_tester_agent.tar.gz")
+                logging.info("ip:%s upload devkit_tester_agent.tar.gz", ip)
                 sftp_client = ssh_client.open_sftp()
-                sftp_client.put(agent_package, f"{task_id}/devkit_distributor_agent.tar.gz")
+                sftp_client.put(agent_package, f"{task_id}/devkit_tester_agent.tar.gz")
                 sftp_client.close()
-                logging.info("ip:%s unpack devkit_distributor_agent.tar.gz", ip)
+                logging.info("ip:%s unpack devkit_tester_agent.tar.gz", ip)
                 stdin, stdout, stderr = ssh_client.exec_command(
-                    f"cd {task_id} && tar -xvzf devkit_distributor_agent.tar.gz --no-same-owner")
+                    f"cd {task_id} && tar -xvzf devkit_tester_agent.tar.gz --no-same-owner")
                 logging.info("upack tar.gz %s", stderr.readlines())
                 self.__close_pipeline(stdin, stdout, stderr)
                 logging.info("ip:%s start devkit pipeline agent", ip)
                 if self.enable_jmeter_command:
                     start_command = (
-                        f"bash {task_id}/devkit_distributor_agent/bin/devkit_agent_start.sh -a {self.apps} "
+                        f"bash {task_id}/devkit_tester_agent/bin/devkit_agent_start.sh -a {self.apps} "
                                      f"-d {self.duration} -t {task_id} -w")
                 else:
                     start_command = (
-                        f"bash {task_id}/devkit_distributor_agent/bin/devkit_agent_start.sh -a {self.apps} "
+                        f"bash {task_id}/devkit_tester_agent/bin/devkit_agent_start.sh -a {self.apps} "
                                      f"-d {self.duration} -t {task_id}")
                 stdin, stdout, stderr = ssh_client.exec_command(start_command)
                 logging.info("start the sampling process on server %s:%s", ip, stderr.readlines())
@@ -361,8 +361,8 @@ def main():
     parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
     parser.set_defaults(password="")
     args = parser.parse_args()
-    config_log_ini(args.root_path, "devkit_distributor")
-    logging.info("devkit_distributor start")
+    config_log_ini(args.root_path, "devkit_tester")
+    logging.info("devkit_tester start")
     logging.info(args)
     distributor = Distributor(args)
     distributor.distribute()

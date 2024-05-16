@@ -19,7 +19,7 @@ function build_lkp_tests() {
 }
 
 function build_devkit_distributor() {
-    bash "${current_dir}"/DevKitDistributor/build_devkit_distributor.sh
+    bash "${current_dir}"/DevKitTester/build_devkit_tester.sh
 }
 
 function build_devkit_installer() {
