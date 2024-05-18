@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class JFRParser {
     public static Long ALL = -1L;
@@ -25,7 +26,8 @@ public class JFRParser {
     private static final String NATIVE_METHOD_SAMPLE_EVENT = "jdk.NativeMethodSample";
     private static final String CPU_LOAD_EVENT = "jdk.CPULoad";
 
-    public static void parse(String filePath, List<LatencyTopInfo> top10, int timeGap, PerformanceTestResult result) throws Exception {
+    public static void parse(String filePath, List<LatencyTopInfo> top10,
+                             int timeGap, PerformanceTestResult result, String nodeIP) throws Exception {
         Path path = Paths.get(filePath);
         if (!Files.exists(path)) {
             throw new Exception("the file not exist");
@@ -61,8 +63,10 @@ public class JFRParser {
                 }
             }
         }
-        result.getCpuMap().put(fileName, cpuInfos);
-        result.getMemoryMap().put(fileName, memInfos);
+        Map<String, List<CpuInfo>> cpuMap = result.getCpuMap().get(nodeIP);
+        cpuMap.put(fileName, cpuInfos);
+        Map<String, List<MemInfo>> memoryMap = result.getMemoryMap().get(nodeIP);
+        memoryMap.put(fileName, memInfos);
         result.getFlame().get(ALL).addSubFlameItem(flame);
         for (LatencyTopInfo latencyTop : top10) {
             result.getFlame().put(latencyTop.getKey(), latencyTop.getFlame());

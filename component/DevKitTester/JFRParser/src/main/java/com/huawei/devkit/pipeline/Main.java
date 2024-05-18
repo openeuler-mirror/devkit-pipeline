@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +38,10 @@ public class Main {
             for (Map.Entry<String, List<String>> entry : params.getJfrPathMap().entrySet()) {
                 String gap = params.getNodesTimeGapMap().get(entry.getKey());
                 int timeGap = gap == null ? 0 : Integer.parseInt(gap);
+                result.getCpuMap().put(entry.getKey(), new HashMap<>());
+                result.getMemoryMap().put(entry.getKey(), new HashMap<>());
                 for (String jfrPath : entry.getValue()) {
-                    JFRParser.parse(jfrPath, latencyKes, timeGap, result);
+                    JFRParser.parse(jfrPath, latencyKes, timeGap, result, entry.getKey());
                 }
             }
             result.toStandardFlames();

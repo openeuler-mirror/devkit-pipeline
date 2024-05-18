@@ -33,14 +33,14 @@ public class PerformanceTestResult {
     private Map<String, Map<String, List<Object>>> tps;
 
     @JsonIgnore
-    private Map<String, List<MemInfo>> memoryMap;
+    private Map<String, Map<String, List<MemInfo>>> memoryMap;
 
-    private Map<String, Map<String, List<Object>>> memory;
+    private Map<String, Map<String, Map<String, List<Object>>>> memory;
 
     @JsonIgnore
-    private Map<String, List<CpuInfo>> cpuMap;
+    private Map<String, Map<String, List<CpuInfo>>> cpuMap;
 
-    private Map<String, Map<String, List<Object>>> cpu;
+    private Map<String, Map<String, Map<String, List<Object>>>> cpu;
 
     private Map<Long, FlameItem> flame;
 
@@ -73,8 +73,8 @@ public class PerformanceTestResult {
             this.toSimpleObject(this.frtMap, this.frt, JmeterRT.class);
             this.toSimpleObject(this.tpsMap, this.tps, JmeterTPS.class);
         }
-        this.toSimpleObject(this.memoryMap, this.memory, MemInfo.class);
-        this.toSimpleObject(this.cpuMap, this.cpu, CpuInfo.class);
+        this.toSimpleObject2(this.memoryMap, this.memory, MemInfo.class);
+        this.toSimpleObject2(this.cpuMap, this.cpu, CpuInfo.class);
     }
 
     public void toStandardFlames() {
@@ -123,20 +123,36 @@ public class PerformanceTestResult {
         this.flame = flame;
     }
 
-    public Map<String, List<MemInfo>> getMemoryMap() {
+    public Map<String, Map<String, List<MemInfo>>> getMemoryMap() {
         return memoryMap;
     }
 
-    public void setMemoryMap(Map<String, List<MemInfo>> memoryMap) {
+    public void setMemoryMap(Map<String, Map<String, List<MemInfo>>> memoryMap) {
         this.memoryMap = memoryMap;
     }
 
-    public Map<String, List<CpuInfo>> getCpuMap() {
+    public Map<String, Map<String, Map<String, List<Object>>>> getMemory() {
+        return memory;
+    }
+
+    public void setMemory(Map<String, Map<String, Map<String, List<Object>>>> memory) {
+        this.memory = memory;
+    }
+
+    public Map<String, Map<String, List<CpuInfo>>> getCpuMap() {
         return cpuMap;
     }
 
-    public void setCpuMap(Map<String, List<CpuInfo>> cpuMap) {
+    public void setCpuMap(Map<String, Map<String, List<CpuInfo>>> cpuMap) {
         this.cpuMap = cpuMap;
+    }
+
+    public Map<String, Map<String, Map<String, List<Object>>>> getCpu() {
+        return cpu;
+    }
+
+    public void setCpu(Map<String, Map<String, Map<String, List<Object>>>> cpu) {
+        this.cpu = cpu;
     }
 
     public Map<String, Map<String, List<Object>>> getRt() {
@@ -163,22 +179,6 @@ public class PerformanceTestResult {
         this.tps = tps;
     }
 
-    public Map<String, Map<String, List<Object>>> getMemory() {
-        return memory;
-    }
-
-    public void setMemory(Map<String, Map<String, List<Object>>> memory) {
-        this.memory = memory;
-    }
-
-    public Map<String, Map<String, List<Object>>> getCpu() {
-        return cpu;
-    }
-
-    public void setCpu(Map<String, Map<String, List<Object>>> cpu) {
-        this.cpu = cpu;
-    }
-
     public List<Long> getStartTime() {
         return startTime;
     }
@@ -190,6 +190,17 @@ public class PerformanceTestResult {
     private <T> void toSimpleObject(Map<String, List<T>> origin, Map<String, Map<String, List<Object>>> target, Class<T> clazz) {
         for (Map.Entry<String, List<T>> entry : origin.entrySet()) {
             target.put(entry.getKey(), SimplifyResponse.simplify(entry.getValue(), clazz));
+        }
+    }
+
+    private <T> void toSimpleObject2(Map<String, Map<String, List<T>>> origin,
+                                     Map<String, Map<String, Map<String, List<Object>>>> target, Class<T> clazz) {
+        for (Map.Entry<String, Map<String, List<T>>> entry : origin.entrySet()) {
+            Map<String, Map<String, List<Object>>> targetItem = new HashMap<>();
+            for (Map.Entry<String, List<T>> inner : entry.getValue().entrySet()) {
+                targetItem.put(inner.getKey(), SimplifyResponse.simplify(inner.getValue(), clazz));
+            }
+            target.put(entry.getKey(), targetItem);
         }
     }
 }
