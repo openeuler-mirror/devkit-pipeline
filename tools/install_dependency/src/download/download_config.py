@@ -27,7 +27,7 @@ LkpTests = {
     "CompatibilityTesting": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/compatibility_testing.tar.gz",
 }
 
-DevkitDistribute = {
+DevkitTester = {
     "component_name": "DevKitTester",
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/devkit_distributor.tar.gz",
 }

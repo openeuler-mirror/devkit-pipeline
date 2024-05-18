@@ -22,7 +22,7 @@ ROLE_COMPONENT = {
     C_BUIDLER_BISHENG_COMPILER: ["BiShengCompiler", "BiShengJDK17", "NonInvasiveSwitching"],
     JAVA_BUILDER_JDK8: ["BiShengJDK8", "BiShengJDK17"],
     JAVA_BUILDER_JDK17: ["BiShengJDK17"],
-    EXECUTOR: ["BiShengJDK17", "LkpTests", "CompatibilityTesting", "DevkitDistributor"],
+    EXECUTOR: ["BiShengJDK17", "LkpTests", "CompatibilityTesting", "DevKitTester"],
     DEVKIT: ["DevKitWeb"]
 }
 
