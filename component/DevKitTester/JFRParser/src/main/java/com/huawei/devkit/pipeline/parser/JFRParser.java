@@ -48,11 +48,11 @@ public class JFRParser {
                 } else if (event.getEventType().getName().equals(EXECUTION_SAMPLE_EVENT)) {
                     RecordedStackTrace stackTrace = event.getStackTrace();
                     flame.addFlameItemByRecordedFrame(stackTrace.getFrames());
-                    addDurationFlame(startTime, stackTrace.getFrames(), top10);
+                    addDurationFlame(startTime, stackTrace.getFrames(), top10, fileName);
                 } else if (event.getEventType().getName().equals(NATIVE_METHOD_SAMPLE_EVENT)) {
                     RecordedStackTrace stackTrace = event.getStackTrace();
                     flame.addFlameItemByRecordedFrame(stackTrace.getFrames());
-                    addDurationFlame(startTime, stackTrace.getFrames(), top10);
+                    addDurationFlame(startTime, stackTrace.getFrames(), top10, fileName);
                 } else if (event.getEventType().getName().equals(CPU_LOAD_EVENT)) {
                     float jvmSystem = event.getFloat("jvmSystem");
                     float jvmUser = event.getFloat("jvmUser");
@@ -69,10 +69,10 @@ public class JFRParser {
         }
     }
 
-    private static void addDurationFlame(long startTime, List<RecordedFrame> frames, List<LatencyTopInfo> top10) {
+    private static void addDurationFlame(long startTime, List<RecordedFrame> frames, List<LatencyTopInfo> top10, String filename) {
         for (LatencyTopInfo latencyTop : top10) {
             if (startTime > latencyTop.getStartTime() && startTime < latencyTop.getEndTime()) {
-                latencyTop.getFlame().addFlameItemByRecordedFrame(frames);
+                latencyTop.getFlame().addFlameItemByRecordedFrame(frames, filename);
             }
         }
     }

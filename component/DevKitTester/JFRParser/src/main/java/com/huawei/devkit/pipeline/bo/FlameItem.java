@@ -90,4 +90,31 @@ public class FlameItem {
         }
         this.increase();
     }
+
+    public void addFlameItemByRecordedFrame(List<RecordedFrame> frames, String filename) {
+        Map<String, FlameItem> loopMap = subMap;
+        FlameItem fileFlameItem = loopMap.get(filename);
+        if (fileFlameItem != null) {
+            fileFlameItem.increase();
+        } else {
+            fileFlameItem = new FlameItem(filename, 1);
+            loopMap.put(filename, fileFlameItem);
+        }
+        loopMap = fileFlameItem.getSubMap();
+        for (int i = frames.size() - 1; i >= 0; i--) {
+            RecordedFrame frame = frames.get(i);
+            String methodName = frame.getMethod().getType().getName() + "." + frame.getMethod().getName();
+            String name = JfrMethodSignatureParser
+                    .convertMethodSignatureWithoutReturnType(frame.getMethod().getDescriptor(), methodName);
+            FlameItem item = loopMap.get(name);
+            if (item != null) {
+                item.increase();
+            } else {
+                item = new FlameItem(name, 1);
+                loopMap.put(name, item);
+            }
+            loopMap = item.getSubMap();
+        }
+        this.increase();
+    }
 }
