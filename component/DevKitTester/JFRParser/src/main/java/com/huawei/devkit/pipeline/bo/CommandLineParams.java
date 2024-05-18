@@ -17,13 +17,15 @@ public class CommandLineParams {
     @Option(name = "-o", usage = "the output path", metaVar = "output", required = true)
     private String output;
 
-    @Option(name = "-n", usage = "the jfr path", metaVar = "display", required = true,
+    @Option(name = "-n", usage = "the jfr path. example 127.0.0.1:+154,127.0.0.2:-58421",
+            metaVar = "display", required = true,
             handler = MultiHandlerFactory.MultiFieldOptionHandler.class)
     private List<String> nodeTimeGaps;
 
     private Map<String, String> nodesTimeGapMap;
 
-    @Option(name = "-f", usage = "the jfr path", metaVar = "display", required = true,
+    @Option(name = "-f", usage = "the jfr path. example 127.0.0.1:app.jfr,127.0.0.1:app2.jfr,127.0.0.2:app.jfr",
+            metaVar = "display", required = true,
             handler = MultiHandlerFactory.MultiFieldOptionHandler.class)
     private List<String> jfrPaths;
 
