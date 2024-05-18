@@ -144,7 +144,7 @@ class FlightRecordsFactory:
             return False
 
     def __jfr_name(self, app, pid):
-        return os.path.join(self.tmp_data_dir, f"{app}_{pid}_{self.now_date}.jfr")
+        return os.path.join(self.tmp_data_dir, f"{app}_PID_{pid}_Time_{self.now_date}.jfr")
 
     def __del_dir(self, target):
         if not os.path.exists(target):
