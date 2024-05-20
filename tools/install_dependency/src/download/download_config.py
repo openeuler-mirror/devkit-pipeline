@@ -29,7 +29,7 @@ LkpTests = {
 
 DevkitTester = {
     "component_name": "DevKitTester",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/devkit_distributor.tar.gz",
+    "file": "https://gitee.com/zoupp/devkit_mirrors/raw/master/document/devkit_tester/package/devkit_tester.tar.gz",
 }
 
 A_FOT = {

@@ -51,3 +51,7 @@ pip3 install urllib3
 pip3 install requests
 pip3 install paramiko
 
+pip3 install wget
+pip3 install pyyaml
+pip3 install timeout_decorator
+
