@@ -23,6 +23,17 @@ public class JmeterResultTransfer {
         return new JmeterResultTransfer().transferInner(resultPath);
     }
 
+    public static boolean isNum(String str) {
+        if (str == null || str.isEmpty())
+            return false;
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private List<JmeterResult> transferInner(String resultPath) throws Exception {
         Path path = Paths.get(resultPath);
         if (!Files.exists(path)) {
@@ -35,8 +46,13 @@ public class JmeterResultTransfer {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split(",");
+                int responseCode = 700;
+                // 当url完全错误时，不会有responseCode
+                if (isNum(fields[responseCodeIndex])) {
+                    responseCode = Integer.parseInt(fields[responseCodeIndex]);
+                }
                 results.add(new JmeterResult(Long.parseLong(fields[timeStampIndex]),
-                        Integer.parseInt(fields[responseCodeIndex]),
+                        responseCode,
                         Integer.parseInt(fields[latencyIndex]),
                         fields[labelIndex]));
             }
