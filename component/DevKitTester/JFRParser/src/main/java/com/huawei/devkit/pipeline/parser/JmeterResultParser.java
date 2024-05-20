@@ -49,6 +49,9 @@ public class JmeterResultParser {
             result.getSummaries().add(new JmeterReportSummary(TOTAL_LABEL));
             return;
         }
+        // 解决多个线程造成的数据错误问题
+        results = results.parallelStream().sorted(Comparator.comparingLong(JmeterResult::getStartTime))
+                .collect(Collectors.toList());
         long startTime = results.get(0).getStartTime();
         long endTime = getEndTime(startTime, results.get(results.size() - 1).getStartTime());
 
