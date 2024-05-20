@@ -233,14 +233,10 @@ class Distributor:
                 jfr_paths = jfr_paths_all.split(os.linesep) if jfr_paths_all else []
                 logging.info("jfr path:%s", jfr_paths)
                 self.__close_pipeline(stdin, stdout, stderr)
-                sftp_client = ssh_client.open_sftp()
-                log_ip_name = ip.replace(".", "_")
-                sftp_client.get(f"{task_id}/devkit_tester_agent/log/devkit_tester_agent.log",
-                                f"{self.log_path}/devkit_distributor_agent_{log_ip_name}.log")
-                self.print_agent_log_file(log_ip_name)
                 logging.info("download the jfr file from ip:%s", ip)
                 if not jfr_paths:
                     raise Exception(f"The jfr file {self.apps} cannot be generated")
+                sftp_client = ssh_client.open_sftp()
                 local_paths = list()
                 for jfr_path in jfr_paths:
                     local_path = os.path.join(self.data_path, os.path.basename(jfr_path))
@@ -253,11 +249,17 @@ class Distributor:
             except Exception as ex:
                 logging.exception(ex)
             finally:
+                sftp_client = ssh_client.open_sftp()
+                log_ip_name = ip.replace(".", "_")
+                sftp_client.get(f"{task_id}/devkit_pipeline_agent/log/devkit_tester_agent.log",
+                                f"{self.log_path}/devkit_tester_agent_{log_ip_name}.log")
+                self.print_agent_log_file(log_ip_name)
                 self.__delete_agent(ssh_client, task_id)
+                sftp_client.close()
                 ssh_client.close()
 
     def print_agent_log_file(self, ip):
-        with open(file=f"{self.log_path}/devkit_distributor_agent_{ip}.log", mode="r", encoding="utf-8") as file:
+        with open(file=f"{self.log_path}/devkit_tester_agent_{ip}.log", mode="r", encoding="utf-8") as file:
             all_content = file.read()
             logging.info("============agent [%s] log===start=============\n%s", ip, all_content)
             logging.info("============agent [%s] log===end=============", ip)
