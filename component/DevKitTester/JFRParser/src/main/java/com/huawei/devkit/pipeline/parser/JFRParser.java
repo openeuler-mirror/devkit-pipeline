@@ -36,7 +36,7 @@ public class JFRParser {
         List<MemInfo> memInfos = new ArrayList<>();
         List<CpuInfo> cpuInfos = new ArrayList<>();
         String fileName = path.getFileName().toString();
-        FlameItem flame = new FlameItem(fileName, 0);
+        FlameItem flame = result.getFlame().get(ALL);
         try (RecordingFile file = new RecordingFile(path)) {
             while (file.hasMoreEvents()) {
                 RecordedEvent event = file.readEvent();
@@ -49,12 +49,12 @@ public class JFRParser {
                     memInfos.add(new MemInfo(startTime, committedSize, reservedSize, heapUsed));
                 } else if (event.getEventType().getName().equals(EXECUTION_SAMPLE_EVENT)) {
                     RecordedStackTrace stackTrace = event.getStackTrace();
-                    flame.addFlameItemByRecordedFrame(stackTrace.getFrames());
-                    addDurationFlame(startTime, stackTrace.getFrames(), top10, fileName);
+                    flame.addFlameItemByRecordedFrame(stackTrace.getFrames(), nodeIP, fileName);
+                    addDurationFlame(startTime, stackTrace.getFrames(), top10, nodeIP, fileName);
                 } else if (event.getEventType().getName().equals(NATIVE_METHOD_SAMPLE_EVENT)) {
                     RecordedStackTrace stackTrace = event.getStackTrace();
-                    flame.addFlameItemByRecordedFrame(stackTrace.getFrames());
-                    addDurationFlame(startTime, stackTrace.getFrames(), top10, fileName);
+                    flame.addFlameItemByRecordedFrame(stackTrace.getFrames(), nodeIP, fileName);
+                    addDurationFlame(startTime, stackTrace.getFrames(), top10, nodeIP, fileName);
                 } else if (event.getEventType().getName().equals(CPU_LOAD_EVENT)) {
                     float jvmSystem = event.getFloat("jvmSystem");
                     float jvmUser = event.getFloat("jvmUser");
@@ -67,16 +67,16 @@ public class JFRParser {
         cpuMap.put(fileName, cpuInfos);
         Map<String, List<MemInfo>> memoryMap = result.getMemoryMap().get(nodeIP);
         memoryMap.put(fileName, memInfos);
-        result.getFlame().get(ALL).addSubFlameItem(flame);
         for (LatencyTopInfo latencyTop : top10) {
             result.getFlame().put(latencyTop.getKey(), latencyTop.getFlame());
         }
     }
 
-    private static void addDurationFlame(long startTime, List<RecordedFrame> frames, List<LatencyTopInfo> top10, String filename) {
+    private static void addDurationFlame(long startTime, List<RecordedFrame> frames, List<LatencyTopInfo> top10,
+                                         String nodeIP, String filename) {
         for (LatencyTopInfo latencyTop : top10) {
             if (startTime > latencyTop.getStartTime() && startTime < latencyTop.getEndTime()) {
-                latencyTop.getFlame().addFlameItemByRecordedFrame(frames, filename);
+                latencyTop.getFlame().addFlameItemByRecordedFrame(frames, nodeIP, filename);
             }
         }
     }
