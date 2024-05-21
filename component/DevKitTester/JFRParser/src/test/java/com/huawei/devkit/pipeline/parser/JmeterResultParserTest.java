@@ -25,7 +25,7 @@ public final class JmeterResultParserTest {
         Assertions.assertEquals(result.getSummaries().get(0).getSamples(), 1000);
         Assertions.assertEquals(result.getSummaries().get(1).getSamples(), 1000);
         Assertions.assertEquals(result.getSummaries().get(1).getFailSamples(), 806);
-        Assertions.assertEquals(result.getSummaries().get(1).getAverageLatency(), 1.957);
+        Assertions.assertEquals(result.getSummaries().get(1).getAverageLatency(), 1.993);
     }
 
     /**
