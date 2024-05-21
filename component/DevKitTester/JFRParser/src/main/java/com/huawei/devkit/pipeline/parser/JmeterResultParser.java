@@ -115,7 +115,8 @@ public class JmeterResultParser {
             latencyFailPerSec = 0;
             exist = false;
         }
-        summary.setThroughput(summary.getSamples() * JFRConstants.MS_TO_S / (endTime - startTime));
+        summary.setThroughput(summary.getSamples() * JFRConstants.MS_TO_S /
+                getThroughputTime(startTime, results.get(results.size() - 1).getStartTime()));
         summary.setAverageLatency(latencyTotal / (double) summary.getSamples());
         this.filledSummary(results);
     }
@@ -171,5 +172,13 @@ public class JmeterResultParser {
     private static long getEndTime(long startTime, long lastTime) {
         long duration = (lastTime - startTime) / JFRConstants.MS_1000 + 1;
         return duration * JFRConstants.MS_1000 + startTime;
+    }
+
+    private static long getThroughputTime(long startTime, long lastTime) {
+        if (lastTime > startTime) {
+            return lastTime - startTime;
+        } else {
+            return JFRConstants.MS_1000;
+        }
     }
 }
