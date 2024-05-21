@@ -251,7 +251,7 @@ class Distributor:
             finally:
                 sftp_client = ssh_client.open_sftp()
                 log_ip_name = ip.replace(".", "_")
-                sftp_client.get(f"{task_id}/devkit_pipeline_agent/log/devkit_tester_agent.log",
+                sftp_client.get(f"{task_id}/devkit_tester_agent/log/devkit_tester_agent.log",
                                 f"{self.log_path}/devkit_tester_agent_{log_ip_name}.log")
                 self.print_agent_log_file(log_ip_name)
                 self.__delete_agent(ssh_client, task_id)
