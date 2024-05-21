@@ -127,7 +127,7 @@ class Distributor:
         self.obtain_jfrs(local_jfrs, task_id)
         if not local_jfrs:
             raise Exception(
-                f"The specified process could not be found by the -a param based on the parameter -a {self.apps}")
+                f"The specified process could not be found based on the parameter -a {self.apps}")
         # 发送至 Devkit
         client = DevKitClient(self.devkit_ip, self.devkit_port, self.devkit_user, self.devkit_password)
         jfr_names = list()
