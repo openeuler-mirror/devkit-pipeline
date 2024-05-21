@@ -63,7 +63,7 @@ public class JmeterResultTransfer {
     private void parseHeader(String headersCombined) {
         String[] header = headersCombined.split(",");
         for (int i = 0; i < header.length; i++) {
-            if ("latency".equalsIgnoreCase(header[i])) {
+            if ("elapsed".equalsIgnoreCase(header[i])) {
                 latencyIndex = i;
             } else if ("timestamp".equalsIgnoreCase(header[i])) {
                 timeStampIndex = i;
