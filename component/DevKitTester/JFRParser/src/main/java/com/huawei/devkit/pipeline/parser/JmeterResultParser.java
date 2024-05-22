@@ -64,7 +64,7 @@ public class JmeterResultParser {
         Map<String, List<JmeterResult>> map = results.stream().collect(Collectors.groupingBy(JmeterResult::getLabel));
         for (Map.Entry<String, List<JmeterResult>> entry : map.entrySet()) {
             JmeterResultParser parserPer = new JmeterResultParser(entry.getKey());
-            parserPer.calcTPSAndRT(results, startTime, endTime);
+            parserPer.calcTPSAndRT(entry.getValue(), startTime, endTime);
             result.getSummaries().add(parserPer.getSummary());
             result.getRtMap().put(entry.getKey(), parserPer.getRtList());
             result.getFrtMap().put(entry.getKey(), parserPer.getFrtList());
@@ -160,13 +160,13 @@ public class JmeterResultParser {
         summary.setMinLatency(result.getLatency());
         summary.setMaxLatency(jmeterResults.get(jmeterResults.size() - 1).getLatency());
         int position50 = jmeterResults.size() * PERCENT_50 / 100 - 1;
-        summary.setMedian(jmeterResults.get(position50).getLatency());
+        summary.setMedian(jmeterResults.get(Math.max(position50, 0)).getLatency());
         int position90 = jmeterResults.size() * PERCENT_90 / 100 - 1;
-        summary.setLatency90(jmeterResults.get(position90).getLatency());
+        summary.setLatency90(jmeterResults.get(Math.max(position90, 0)).getLatency());
         int position95 = jmeterResults.size() * PERCENT_95 / 100 - 1;
-        summary.setLatency95(jmeterResults.get(position95).getLatency());
+        summary.setLatency95(jmeterResults.get(Math.max(position95, 0)).getLatency());
         int position99 = jmeterResults.size() * PERCENT_99 / 100 - 1;
-        summary.setLatency99(jmeterResults.get(position99).getLatency());
+        summary.setLatency99(jmeterResults.get(Math.max(position99, 0)).getLatency());
     }
 
     private static long getEndTime(long startTime, long lastTime) {
