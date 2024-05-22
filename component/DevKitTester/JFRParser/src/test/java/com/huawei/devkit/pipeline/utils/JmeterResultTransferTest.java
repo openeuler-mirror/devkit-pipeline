@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.net.URL;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public final class JmeterResultTransferTest {
@@ -40,8 +42,9 @@ public final class JmeterResultTransferTest {
     @DisplayName("transfer: Normal")
     public void testTransfer() throws Exception {
         URL resource = this.getClass().getClassLoader().getResource("result.csv");
-        String path = resource.getPath();
-        List<JmeterResult> transferred = JmeterResultTransfer.transfer(path);
+        assert resource != null;
+        Path resultPath = Paths.get(resource.toURI());
+        List<JmeterResult> transferred = JmeterResultTransfer.transfer(resultPath.toString());
         Assertions.assertEquals(transferred.size(), 1000);
     }
 

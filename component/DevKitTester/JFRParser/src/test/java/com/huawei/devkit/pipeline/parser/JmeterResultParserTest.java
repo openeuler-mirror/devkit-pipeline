@@ -6,8 +6,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -16,9 +19,10 @@ public final class JmeterResultParserTest {
     @Test
     public void testParse1() throws Exception {
         URL resource = this.getClass().getClassLoader().getResource("result.csv");
-        String resultPath = resource.getPath();
+        assert resource != null;
+        Path resultPath = Paths.get(resource.toURI());
         PerformanceTestResult result = new PerformanceTestResult();
-        JmeterResultParser.parse(resultPath, result);
+        JmeterResultParser.parse(resultPath.toString(), result);
         result.toSimpleObject();
         Assertions.assertEquals(result.getRt().size(), 2);
         Assertions.assertEquals(result.getSummaries().size(), 2);
@@ -61,10 +65,11 @@ public final class JmeterResultParserTest {
 
     @Test
     @DisplayName("parse: NullPointerException")
-    public void testParseThrowsNullPointerExceptionWhenArg1IsNull() {
+    public void testParseThrowsNullPointerExceptionWhenArg1IsNull() throws URISyntaxException {
         URL resource = this.getClass().getClassLoader().getResource("result.csv");
-        String path = resource.getPath();
-        assertThrows(NullPointerException.class, () -> JmeterResultParser.parse(path, null));
+        assert resource != null;
+        Path resultPath = Paths.get(resource.toURI());
+        assertThrows(NullPointerException.class, () -> JmeterResultParser.parse(resultPath.toString(), null));
     }
 
 

@@ -7,7 +7,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,34 +27,37 @@ public final class JFRParserTest {
 
     @Test
     @DisplayName("parse: arg_1 = null")
-    public void testParseThrowNullPointerException1() {
+    public void testParseThrowNullPointerException1() throws URISyntaxException {
         URL resource = this.getClass().getClassLoader().getResource("avrora.jfr");
-        String path = resource.getPath();
+        assert resource != null;
+        Path path = Paths.get(resource.toURI());
         PerformanceTestResult result = new PerformanceTestResult();
         String nodeIP = "127.0.0.1";
         result.getCpuMap().put(nodeIP, new HashMap<>());
         result.getMemoryMap().put(nodeIP, new HashMap<>());
-        assertThrows(NullPointerException.class, () -> JFRParser.parse(path, null, -6134991, result, nodeIP));
+        assertThrows(NullPointerException.class, () -> JFRParser.parse(path.toString(), null, -6134991, result, nodeIP));
     }
 
     @Test
     @DisplayName("parse: arg_3 = null")
-    public void testParseThrowNullPointerException2() throws IOException {
+    public void testParseThrowNullPointerException2() throws IOException, URISyntaxException {
         URL resource = this.getClass().getClassLoader().getResource("avrora.jfr");
-        String path = resource.getPath();
+        assert resource != null;
+        Path path = Paths.get(resource.toURI());
         List<LatencyTopInfo> latencyTopInfos = new ArrayList<>();
         latencyTopInfos.add(new LatencyTopInfo(1713159115349L, 1713159116349L, 1713159115349L));
         latencyTopInfos.add(new LatencyTopInfo(1713159116349L, 1713159117349L, 1713159116349L));
         latencyTopInfos.add(new LatencyTopInfo(1713159117349L, 1713159118349L, 1713159117349L));
-        assertThrows(NullPointerException.class, () -> JFRParser.parse(path, latencyTopInfos, -6134991, null, null));
+        assertThrows(NullPointerException.class, () -> JFRParser.parse(path.toString(), latencyTopInfos, -6134991, null, null));
     }
 
 
     @Test
     @DisplayName("parse: arg_1 = Incorrectly formatted files")
-    public void testParseThrowIOException() {
+    public void testParseThrowIOException() throws URISyntaxException {
         URL resource = this.getClass().getClassLoader().getResource("error.jfr");
-        String path = resource.getPath();
+        assert resource != null;
+        Path path = Paths.get(resource.toURI());
         List<LatencyTopInfo> latencyTopInfos = new ArrayList<>();
         latencyTopInfos.add(new LatencyTopInfo(1713159115349L, 1713159116349L, 1713159115349L));
         latencyTopInfos.add(new LatencyTopInfo(1713159116349L, 1713159117349L, 1713159116349L));
@@ -60,14 +66,15 @@ public final class JFRParserTest {
         String nodeIP = "127.0.0.1";
         result.getCpuMap().put(nodeIP, new HashMap<>());
         result.getMemoryMap().put(nodeIP, new HashMap<>());
-        assertThrows(IOException.class, () -> JFRParser.parse(path, latencyTopInfos, -6134991, result, nodeIP));
+        assertThrows(IOException.class, () -> JFRParser.parse(path.toString(), latencyTopInfos, -6134991, result, nodeIP));
     }
 
     @Test
     @DisplayName("parse: normal parse")
     public void testParseNormal() throws Exception {
         URL resource = this.getClass().getClassLoader().getResource("avrora.jfr");
-        String path = resource.getPath();
+        assert resource != null;
+        Path path = Paths.get(resource.toURI());
         List<LatencyTopInfo> latencyTopInfos = new ArrayList<>();
         latencyTopInfos.add(new LatencyTopInfo(1713159115349L, 1713159116349L, 1713159115349L));
         latencyTopInfos.add(new LatencyTopInfo(1713159116349L, 1713159117349L, 1713159116349L));
@@ -76,7 +83,7 @@ public final class JFRParserTest {
         String nodeIP = "127.0.0.1";
         result.getCpuMap().put(nodeIP, new HashMap<>());
         result.getMemoryMap().put(nodeIP, new HashMap<>());
-        JFRParser.parse(path, latencyTopInfos, -6134991, result, nodeIP);
+        JFRParser.parse(path.toString(), latencyTopInfos, -6134991, result, nodeIP);
         result.toStandardFlames();
         Assertions.assertEquals(result.getFlame().size(), 4);
         Assertions.assertEquals(result.getFlame().get(1713159115349L).getValue(), 1);
