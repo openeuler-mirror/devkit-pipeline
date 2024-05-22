@@ -93,10 +93,20 @@
                         <div class="demo-collapse">
                             <h3>Summary</h3>
                             <el-collapse v-model="activeCollapseName">
-                            <el-collapse-item v-for="(item, index) in summary" :title="item.label" :name="index">
-                                <el-descriptions :title="item.label" :size="'large'">
-                                    <el-descriptions-item v-for="key in Object.keys(item).filter(x => x !== 'label')" :label="key" :name="index"><el-tag size="small">{{item[key]}}</el-tag></el-descriptions-item>
-                                </el-descriptions>
+                            <el-collapse-item title="Messages" :name="0">
+                                <el-table :data="summary" stripe style="width: 100%">
+                                    <el-table-column prop="label" label="Label"></el-table-column>
+                                    <el-table-column prop="samples" label="Samples"></el-table-column>
+                                    <el-table-column prop="failSamples" label="FailSamples"></el-table-column>
+                                    <el-table-column prop="averageLatency" label="AverageLatency"></el-table-column>
+                                    <el-table-column prop="minLatency" label="MinLatency"></el-table-column>
+                                    <el-table-column prop="maxLatency" label="MaxLatency"></el-table-column>
+                                    <el-table-column prop="median" label="Median"></el-table-column>
+                                    <el-table-column prop="latency90" label="Latency90"></el-table-column>
+                                    <el-table-column prop="latency95" label="Latency95"></el-table-column>
+                                    <el-table-column prop="latency99" label="Latency99"></el-table-column>
+                                    <el-table-column prop="throughput" label="Throughput"></el-table-column>
+                                </el-table>
                             </el-collapse-item>
                             </el-collapse>
                         </div>
@@ -635,7 +645,7 @@ class FlameData {
                         ],
                         series: bars[category].series.map(keyObj => keyObj[Object.keys(keyObj)[0]].map(innerObj => ({
                             data: innerObj[Object.keys(innerObj)[0]].map(val => category === 'memory' ? (val/1024/1024).toFixed(2) : (val*100).toFixed(2)),
-                            name: Object.keys(innerObj)[0],
+                            name: `(${Object.keys(keyObj)[0]})${Object.keys(innerObj)[0]}`,
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -708,7 +718,7 @@ class FlameData {
                 Vue.markRaw(this.myCt4.setOption({
                     series: seriesData.map(keyObj => keyObj[Object.keys(keyObj)[0]].map(innerObj => ({
                             data: innerObj[Object.keys(innerObj)[0]].map(val => (val/1024/1024).toFixed(2)),
-                            name: Object.keys(innerObj)[0],
+                            name: `(${Object.keys(keyObj)[0]})${Object.keys(innerObj)[0]}`,
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -740,7 +750,7 @@ class FlameData {
                 Vue.markRaw(this.myCt5.setOption({
                     series: seriesData.map(keyObj => keyObj[Object.keys(keyObj)[0]].map(innerObj => ({
                             data: innerObj[Object.keys(innerObj)[0]].map(val => (val*100).toFixed(2)),
-                            name: Object.keys(innerObj)[0],
+                            name: `(${Object.keys(keyObj)[0]})${Object.keys(innerObj)[0]}`,
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
