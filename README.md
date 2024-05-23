@@ -8,7 +8,7 @@ Pipeline solution to support building, deploying and automating any software pro
 
 #### 使用说明
 ##### 用户指南链接
-https://www.hikunpeng.com/document/detail/zh/nativedevp/userguide/install/NativeDevelopment_0011.html
+https://www.hikunpeng.com/document/detail/zh/nativedevp/userguide/install/NativeDevelopment_0001.html
 ##### Docker镜像生成
 1. [Docker镜像生成样例](./document/DockerFile配置/Docker镜像生成手册.md)
 
