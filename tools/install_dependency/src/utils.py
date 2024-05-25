@@ -1,35 +1,31 @@
 import os
 import sys
 import yaml
-import paramiko
-import socket
-import timeout_decorator
-
 from constant import ROLE_LIST, ROLE_COMPONENT
 
 CHECK_TAR_AVAILABLE_CMD = "which tar"
 CHECK_PERF_AVAILABLE_CMD = "which perf"
 MKDIR_TMP_DEVKITDEPENDENCIES_CMD = "mkdir -p /tmp/devkitdependencies"
-YUM_INSTALL_LKP_DEPENDENCIES_CMD = "sudo yum install -y make git wget rubygems"
 CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR = "[[ $(df -m /home | awk 'NR==2' | awk '{print $4}') -gt 17*1024 ]]"
 CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE = "[[ $(df -m /tmp | awk 'NR==2' | awk '{print $4}') -gt 1024 ]]"
+CHECK_OPT_SPACE_SUFFICIENT_FOR_PACKAGE = "[[ $(df -m /opt | awk 'NR==2' | awk '{print $4}') -gt 2048 ]]"
+CHECK_OPT_WRITE_PERMISSION = "[ -w /opt ]"
 CHECK_MIRROR_INSTALL_STATUS = "test -d /etc/yum.repos.d/yum.repos.backup"
-SHELL_FILE_LIST = ["install.sh", "check_install_result.sh"]
-global_value = {
-    "DEPLOY_ISO": False,
-    "component_list": [],
-    "deploy_component": [],
-    "ip": {}
 
-}
 
 PROMPT_MAP = {
-    CHECK_TAR_AVAILABLE_CMD: "'tar' command not available.",
-    CHECK_PERF_AVAILABLE_CMD: "'perf' command not available.",
+    CHECK_TAR_AVAILABLE_CMD: "'tar' command not available, \n"
+                             " please execute 'yum install tar -y' in remote machine.",
+    CHECK_PERF_AVAILABLE_CMD: "'perf' command not available, \n"
+                              " please execute 'yum install perf -y' in remote machine.",
     MKDIR_TMP_DEVKITDEPENDENCIES_CMD: "Directory /tmp/devkitdependencies not exists.",
-    YUM_INSTALL_LKP_DEPENDENCIES_CMD: "Yum install lkp dependencies failed.",
     CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR: "Machine /home space not sufficient for mirror.",
     CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE: "Machine /tmp space not sufficient for package.",
+    CHECK_OPT_SPACE_SUFFICIENT_FOR_PACKAGE: "Machine /opt space not sufficient for package.",
+    CHECK_OPT_WRITE_PERMISSION: "Machine /opt write permission not sufficient for current user, please consider \n"
+                                " 1. change /opt permission to 757 \n"
+                                " 2. add sudo permission to the install user\n"
+                                " 3. add sudo password-free to the install user\n",
     CHECK_MIRROR_INSTALL_STATUS: "Mirror mount status not correct.",
 }
 
@@ -69,18 +65,3 @@ def generate_component_list(yaml_dict):
             continue
         component_list.extend(ROLE_COMPONENT[role])
     return list(set(component_list))
-
-
-@timeout_decorator.timeout(100)
-def remote_exec_command(cmd, ssh_client, LOGGER, ip):
-    try:
-        stdin, stdout, stderr = ssh_client.exec_command(cmd, timeout=90)
-    except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
-        LOGGER.error(f"Remote machine {ip} exec '{cmd}' failed Please run this command in this machine.")
-        raise OSError(PROMPT_MAP.get(cmd, f"Remote machine {ip} exec '{cmd}' failed."))
-    exit_status = stdout.channel.recv_exit_status()
-    if exit_status == 0:
-        LOGGER.debug(f"Remote machine {ip} exec '{cmd}' success.")
-    else:
-        LOGGER.error(f"Remote machine {ip} exec '{cmd}' failed. Please run this command in this machine.")
-        raise OSError(PROMPT_MAP.get(cmd, f"Remote machine {ip} exec '{cmd}' failed."))

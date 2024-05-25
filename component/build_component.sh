@@ -10,16 +10,12 @@ final_component_dir=${build_dir}/component
 
 umask 077
 
-function build_lkp_tests() {
-    # 单独处理LkpTests
-    mkdir -p "${final_component_dir}"/LkpTests
+function build_devkit_tester() {
+    mkdir -p "${final_component_dir}"/DevKitTester
+    cp "${current_dir}"/DevKitTester/install.sh "${final_component_dir}"/DevKitTester
+    cp "${current_dir}"/DevKitTester/check_install_result.sh "${final_component_dir}"/DevKitTester
 
-    cp -rf "${current_dir}"/LkpTests/install.sh "${final_component_dir}"/LkpTests
-    cp -rf "${current_dir}"/LkpTests/check_install_result.sh "${final_component_dir}"/LkpTests
-}
-
-function build_devkit_distributor() {
-    bash "${current_dir}"/DevKitTester/build_devkit_tester.sh
+    # bash "${current_dir}"/DevKitTester/build_devkit_tester.sh
 }
 
 function build_devkit_installer() {
@@ -34,15 +30,16 @@ function main() {
     mkdir -p "${final_component_dir}"
 
     component_arrays=(
-        "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "GCCforOpenEuler" "OpenEulerMirrorISO" "CompatibilityTesting" "NonInvasiveSwitching" "A-FOT"
-        "DevKitCLI" "clamAV"
+        "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "GCCforOpenEuler"
+        "CompatibilityTesting" "NonInvasiveSwitching" "A-FOT"
+        "DevKitCLI" "ClamAV"
     )
     for element in "${component_arrays[@]}"; do
         cp -rf "${current_dir}/${element}" "${final_component_dir}"
     done
 
-    build_lkp_tests
-    build_devkit_distributor
+    rm -fr "${final_component_dir}/{DevKitTester, DevKitWeb, OpenEulerMirrorISO}"
+    build_devkit_tester
     build_devkit_installer
 }
 

@@ -1,50 +1,52 @@
 BiShengCompiler = {
     "component_name": "BiShengCompiler",
     "file": "https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_compiler/BiShengCompiler-3.2.0-aarch64-linux.tar.gz",
-    "sha256": "https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_compiler/BiShengCompiler-3.2.0-aarch64-linux.tar.gz.sha256",
+    "file_size": "1051195289",
 }
 GCCforOpenEuler = {
     "component_name": "GCCforOpenEuler",
     "file": "https://mirrors.huaweicloud.com/kunpeng/archive/compiler/kunpeng_gcc/gcc-10.3.1-2023.12-aarch64-linux.tar.gz",
-    "sha256": "https://mirrors.huaweicloud.com/kunpeng/archive/compiler/kunpeng_gcc/gcc-10.3.1-2023.12-aarch64-linux.tar.gz.sha256",
+    "file_size": "274901693",
 }
 BiShengJDK8 = {
     "component_name": "BiShengJDK8",
     "file": "https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_jdk/bisheng-jdk-8u402-linux-aarch64.tar.gz",
-    "sha256": "https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_jdk/bisheng-jdk-8u402-linux-aarch64.tar.gz.sha256",
+    "file_size": "117055434",
 }
 BiShengJDK17 = {
     "component_name": "BiShengJDK17",
     "file": "https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_jdk/bisheng-jdk-17.0.10-linux-aarch64.tar.gz",
-    "sha256": "https://mirrors.huaweicloud.com/kunpeng/archive/compiler/bisheng_jdk/bisheng-jdk-17.0.10-linux-aarch64.tar.gz.sha256",
+    "file_size": "196772672",
 }
 
-
-LkpTests = {
-    "component_name": "LkpTests",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/lkp-tests.tar.gz",
-    "GemDependency": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/gem_dependencies.zip",
-    "CompatibilityTesting": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/compatibility_testing.tar.gz",
+CompatibilityTesting = {
+    "component_name": "CompatibilityTesting",
+    "file": "https://gitee.com/bdgl/devkit-pipeline/releases/download/compatibility_testing-v1.2/compatibility_testing.tar.gz",
+    "file_size": "76646378",
 }
 
-DevkitTester = {
+DevKitTester = {
     "component_name": "DevKitTester",
     "file": "https://gitee.com/zoupp/devkit_mirrors/raw/master/document/devkit_tester/package/devkit_tester.tar.gz",
+    "file_size": "13349798",
 }
 
 A_FOT = {
     "component_name": "A-FOT",
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v0.2/a-fot.tar.gz",
+    "file_size": "15740",
 }
 
 DevKitWeb = {
     "component_name": "DevKitWeb",
     "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-All-24.0.RC1-Linux-Kunpeng.tar.gz",
+    "file_size": "1013920336",
 }
 
 DevKitCLI = {
     "component_name": "DevKitCLI",
     "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz",
+    "file_size": "413491454",
 }
 
 

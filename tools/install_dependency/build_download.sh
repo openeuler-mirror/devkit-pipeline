@@ -8,7 +8,7 @@ project_dir=$(dirname $(dirname "${current_dir}"))
 
 umask 077
 
-build_dir=${project_dir}/build/download_dependency
+build_dir=${project_dir}/build/download_tool
 rm -rf "${build_dir}"
 mkdir -p "${build_dir}"
 
