@@ -84,10 +84,10 @@ component_collection_map = {
         }
     },
 
-    "DevkitDistribute": {
+    "DevKitTester": {
         "download file": {
-            URL: f"{download_config.DevkitDistribute.get(FILE)}",
-            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevkitDistribute.get(FILE).split('/')[-1])}",
+            URL: f"{download_config.DevkitTester.get(FILE)}",
+            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, download_config.DevkitTester.get(FILE).split('/')[-1])}",
             FILE_SIZE: "13349798",
         }
     },

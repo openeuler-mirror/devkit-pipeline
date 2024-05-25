@@ -1,0 +1,1001 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1713159115349,435,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,429,0,413
+1713159115788,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159115795,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115801,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159115809,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115815,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115821,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115827,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159115835,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115841,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115847,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159115854,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115860,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159115867,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159115874,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115880,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115886,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115892,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159115899,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115905,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115910,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115916,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115922,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115928,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115934,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115940,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159115947,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159115953,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115959,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159115966,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159115973,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115979,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115985,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115990,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159115996,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116002,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116008,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159116016,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116021,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116027,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116033,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116040,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116046,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116052,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159116060,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116066,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116072,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116078,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116084,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116090,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116096,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116102,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116108,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116114,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116120,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116126,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116131,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116137,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116143,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116149,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116155,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116161,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116167,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116172,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116180,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116185,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116191,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116198,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116203,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116208,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116214,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116220,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116225,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116230,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159116237,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116244,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116249,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116255,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116260,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116267,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116273,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116279,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116284,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116290,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116296,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116303,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159116311,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116316,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116322,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116327,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116333,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116339,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116344,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116349,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116354,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116360,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116365,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116370,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116376,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116381,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116387,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116393,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116399,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116404,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116410,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116416,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116421,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116427,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116432,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116437,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116443,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116448,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116455,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116460,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116467,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116472,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116477,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116483,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116488,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116494,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116500,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116505,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116511,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116517,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116523,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159116530,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116536,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116545,8,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159116556,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116562,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116568,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116573,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116578,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116584,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116589,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116595,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116601,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116606,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116612,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116617,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116623,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116628,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116633,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116640,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116645,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116647,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116649,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116654,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116655,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116657,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116658,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116659,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116660,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116662,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116663,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116664,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116665,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116667,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116668,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116669,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116674,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116675,2,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,2,0,0
+1713159116677,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116678,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116680,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116681,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116682,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116684,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116685,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116686,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116687,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116689,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116699,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116701,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116702,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116703,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116704,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116706,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116707,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116708,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116714,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116716,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116717,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116718,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116719,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116721,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116722,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116723,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116724,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116726,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116727,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116728,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116735,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116737,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116738,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116739,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116740,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116741,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116743,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116744,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116745,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116746,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116747,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116748,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116749,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116755,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116756,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116757,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116758,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116759,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116760,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116761,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116762,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116764,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116765,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116766,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116767,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116768,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116773,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116774,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116775,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116776,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116777,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116779,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116780,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116781,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116782,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116783,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116784,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116785,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116786,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116787,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116788,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116789,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116794,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116795,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116796,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116797,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116798,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116800,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116801,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116802,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116803,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116804,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116806,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116807,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116808,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116809,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116814,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116815,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116817,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116818,2,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,2,0,0
+1713159116820,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116821,2,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,2,0,0
+1713159116823,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116825,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116826,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116828,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116829,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116834,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116835,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116836,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116837,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116838,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116839,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116840,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116841,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116842,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116843,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116845,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116845,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116847,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116848,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116849,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116854,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116855,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116856,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116857,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116858,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116859,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116860,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116861,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116862,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116863,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116864,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116865,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116866,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116867,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116868,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116873,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116874,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116875,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116876,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116877,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116878,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116880,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116881,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116882,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116883,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116884,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116885,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116886,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116887,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116888,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116889,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116895,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116896,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116897,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116898,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116899,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116900,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116901,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116902,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116903,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116904,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116905,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116905,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116906,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116907,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116908,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159116914,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116915,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116916,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116917,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116918,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116919,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116920,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116921,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116922,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116923,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116924,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116925,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116926,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116927,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116928,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116929,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116934,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116935,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116936,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116937,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116938,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116939,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116941,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116942,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116943,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116944,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116945,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116946,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116947,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116948,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116949,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116955,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116956,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116957,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116959,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116960,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116961,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116962,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116963,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116964,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116965,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116966,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116967,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116968,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116969,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159116974,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116975,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116976,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116977,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116978,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116979,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116980,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116981,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116982,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116983,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116984,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116985,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116986,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116987,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116988,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159116989,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159116994,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116995,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116997,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159116998,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117000,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117001,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117002,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117003,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117004,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117005,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117006,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117007,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117008,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117009,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117014,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117015,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117016,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117016,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117017,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117018,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117019,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117020,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117021,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117022,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117023,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117024,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117025,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117026,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117027,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117027,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117028,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159117034,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117035,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117036,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117037,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117038,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117039,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117039,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117040,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117041,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117042,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117043,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117044,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117045,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117046,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117047,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117047,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117048,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117053,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117054,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117055,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117056,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117057,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117058,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117059,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117060,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117061,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117062,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117062,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117063,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117064,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117065,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117066,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117067,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117068,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117069,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117074,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117075,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117076,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117077,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117078,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117078,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117079,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117080,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117081,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117082,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117083,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117084,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117085,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117086,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117086,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117087,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117088,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117089,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159117095,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117096,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117097,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117097,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117098,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117100,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117101,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117102,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117103,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117104,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117105,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117107,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117108,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117109,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159117115,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117116,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117117,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117117,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117118,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117119,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117120,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117121,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117122,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117123,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117124,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117124,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117125,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117126,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117127,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117128,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117129,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117133,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117134,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117135,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117136,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117137,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117138,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117139,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117140,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117141,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117142,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117143,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117143,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117144,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117145,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117146,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117150,7,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,7,0,0
+1713159117158,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117159,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117160,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117161,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117162,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117163,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117164,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117165,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117166,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117167,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117168,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117169,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117173,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117175,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117176,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117177,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117178,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117179,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117179,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117180,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117181,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117182,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117183,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117183,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117184,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117185,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117186,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117187,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117188,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117189,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117194,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117195,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117196,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117196,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117197,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117198,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117199,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117200,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117200,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117201,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117202,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117203,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117204,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117204,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117205,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117206,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117207,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117208,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117209,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117214,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117215,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117215,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117216,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117217,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117218,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117219,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117220,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117220,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117221,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117222,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117223,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117223,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117224,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117225,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117226,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117227,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117228,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117228,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117233,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117234,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117235,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117236,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117237,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117238,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117239,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117239,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117240,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117241,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117242,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117243,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117244,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117244,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117245,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117246,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117247,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117248,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117249,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117254,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117255,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117256,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117257,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117258,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117259,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117260,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117261,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117261,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117262,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117263,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117264,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117265,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117265,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117266,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117267,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117268,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117269,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117273,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117274,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117275,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117276,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117277,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117278,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117278,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117279,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117280,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117281,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117281,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117282,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117283,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117284,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117285,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117286,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117286,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117287,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117288,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117289,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117294,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117295,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117298,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117299,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117301,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117301,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117302,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117303,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117304,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117305,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117306,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117307,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117308,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117309,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117314,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117315,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117316,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117317,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117318,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117318,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117319,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117320,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117321,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117321,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117322,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117323,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117324,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117324,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117325,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117326,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117327,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117327,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117328,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117329,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117334,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117335,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117336,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117337,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117338,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117338,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117339,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117340,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117341,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117341,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117342,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117343,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117343,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117344,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117345,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117346,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117347,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117348,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117348,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117353,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117354,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117355,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117356,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117356,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117357,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117358,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117359,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117359,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117360,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117361,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117362,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117363,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117363,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117364,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117365,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117366,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117366,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117367,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117368,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117369,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117373,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117374,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117375,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117375,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117376,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117377,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117378,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117378,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117379,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117380,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117381,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117382,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117382,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117383,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117384,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117384,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117385,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117386,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117387,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117387,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117388,6,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,6,0,0
+1713159117394,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117395,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117395,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117396,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117397,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117398,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117398,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117399,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117400,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117401,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117401,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117402,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117403,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117404,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117405,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117405,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117406,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117407,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117408,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117408,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117409,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117414,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117415,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117415,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117416,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117417,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117417,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117418,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117419,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117420,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117421,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117421,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117422,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117423,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117424,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117424,2,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,2,0,0
+1713159117427,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117428,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117429,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117434,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117435,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117436,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117437,2,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,2,0,0
+1713159117439,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117440,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117441,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117442,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117443,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117444,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117445,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117446,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117446,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117447,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117448,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117449,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117454,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117455,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117456,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117457,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117457,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117458,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117459,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117459,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117460,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117461,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117462,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117462,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117463,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117464,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117464,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117465,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117466,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117467,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117467,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117468,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117469,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117474,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117475,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117476,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117477,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117477,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117478,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117479,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117479,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117480,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117481,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117481,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117482,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117483,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117488,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117489,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117494,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117495,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117496,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117496,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117497,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117498,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117499,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117499,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117500,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117501,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117501,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117502,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117503,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117503,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117504,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117505,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117506,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117506,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117507,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117508,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117508,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117513,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117514,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117515,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117515,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117516,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117517,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117517,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117518,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117519,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117520,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117520,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117521,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117522,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117522,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117523,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117524,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117524,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117525,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117526,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117527,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117527,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117528,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117529,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117534,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117534,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117535,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117536,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117536,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117537,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117538,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117538,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117539,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117540,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117540,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117541,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117542,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117542,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117543,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117544,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117544,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117545,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117546,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117546,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117547,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117548,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117548,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117553,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117554,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117555,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117555,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117556,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117557,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117558,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117559,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117560,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117561,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117561,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117562,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117563,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117564,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117564,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117565,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117566,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117566,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117567,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117568,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117569,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117574,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117574,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117575,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117576,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117576,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117577,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117577,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117578,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117579,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117580,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117580,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117581,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117582,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117582,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117583,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117584,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117584,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117585,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117585,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117586,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117587,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117587,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117588,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117588,5,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,5,0,0
+1713159117593,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117594,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117595,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117595,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117596,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117597,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117597,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117598,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117599,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117599,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117600,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117600,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117601,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117602,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117602,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117603,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117603,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117604,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117605,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117605,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117606,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117606,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117607,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117608,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117608,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117609,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117613,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117614,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117615,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117615,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117616,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117616,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117617,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117618,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117618,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117619,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117619,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117620,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117620,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117621,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117622,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117622,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117623,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117624,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117624,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117625,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117625,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117626,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117626,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117627,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117628,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117628,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117629,4,Login HTTP Request,200,OK,Thread Group 1-1,text,true,,632,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,4,0,0
+1713159117633,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117634,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117635,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117635,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117636,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117637,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117637,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117638,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117638,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117639,0,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0
+1713159117639,1,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,769,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,1,0,0
+1713159117640,3,Login HTTP Request,503,Service Temporarily Unavailable,Thread Group 1-1,text,false,,764,156,1,1,https://10.175.119.223:8086/framework/api/v1.0/sso-status/list/,0,0,0

@@ -2,23 +2,23 @@ import logging
 import socket
 
 import constant
-from handler.handler_and_node import Handler
-from exception.connect_exception import ConnectException
 from constant import ROLE_COMPONENT, ROLE_LIST
-from utils import global_value
+from deploy.a_fot_deploy import AFotDeploy
+from deploy.bisheng_compiler_deploy import BiShengCompilerDeploy
 from deploy.bisheng_jdk17_deploy import BiShengJDK17Deploy
 from deploy.bisheng_jdk8_deploy import BiShengJDK8Deploy
-from deploy.devkitcli_deploy import DevkitCLIDeploy
-from deploy.gcc_deploy import GccDeploy
-from deploy.bisheng_compiler_deploy import BiShengCompilerDeploy
-from deploy.switch_deploy import SwitchDeploy
-from deploy.lkptest_deploy import LkpTestDeploy
 from deploy.compatibility_test_deploy import CompatibilityDeploy
-from deploy.devkit_distribute_deploy import DevkitDistributeDeploy
+from deploy.devkit_distribute_deploy import DevkitTesterDeploy
+from deploy.devkitcli_deploy import DevkitCLIDeploy
 from deploy.devkitweb_deploy import DevkitWebDeploy
+from deploy.gcc_deploy import GccDeploy
+from deploy.lkptest_deploy import LkpTestDeploy
 from deploy.mount_mirror_deploy import MountISODeploy
+from deploy.switch_deploy import SwitchDeploy
 from deploy.unmount_mirror_deploy import UnMountISODeploy
-from deploy.a_fot_deploy import AFotDeploy
+from exception.connect_exception import ConnectException
+from handler.handler_and_node import Handler
+from utils import global_value
 
 LOGGER = logging.getLogger("install_dependency")
 ROLE_MAP = {
@@ -31,7 +31,7 @@ ROLE_MAP = {
     "NonInvasiveSwitching": SwitchDeploy,
     "LkpTests": LkpTestDeploy,
     "CompatibilityTesting": CompatibilityDeploy,
-    "DevkitDistribute": DevkitDistributeDeploy,
+    "DevkitTester": DevkitTesterDeploy,
     "DevKitWeb": DevkitWebDeploy,
     "OpenEulerMirrorISO": MountISODeploy,
     "UnOpenEulerMirrorISO": UnMountISODeploy

@@ -2,5 +2,5 @@
 from deploy.deploy_base import DeployBase
 
 
-class DevkitDistributeDeploy(DeployBase):
+class DevkitTesterDeploy(DeployBase):
     pass
