@@ -1,6 +1,7 @@
 import os
 import sys
 import yaml
+import logging
 from constant import ROLE_LIST, ROLE_COMPONENT
 
 CHECK_TAR_AVAILABLE_CMD = "which tar"
@@ -28,6 +29,8 @@ PROMPT_MAP = {
                                 " 3. add sudo password-free to the install user\n",
     CHECK_MIRROR_INSTALL_STATUS: "Mirror mount status not correct.",
 }
+
+LOGGER = logging.getLogger("deploy_tool")
 
 
 def validate_path(path: str) -> bool:

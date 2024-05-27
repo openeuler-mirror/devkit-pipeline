@@ -36,5 +36,7 @@ class DevkitWebDeploy(DeployBase):
         cmd = f"{os.path.join(base_path('component'), cls.component_name, 'devkit_installer')} " \
               f"-i {machine.ip} -u {machine.user} -p {machine.pkey} -paname {local_file.split('/')[-1]}"
         LOGGER.debug(f"Executing command: {cmd}")
-        subprocess.run(cmd.split(' '),
-                       capture_output=False, shell=False, stderr=subprocess.STDOUT)
+        result = subprocess.run(cmd.split(' '),
+                                capture_output=False, shell=False, stderr=subprocess.STDOUT)
+        if result.returncode == 0:
+            machine.component_dict[cls.component_name] = "install success."

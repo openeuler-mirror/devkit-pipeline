@@ -7,7 +7,7 @@ from machine.machine import Machine
 from exception.connect_exception import ConnectException
 from constant import ROLE_COMPONENT, ROLE_LIST
 
-LOGGER = logging.getLogger("install_dependency")
+LOGGER = logging.getLogger("deploy_tool")
 
 
 class ConnectCheck(Handler):

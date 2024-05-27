@@ -2,8 +2,6 @@ import logging
 
 from handler.handler_and_node import Node
 
-LOGGER = logging.getLogger("install_dependency")
-
 
 class PipeLine:
     """维护一个链表"""

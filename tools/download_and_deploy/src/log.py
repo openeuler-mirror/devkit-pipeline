@@ -3,7 +3,7 @@ import sys
 
 
 def config_logging(silent=False):
-    logger = logging.getLogger("install_dependency")
+    logger = logging.getLogger("deploy_tool")
     logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(

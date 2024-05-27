@@ -20,8 +20,6 @@ MACHINE = "machine"
 DEPENDENCY_FILE = "devkitdependencies.tar.gz"
 DEPENDENCY_DIR = "devkitdependencies"
 
-INSTRUCTION = "instruction"
-
 
 ROLE_LIST = [
     SCANNER,

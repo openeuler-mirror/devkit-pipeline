@@ -6,7 +6,7 @@ from download.download_utils import download_dependence
 from handler.handler_and_node import Handler
 from utils import generate_component_list
 
-LOGGER = logging.getLogger("install_dependency")
+LOGGER = logging.getLogger("deploy_tool")
 
 
 class GatherPackage(Handler):

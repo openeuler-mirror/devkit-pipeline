@@ -22,13 +22,13 @@ BiShengJDK17 = {
 CompatibilityTesting = {
     "component_name": "CompatibilityTesting",
     "file": "https://gitee.com/bdgl/devkit-pipeline/releases/download/compatibility_testing-v1.2/compatibility_testing.tar.gz",
-    "file_size": "76646378",
+    "file_size": "76451308",
 }
 
 DevKitTester = {
     "component_name": "DevKitTester",
-    "file": "https://gitee.com/zoupp/devkit_mirrors/raw/master/document/devkit_tester/package/devkit_tester.tar.gz",
-    "file_size": "13349798",
+    "file": "https://gitee.com/bdgl/devkit-pipeline/releases/download/compatibility_testing-v1.2/devkit_tester.tar.gz",
+    "file_size": "33426960",
 }
 
 A_FOT = {

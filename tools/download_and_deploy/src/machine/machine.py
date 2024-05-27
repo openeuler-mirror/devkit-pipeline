@@ -22,9 +22,9 @@ from component_install.clamav_deploy import ClamAVDeploy
 from exception.connect_exception import (CreatePkeyFailedException, ConnectRemoteException,
                                          NotMatchedMachineTypeException)
 
-from utils import validate_path
+from utils import validate_path, CHECK_TAR_AVAILABLE_CMD, MKDIR_TMP_DEVKITDEPENDENCIES_CMD
 
-LOGGER = logging.getLogger("install_dependency")
+LOGGER = logging.getLogger("deploy_tool")
 
 
 class Machine:
@@ -34,18 +34,11 @@ class Machine:
         self.pkey = pkey
         self.password = password
         self.check_is_aarch64()
-        self.component_list = []
-        self.mirrors = False
+        self.component_dict = dict()
 
-    def add_component(self, component):
-        self.component_list.extend(component)
-        self.component_list = list(set(self.component_list))
-
-    def get_components(self):
-        return self.component_list.copy()
-
-    def set_mirror(self):
-        self.mirrors = True
+    def add_component(self, components):
+        for component in components:
+            self.component_dict[component] = []
 
     def check_is_aarch64(self):
         machine_type = self.get_machine_type()
@@ -112,20 +105,24 @@ class Machine:
         return transport
 
     def install_components(self):
-        for component in self.component_list:
+        ssh_client = self.ssh_client()
+        DeployBase._remote_exec_command(self.ip, ssh_client, CHECK_TAR_AVAILABLE_CMD)
+        DeployBase._remote_exec_command(self.ip, ssh_client, MKDIR_TMP_DEVKITDEPENDENCIES_CMD)
+
+        for component in self.component_dict:
             self.install_component(component)
         DeployBase._clear_tmp_file_at_remote_machine(
-            self.ip, self.ssh_client(), [os.path.join("/tmp/", constant.DEPENDENCY_DIR)])
+            self.ip, ssh_client, [os.path.join("/tmp/", constant.DEPENDENCY_DIR)])
 
     def install_component(self, component_name):
         ssh_client = self.ssh_client()
         sftp_client = self.sftp_client()
         try:
             self.install_component_handler(component_name, sftp_client, ssh_client)
-        except timeout_decorator.TimeoutError as e:
-            LOGGER.error(f"Remote machine {self.ip} install {component_name} occur Error: Exec cmd {str(e)}")
-        except (FileNotFoundError, PermissionError, NotADirectoryError, OSError, IOError) as e:
+        except (timeout_decorator.TimeoutError, FileNotFoundError, PermissionError, NotADirectoryError,
+                OSError, IOError) as e:
             LOGGER.error(f"Remote machine {self.ip} install {component_name} occur Error: {str(e)}")
+            self.component_dict[component_name] = f"install failed. Error: {str(e)}"
         finally:
             ssh_client.close()
             sftp_client.close()

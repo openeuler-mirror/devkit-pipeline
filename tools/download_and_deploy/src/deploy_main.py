@@ -3,8 +3,6 @@ import subprocess
 import sys
 import logging
 
-
-import constant
 from log import config_logging
 from deploy.deploy_command_line import process_command_line, CommandLine
 
@@ -13,10 +11,11 @@ from handler.base_yaml_check import BaseCheck
 from handler.connect_check import ConnectCheck
 from handler.gather_package import GatherPackage
 from handler.install_package import InstallPackage
+from handler.result_report import ResultReport
 from utils import read_yaml_file
 
-LOGGER = logging.getLogger("install_dependency")
-PIPELINE = [BaseCheck(), ConnectCheck(), GatherPackage(), InstallPackage()]
+LOGGER = logging.getLogger("deploy_tool")
+PIPELINE = [BaseCheck(), ConnectCheck(), GatherPackage(), InstallPackage(), ResultReport()]
 ISO_VERIFY_FLAG_STRING = "ISO 9660 CD-ROM filesystem data"
 
 
@@ -42,12 +41,6 @@ if __name__ == '__main__':
                              class_list=[CommandLine])
         config_logging(CommandLine.silent)
         config_dict = read_yaml_file(CommandLine.yaml_path)
-
-        if CommandLine.iso_path:
-            config_dict[constant.INSTRUCTION] = "deploy_iso"
-            check_iso_available(CommandLine.iso_path)
-        else:
-            config_dict[constant.INSTRUCTION] = "default"
         LOGGER.debug(f"-- config_dict: {config_dict}")
 
         pipe = PipeLine(config_dict)

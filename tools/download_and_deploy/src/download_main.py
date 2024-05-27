@@ -12,7 +12,7 @@ from handler.gather_package import GatherPackage
 from handler.compress_dep import CompressDep
 
 from utils import read_yaml_file
-from constant import URL, SAVE_PATH, FILE, SHA256, FILE_SIZE, INSTRUCTION
+from constant import URL, SAVE_PATH, FILE, SHA256, FILE_SIZE
 
 
 PIPELINE = [BaseCheck(), GatherPackage(), CompressDep()]
@@ -83,7 +83,7 @@ if __name__ == '__main__':
                 print("Download iso failed.")
             sys.exit(0)
         config_dict = read_yaml_file(CommandLine.yaml_path)
-        config_dict[INSTRUCTION] = "default"
+
         pipe = PipeLine(config_dict)
         pipe.add_tail(*PIPELINE)
         pipe.start()

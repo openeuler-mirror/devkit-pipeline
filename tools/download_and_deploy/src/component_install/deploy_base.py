@@ -11,7 +11,7 @@ from utils import (base_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD,
                    CHECK_TAR_AVAILABLE_CMD, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE,
                    PROMPT_MAP)
 
-LOGGER = logging.getLogger("install_dependency")
+LOGGER = logging.getLogger("deploy_tool")
 
 
 class DeployBase:
@@ -78,18 +78,20 @@ class DeployBase:
 
         if install_result == "true":
             LOGGER.info(f"Remote machine {machine.ip} install {cls.component_name} success.")
+            machine.component_dict[cls.component_name] = "install success."
         else:
             LOGGER.error(f"Remote machine {machine.ip} install {cls.component_name} failed.")
+            machine.component_dict[cls.component_name] = "install failed."
 
     @classmethod
     def after_install(cls, machine, sftp_client, ssh_client):
         cls._clear_tmp_file_at_remote_machine(machine.ip, ssh_client, cls.remote_file_list)
 
     @classmethod
-    @timeout_decorator.timeout(100)
+    @timeout_decorator.timeout(300)
     def _remote_exec_command(cls, ip, ssh_client, cmd):
         try:
-            stdin, stdout, stderr = ssh_client.exec_command(cmd, timeout=90)
+            stdin, stdout, stderr = ssh_client.exec_command(cmd, timeout=299)
         except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
             LOGGER.error(f"Remote machine {ip} exec '{cmd}' failed Please run this command in this machine.")
             raise OSError(PROMPT_MAP.get(cmd, f"Remote machine {ip} exec '{cmd}' failed."))
@@ -112,7 +114,11 @@ class DeployBase:
                      f"remote_file: {sh_file_remote_path}")
         sftp_client.put(localpath=sh_file_local_path, remotepath=sh_file_remote_path)
 
-        stdin, stdout, stderr = ssh_client.exec_command(sh_cmd)
+        try:
+            stdin, stdout, stderr = ssh_client.exec_command(sh_cmd)
+        except (paramiko.ssh_exception.SSHException, socket.timeout) as e:
+            LOGGER.error(f"Remote machine {ip} exec '{sh_cmd}' failed. {str(e)}")
+            raise OSError(f"Remote machine {ip} exec '{sh_cmd}' failed. {str(e)}")
         output = stdout.read().decode().strip()
         LOGGER.info(f"Remote machine {ip} '{sh_cmd}' output: {output}")
         return output
