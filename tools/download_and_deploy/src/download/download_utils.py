@@ -15,11 +15,9 @@ warnings.filterwarnings("ignore", message='Unverified HTTPS request')
 
 component_collection_map = {
     component.get("component_name"): {
-        "download file": {
-            URL: f"{component.get(FILE)}",
-            SAVE_PATH: f"{os.path.join(DEFAULT_PATH, component.get(FILE).split('/')[-1])}",
-            FILE_SIZE: f"{component.get(FILE_SIZE)}",
-        }
+        URL: f"{component.get(FILE)}",
+        SAVE_PATH: f"{os.path.join(DEFAULT_PATH, component.get(FILE).split('/')[-1])}",
+        FILE_SIZE: f"{component.get(FILE_SIZE)}",
     } for component in (
         download_config.BiShengCompiler,
         download_config.GCCforOpenEuler,
@@ -45,24 +43,13 @@ def download_dependence(component_list):
     for component_name in component_collection_map:
         if component_name not in component_list:
             continue
-        shell_dict = component_collection_map.get(component_name)
-        ret = ret and download_dependence_handler(shell_dict)
+        url_and_save_path = component_collection_map.get(component_name)
+        ret = ret and download_dependence_file(url_and_save_path)
     return ret
 
 
-def download_dependence_handler(shell_dict):
+def download_dependence_file(url_and_save_path):
     ret = True
-    for shell_cmd in shell_dict:
-        try:
-            ret = ret and download_dependence_file(shell_cmd, shell_dict)
-        except Exception as e:
-            ret = False
-    return ret
-
-
-def download_dependence_file(shell_cmd, shell_dict):
-    ret = True
-    url_and_save_path = shell_dict.get(shell_cmd)
     url_ = url_and_save_path.get("url")
     save_path = url_and_save_path.get("save_path")
     file_size = url_and_save_path.get("file_size")
@@ -82,7 +69,6 @@ def download_dependence_file(shell_cmd, shell_dict):
               f"\nPlease visit following url and download dependencies to default directory."
               f"\n\t{url_}"
               )
-        raise OSError(f"download error occurs: {str(e)}")
 
     if not os.path.isfile(save_path) or not str(os.path.getsize(save_path)) == file_size:
         print(f"[ERROR] Download dependencies failed. "

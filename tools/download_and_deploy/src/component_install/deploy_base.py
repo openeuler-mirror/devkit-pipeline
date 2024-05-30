@@ -38,16 +38,14 @@ class DeployBase:
         cls._remote_exec_command(machine.ip, ssh_client, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE)
 
         # 上传 .tar.gz 文件
-        shell_dict = component_collection_map.get(cls.component_name)
-        for shell_cmd in shell_dict:
-            url_and_save_path = shell_dict.get(shell_cmd)
-            local_file = url_and_save_path.get("save_path")
-            remote_file = os.path.abspath(os.path.join('/tmp', constant.DEPENDENCY_DIR, local_file.split('/')[-1]))
-            LOGGER.debug(f"Transport local_file: {local_file} to remote machine {machine.ip} "
-                         f"remote_file: {remote_file}")
+        url_and_save_path = component_collection_map.get(cls.component_name)
+        local_file = url_and_save_path.get("save_path")
+        remote_file = os.path.abspath(os.path.join('/tmp', constant.DEPENDENCY_DIR, local_file.split('/')[-1]))
+        LOGGER.debug(f"Transport local_file: {local_file} to remote machine {machine.ip} "
+                     f"remote_file: {remote_file}")
 
-            # cls.remote_file_list.append(remote_file)
-            sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
+        # cls.remote_file_list.append(remote_file)
+        sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
 
     @classmethod
     def install(cls, machine, sftp_client, ssh_client):
