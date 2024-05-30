@@ -3,7 +3,7 @@ import subprocess
 
 from download.download_utils import component_collection_map
 from component_install.deploy_base import DeployBase, LOGGER
-from utils import base_path, CHECK_OPT_SPACE_SUFFICIENT_FOR_PACKAGE, CHECK_OPT_WRITE_PERMISSION
+from utils import base_path, CHECK_OPT_SPACE_SUFFICIENT_FOR_PACKAGE, CHECK_SUDO_PERMISSION
 
 
 class DevkitWebDeploy(DeployBase):
@@ -14,7 +14,7 @@ class DevkitWebDeploy(DeployBase):
 
     @classmethod
     def before_upload(cls, machine, sftp_client, ssh_client):
-        cls._remote_exec_command(machine.ip, ssh_client, CHECK_OPT_WRITE_PERMISSION)
+        cls._remote_exec_command(machine.ip, ssh_client, CHECK_SUDO_PERMISSION)
         cls._remote_exec_command(machine.ip, ssh_client, CHECK_OPT_SPACE_SUFFICIENT_FOR_PACKAGE)
 
     @classmethod
@@ -34,7 +34,7 @@ class DevkitWebDeploy(DeployBase):
     def install(cls, machine, sftp_client, ssh_client):
         local_file = component_collection_map.get(cls.component_name).get("download file").get("save_path")
         cmd = f"{os.path.join(base_path('component'), cls.component_name, 'devkit_installer')} " \
-              f"-i {machine.ip} -u {machine.user} -p {machine.pkey} -paname {local_file.split('/')[-1]}"
+              f"-i {machine.ip} -u {machine.user} -p {machine.pkey} -paname {local_file.split('/')[-1]} --debug"
         LOGGER.debug(f"Executing command: {cmd}")
         result = subprocess.run(cmd.split(' '),
                                 capture_output=False, shell=False, stderr=subprocess.STDOUT)

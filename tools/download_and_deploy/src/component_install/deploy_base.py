@@ -8,7 +8,7 @@ import constant
 
 from download.download_utils import component_collection_map
 from utils import (base_path, MKDIR_TMP_DEVKITDEPENDENCIES_CMD,
-                   CHECK_TAR_AVAILABLE_CMD, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE,
+                   CHECK_TAR_AVAILABLE_CMD, CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE, CHECK_SUDO_PERMISSION,
                    PROMPT_MAP)
 
 LOGGER = logging.getLogger("deploy_tool")
@@ -28,7 +28,8 @@ class DeployBase:
 
     @classmethod
     def before_upload(cls, machine, sftp_client, ssh_client):
-        pass
+        if cls.sudo:
+            cls._remote_exec_command(machine.ip, ssh_client, CHECK_SUDO_PERMISSION)
 
     @classmethod
     def upload(cls, machine, sftp_client, ssh_client):
@@ -58,10 +59,7 @@ class DeployBase:
             sh_file_local_path = os.path.join(base_path("component"), cls.component_name, shell_file)
             sh_file_remote_path = os.path.join("/tmp/", constant.DEPENDENCY_DIR, cls.component_name + shell_file)
 
-            if cls.sudo:
-                sh_cmd = f"sudo bash {sh_file_remote_path}"
-            else:
-                sh_cmd = f"bash {sh_file_remote_path}"
+            sh_cmd = f"bash {sh_file_remote_path}"
 
             execute_output = (
                 cls._transport_shell_file_and_execute(

@@ -10,4 +10,3 @@ class CompatibilityDeploy(DeployBase):
         os.path.join("/tmp", constant.DEPENDENCY_DIR, "CompatibilityTesting" + "install.sh"),
         os.path.join("/tmp", constant.DEPENDENCY_DIR, "CompatibilityTesting" + "check_install_result.sh"),
     ]
-    sudo = True

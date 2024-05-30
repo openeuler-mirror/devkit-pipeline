@@ -41,10 +41,7 @@ class DevKitInstaller:
                                                             plugin="java_perf",
                                                             rpc_port=50051)
         if not install_result:
-            LOGGER.error(f"Install DevKit failed. Here are some reasons \n"
-                         f"1. /opt directory permission is not 757, plz change it to 757\n"
-                         f"2. the install user doesn't have sudo permission\n"
-                         f"3. the install user doesn't have sudo password-free\n")
+            LOGGER.error(f"Install DevKit failed.")
             sys.exit(1)
         LOGGER.info(f"Install DevKit success.")
 
