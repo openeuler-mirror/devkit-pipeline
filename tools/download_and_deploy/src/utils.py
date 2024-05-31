@@ -10,6 +10,7 @@ MKDIR_TMP_DEVKITDEPENDENCIES_CMD = "mkdir -p /tmp/devkitdependencies"
 CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR = "[[ $(df -m /home | awk 'NR==2' | awk '{print $4}') -gt 17*1024 ]]"
 CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE = "[[ $(df -m /tmp | awk 'NR==2' | awk '{print $4}') -gt 1024 ]]"
 CHECK_OPT_SPACE_SUFFICIENT_FOR_PACKAGE = "[[ $(df -m /opt | awk 'NR==2' | awk '{print $4}') -gt 2048 ]]"
+CHECK_OPT_WRITE_PERMISSION = "[ -w /opt ]"
 CHECK_SUDO_PERMISSION = "sudo -v &>/dev/null"
 CHECK_MIRROR_INSTALL_STATUS = "test -d /etc/yum.repos.d/yum.repos.backup"
 
@@ -23,6 +24,8 @@ PROMPT_MAP = {
     CHECK_HOME_SPACE_SUFFICIENT_FOR_MIRROR: "Machine /home space not sufficient for mirror.",
     CHECK_TMP_SPACE_SUFFICIENT_FOR_PACKAGE: "Machine /tmp space not sufficient for package.",
     CHECK_OPT_SPACE_SUFFICIENT_FOR_PACKAGE: "Machine /opt space not sufficient for package.",
+    CHECK_OPT_WRITE_PERMISSION: "Machine /opt write permission not sufficient for current user, \n"
+                                " please consider using root to install this component or change /opt permission to 757.",
     CHECK_SUDO_PERMISSION: "Machine sudo permission not configure for current user, please consider \n"
                            " 1. add sudo permission to current user.\n"
                            " 2. add sudo password-free to current user.\n",
