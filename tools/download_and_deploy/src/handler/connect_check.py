@@ -24,8 +24,11 @@ class ConnectCheck(Handler):
         machine_list = data.get(role)
         for ip in machine_list:
             try:
-                machine_instance = data[constant.MACHINE].get(ip, Machine(ip, data[constant.USER], data[constant.PKEY],
-                                                                          data.get(constant.PASSWORD, None)))
+                machine_instance = data[constant.MACHINE].get(ip, None)
+                if not machine_instance:
+                    machine_instance = Machine(ip, data[constant.USER], data[constant.PKEY],
+                                               data.get(constant.PASSWORD, None))
+
                 machine_instance.add_component(ROLE_COMPONENT[role])
                 data[constant.MACHINE][ip] = machine_instance
             except ConnectException:
