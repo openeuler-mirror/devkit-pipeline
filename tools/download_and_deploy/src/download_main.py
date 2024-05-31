@@ -20,11 +20,9 @@ PIPELINE = [BaseCheck(), GatherPackage(), CompressDep()]
 
 iso_collection_map = {
     component.get("component_name"): {
-        "download file": {
-            URL: f"{component.get(FILE)}",
-            SAVE_PATH: f"{os.path.join('./', component.get(FILE).split('/')[-1])}",
-            FILE_SIZE: f"{component.get(FILE_SIZE)}",
-        },
+        URL: f"{component.get(FILE)}",
+        SAVE_PATH: f"{os.path.join('./', component.get(FILE).split('/')[-1])}",
+        FILE_SIZE: f"{component.get(FILE_SIZE)}",
     } for component in (
         download_config.OpenEuler_2003_LTS,
         download_config.OpenEuler_2003_LTS_SP1,
@@ -65,11 +63,11 @@ def download_iso():
                                     .replace("-", "_"))
         print(f"Auto detect operating system version: {CommandLine.download_iso}")
 
-    shell_dict = iso_collection_map.get(CommandLine.download_iso, "")
-    if not shell_dict:
+    url_and_save_path = iso_collection_map.get(CommandLine.download_iso, "")
+    if not url_and_save_path:
         print("Please check /etc/os-release is changed or not.")
         return False
-    return download_dependence_file("download file", shell_dict)
+    return download_dependence_file(url_and_save_path)
 
 
 if __name__ == '__main__':
