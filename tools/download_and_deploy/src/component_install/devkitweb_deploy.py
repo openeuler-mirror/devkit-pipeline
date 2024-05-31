@@ -27,7 +27,13 @@ class DevkitWebDeploy(DeployBase):
                      f"remote_file: {remote_file}")
 
         # cls.remote_file_list.append(remote_file)
-        sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
+        try:
+            sftp_client.put(localpath=f"{local_file}", remotepath=f"{remote_file}")
+        except Exception as e:
+            devkitweb_prompt = f"Remote machine copy {cls.component_name} failed. " \
+                               f"Please check /opt write permission and /opt/DevKit-All-24.0.RC1-Linux-Kunpeng.tar.gz exists."
+            LOGGER.error(devkitweb_prompt)
+            raise IOError(devkitweb_prompt)
 
     @classmethod
     def install(cls, machine, sftp_client, ssh_client):
