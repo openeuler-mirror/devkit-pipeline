@@ -3,8 +3,8 @@
 ### 创建Dockerfile，内容例如：
 
 ```dockerfile
-#基础镜像，以openeuler 20.03 lts sp2为例
-from openeuler-20.03-lts-sp2:latest
+#基础镜像，以openeuler-22.03-lts-sp3为例
+from openeuler-22.03-lts-sp3:latest
 
 #解压缩资源包
 ADD DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz /usr/local/
@@ -61,13 +61,13 @@ docker run -it -d --name devkit-cli-container devkit-cli /bin/bash
 docker exec -it devkit-cli-container /bin/bash 
 ```
 
-进入容器后，执行以下命令启动开启ssh访问
+进入容器后，执行以下命令开启ssh访问
 ```
 /usr/sbin/sshd
 ```
 ![](06_进入容器开启sshd.png)
 
-退出容器，执行以下命令验证ssh连接是否正常，jenkins为自定义用户，需和dockerfile内保持一致
+退出容器，执行以下命令输入密码验证ssh连接是否正常，jenkins为自定义用户，需和dockerfile内保持一致, 172.17.0.5是容器ip，按实际填写
 ```
 ssh jenkins@172.17.0.5
 ```
