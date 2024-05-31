@@ -11,7 +11,8 @@ MAX_SET = (constant.USER, constant.PKEY, constant.PASSWORD,
            constant.SCANNER,
            constant.C_BUILDER, constant.C_BUILDER_GCC, constant.C_BUILDER_BISHENG_COMPILER,
            constant.JAVA_BUILDER, constant.JAVA_BUILDER_JDK8, constant.JAVA_BUILDER_JDK17,
-           constant.EXECUTOR, constant.DEVKIT, constant.CLAMAV)
+           constant.EXECUTOR, constant.COMPATIBILITY, constant.TESTER,
+           constant.DEVKIT, constant.CLAMAV)
 
 
 class BaseCheck(Handler):
