@@ -5,15 +5,15 @@ function main() {
 set -x
 "${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang "$@" -mcpu=tsv110 -O3 -g
 EOF
-      cat > "${HOME}"/.local/wrap-bin/clang++ <<'EOF'
+    cat > "${HOME}"/.local/wrap-bin/clang++ <<'EOF'
 set -x
 "${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang++ "$@" -mcpu=tsv110 -O3 -g
 EOF
-      cat > "${HOME}"/.local/wrap-bin/gcc <<'EOF'
+    cat > "${HOME}"/.local/wrap-bin/gcc <<'EOF'
 set -x
 "${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang "$@" -mcpu=tsv110 -O3 -g
 EOF
-      cat > "${HOME}"/.local/wrap-bin/g++ <<'EOF'
+    cat > "${HOME}"/.local/wrap-bin/g++ <<'EOF'
 set -x
 "${HOME}"/.local/BiShengCompiler-3.2.0-aarch64-linux/bin/clang++ "$@" -mcpu=tsv110 -O3 -g
 EOF

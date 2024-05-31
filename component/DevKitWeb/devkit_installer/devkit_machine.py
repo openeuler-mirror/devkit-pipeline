@@ -70,10 +70,15 @@ class DevKitMachine:
         ssh_client = self.ssh_client()
         if not ssh_client:
             return False
-        ret = self.decompress_package_handle(ssh_client, package_path, package_name)
+        try:
+            ret = self.decompress_package_handle(ssh_client, package_path, package_name)
+        except (timeout_decorator.TimeoutError, Exception) as e:
+            LOGGER.error(f"Remote machine {self.ip} install DevKitWeb occur Error: decompress package failed. {str(e)}")
+            ret = False
         ssh_client.close()
         return ret
 
+    @timeout_decorator.timeout(60)
     def decompress_package_handle(self, ssh_client, package_dir, package_name):
         package_file = os.path.join(package_dir, package_name)
         stdin, stdout, stderr = ssh_client.exec_command(f"ls {package_file}")
@@ -131,14 +136,20 @@ class DevKitMachine:
 
         while result.find(error_special_end) != -1:
             # 授权工具安装继续运行
-            result = self.channel_send_cmd(channel=channel, cmd="y\n", special_end=special_end,
-                                           error_special_end=error_special_end, timeout=300)
+            try:
+                result = self.channel_send_cmd(channel=channel, cmd="y\n", special_end=special_end,
+                                               error_special_end=error_special_end, timeout=300)
+            except (timeout_decorator.TimeoutError, Exception) as e:
+                LOGGER.error(f"Remote machine {self.ip} install DevKitWeb occur Error: {str(e)}. "
+                             f"Please install DevKitWeb manually.")
+
         if result.find(special_end) != -1:
             ssh_client.close()
             return True
         ssh_client.close()
         return False
 
+    @timeout_decorator.timeout(300)
     def channel_send_cmd(self, channel, cmd, special_end, error_special_end, timeout=60):
         buff_decode = ""
         try:

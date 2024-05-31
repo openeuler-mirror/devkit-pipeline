@@ -3,13 +3,10 @@ build
 .idea
 .venv
 __pycache__
-tools/install_dependency/src/component
-component/LkpTests/compatibility_help/compatibility_testing
-component/LkpTests/compatibility_help/compatibility_testing.tar.gz
-component/LkpTests/lkp_help/lkp-tests.tar.gz
+devkitdependencies
+
 component/DevKitTester/devkit_tester/config/log.ini
 component/DevKitTester/devkit_tester/config/devkit_distribute.yaml
-devkitdependencies
 component/DevKitTester/JFRParser/.idea
 component/DevKitTester/JFRParser/.gitignore
 component/DevKitTester/JFRParser/target

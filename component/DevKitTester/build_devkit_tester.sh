@@ -46,6 +46,6 @@ cp -rf "${current_dir}"/JFRParser/target/JFRParser/* devkit_tester
 
 tar -czf devkit_tester.tar.gz devkit_tester
 
-mkdir -p "${project_dir}"/build/component/DevKitTester
-cp "${current_dir}/check_install_result.sh" "${project_dir}"/build/component/DevKitTester
-cp "${current_dir}/install.sh" "${project_dir}"/build/component/DevKitTester
+# mkdir -p "${project_dir}"/build/component/DevKitTester
+# cp -rf "${current_dir}/check_install_result.sh" "${project_dir}"/build/component/DevKitTester
+# cp -rf "${current_dir}/install.sh" "${project_dir}"/build/component/DevKitTester
