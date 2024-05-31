@@ -48,6 +48,9 @@
             fill-opacity: 1 !important;
             stroke-opacity: 1 !important;
         }
+        .middle-header-row {
+            text-align: center !important;
+        }
     </style>
 </head>
 <body>
@@ -94,27 +97,35 @@
                             <h3>Summary</h3>
                             <el-collapse v-model="activeCollapseName">
                             <el-collapse-item title="Messages" :name="0">
-                                <el-table :data="summary" stripe style="width: 100%">
-                                    <el-table-column prop="label" label="Label"></el-table-column>
-                                    <el-table-column prop="samples" label="Samples"></el-table-column>
-                                    <el-table-column prop="failSamples" label="FailSamples"></el-table-column>
-                                    <el-table-column prop="averageLatency" label="AverageLatency"></el-table-column>
-                                    <el-table-column prop="minLatency" label="MinLatency"></el-table-column>
-                                    <el-table-column prop="maxLatency" label="MaxLatency"></el-table-column>
-                                    <el-table-column prop="median" label="Median"></el-table-column>
-                                    <el-table-column prop="latency90" label="Latency90"></el-table-column>
-                                    <el-table-column prop="latency95" label="Latency95"></el-table-column>
-                                    <el-table-column prop="latency99" label="Latency99"></el-table-column>
-                                    <el-table-column prop="throughput" label="Throughput"></el-table-column>
+                                <el-table :data="summary" stripe style="width: 100%" header-cell-class-name="middle-header-row">
+                                    <el-table-column label="Request">
+                                        <el-table-column prop="label" label="Label" sortable></el-table-column>
+                                    </el-table-column>
+                                    <el-table-column label="Executions">
+                                        <el-table-column prop="samples" label="#Samples" sortable></el-table-column>
+                                        <el-table-column prop="failSamples" label="FAIL" sortable></el-table-column>
+                                    </el-table-column>
+                                    <el-table-column label="Response Times(ms)">
+                                        <el-table-column prop="averageLatency" label="Average" sortable></el-table-column>
+                                        <el-table-column prop="minLatency" label="Min" sortable></el-table-column>
+                                        <el-table-column prop="maxLatency" label="Max" sortable></el-table-column>
+                                        <el-table-column prop="median" label="Median" sortable></el-table-column>
+                                        <el-table-column prop="latency90" label="90th pct" sortable></el-table-column>
+                                        <el-table-column prop="latency95" label="95th pct" sortable></el-table-column>
+                                        <el-table-column prop="latency99" label="99th pct" sortable></el-table-column>
+                                    </el-table-column>
+                                    <el-table-column label="Throughput">
+                                        <el-table-column prop="throughput" label="Transactions/s" sortable></el-table-column>
+                                    </el-table-column>
                                 </el-table>
                             </el-collapse-item>
                             </el-collapse>
                         </div>
                         <h3>Charts</h3>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 30px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 70%;">
                             <h4>Response Time</h4>
                             <div>
-                                <el-text class="mx-1">TopN Jump </el-text>
+                                <el-text class="mx-1">Total Top 10 </el-text>
                                 <el-select v-model="rtTop" placeholder="Select" style="width: 240px" @change="rtJump">
                                     <el-option
                                         v-for="(item, index) in topNs.rt"
@@ -124,45 +135,14 @@
                                     />
                                 </el-select>
                             </div>
-                            <el-switch
-                                v-model="isUnfold"
-                                class="ml-2"
-                                style="--el-switch-on-color: rgb(246, 131, 73); --el-switch-off-color: black; float: right;"
-                                active-text="Unfold"
-                                inactive-text="Fold FlameGraph"
-                            ></el-switch>
                         </div>
                         <div style="width: 100%; height: 230px;">
                             <div id="ct1" style="width: 100%; height: 100%;"></div>
                         </div>
-                        <div :style="{'display': isUnfold ? 'block' : 'none'}" style="background: #f4f6fa; padding: 5px 10px; margin: 10px 0px; border-radius: 10px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 30px;">
-                                <h4>FlameGraph</h4>
-                                <el-input
-                                    v-model="ffgSearch"
-                                    style="max-width: 360px;"
-                                    placeholder="CallStack Search"
-                                    clearable
-                                    @input="searchInput"
-                                ></el-input>
-                                <div>
-                                    <el-text class="mx-1">Data Set </el-text>
-                                    <el-select v-model="selectVal" placeholder="Select" style="width: 240px" @change="flamesChange">
-                                        <el-option
-                                            v-for="item in selectOptions"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value"
-                                        />
-                                    </el-select>
-                                </div>
-                            </div>
-                            <svg id="ffg"></svg>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 30px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 70%;">
                             <h4>Failed Response Time</h4>
                             <div>
-                                <el-text class="mx-1">TopN Jump </el-text>
+                                <el-text class="mx-1">Total Top 10 </el-text>
                                 <el-select v-model="frtTop" placeholder="Select" style="width: 240px" @change="frtJump">
                                     <el-option
                                         v-for="(item, index) in topNs.frt"
@@ -172,15 +152,14 @@
                                     />
                                 </el-select>
                             </div>
-                            <div></div>
                         </div>
                         <div style="width: 100%; height: 230px;">
                             <div id="ct2" style="width: 100%; height: 100%;"></div>
                         </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 30px;">
-                            <h4>tps/qps</h4>
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 70%;">
+                            <h4>TPS/QPS</h4>
                             <div>
-                                <el-text class="mx-1">TopN Jump </el-text>
+                                <el-text class="mx-1">Total Top 10 </el-text>
                                 <el-select v-model="tpsTop" placeholder="Select" style="width: 240px" @change="tpsJump">
                                     <el-option
                                         v-for="(item, index) in topNs.tps"
@@ -190,46 +169,80 @@
                                     />
                                 </el-select>
                             </div>
-                            <div></div>
                         </div>
                         <div style="width: 100%; height: 230px;">
                             <div id="ct3" style="width: 100%; height: 100%;"></div>
                         </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 30px;">
-                            <h4>Memory Usage</h4>
-                            <div>
-                                <el-text class="mx-1">Node Select </el-text>
-                                <el-select v-model="memoryNode" placeholder="Select" style="width: 240px" @change="memoryChange">
-                                    <el-option
-                                        v-for="(item, index) in memoryIps"
-                                        :key="item"
-                                        :label="item"
-                                        :value="item"
-                                    />
-                                </el-select>
+                        <div v-for="(value, key, index) in memoryDatas" :key="index">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 70%;">
+                                <h4>Memory Usage [{{key}}]</h4>
+                                <div>
+                                    <el-text class="mx-1">Node Select </el-text>
+                                    <el-select v-model="memoryNode[index]" placeholder="Select" style="width: 240px" @change="() => memoryChange(key, index)">
+                                        <el-option
+                                            v-for="(item, index) in memoryNodes[key]"
+                                            :key="item"
+                                            :label="item"
+                                            :value="item"
+                                        />
+                                    </el-select>
+                                </div>
                             </div>
-                            <div></div>
-                        </div>
-                        <div style="width: 100%; height: 250px;">
-                            <div id="ct4" style="width: 100%; height: 100%;"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 30px;">
-                            <h4>CPU% Usage</h4>
-                            <div>
-                                <el-text class="mx-1">Node Select </el-text>
-                                <el-select v-model="cpuNode" placeholder="Select" style="width: 240px" @change="cpuChange">
-                                    <el-option
-                                        v-for="(item, index) in cpuIps"
-                                        :key="item"
-                                        :label="item"
-                                        :value="item"
-                                    />
-                                </el-select>
+                            <div style="width: 100%; height: 250px;">
+                                <div :id="'ct4'+index" style="width: 100%; height: 100%;"></div>
                             </div>
-                            <div></div>
                         </div>
-                        <div style="width: 100%; height: 250px;">
-                            <div id="ct5" style="width: 100%; height: 100%;"></div>
+                        <div v-for="(value, key, index) in cpuDatas" :key="index">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 70%;">
+                                <h4>CPU Usage [{{key}}]</h4>
+                                <div>
+                                    <el-text class="mx-1">Node Select </el-text>
+                                    <el-select v-model="cpuNode[index]" placeholder="Select" style="width: 240px" @change="() => cpuChange(key, index)">
+                                        <el-option
+                                            v-for="(item, index) in cpuNodes[key]"
+                                            :key="item"
+                                            :label="item"
+                                            :value="item"
+                                        />
+                                    </el-select>
+                                </div>
+                            </div>
+                            <div style="width: 100%; height: 250px;">
+                                <div :id="'ct5'+index" style="width: 100%; height: 100%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <el-switch
+                                v-model="isUnfold"
+                                class="ml-2"
+                                style="--el-switch-on-color: rgb(246, 131, 73); --el-switch-off-color: black;"
+                                active-text="Unfold"
+                                inactive-text="Fold FlameGraph"
+                            ></el-switch>
+                            <div :style="{'display': isUnfold ? 'block' : 'none'}" style="background: #f4f6fa; padding: 5px 10px; margin: 10px 0px; border-radius: 10px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 30px;">
+                                    <h4>FlameGraph</h4>
+                                    <el-input
+                                        v-model="ffgSearch"
+                                        style="max-width: 360px;"
+                                        placeholder="CallStack Search"
+                                        clearable
+                                        @input="searchInput"
+                                    ></el-input>
+                                    <div>
+                                        <el-text class="mx-1">Data Set </el-text>
+                                        <el-select v-model="selectVal" placeholder="Select" style="width: 240px" @change="flamesChange">
+                                            <el-option
+                                                v-for="item in selectOptions"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value"
+                                            />
+                                        </el-select>
+                                    </div>
+                                </div>
+                                <svg id="ffg"></svg>
+                            </div>
                         </div>
                     </div>
                     <div v-if="curPage === 'git'">
@@ -311,19 +324,38 @@
         scales = group.ts.length;
     }
 
-    const memoryIps = Object.keys(pipelineData.perf.memory);
-    bars.memory.ts = pipelineData.perf.memory[memoryIps[0]][Object.keys(pipelineData.perf.memory[memoryIps[0]])[0]].startTime;
-    bars.memory.series = Object.keys(pipelineData.perf.memory[memoryIps[0]]).map(key => ({[key]:Object.keys(pipelineData.perf.memory[memoryIps[0]][key]).filter(innerKey => innerKey !== 'startTime').map(innerKey =>({[innerKey]: pipelineData.perf.memory[memoryIps[0]][key][innerKey]}))}));
-    const cpuIps = Object.keys(pipelineData.perf.cpu);
-    bars.cpu.ts = pipelineData.perf.cpu[cpuIps[0]][Object.keys(pipelineData.perf.cpu[cpuIps[0]])[0]].startTime;
-    bars.cpu.series = Object.keys(pipelineData.perf.cpu[cpuIps[0]]).map(key => ({[key]:Object.keys(pipelineData.perf.cpu[cpuIps[0]][key]).filter(innerKey => innerKey !== 'startTime').map(innerKey =>({[innerKey]: pipelineData.perf.cpu[cpuIps[0]][key][innerKey]}))}));
+    
+    const memoryD = pipelineData.perf.memory;
+    const cpuD = pipelineData.perf.cpu;
+    const memoryDatas = {};
+    const memoryNodes = {};
+    const cpuDatas = {};
+    const cpuNodes = {};
+    Array.from(Object.keys(memoryD)).forEach(node => Array.from(Object.keys(memoryD[node])).forEach(app => {
+        if (memoryDatas?.[app]?.length) {
+            memoryDatas[app].push(memoryD[node][app]);
+            memoryNodes[app].push(node);
+        } else {
+            memoryDatas[app] = [memoryD[node][app]];
+            memoryNodes[app] = [node];
+        }
+    }));
+    Array.from(Object.keys(cpuD)).forEach(node => Array.from(Object.keys(cpuD[node])).forEach(app => {
+        if (cpuDatas?.[app]?.length) {
+            cpuDatas[app].push(cpuD[node][app]);
+            cpuNodes[app].push(node);
+        } else {
+            cpuDatas[app] = [cpuD[node][app]];
+            cpuNodes[app] = [node];
+        }
+    }));
     
     const getTopN = (data, topN) => {
         const idxArr = [...Array(data.length).keys()]
         return idxArr.sort((a, b) => data[b] - data[a]).slice(0, topN);
     }
 
-    const topN = 50;
+    const topN = 10;
     const topNs = {
         rt: getTopN(group.rt.Total, topN),
         frt: getTopN(group.frt.Total, topN),
@@ -333,8 +365,8 @@
     const timeFormatter = (timestamp, ignoreDate = true) => {
         const date = new Date(timestamp);
         const localeTime = ignoreDate ? date.toLocaleTimeString() : date.toLocaleString().substring(5).replace('/', '-');
-        const ms = date.getMilliseconds();
-        return `${localeTime}.${ms}`;
+        // const ms = date.getMilliseconds();
+        return localeTime;
     }
 
     const colorRank = (start, end, ranks, idx) => {
@@ -489,7 +521,7 @@ class FlameData {
                 flamed: pipelineData.perf.flame['-1'],
                 ffgSearch: '',
                 fd: null,
-                isUnfold: false,
+                isUnfold: true,
                 selectVal: 'all',
                 selectOptions: Object.keys(pipelineData.perf.flame).map(key => {
                     if (key === '-1') {
@@ -504,12 +536,14 @@ class FlameData {
                 myCt1: null,
                 myCt2: null,
                 myCt3: null,
-                myCt4: null,
-                myCt5: null,
-                memoryIps,
-                cpuIps,
-                memoryNode: memoryIps[0],
-                cpuNode: cpuIps[0]
+                myCt4: [],
+                myCt5: [],
+                memoryNode: Array.from(Object.keys(memoryNodes)).map(key => memoryNodes[key][0]),
+                cpuNode: Array.from(Object.keys(cpuNodes)).map(key => cpuNodes[key][0]),
+                memoryDatas,
+                memoryNodes,
+                cpuDatas,
+                cpuNodes
             };
         },
         mounted() {
@@ -598,20 +632,30 @@ class FlameData {
                 }
                 echarts.connect(Object.values(order));
                 
-                this.myCt4 = Vue.markRaw(echarts.init(document.getElementById('ct4')));
-                this.myCt5 = Vue.markRaw(echarts.init(document.getElementById('ct5')));
-                const orderInd = {'memory': this.myCt4, 'cpu': this.myCt5};
-                for (const [category, chartObj] of Object.entries(orderInd)) {
+                Array.from(Object.keys(memoryDatas)).forEach((app, index) => {
+                    this.myCt4.push(Vue.markRaw(echarts.init(document.getElementById(`ct4${index}`))));
+                    const data = memoryDatas[app][0];
+                    const ts = data.startTime;
+                    const seriesKey = [];
+                    const seriesData = [];
+                    Array.from(Object.keys(data)).forEach(title => {
+                        if (title === 'startTime') {
+                            return;
+                        } else {
+                            seriesKey.push(title);
+                            seriesData.push(data[title]);
+                        }
+                    });
                     const option = {
                         tooltip: {
                             trigger: 'axis',
                             axisPointer: {
                             type: 'shadow'
                             },
-                            valueFormatter: (value) => category === 'cpu' ? value + '%' : value + ' Mb',
+                            valueFormatter: (value) => value + ' MB',
                         },
                         legend: {},
-                        dataZoom: [{type: 'slider', start: 0, end: 50 / bars[category].ts.length * 100, moveHandleStyle: {color: 'black'}},{type: 'inside', start: 0, end: 50 / bars[category].ts.length * 100}],
+                        dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, moveHandleStyle: {color: 'black'}},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
                         grid: {
                             left: '3%',
                             right: '4%',
@@ -619,7 +663,7 @@ class FlameData {
                             containLabel: true
                         },
                         xAxis: {
-                            data: bars[category].ts.map(item => timeFormatter(item)),
+                            data: ts.map(item => timeFormatter(item)),
                             axisTick: {
                                 show: false
                             },
@@ -633,7 +677,7 @@ class FlameData {
                             {
                             type: 'value',
                             axisLabel: {
-                                formatter: category==='cpu' ? '{value}%' : '{value} Mb'
+                                formatter: '{value} MB'
                             },
                             splitLine: {
                                 lineStyle: {
@@ -643,9 +687,9 @@ class FlameData {
                             splitNumber: 2
                             }
                         ],
-                        series: bars[category].series.map(keyObj => keyObj[Object.keys(keyObj)[0]].map(innerObj => ({
-                            data: innerObj[Object.keys(innerObj)[0]].map(val => category === 'memory' ? (val/1024/1024).toFixed(2) : (val*100).toFixed(2)),
-                            name: `(${Object.keys(keyObj)[0]})${Object.keys(innerObj)[0]}`,
+                        series: seriesKey.map((key, innerIdx) => ({
+                            data: seriesData[innerIdx].map((val => (val/1024/1024).toFixed(2))),
+                            name: key,
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -656,10 +700,82 @@ class FlameData {
                             connectNulls: true,
                             symbol: 'emptyCircle',
                             symbolSize: 8
-                        }))).flat(),
-                    };
-                    chartObj.setOption(option);
-                }
+                        })),
+                    }
+                    this.myCt4[index].setOption(option);
+                });
+                Array.from(Object.keys(cpuDatas)).forEach((app, index) => {
+                    this.myCt5.push(Vue.markRaw(echarts.init(document.getElementById(`ct5${index}`))));
+                    const data = cpuDatas[app][0];
+                    const ts = data.startTime;
+                    const seriesKey = [];
+                    const seriesData = [];
+                    Array.from(Object.keys(data)).forEach(title => {
+                        if (title === 'startTime') {
+                            return;
+                        } else {
+                            seriesKey.push(title);
+                            seriesData.push(data[title]);
+                        }
+                    });
+                    const option = {
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                            type: 'shadow'
+                            },
+                            valueFormatter: (value) => value + '%',
+                        },
+                        legend: {},
+                        dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, moveHandleStyle: {color: 'black'}},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: 50,
+                            containLabel: true
+                        },
+                        xAxis: {
+                            data: ts.map(item => timeFormatter(item)),
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    opacity: 0.1
+                                }
+                            }
+                        },
+                        yAxis: [
+                            {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value}%'
+                            },
+                            splitLine: {
+                                lineStyle: {
+                                    type: [1, 4]
+                                }
+                            },
+                            splitNumber: 2
+                            }
+                        ],
+                        series: seriesKey.map((key, innerIdx) => ({
+                            data: seriesData[innerIdx].map((val => (val*100).toFixed(2))),
+                            name: key,
+                            type: 'line',
+                            emphasis: {
+                                focus: 'series',
+                                scale: true
+                            },
+                            showSymbol: false,
+                            smooth: 0.05,
+                            connectNulls: true,
+                            symbol: 'emptyCircle',
+                            symbolSize: 8
+                        })),
+                    }
+                    this.myCt5[index].setOption(option);
+                });
             },
             setAndBindFG(id, fd, sid) {
                 let fid = 1;
@@ -694,31 +810,41 @@ class FlameData {
             rtJump() {
                 this.myCt1.dispatchAction({
                     type: 'dataZoom',
-                    startValue: this.rtTop - 10 >= 0 ? this.rtTop-10 : 0,
-                    endValue: this.rtTop + 10 <= this.group.ts.length ? this.rtTop + 10 : this.group.ts.length
+                    startValue: this.rtTop - 1 >= 0 ? this.rtTop-1 : 0,
+                    endValue: this.rtTop + 1 <= this.group.ts.length ? this.rtTop + 1 : this.group.ts.length
                 });
             },
             frtJump() {
                 this.myCt2.dispatchAction({
                     type: 'dataZoom',
-                    startValue: this.frtTop - 10 >= 0 ? this.frtTop-10 : 0,
-                    endValue: this.frtTop + 10 <= this.group.ts.length ? this.frtTop + 10 : this.group.ts.length
+                    startValue: this.frtTop - 1 >= 0 ? this.frtTop-1 : 0,
+                    endValue: this.frtTop + 1 <= this.group.ts.length ? this.frtTop + 1 : this.group.ts.length
                 });
             },
             tpsJump() {
                 this.myCt3.dispatchAction({
                     type: 'dataZoom',
-                    startValue: this.tpsTop - 10 >= 0 ? this.tpsTop-10 : 0,
-                    endValue: this.tpsTop + 10 <= this.group.ts.length ? this.tpsTop + 10 : this.group.ts.length
+                    startValue: this.tpsTop - 1 >= 0 ? this.tpsTop-1 : 0,
+                    endValue: this.tpsTop + 1 <= this.group.ts.length ? this.tpsTop + 1 : this.group.ts.length
                 });
             },
-            memoryChange() {
-                const timestamps = pipelineData.perf.memory[this.memoryNode][Object.keys(pipelineData.perf.memory[this.memoryNode])[0]].startTime;
-                const seriesData = Object.keys(pipelineData.perf.memory[this.memoryNode]).map(key => ({[key]:Object.keys(pipelineData.perf.memory[this.memoryNode][key]).filter(innerKey => innerKey !== 'startTime').map(innerKey =>({[innerKey]: pipelineData.perf.memory[this.memoryNode][key][innerKey]}))}));
-                Vue.markRaw(this.myCt4.setOption({
-                    series: seriesData.map(keyObj => keyObj[Object.keys(keyObj)[0]].map(innerObj => ({
-                            data: innerObj[Object.keys(innerObj)[0]].map(val => (val/1024/1024).toFixed(2)),
-                            name: `(${Object.keys(keyObj)[0]})${Object.keys(innerObj)[0]}`,
+            memoryChange(key, index) {
+                const data = memoryDatas[key][index];
+                const ts = data.startTime;
+                const seriesKey = [];
+                const seriesData = [];
+                Array.from(Object.keys(data)).forEach(title => {
+                    if (title === 'startTime') {
+                        return;
+                    } else {
+                        seriesKey.push(title);
+                        seriesData.push(data[title]);
+                    }
+                });
+                Vue.markRaw(this.myCt4[index].setOption({
+                    series: seriesKey.map((key, innerIdx) => ({
+                            data: seriesData[innerIdx].map((val => (val/1024/1024).toFixed(2))),
+                            name: key,
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -729,9 +855,9 @@ class FlameData {
                             connectNulls: true,
                             symbol: 'emptyCircle',
                             symbolSize: 8
-                        }))).flat(),
+                        })),
                     xAxis: {
-                        data: timestamps.map(item => timeFormatter(item)),
+                        data: ts.map(item => timeFormatter(item)),
                         axisTick: {
                             show: false
                         },
@@ -740,17 +866,26 @@ class FlameData {
                                 opacity: 0.1
                             }
                         }
-                    },
-                    legend: {}
+                    }
                 }));
             },
-            cpuChange() {
-                const timestamps = pipelineData.perf.cpu[this.cpuNode][Object.keys(pipelineData.perf.cpu[this.cpuNode])[0]].startTime;
-                const seriesData = Object.keys(pipelineData.perf.cpu[this.cpuNode]).map(key => ({[key]:Object.keys(pipelineData.perf.cpu[this.cpuNode][key]).filter(innerKey => innerKey !== 'startTime').map(innerKey =>({[innerKey]: pipelineData.perf.cpu[this.cpuNode][key][innerKey]}))}));
-                Vue.markRaw(this.myCt5.setOption({
-                    series: seriesData.map(keyObj => keyObj[Object.keys(keyObj)[0]].map(innerObj => ({
-                            data: innerObj[Object.keys(innerObj)[0]].map(val => (val*100).toFixed(2)),
-                            name: `(${Object.keys(keyObj)[0]})${Object.keys(innerObj)[0]}`,
+            cpuChange(key, index) {
+                const data = cpuDatas[key][index];
+                const ts = data.startTime;
+                const seriesKey = [];
+                const seriesData = [];
+                Array.from(Object.keys(data)).forEach(title => {
+                    if (title === 'startTime') {
+                        return;
+                    } else {
+                        seriesKey.push(title);
+                        seriesData.push(data[title]);
+                    }
+                });
+                Vue.markRaw(this.myCt5[index].setOption({
+                    series: seriesKey.map((key, innerIdx) => ({
+                            data: seriesData[innerIdx].map((val => (val*100).toFixed(2))),
+                            name: key,
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -761,9 +896,9 @@ class FlameData {
                             connectNulls: true,
                             symbol: 'emptyCircle',
                             symbolSize: 8
-                        }))).flat(),
+                        })),
                     xAxis: {
-                        data: timestamps.map(item => timeFormatter(item)),
+                        data: ts.map(item => timeFormatter(item)),
                         axisTick: {
                             show: false
                         },
@@ -772,8 +907,7 @@ class FlameData {
                                 opacity: 0.1
                             }
                         }
-                    },
-                    legend: {}
+                    }
                 }));
             }
         }
