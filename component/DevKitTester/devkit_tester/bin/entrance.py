@@ -20,11 +20,12 @@ ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
 class JmeterCommand:
-    def __init__(self, origin_command):
+    def __init__(self, origin_command, java_home):
         self.origin_command: str = origin_command
         self.csv_file = None
         self.result_dir = None
         self.jmx_file = None
+        self.java_home = None
 
     def check_and_init_jmeter_cmd(self):
         if not self.origin_command:
@@ -76,6 +77,27 @@ class JmeterCommand:
         if not os.path.exists(self.jmx_file):
             raise Exception(f"the jmx file {self.jmx_file} is not exist")
 
+    def __get_java_version(self):
+        try:
+            if self.java_home:
+                if not os.path.exists(f"{self.java_home}/bin/java"):
+                    raise Exception("The currently specified java home is incorrect base on -m parameter")
+                command = (f"{self.java_home}/bin/java -version")
+            else:
+                command = (f"java -version")
+            logging.info("command is %s", command)
+            outcome = shell_tools.exec_shell(command, is_shell=True, timeout=None)
+            output = outcome.err if "version" in outcome.err else outcome.out
+            version_line = output.split(" ")[2].strip('"')
+            version = version_line.split(".")[0]
+            if int(version) < 11:
+                raise Exception("Please use the -m parameter to specify java home,"
+                                " and the java version is greater than or equal to 11")
+        except Exception as err:
+            logging.exception(err)
+            raise Exception("Please use the -m parameter to specify java home,"
+                            " and the java version is greater than or equal to 11")
+
 
 class Distributor:
     SEVEN_DAYS = 60 * 60 * 24 * 7
@@ -100,6 +122,7 @@ class Distributor:
         file_utils.create_dir(self.data_path)
         self.template_path = os.path.join(self.root_path, "config")
         self.git_path = args.git_path
+        self.java_home = args.java_home
         self.jmeter_command: JmeterCommand = JmeterCommand(args.jmeter_command)
         self.jmeter_thread: typing.Optional[threading.Thread] = None
         self.enable_jmeter_command = True if args.jmeter_command else False
@@ -152,12 +175,19 @@ class Distributor:
     def __generate_jmeter_data(self):
         time_gap = ','.join(f"{k}:{v}" for k, v in self.node_time_gap.items())
         jfr_path = ','.join(f"{k}:{item}" for k, v in self.node_jfr_path.items() for item in v)
-        command = (f"bash {self.root_path}/bin/generate_jmeter_result.sh -o {self.data_path} "
-                   f"-j {self.jmeter_command.csv_file} "
-                   f"-n {time_gap} "
-                   f"-f {jfr_path} ")
+        if self.java_home:
+            command = (f"export JAVA_HOME={self.java_home} && "
+                       f"bash {self.root_path}/bin/generate_jmeter_result.sh -o {self.data_path} "
+                       f"-j {self.jmeter_command.csv_file} "
+                       f"-n {time_gap} "
+                       f"-f {jfr_path} ")
+        else:
+            command = (f"bash {self.root_path}/bin/generate_jmeter_result.sh -o {self.data_path} "
+                       f"-j {self.jmeter_command.csv_file} "
+                       f"-n {time_gap} "
+                       f"-f {jfr_path} ")
         logging.info("command is %s", command)
-        outcome = shell_tools.exec_shell(command, timeout=None)
+        outcome = shell_tools.exec_shell(command, is_shell=True, timeout=None)
         logging.info("return_code: %s", outcome.return_code)
         logging.info("error: %s", outcome.err)
         logging.info("out: %s", outcome.out)
@@ -360,6 +390,8 @@ def main():
                         help="git path")
     parser.add_argument("-j", "--jmeter-command", dest="jmeter_command", type=str,
                         help="the command that start jmeter tests")
+    parser.add_argument("-m", "--java-home", dest="java_home", type=str,
+                        help="the java home ")
     parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
     parser.set_defaults(password="")
     args = parser.parse_args()
