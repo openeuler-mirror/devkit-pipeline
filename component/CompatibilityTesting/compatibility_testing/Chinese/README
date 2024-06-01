@@ -1,0 +1,131 @@
+=======================================================================
+#功能描述: 提供给用户进行兼容性测试、指标日志采集工具
+#版本信息: 华为技术有限公司，版权所有（C） 2020-2022
+#修改记录: 2022-03-02 修改
+=======================================================================
+
+#########################环境依赖######################################
+1. 系统版本 CentOS 7.6,中标麒麟 V7Update6,Ubuntu 18.0.1,银河麒麟4.0.2,
+UOS 20 SP1,SUSE 12-SP5,openEuler 20.03 (LTS)
+
+2. RPM包安装：
+nmap-ncat,nmap,ipmitool,dmidecode,net-tools,pciutils,util-linux,sysstat
+bc.
+
+3. 多节点集群部署，在每台节点服务器上配置对自身节点和其他所有节点的SSH免密登录。
+
+#########################执行步骤######################################
+1. 修改compatibility_testing.conf配置文件，填写以下内容：
+
+
+# 待测试应用软件进程名称，多个应用名称以逗号隔开。
+# 可通过ps或者docker top 命令CMD所在列查找后台进程名称, Kubernetes集群环境下填写Pod名称。
+application_names=
+# 待测试应用软件启动命令，多个应用的启动命令以逗号隔开。
+start_app_commands=
+# 待测试应用软件停止命令，多个应用的停止命令以逗号隔开。
+stop_app_commands=
+# 被测应用软件的压力测试工具启动命令。
+start_performance_scripts=
+# Kubernetes集群填写"Y"。其他环境可置空。
+kubernetes_env=
+
+# 以下为集群部署填写，单机部署不需要填写。
+# 集群环境的IP地址列表，多个IP地址以逗号隔开，不包含当前脚本所在的服务器IP地址, 请勿填写本机IP地址。
+cluster_ip_lists=
+
+# 以下为Validated认证测试填写，Compatible认证测试不需要填写。
+# CVE漏洞扫描目录，多个目录以逗号隔开，Validated认证测试有自己的CVE漏洞检查工具不需要填写。
+# 集群环境下, 非当前脚本所在服务器的目录填写为"IP:目录", 如192.168.2.2:/root/tomcat
+cve_scan_path=
+# clamav防病毒扫描目录，多个目录以逗号隔开，Validated认证测试有自己的商用杀毒软件不需要填写。
+# 集群环境下, 非当前脚本所在服务器的目录填写为"IP:目录", 如192.168.2.2:/root/tomcat
+clamav_scan_path=
+
+# 以下为HPC应用方案认证填写，HPC应用测试填写"Y"，其他应用认证测试可置空。
+hpc_certificate=
+
+# 以下涉及C/C++语言应用填写，请填写待测试应用二进制文件的绝对路径。
+binary_files=
+
+2. 确认填写后，使用root用户执行采集工具。
+
+用法：
+CentOS/中标麒麟/SUSE/openEuler：使用root用户执行，sh compatibility_testing.sh
+Ubuntu/银河麒麟/UOS：使用root用户执行，bash compatibility_testing.sh
+多节点集群部署情况下，在控制节点（主节点）执行脚本。
+
+
+
+自动化测试采集工具开始执行，脚本分为10个步骤，运行时间约50分钟，请耐心
+等待。执行步骤如下：
+***********************************************************************
+第 1 步：软件依赖检查，开始
+第 1 步：软件依赖检查，完成
+第 2 步：配置文件检查, 开始
+第 2 步：配置文件检查, 完成
+第 3 步：测试环境自检, 开始
+第 3 步：测试环境自检, 完成
+第 4 步：应用启动前CPU、内存、硬盘、网卡和功耗系统资源采集
+第 4 步：应用启动前采集结束
+第 5 步：启动业务应用
+第 5 步：启动业务应用完成
+第 6 步：安全测试，进行应用运行期间监听端口扫描
+第 6 步：安全扫描结束
+第 7 步：进行业务压力下CPU、内存、硬盘和网卡系统资源采集
+第 7 步：进行测试采集结束.
+第 8 步：进行可靠性测试，强制KILL应用后正常启动测试
+第 8 步：可靠性测试结束.
+第 9 步：应用停止后CPU、内存、硬盘、网卡和功耗系统资源采集
+第 9 步：应用停止后测试采集结束
+第 10 步：测试采集数据打包
+采集结束，日志打包完成，压缩包log_yyyymmddHHMMSS.tar.gz存放在脚本执行目录。
+
+***********************************************************************
+
+
+#########################输出压缩文件的目录结果########################
+├── compatibility_testing.conf
+├── hardware
+│   ├── hardware_cpu.log
+│   ├── hardware_disk.log
+│   ├── hardware_info.log
+│   └── hardware_pcie.log
+├── others
+│   └── info.log_yyyymmdd
+├── product
+│   └── product_name.log
+├── software
+│   └── system_version.log
+├── system
+│   └── message.log
+└── test
+    ├── compatiable
+    │   ├── test_perf_cpu_0.log
+    │   ├── test_perf_cpu_1.log
+    │   ├── test_perf_disk_0.log
+    │   ├── test_perf_disk_1.log
+    │   ├── test_perf_mem_0.log
+    │   ├── test_perf_mem_1.log
+    │   ├── test_perf_net_0.log
+    │   └── test_perf_net_1.log
+    ├── dfx
+    ├── function
+    ├── performance
+    │   ├── test_perf_cpu_1.log
+    │   ├── test_perf_disk_1.log
+    │   ├── test_perf_mem_1.log
+    │   └── test_perf_net_1.log
+    ├── power
+    │   ├── test_power_0.log
+    │   └── test_power_1.log
+    └── safety
+        ├── {ip}protocol.gnmap
+        ├── {ip}protocol.nmap
+        ├── {ip}protocol.xml
+        ├── {ip}tcp.gnmap
+        ├── {ip}tcp.nmap
+        ├── {ip}tcp.xml
+        ├── {ip}udp.gnmap
+        ├── {ip}udp.nmap
+        └── {ip}1udp.xml

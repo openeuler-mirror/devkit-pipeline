@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Mon May 27 21:55:17 2024 as: nmap -sO -v -&#45;reason -n -oA data/test/safety/192.168.122.1protocol -&#45;host-timeout 360 192.168.122.1 -->
+<nmaprun scanner="nmap" args="nmap -sO -v -&#45;reason -n -oA data/test/safety/192.168.122.1protocol -&#45;host-timeout 360 192.168.122.1" start="1716818117" startstr="Mon May 27 21:55:17 2024" version="7.80" xmloutputversion="1.04">
+<scaninfo type="ipproto" protocol="ip" numservices="256" services="0-255"/>
+<verbose level="1"/>
+<debugging level="0"/>
+<taskbegin task="IPProto Scan" time="1716818117"/>
+<taskend task="IPProto Scan" time="1716818119" extrainfo="256 total ports"/>
+<host starttime="1716818117" endtime="1716818119"><status state="up" reason="localhost-response" reason_ttl="0"/>
+<address addr="192.168.122.1" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="248">
+<extrareasons reason="proto-unreaches" count="248"/>
+</extraports>
+<port protocol="ip" portid="1"><state state="open" reason="proto-unreach" reason_ttl="64"/>
+<service name="icmp" conf="8" method="table"/></port>
+<port protocol="ip" portid="2"><state state="open|filtered" reason="no-response" reason_ttl="0"/>
+<service name="igmp" conf="8" method="table"/></port>
+<port protocol="ip" portid="6"><state state="open" reason="proto-response" reason_ttl="64"/>
+<service name="tcp" conf="8" method="table"/></port>
+<port protocol="ip" portid="17"><state state="open" reason="port-unreach" reason_ttl="64"/>
+<service name="udp" conf="8" method="table"/></port>
+<port protocol="ip" portid="103"><state state="open|filtered" reason="no-response" reason_ttl="0"/>
+<service name="pim" conf="8" method="table"/></port>
+<port protocol="ip" portid="136"><state state="open|filtered" reason="no-response" reason_ttl="0"/>
+<service name="udplite" conf="8" method="table"/></port>
+<port protocol="ip" portid="171"><state state="open" reason="proto-response" reason_ttl="50"/></port>
+<port protocol="ip" portid="255"><state state="open|filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+<times srtt="10" rttvar="0" to="100000"/>
+</host>
+<runstats><finished time="1716818119" timestr="Mon May 27 21:55:19 2024" elapsed="1.28" summary="Nmap done at Mon May 27 21:55:19 2024; 1 IP address (1 host up) scanned in 1.28 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

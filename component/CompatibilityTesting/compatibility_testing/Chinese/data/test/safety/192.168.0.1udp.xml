@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Fri Mar 29 10:42:04 2024 as: nmap -sU -A -v -&#45;reason -p- -n -Pn -oA data/test/safety/192.168.0.1udp -&#45;host-timeout 360 192.168.0.1 -->
+<nmaprun scanner="nmap" args="nmap -sU -A -v -&#45;reason -p- -n -Pn -oA data/test/safety/192.168.0.1udp -&#45;host-timeout 360 192.168.0.1" start="1711680124" startstr="Fri Mar 29 10:42:04 2024" version="7.80" xmloutputversion="1.04">
+<scaninfo type="udp" protocol="udp" numservices="65535" services="1-65535"/>
+<verbose level="1"/>
+<debugging level="0"/>
+<taskbegin task="NSE" time="1711680124"/>
+<taskend task="NSE" time="1711680124"/>
+<taskbegin task="NSE" time="1711680124"/>
+<taskend task="NSE" time="1711680124"/>
+<taskbegin task="NSE" time="1711680124"/>
+<taskend task="NSE" time="1711680124"/>
+<taskbegin task="UDP Scan" time="1711680124"/>
+<taskend task="UDP Scan" time="1711680125" extrainfo="65535 total ports"/>
+<taskbegin task="Service scan" time="1711680125"/>
+<taskbegin task="NSE" time="1711680127"/>
+<taskend task="NSE" time="1711680127"/>
+<taskbegin task="NSE" time="1711680127"/>
+<taskend task="NSE" time="1711680127"/>
+<taskbegin task="NSE" time="1711680127"/>
+<taskend task="NSE" time="1711680127"/>
+<host starttime="1711680124" endtime="1711680127"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="192.168.0.1" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65535">
+<extrareasons reason="port-unreaches" count="65535"/>
+</extraports>
+</ports>
+<os><portused state="closed" proto="udp" portid="1"/>
+</os>
+<distance value="0"/>
+<times srtt="12" rttvar="4" to="100000"/>
+</host>
+<taskbegin task="NSE" time="1711680127"/>
+<taskend task="NSE" time="1711680127"/>
+<taskbegin task="NSE" time="1711680127"/>
+<taskend task="NSE" time="1711680127"/>
+<taskbegin task="NSE" time="1711680127"/>
+<taskend task="NSE" time="1711680127"/>
+<runstats><finished time="1711680127" timestr="Fri Mar 29 10:42:07 2024" elapsed="3.07" summary="Nmap done at Fri Mar 29 10:42:07 2024; 1 IP address (1 host up) scanned in 3.07 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>
