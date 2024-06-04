@@ -115,7 +115,7 @@ class FlightRecordsFactory:
         outcome = shell_tools.exec_shell(commander_to_check, is_shell=True)
         logging.info("check jcmd :%s", outcome)
         if outcome.return_code == 0:
-            self.jcmd_path = outcome.out
+            self.jcmd_path = outcome.out.strip()
             return True
         else:
             return False
