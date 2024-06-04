@@ -57,6 +57,7 @@ class FlightRecordsFactory:
                 self.return_code = ErrorCodeEnum.NOT_FOUND_APPS
             elif not self.__check_jcmd():
                 self.return_code = ErrorCodeEnum.NOT_FOUND_JCMD
+            self.__init_user_is_root()
             logging.info("start_recorder")
             if self.user_is_root:
                 self.__start_recorder_by_root()
