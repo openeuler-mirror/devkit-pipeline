@@ -126,19 +126,19 @@ class Distributor:
         self.template_path = os.path.join(self.root_path, "config")
         self.git_path = args.git_path
         self.java_home = args.java_home
+        self.output = args.output if args.output else self.data_path
         self.jmeter_command: JmeterCommand = JmeterCommand(args.jmeter_command, self.java_home)
         self.jmeter_thread: typing.Optional[threading.Thread] = None
         self.enable_jmeter_command = True if args.jmeter_command else False
+        # 节点差异时间
         self.node_time_gap = dict()
+        # 节点采集的JFR文件
         self.node_jfr_path = dict()
 
     def distribute(self):
         # 清空本地jfr文件
         file_utils.clear_dir(self.data_path)
-        # jmeter 命令校验
-        self.jmeter_command.check_and_init_jmeter_cmd()
-        # 校验联通性
-        self.__check_ips_connected()
+        self.__check()
         # 启动jmeter
         if self.enable_jmeter_command:
             self.__start_jmeter_thread()
@@ -164,16 +164,32 @@ class Distributor:
         # 等待jmeter完成
         if self.enable_jmeter_command:
             self.__generate_jmeter_data()
-            report = Report(report_path=self.data_path, template_path=self.template_path,
+            report = Report(report_dir=self.output, data_path=self.data_path, template_path=self.template_path,
                             jmeter_report_path=self.jmeter_command.csv_file,
                             git_path=self.git_path, devkit_tool_ip=self.devkit_ip,
                             devkit_tool_port=self.devkit_port, devkit_user_name=self.devkit_user)
         else:
-            report = Report(report_path=self.data_path, template_path=self.template_path,
+            report = Report(report_dir=self.output, data_path=self.data_path, template_path=self.template_path,
                             git_path=self.git_path, devkit_tool_ip=self.devkit_ip,
                             devkit_tool_port=self.devkit_port, devkit_user_name=self.devkit_user)
         report.report()
         self.__print_result(jfr_names)
+
+    def __check(self):
+        # jmeter 命令校验
+        self.jmeter_command.check_and_init_jmeter_cmd()
+        # 校验联通性
+        self.__check_ips_connected()
+        # 校验output
+        if not os.path.exists(self.output) or not os.path.isdir(self.output):
+            raise Exception("the output path specified by the -o parameter is s not a directory or doesn't exist")
+        final_report = os.path.join(self.output, "devkit_performance_report.html")
+        if os.path.exists(final_report):
+            raise Exception(
+                "the output path specified by the -o parameter doesn't contain the file named "
+                "devkit_performance_report.html ")
+        if not os.access(self.output, os.R_OK | os.W_OK | os.X_OK):
+            raise Exception("The output path specified by the -o parameter does have no permissions")
 
     def __generate_jmeter_data(self):
         time_gap = ','.join(f"{k}:{v}" for k, v in self.node_time_gap.items())
@@ -394,7 +410,9 @@ def main():
     parser.add_argument("-j", "--jmeter-command", dest="jmeter_command", type=str,
                         help="the command that start jmeter tests")
     parser.add_argument("-m", "--java-home", dest="java_home", type=str,
-                        help="the java home ")
+                        help="the java home for parsing the jfr, the java version is greater than or equal to 11")
+    parser.add_argument("-o", "--output", dest="output", type=str,
+                        help="the directory of the final report")
     parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
     parser.set_defaults(password="")
     args = parser.parse_args()
