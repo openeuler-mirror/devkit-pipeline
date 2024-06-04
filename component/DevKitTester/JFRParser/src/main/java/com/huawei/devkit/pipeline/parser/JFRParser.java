@@ -15,8 +15,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class JFRParser {
     public static Long ALL = -1L;
@@ -66,7 +70,16 @@ public class JFRParser {
         Map<String, List<CpuInfo>> cpuMap = result.getCpuMap().get(nodeIP);
         cpuMap.put(fileName, cpuInfos);
         Map<String, List<MemInfo>> memoryMap = result.getMemoryMap().get(nodeIP);
-        memoryMap.put(fileName, memInfos);
+        Set<Long> allStartTime = new HashSet<>();
+        memoryMap.put(fileName, memInfos.stream().filter(item -> {
+                    if (allStartTime.contains(item.getStartTime())) {
+                        return false;
+                    } else {
+                        allStartTime.add(item.getStartTime());
+                        return true;
+                    }
+                })
+                .sorted(Comparator.comparingLong(MemInfo::getStartTime)).collect(Collectors.toList()));
         for (LatencyTopInfo latencyTop : top10) {
             result.getFlame().put(latencyTop.getKey(), latencyTop.getFlame());
         }

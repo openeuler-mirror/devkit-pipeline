@@ -14,4 +14,19 @@ public class JmeterTPS {
         this.tps = tps;
     }
 
+    public Long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+    }
+
+    public int getTps() {
+        return tps;
+    }
+
+    public void setTps(int tps) {
+        this.tps = tps;
+    }
 }

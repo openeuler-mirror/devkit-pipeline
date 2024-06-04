@@ -1,5 +1,8 @@
 package com.huawei.devkit.pipeline.bo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.huawei.devkit.pipeline.strategy.DoubleSerialize;
+
 public class JmeterReportSummary {
 
     private String label;
@@ -8,6 +11,7 @@ public class JmeterReportSummary {
 
     private long failSamples;
 
+    @JsonSerialize(using = DoubleSerialize.class)
     private double averageLatency;
 
     private long minLatency;

@@ -7,13 +7,13 @@ public class CpuInfo {
     @JsonProperty("t")
     private long startTime;
     @JsonProperty("s")
-    private float jvmSystem;
+    private Float jvmSystem;
     @JsonProperty("u")
-    private float jvmUser;
+    private Float jvmUser;
     @JsonProperty("m")
-    private float machineTotal;
+    private Float machineTotal;
 
-    public CpuInfo(long startTime, float jvmSystem, float jvmUser, float machineTotal) {
+    public CpuInfo(long startTime, Float jvmSystem, Float jvmUser, Float machineTotal) {
         this.startTime = startTime;
         this.jvmSystem = jvmSystem;
         this.jvmUser = jvmUser;
