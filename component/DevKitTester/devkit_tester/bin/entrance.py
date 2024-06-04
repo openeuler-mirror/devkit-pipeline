@@ -25,7 +25,7 @@ class JmeterCommand:
         self.csv_file = None
         self.result_dir = None
         self.jmx_file = None
-        self.java_home = None
+        self.java_home = java_home
 
     def check_and_init_jmeter_cmd(self):
         if not self.origin_command:
@@ -92,13 +92,14 @@ class JmeterCommand:
             output = outcome.err if "version" in outcome.err else outcome.out
             version_line = output.split(" ")[2].strip('"')
             version = version_line.split(".")[0]
-            if int(version) < 11:
-                raise Exception("Please use the -m parameter to specify java home,"
-                                " and the java version is greater than or equal to 11")
         except Exception as ex:
             logging.exception(ex)
             raise Exception("Please use the -m parameter to specify java home,"
                             " and the java version is greater than or equal to 11")
+        else:
+            if int(version) < 11:
+                raise Exception("Please use the -m parameter to specify java home,"
+                                " and the java version is greater than or equal to 11")
 
 
 class Distributor:
@@ -125,7 +126,7 @@ class Distributor:
         self.template_path = os.path.join(self.root_path, "config")
         self.git_path = args.git_path
         self.java_home = args.java_home
-        self.jmeter_command: JmeterCommand = JmeterCommand(args.jmeter_command)
+        self.jmeter_command: JmeterCommand = JmeterCommand(args.jmeter_command, self.java_home)
         self.jmeter_thread: typing.Optional[threading.Thread] = None
         self.enable_jmeter_command = True if args.jmeter_command else False
         self.node_time_gap = dict()
