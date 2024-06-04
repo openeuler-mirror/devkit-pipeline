@@ -61,7 +61,9 @@ class JmeterCommand:
             else:
                 break
         else:
-            return self.__check_param_resource()
+            self.__check_java_version()
+            self.__check_param_resource()
+            return
         raise Exception(
             "The command line is not supported。example: sh jmeter.sh -n -t /home/demo.jmt "
             "-l /home/jmeter/result.csv -e -o /home/jmeter/empty_dir/")
@@ -77,14 +79,14 @@ class JmeterCommand:
         if not os.path.exists(self.jmx_file):
             raise Exception(f"the jmx file {self.jmx_file} is not exist")
 
-    def __get_java_version(self):
+    def __check_java_version(self):
         try:
             if self.java_home:
                 if not os.path.exists(f"{self.java_home}/bin/java"):
                     raise Exception("The currently specified java home is incorrect base on -m parameter")
-                command = (f"{self.java_home}/bin/java -version")
+                command = f"{self.java_home}/bin/java -version"
             else:
-                command = (f"java -version")
+                command = f"java -version"
             logging.info("command is %s", command)
             outcome = shell_tools.exec_shell(command, is_shell=True, timeout=None)
             output = outcome.err if "version" in outcome.err else outcome.out
@@ -93,8 +95,8 @@ class JmeterCommand:
             if int(version) < 11:
                 raise Exception("Please use the -m parameter to specify java home,"
                                 " and the java version is greater than or equal to 11")
-        except Exception as err:
-            logging.exception(err)
+        except Exception as ex:
+            logging.exception(ex)
             raise Exception("Please use the -m parameter to specify java home,"
                             " and the java version is greater than or equal to 11")
 
