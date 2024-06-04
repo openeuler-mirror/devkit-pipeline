@@ -5,6 +5,8 @@ import os.path
 import shutil
 import time
 
+import psutil
+
 from devkit_utils import shell_tools, file_utils
 from devkit_utils.error_coce import ErrorCodeEnum
 from devkit_utils.log_config import config_log_ini
@@ -43,6 +45,8 @@ class FlightRecordsFactory:
         self.response_file = os.path.join(root_path, "config/complete_the_upload.ini")
         self.now_date = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         file_utils.create_dir(self.dir_to_storage_jfr)
+        self.jcmd_path = None
+        self.user_is_root = False
 
     def start_sample(self):
         try:
@@ -54,11 +58,17 @@ class FlightRecordsFactory:
             elif not self.__check_jcmd():
                 self.return_code = ErrorCodeEnum.NOT_FOUND_JCMD
             logging.info("start_recorder")
-            self.__start_recorder()
+            if self.user_is_root:
+                self.__start_recorder_by_root()
+            else:
+                self.__start_recorder()
             if self.jfr_paths:
                 if self.wait_for_jmeter_stop:
                     self.__wait_for_jmeter_has_stopping()
-                    self.__stop_recorder()
+                    if self.user_is_root:
+                        self.__stop_recorder_by_root()
+                    else:
+                        self.__stop_recorder()
                 else:
                     time.sleep(self.duration)
                 before = datetime.datetime.now()
@@ -99,15 +109,38 @@ class FlightRecordsFactory:
             for pid in pids:
                 self.pids.append(TargetProcess(pid, app))
 
-    @staticmethod
-    def __check_jcmd():
+    def __check_jcmd(self):
         commander_to_check = "which jcmd"
         outcome = shell_tools.exec_shell(commander_to_check, is_shell=True)
         logging.info("check jcmd :%s", outcome)
         if outcome.return_code == 0:
+            self.jcmd_path = outcome.out
             return True
         else:
             return False
+
+    def __init_user_is_root(self):
+        if os.geteuid() == 0:
+            self.user_is_root = True
+        else:
+            self.user_is_root = False
+
+    def __start_recorder_by_root(self):
+        for target in self.pids:
+            jfr_path = self.__jfr_name(target.name, target.pid)
+            username = psutil.Process(target.pid).username()
+            command = (f"su - {username} -c '"
+                       f"{self.jcmd_path} {target.pid} JFR.start  settings={self.temporary_settings_path} "
+                       f"duration={self.duration}s  name={self.RECORD_NAME} filename={jfr_path}'")
+            logging.info(command)
+            outcome = shell_tools.exec_shell(command, is_shell=True)
+            logging.info(outcome)
+            if outcome.return_code == 0:
+                self.jfr_paths.append(jfr_path)
+                self.pids_to_start_recording.append(target)
+        # 移动到data目录下
+        with open(file=os.path.join(self.root_path, "config/upload_sample.ini"), mode="w", encoding="utf-8") as file:
+            file.write(os.linesep.join(self.jfr_paths))
 
     def __start_recorder(self):
         for target in self.pids:
@@ -123,6 +156,13 @@ class FlightRecordsFactory:
         # 移动到data目录下
         with open(file=os.path.join(self.root_path, "config/upload_sample.ini"), mode="w", encoding="utf-8") as file:
             file.write(os.linesep.join(self.jfr_paths))
+
+    def __stop_recorder_by_root(self):
+        for target in self.pids_to_start_recording:
+            username = psutil.Process(target.pid).username()
+            command = f"su - {username} -c '{self.jcmd_path} {target.pid} JFR.stop name={self.RECORD_NAME}'"
+            outcome = shell_tools.exec_shell(command, is_shell=True)
+            logging.info(outcome)
 
     def __stop_recorder(self):
         for target in self.pids_to_start_recording:
