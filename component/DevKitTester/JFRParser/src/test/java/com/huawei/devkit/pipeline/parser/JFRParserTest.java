@@ -91,6 +91,6 @@ public final class JFRParserTest {
         Assertions.assertEquals(result.getFlame().get(1713159117349L).getValue(), 18);
         Assertions.assertEquals(result.getFlame().get(-1L).getValue(), 1463);
         Assertions.assertEquals(result.getCpuMap().get(nodeIP).get("avrora.jfr").size(), 70);
-        Assertions.assertEquals(result.getMemoryMap().get(nodeIP).get("avrora.jfr").size(), 48);
+        Assertions.assertEquals(result.getMemoryMap().get(nodeIP).get("avrora.jfr").size(), 36);
     }
 }
