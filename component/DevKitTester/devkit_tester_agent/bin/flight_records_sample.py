@@ -129,7 +129,7 @@ class FlightRecordsFactory:
     def __start_recorder_by_root(self):
         for target in self.pids:
             jfr_path = self.__jfr_name(target.name, target.pid)
-            username = psutil.Process(target.pid).username()
+            username = psutil.Process(int(target.pid)).username()
             command = (f"su - {username} -c '"
                        f"{self.jcmd_path} {target.pid} JFR.start  settings={self.temporary_settings_path} "
                        f"duration={self.duration}s  name={self.RECORD_NAME} filename={jfr_path}'")
@@ -160,7 +160,7 @@ class FlightRecordsFactory:
 
     def __stop_recorder_by_root(self):
         for target in self.pids_to_start_recording:
-            username = psutil.Process(target.pid).username()
+            username = psutil.Process(int(target.pid)).username()
             command = f"su - {username} -c '{self.jcmd_path} {target.pid} JFR.stop name={self.RECORD_NAME}'"
             outcome = shell_tools.exec_shell(command, is_shell=True)
             logging.info(outcome)
