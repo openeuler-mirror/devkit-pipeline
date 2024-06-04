@@ -55,33 +55,51 @@ class FlightRecordsFactory:
             self.__init_pids()
             if len(self.pids) == 0:
                 self.return_code = ErrorCodeEnum.NOT_FOUND_APPS
+                return
             elif not self.__check_jcmd():
                 self.return_code = ErrorCodeEnum.NOT_FOUND_JCMD
+                return
             self.__init_user_is_root()
             logging.info("start_recorder")
             if self.user_is_root:
-                self.__start_recorder_by_root()
+                self.__start_sample_by_root()
             else:
-                self.__start_recorder()
-            if self.jfr_paths:
-                if self.wait_for_jmeter_stop:
-                    self.__wait_for_jmeter_has_stopping()
-                    if self.user_is_root:
-                        self.__stop_recorder_by_root()
-                    else:
-                        self.__stop_recorder()
-                else:
-                    time.sleep(self.duration)
-                before = datetime.datetime.now()
-                # 停止采集
-                logging.info("check has stopped recorder")
-                while not self.__check_has_stopped_recorder() and (datetime.datetime.now() - before).seconds < 30:
-                    time.sleep(1)
-            else:
-                logging.exception(f"The target application {self.apps}  cannot be found or Operation not permitted")
+                self.__start_sample_by_common_user()
         finally:
             shell_tools.exec_shell(f"echo {self.return_code} >{self.response_file}", is_shell=True)
             logging.info("the current agent has been executed")
+
+    def __start_sample_by_root(self):
+        self.__start_recorder_by_root()
+        if self.jfr_paths:
+            if self.wait_for_jmeter_stop:
+                self.__wait_for_jmeter_has_stopping()
+                self.__stop_recorder_by_root()
+            else:
+                time.sleep(self.duration)
+            before = datetime.datetime.now()
+            # 停止采集
+            logging.info("check has stopped recorder")
+            while not self.__check_has_stopped_recorder_by_root() and (datetime.datetime.now() - before).seconds < 30:
+                time.sleep(1)
+        else:
+            logging.exception(f"The target application {self.apps}  cannot be found or Operation not permitted")
+
+    def __start_sample_by_common_user(self):
+        self.__start_recorder()
+        if self.jfr_paths:
+            if self.wait_for_jmeter_stop:
+                self.__wait_for_jmeter_has_stopping()
+                self.__stop_recorder()
+            else:
+                time.sleep(self.duration)
+            before = datetime.datetime.now()
+            # 停止采集
+            logging.info("check has stopped recorder")
+            while not self.__check_has_stopped_recorder() and (datetime.datetime.now() - before).seconds < 30:
+                time.sleep(1)
+        else:
+            logging.exception(f"The target application {self.apps}  cannot be found or Operation not permitted")
 
     def __wait_for_jmeter_has_stopping(self):
         before = datetime.datetime.now()
@@ -170,6 +188,20 @@ class FlightRecordsFactory:
             outcome = shell_tools.exec_shell("jcmd {} JFR.stop name={}".format(target.pid, self.RECORD_NAME),
                                              is_shell=True)
             logging.info(outcome)
+
+    def __check_has_stopped_recorder_by_root(self):
+        for target in self.pids_to_start_recording:
+            username = psutil.Process(int(target.pid)).username()
+            command = f"su - {username} -c '{self.jcmd_path}  {target.pid} JFR.check name={self.RECORD_NAME}'"
+            outcome = shell_tools.exec_shell(command, is_shell=True)
+            logging.info(outcome)
+            if outcome.out.find("Could not find"):
+                self.pids_to_stop_recording.append(target)
+        if len(self.pids_to_stop_recording) == len(self.pids_to_start_recording):
+            return True
+        else:
+            self.pids_to_stop_recording.clear()
+            return False
 
     def __check_has_stopped_recorder(self):
         for target in self.pids_to_start_recording:
