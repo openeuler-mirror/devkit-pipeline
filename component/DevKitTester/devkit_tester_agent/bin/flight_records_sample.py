@@ -145,6 +145,8 @@ class FlightRecordsFactory:
             self.user_is_root = False
 
     def __start_recorder_by_root(self):
+        logging.info(PyInstallerUtils.get_env())
+        logging.info(os.environ)
         for target in self.pids:
             jfr_path = self.__jfr_name(target.name, target.pid)
             username = psutil.Process(int(target.pid)).username()
