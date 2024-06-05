@@ -10,7 +10,7 @@ import psutil
 from devkit_utils import shell_tools, file_utils
 from devkit_utils.error_coce import ErrorCodeEnum
 from devkit_utils.log_config import config_log_ini
-from devkit_utils.pyinstaller_utils import obtain_root_path
+from devkit_utils.pyinstaller_utils import PyInstallerUtils
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -245,7 +245,7 @@ def main():
                         help="the task id of the sample")
     parser.add_argument("-w", "--wait-for-jmeter-stop", dest="waiting", action="store_true",
                         help="the sample stop when the jmeter stop")
-    parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
+    parser.set_defaults(root_path=PyInstallerUtils.obtain_root_path(ROOT_PATH))
     args = parser.parse_args()
     config_log_ini(args.root_path, "devkit_tester_agent")
     logging.info("start")

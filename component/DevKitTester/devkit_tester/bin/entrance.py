@@ -12,7 +12,7 @@ from devkit_utils import shell_tools
 from devkit_utils.devkit_client import DevKitClient
 from devkit_utils.error_coce import ErrorCodeEnum, ErrorCodeMsg
 from devkit_utils.log_config import config_log_ini
-from devkit_utils.pyinstaller_utils import obtain_root_path
+from devkit_utils.pyinstaller_utils import PyInstallerUtils
 from devkit_utils.transport_utils import SSHClientFactory
 from report.report import Report
 
@@ -413,7 +413,7 @@ def main():
                         help="the java home for parsing the jfr, the java version is greater than or equal to 11")
     parser.add_argument("-o", "--output", dest="output", type=str,
                         help="the directory of the final report")
-    parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
+    parser.set_defaults(root_path=PyInstallerUtils.obtain_root_path(ROOT_PATH))
     parser.set_defaults(password="")
     args = parser.parse_args()
     config_log_ini(args.root_path, "devkit_tester")
