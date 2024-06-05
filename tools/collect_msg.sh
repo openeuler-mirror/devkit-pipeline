@@ -4,45 +4,7 @@ config_file=$current_path/config.ini
 log_path=$current_path/log
 default_project="Bigdata Database Storage Arm Virt Acclib Virtual HPC"
 
-spark_omni_func=(
-    --deploy-mode client
-    --driver-cores 1
-    --driver-memory 980M
-    --num-executors 3
-    --executor-cores 1
-    --executor-memory 600M
-    --master yarn
-    --conf spark.memory.offHeap.enabled=true
-    --conf spark.memory.offHeap.size=1025M
-    --conf spark.task.cpus=1
-    --conf spark.driver.extraClassPath=/opt/omni-operator/lib/boostkit-omniop-spark-3.1.1-1.4.0-aarch64.jar:/opt/omni-operator/lib/boostkit-omniop-bindings-1.4.0-aarch64.jar:/opt/omni-operator/lib/dependencies/*
-    --conf spark.executor.extraClassPath=/opt/omni-operator/lib/boostkit-omniop-spark-3.1.1-1.4.0-aarch64.jar:/opt/omni-operator/lib/boostkit-omniop-bindings-1.4.0-aarch64.jar:/opt/omni-operator/lib/dependencies/*
-    --driver-java-options -Djava.library.path=/opt/omni-operator/lib
-    --conf spark.sql.codegen.wholeStage=false
-    --conf spark.executorEnv.LD_LIBRARY_PATH=/opt/omni-operator/lib
-    --conf spark.executorEnv.OMNI_HOME=/opt/omni-operator/
-    --conf spark.driverEnv.LD_LIBRARY_PATH=/opt/omni-operator/lib
-    --conf spark.driverEnv.OMNI_HOME=/opt/omni-operator/
-    --conf spark.executor.extraLibraryPath=/opt/omni-operator/lib
-    --conf spark.driverEnv.LD_PRELOAD=/opt/omni-operator/lib/libjemalloc.so.2
-    --conf spark.executorEnv.LD_PRELOAD=/opt/omni-operator/lib/libjemalloc.so.2
-    --conf spark.sql.extensions=com.huawei.boostkit.spark.ColumnarPlugin
-    --jars /opt/omni-operator/lib/boostkit-omniop-spark-3.1.1-1.4.0-aarch64.jar
-    --jars /opt/omni-operator/lib/boostkit-omniop-bindings-1.4.0-aarch64.jar
-    --conf spark.sql.orc.impl=native
-    --conf spark.shuffle.manager=org.apache.spark.shuffle.sort.OmniColumnarShuffleManager
-    --conf spark.omni.sql.columnar.fusion=false
-    --conf spark.omni.sql.columnar.sortSpill.enabled=true
-    --conf spark.omni.sql.columnar.sortSpill.rowThreshold=4000000
-    --conf spark.omni.sql.columnar.sortSpill.dirDiskReserveSize=214748364800
-    --conf spark.locality.wait=8
-    --conf spark.sql.autoBroadcastJoinThreshold=10M
-    --conf spark.sql.broadcastTimeout=500
-    --conf spark.sql.cbo.enabled=false
-    --conf spark.default.parallelism=200
-    --conf spark.sql.shuffle.partitions=200
-    --conf spark.executorEnv.MALLCO_CONF=narenas:2
-)
+
 
 
 
@@ -50,7 +12,7 @@ spark_omni_func=(
 acquire_value(){
     project=$1
     key=$2
-    grep $project -A 15  $config_file |grep -m 1 $key|awk -F= '{print $2}'|awk '{print $1}'
+    grep $project -A 15  $config_file |grep -m 1 $key|awk -F= '{print $2}'
 }
 
 
@@ -458,16 +420,72 @@ collect_bigdata_operator(){
         # 日志记录位置 log_path/bigdata_operator.log
 	spark_path=$1
 	database=$2
-	if [ -e $spark_path ];
+    omnioperator_dir=$3
+	if [ -e $spark_path ] && [ -e $omnioperator_dir ];
 	then
+        spark_version=`readlink -f $spark_path | awk -F'-' '{{print $2}}'`
+        omnioperator_version=`cat $omnioperator_dir/version.txt | grep 'Component Version' | awk -F ": " '{print $2}'`
+        echo "spark version:$spark_version omnioperator version:$omnioperator_version" >$log_path/bigdata_operator.log 2>&1
+        spark_omni_func=(
+        --deploy-mode client
+        --driver-cores 5
+        --driver-memory 5g
+        --num-executors 6
+        --executor-cores 2
+        --executor-memory 6g
+        --master yarn
+        --conf spark.memory.offHeap.enabled=true
+        --conf spark.memory.offHeap.size=18g
+        --conf spark.task.cpus=1
+        --conf spark.driver.extraClassPath=${omnioperator_dir}/lib/boostkit-omniop-spark-${spark_version}-${omnioperator_version}-aarch64.jar:${omnioperator_dir}/lib/boostkit-omniop-bindings-${omnioperator_version}-aarch64.jar:${omnioperator_dir}/lib/dependencies/*
+        --conf spark.executor.extraClassPath=${omnioperator_dir}/lib/boostkit-omniop-spark-${spark_version}-${omnioperator_version}-aarch64.jar:${omnioperator_dir}/lib/boostkit-omniop-bindings-${omnioperator_version}-aarch64.jar:${omnioperator_dir}/lib/dependencies/*
+        --driver-java-options -Djava.library.path=${omnioperator_dir}/lib
+        --conf spark.sql.codegen.wholeStage=false
+        --conf spark.executorEnv.LD_LIBRARY_PATH=${omnioperator_dir}/lib
+        --conf spark.executorEnv.OMNI_HOME=${omnioperator_dir}/
+        --conf spark.driverEnv.LD_LIBRARY_PATH=${omnioperator_dir}/lib
+        --conf spark.driverEnv.OMNI_HOME=${omnioperator_dir}/
+        --conf spark.executor.extraLibraryPath=${omnioperator_dir}/lib
+        --conf spark.driverEnv.LD_PRELOAD=${omnioperator_dir}/lib/libjemalloc.so.2
+        --conf spark.executorEnv.LD_PRELOAD=${omnioperator_dir}/lib/libjemalloc.so.2
+        --conf spark.sql.extensions=com.huawei.boostkit.spark.ColumnarPlugin
+        --jars ${omnioperator_dir}/lib/boostkit-omniop-spark-${spark_version}-${omnioperator_version}-aarch64.jar
+        --jars ${omnioperator_dir}/lib/boostkit-omniop-bindings-${omnioperator_version}-aarch64.jar
+        --conf spark.sql.orc.impl=native
+        --conf spark.shuffle.manager=org.apache.spark.shuffle.sort.OmniColumnarShuffleManager
+        --conf spark.omni.sql.columnar.fusion=false
+        --conf spark.omni.sql.columnar.sortSpill.enabled=true
+        --conf spark.omni.sql.columnar.sortSpill.rowThreshold=4000000
+        --conf spark.omni.sql.columnar.sortSpill.dirDiskReserveSize=214748364800
+        --conf spark.locality.wait=8
+        --conf spark.sql.autoBroadcastJoinThreshold=10M
+        --conf spark.sql.broadcastTimeout=500
+        --conf spark.sql.cbo.enabled=false
+        --conf spark.default.parallelism=200
+        --conf spark.sql.shuffle.partitions=200
+        --conf spark.executorEnv.MALLCO_CONF=narenas:2
+)
+
 	    spark_conf_path=$1/conf
-	    if ! cat < $spark_conf_path/log4j.properties|grep "^log4j.logger.com.huawei.boostkit.spark=INFO";
-	    then
-                echo "log4j.logger.com.huawei.boostkit.spark=INFO" >> $spark_conf_path/log4j.properties
-	    fi
-	    $spark_path/bin/spark-sql "${spark_omni_func[@]}" --database $database -e "WITH customer_total_return AS ( SELECT sr_customer_sk AS ctr_customer_sk, sr_store_sk AS ctr_store_sk, sum(sr_return_amt) AS ctr_total_return FROM store_returns, date_dim WHERE sr_returned_date_sk = d_date_sk AND d_year = 2000 GROUP BY sr_customer_sk, sr_store_sk) SELECT c_customer_id FROM customer_total_return ctr1, store, customer WHERE ctr1.ctr_total_return > (SELECT avg(ctr_total_return) * 1.2 FROM customer_total_return ctr2 WHERE ctr1.ctr_store_sk = ctr2.ctr_store_sk) AND s_store_sk = ctr1.ctr_store_sk AND s_state = 'TN' AND ctr1.ctr_customer_sk = c_customer_sk ORDER BY c_customer_id LIMIT 100;" 1>$log_path/bigdata_operator.log 2>&1
+        if [ X"${spark_version}" == "X3.1.1" ];then
+            if [ ! -f $spark_conf_path/log4j.properties ];then
+                cp $spark_conf_path/log4j.properties.template $spark_conf_path/log4j.properties
+            fi
+            if ! cat < $spark_conf_path/log4j.properties|grep "^log4j.logger.com.huawei.boostkit.spark=INFO";
+            then
+                    echo "log4j.logger.com.huawei.boostkit.spark=INFO" >> $spark_conf_path/log4j.properties
+            fi
+        elif [ X"${spark_version}" == "X3.3.1" ];then
+            if [ ! -f $spark_conf_path/log4j2.properties ];then
+                cp $spark_conf_path/log4j2.properties.template $spark_conf_path/log4j2.properties
+            fi
+            sed -i "s/^logger.thriftserver.level =.*/logger.thriftserver.level = INFO/" $spark_conf_path/log4j2.properties
+        else
+            echo "Spark ${spark_version} is not supported." >>$log_path/bigdata_operator.log 2>&1
+        fi
+	    $spark_path/bin/spark-sql "${spark_omni_func[@]}" --database $database -e "WITH customer_total_return AS ( SELECT sr_customer_sk AS ctr_customer_sk, sr_store_sk AS ctr_store_sk, sum(sr_return_amt) AS ctr_total_return FROM store_returns, date_dim WHERE sr_returned_date_sk = d_date_sk AND d_year = 2000 GROUP BY sr_customer_sk, sr_store_sk) SELECT c_customer_id FROM customer_total_return ctr1, store, customer WHERE ctr1.ctr_total_return > (SELECT avg(ctr_total_return) * 1.2 FROM customer_total_return ctr2 WHERE ctr1.ctr_store_sk = ctr2.ctr_store_sk) AND s_store_sk = ctr1.ctr_store_sk AND s_state = 'TN' AND ctr1.ctr_customer_sk = c_customer_sk ORDER BY c_customer_id LIMIT 100;" 1>>$log_path/bigdata_operator.log 2>&1
 	else
-	    echo "$spark_path not exist" >$log_path/bigdata_operator.log 2>&1
+	    echo "$spark_path or $omnioperator_dir does not exist" >$log_path/bigdata_operator.log 2>&1
 	fi
 }
 
@@ -595,12 +613,13 @@ main(){
           dataset_list=$(acquire_value Bigdata dataset_list)
           spark_path=$(acquire_value Bigdata spark_path)
           database=$(acquire_value Bigdata database)
+          omnioperator_dir=$(acquire_value Bigdata omnioperator_dir)
           omniadvisor_dir=$(acquire_value Bigdata omniadvisor_dir)
           mysql_username=$(acquire_value Bigdata mysql_username)
           mysql_password=$(acquire_value Bigdata mysql_password)
           mysql_database_name=$(acquire_value Bigdata mysql_database_name)
           collect_bigdata_kal "${algorithms_list[@]}" $algorithms_path "${dataset_list[@]}"
-          collect_bigdata_operator $spark_path $database
+          collect_bigdata_operator $spark_path $database $omnioperator_dir
           collect_bigdata_hbase
           collect_bigdata_tune_up $omniadvisor_dir $mysql_username $mysql_password $mysql_database_name
           echo "Bigdata collect msg Done..."
@@ -636,6 +655,7 @@ else
 fi
 main
 tar_log_file $customer_information
+
 
 
 
