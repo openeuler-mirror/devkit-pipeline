@@ -1,4 +1,5 @@
 import argparse
+import copy
 import datetime
 import logging
 import os
@@ -217,7 +218,12 @@ class Distributor:
         self.jmeter_thread.start()
 
     def __jmeter_start(self, command):
-        outcome = shell_tools.exec_shell(command, is_shell=True, timeout=self.SEVEN_DAYS)
+        if self.java_home:
+            new_env = copy.deepcopy(PyInstallerUtils.get_env())
+            new_env["JAVA_HOME"] = self.java_home
+            outcome = shell_tools.exec_shell(command, is_shell=True, timeout=self.SEVEN_DAYS, env=new_env)
+        else:
+            outcome = shell_tools.exec_shell(command, is_shell=True, timeout=self.SEVEN_DAYS)
         logging.info("return_code: %s", outcome.return_code)
         logging.info("error: %s", outcome.err)
         logging.info("out: %s", outcome.out)

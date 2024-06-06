@@ -30,6 +30,9 @@ class PyInstallerUtils:
 
     @classmethod
     def get_env(cls):
+        """
+        返回的env,不允许修改
+        """
         if cls.ORI_ENV:
             return cls.ORI_ENV
         env_copy = copy.deepcopy(os.environ)
@@ -39,4 +42,4 @@ class PyInstallerUtils:
             else:
                 env_copy.pop(cls.LD_LIBRARY_PATH)
         cls.ORI_ENV = env_copy
-        return env_copy
+        return cls.ORI_ENV
