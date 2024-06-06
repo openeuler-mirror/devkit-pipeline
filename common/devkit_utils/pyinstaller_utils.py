@@ -33,8 +33,10 @@ class PyInstallerUtils:
         if cls.ORI_ENV:
             return cls.ORI_ENV
         env_copy = copy.deepcopy(os.environ)
-        if cls.check_is_running_in_pyinstaller_bundle() and cls.LD_LIBRARY_PATH_ORIG in env_copy:
-            env_copy[cls.LD_LIBRARY_PATH] = env_copy.get(cls.LD_LIBRARY_PATH_ORIG)
-            env_copy.pop(cls.LD_LIBRARY_PATH_ORIG)
+        if cls.check_is_running_in_pyinstaller_bundle():
+            if cls.LD_LIBRARY_PATH_ORIG in env_copy:
+                env_copy[cls.LD_LIBRARY_PATH] = env_copy.get(cls.LD_LIBRARY_PATH_ORIG)
+            else:
+                env_copy.pop(cls.LD_LIBRARY_PATH)
         cls.ORI_ENV = env_copy
         return env_copy
