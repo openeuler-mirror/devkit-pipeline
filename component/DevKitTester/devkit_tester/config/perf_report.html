@@ -3,7 +3,7 @@
 <head>
     <script>
         const randomTest = false;
-        const validPages = ['report', 'perf', 'git'];
+        const validPages = ['perf', 'report', 'git'];
         const pipelineData = {
             report: {
                 report_tb_cols: 2,
@@ -86,7 +86,7 @@
             <div id="r-content">
                 <div id="inner-content">
                     <div v-if="curPage === 'report'">
-                        <h1>DevKit Performance Test Info</h1>
+                        <h1>性能测试报告</h1>
                         <el-table :data="reportTableData" style="width: 100%" stripe>
                             <el-table-column v-for="item in Object.keys(reportTableData[0])" :prop="item" :label="item" width="180"></el-table-column>
                         </el-table>    
@@ -173,43 +173,61 @@
                         <div style="width: 100%; height: 230px;">
                             <div id="ct3" style="width: 100%; height: 100%;"></div>
                         </div>
-                        <div v-for="(value, key, index) in memoryDatas" :key="index">
-                            <div style="display: flex; justify-content: space-between; align-items: center; width: 70%;">
-                                <h4>Memory Usage [{{key}}]</h4>
-                                <div>
-                                    <el-text class="mx-1">Node Select </el-text>
-                                    <el-select v-model="memoryNode[index]" placeholder="Select" style="width: 240px" @change="() => memoryChange(key, index)">
-                                        <el-option
-                                            v-for="(item, index) in memoryNodes[key]"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item"
-                                        />
-                                    </el-select>
-                                </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 70%;">
+                            <h4>Memory Usage</h4>
+                            <div>
+                                <el-text class="mx-1">Node Select </el-text>
+                                <el-select v-model="memoryNode" placeholder="Select" style="width: 240px" @change="memoryNodeChange">
+                                    <el-option
+                                        v-for="(item, index) in memoryNodes"
+                                        :key="item"
+                                        :label="item"
+                                        :value="item"
+                                    />
+                                </el-select>
                             </div>
-                            <div style="width: 100%; height: 250px;">
-                                <div :id="'ct4'+index" style="width: 100%; height: 100%;"></div>
+                            <div>
+                                <el-text class="mx-1">Thread Select </el-text>
+                                <el-select v-model="memoryPidSelect" placeholder="Select" style="width: 240px" @change="memoryChange" multiple>
+                                    <el-option
+                                        v-for="(item, index) in memoryPid"
+                                        :key="item"
+                                        :label="item"
+                                        :value="item"
+                                    />
+                                </el-select>
                             </div>
                         </div>
-                        <div v-for="(value, key, index) in cpuDatas" :key="index">
-                            <div style="display: flex; justify-content: space-between; align-items: center; width: 70%;">
-                                <h4>CPU Usage [{{key}}]</h4>
-                                <div>
-                                    <el-text class="mx-1">Node Select </el-text>
-                                    <el-select v-model="cpuNode[index]" placeholder="Select" style="width: 240px" @change="() => cpuChange(key, index)">
-                                        <el-option
-                                            v-for="(item, index) in cpuNodes[key]"
-                                            :key="item"
-                                            :label="item"
-                                            :value="item"
-                                        />
-                                    </el-select>
-                                </div>
+                        <div style="width: 100%; height: 250px;">
+                            <div id="ct4" style="width: 100%; height: 100%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 70%;">
+                            <h4>CPU Usage</h4>
+                            <div>
+                                <el-text class="mx-1">Node Select </el-text>
+                                <el-select v-model="cpuNode" placeholder="Select" style="width: 240px" @change="cpuNodeChange">
+                                    <el-option
+                                        v-for="(item, index) in cpuNodes"
+                                        :key="item"
+                                        :label="item"
+                                        :value="item"
+                                    />
+                                </el-select>
                             </div>
-                            <div style="width: 100%; height: 250px;">
-                                <div :id="'ct5'+index" style="width: 100%; height: 100%;"></div>
+                            <div>
+                                <el-text class="mx-1">Thread Select </el-text>
+                                <el-select v-model="cpuPidSelect" placeholder="Select" style="width: 240px" @change="cpuChange" multiple>
+                                    <el-option
+                                        v-for="(item, index) in cpuPid"
+                                        :key="item"
+                                        :label="item"
+                                        :value="item"
+                                    />
+                                </el-select>
                             </div>
+                        </div>
+                        <div style="width: 100%; height: 250px;">
+                            <div id="ct5" style="width: 100%; height: 100%;"></div>
                         </div>
                         <div>
                             <el-switch
@@ -327,28 +345,19 @@
     
     const memoryD = pipelineData.perf.memory;
     const cpuD = pipelineData.perf.cpu;
-    const memoryDatas = {};
-    const memoryNodes = {};
-    const cpuDatas = {};
-    const cpuNodes = {};
-    Array.from(Object.keys(memoryD)).forEach(node => Array.from(Object.keys(memoryD[node])).forEach(app => {
-        if (memoryDatas?.[app]?.length) {
-            memoryDatas[app].push(memoryD[node][app]);
-            memoryNodes[app].push(node);
-        } else {
-            memoryDatas[app] = [memoryD[node][app]];
-            memoryNodes[app] = [node];
-        }
-    }));
-    Array.from(Object.keys(cpuD)).forEach(node => Array.from(Object.keys(cpuD[node])).forEach(app => {
-        if (cpuDatas?.[app]?.length) {
-            cpuDatas[app].push(cpuD[node][app]);
-            cpuNodes[app].push(node);
-        } else {
-            cpuDatas[app] = [cpuD[node][app]];
-            cpuNodes[app] = [node];
-        }
-    }));
+    const memoryNodes = Array.from(Object.keys(memoryD));
+    const memoryPids = {};
+    const cpuNodes = Array.from(Object.keys(cpuD));
+    const cpuPids = {};
+    memoryNodes.forEach(node => {
+        memoryPids[node] = Array.from(Object.keys(memoryD[node]));
+    });
+    cpuNodes.forEach(node => {
+        cpuPids[node] = Array.from(Object.keys(cpuD[node]));
+    });
+    const myPalette = ['#0077ff', '#2db47c', '#ec4f83', '#3db6fc', '#6d47f5', '#3dcfd4', '#bd45e8', '#81ba06', '#ff5432', '#66adff', '#8ed7b0',
+        '#f5a0bc', '#97d8fd', '#b09cfa', '#97e5e8', '#db9bf3', '#bddf74', '#004db9', '#21845f', '#be306e', '#2085c3', '#5328bf', '#2a939d', '#972ab2'
+    ];
     
     const getTopN = (data, topN) => {
         const idxArr = [...Array(data.length).keys()]
@@ -365,8 +374,8 @@
     const timeFormatter = (timestamp, ignoreDate = true) => {
         const date = new Date(timestamp);
         const localeTime = ignoreDate ? date.toLocaleTimeString() : date.toLocaleString().substring(5).replace('/', '-');
-        // const ms = date.getMilliseconds();
-        return localeTime;
+        const ms = date.getMilliseconds();
+        return `${localeTime}.${ms}`;
     }
 
     const colorRank = (start, end, ranks, idx) => {
@@ -536,14 +545,20 @@ class FlameData {
                 myCt1: null,
                 myCt2: null,
                 myCt3: null,
-                myCt4: [],
-                myCt5: [],
-                memoryNode: Array.from(Object.keys(memoryNodes)).map(key => memoryNodes[key][0]),
-                cpuNode: Array.from(Object.keys(cpuNodes)).map(key => cpuNodes[key][0]),
-                memoryDatas,
+                myCt4: null,
+                myCt5: null,
+                memoryNode: memoryNodes[0],
+                cpuNode: cpuNodes[0],
+                memoryPid: memoryPids[memoryNodes[0]],
+                cpuPid: cpuPids[cpuNodes[0]],
+                memoryPidSelect: [memoryPids[memoryNodes[0]][0]],
+                cpuPidSelect: [cpuPids[cpuNodes[0]][0]],
+                memoryD,
+                cpuD,
                 memoryNodes,
-                cpuDatas,
-                cpuNodes
+                memoryPids,
+                cpuNodes,
+                cpuPids,
             };
         },
         mounted() {
@@ -591,17 +606,19 @@ class FlameData {
                             },
                             splitNumber: 2
                         },
-                        dataZoom: [{type: 'slider', start: 0, end: 50 / scales * 100, moveHandleStyle: {color: 'black'}}, {type: 'inside', start: 0, end: 50 / scales * 100}],
+                        dataZoom: [{type: 'slider', start: 0, end: 50 / scales * 100, top: 0}, {type: 'inside', start: 0, end: 50 / scales * 100}],
                         tooltip: {
                             trigger: 'axis'
                         },
                         legend: {
-                            data: Object.keys(group[category])
+                            data: Object.keys(group[category]),
+                            top: 40
                         },
                         grid: {
                             left: '3%',
                             right: '4%',
-                            bottom: 50,
+                            top: 70,
+                            bottom: 0,
                             containLabel: true
                         },
                         series: Object.keys(group[category]).map((key, idx, arr) => ({
@@ -631,35 +648,49 @@ class FlameData {
                     chartObj.setOption(option);
                 }
                 echarts.connect(Object.values(order));
-                
-                Array.from(Object.keys(memoryDatas)).forEach((app, index) => {
-                    this.myCt4.push(Vue.markRaw(echarts.init(document.getElementById(`ct4${index}`))));
-                    const data = memoryDatas[app][0];
-                    const ts = data.startTime;
+                {
+
+                    this.myCt4 = Vue.markRaw(echarts.init(document.getElementById('ct4')));
+                    const pidKey = [];
+                    const data = this.memoryPidSelect.map(pid => {
+                        pidKey.push(pid);    
+                        return memoryD[this.memoryNode][pid];
+                    });
+                    const ts = data[0].startTime;
+                    const seriesPidKey = [];
                     const seriesKey = [];
                     const seriesData = [];
-                    Array.from(Object.keys(data)).forEach(title => {
-                        if (title === 'startTime') {
-                            return;
-                        } else {
-                            seriesKey.push(title);
-                            seriesData.push(data[title]);
-                        }
-                    });
+                    for (let i = 0; i < pidKey.length; ++i) {
+                        Array.from(Object.keys(data[i])).forEach(title => {
+                            if (title === 'startTime') {
+                                return;
+                            } else {
+                                seriesPidKey.push(pidKey[i]);
+                                seriesKey.push(title);
+                                seriesData.push(data[i][title]);
+                            }
+                        });
+                    }
                     const option = {
                         tooltip: {
                             trigger: 'axis',
                             axisPointer: {
                             type: 'shadow'
                             },
-                            valueFormatter: (value) => value + ' MB',
+                            formatter: (params) => (params.map((param) => {
+                                if (seriesPidKey[param.seriesIndex] === undefined) {
+                                    return '';
+                                }
+                                return `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value} MB<br/>`;
+                            }).join('')),
                         },
-                        legend: {},
-                        dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, moveHandleStyle: {color: 'black'}},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
+                        legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
+                        dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, top: 0},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
                         grid: {
                             left: '3%',
                             right: '4%',
-                            bottom: 50,
+                            top: 70,
+                            bottom: 0,
                             containLabel: true
                         },
                         xAxis: {
@@ -695,6 +726,7 @@ class FlameData {
                                 focus: 'series',
                                 scale: true
                             },
+                            color: myPalette[innerIdx % myPalette.length],
                             showSymbol: false,
                             smooth: 0.05,
                             connectNulls: true,
@@ -702,36 +734,45 @@ class FlameData {
                             symbolSize: 8
                         })),
                     }
-                    this.myCt4[index].setOption(option);
-                });
-                Array.from(Object.keys(cpuDatas)).forEach((app, index) => {
-                    this.myCt5.push(Vue.markRaw(echarts.init(document.getElementById(`ct5${index}`))));
-                    const data = cpuDatas[app][0];
-                    const ts = data.startTime;
+                    this.myCt4.setOption(option);
+                }
+                {
+                    this.myCt5 = Vue.markRaw(echarts.init(document.getElementById('ct5')));
+                    const pidKey = [];
+                    const data = this.cpuPidSelect.map(pid => {
+                        pidKey.push(pid);    
+                        return cpuD[this.cpuNode][pid];
+                    });
+                    const ts = data[0].startTime;
+                    const seriesPidKey = [];
                     const seriesKey = [];
                     const seriesData = [];
-                    Array.from(Object.keys(data)).forEach(title => {
-                        if (title === 'startTime') {
-                            return;
-                        } else {
-                            seriesKey.push(title);
-                            seriesData.push(data[title]);
-                        }
-                    });
+                    for (let i = 0; i < pidKey.length; ++i) {
+                        Array.from(Object.keys(data[i])).forEach(title => {
+                            if (title === 'startTime') {
+                                return;
+                            } else {
+                                seriesPidKey.push(pidKey[i]);
+                                seriesKey.push(title);
+                                seriesData.push(data[i][title]);
+                            }
+                        });
+                    }
                     const option = {
                         tooltip: {
                             trigger: 'axis',
                             axisPointer: {
                             type: 'shadow'
                             },
-                            valueFormatter: (value) => value + '%',
+                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value}%<br/>`).join(''))
                         },
-                        legend: {},
-                        dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, moveHandleStyle: {color: 'black'}},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
+                        legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
+                        dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, top: 0},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
                         grid: {
                             left: '3%',
                             right: '4%',
-                            bottom: 50,
+                            top: 70,
+                            bottom: 0,
                             containLabel: true
                         },
                         xAxis: {
@@ -768,14 +809,15 @@ class FlameData {
                                 scale: true
                             },
                             showSymbol: false,
+                            color: myPalette[innerIdx % myPalette.length],
                             smooth: 0.05,
                             connectNulls: true,
                             symbol: 'emptyCircle',
                             symbolSize: 8
                         })),
-                    }
-                    this.myCt5[index].setOption(option);
-                });
+                    };
+                    this.myCt5.setOption(option);
+                }
             },
             setAndBindFG(id, fd, sid) {
                 let fid = 1;
@@ -828,21 +870,75 @@ class FlameData {
                     endValue: this.tpsTop + 1 <= this.group.ts.length ? this.tpsTop + 1 : this.group.ts.length
                 });
             },
-            memoryChange(key, index) {
-                const data = memoryDatas[key][index];
-                const ts = data.startTime;
+            memoryChange() {
+                const pidKey = [];
+                const data = this.memoryPidSelect.map(pid => {
+                    pidKey.push(pid);    
+                    return memoryD[this.memoryNode][pid];
+                });
+                const ts = data[0].startTime;
+                const seriesPidKey = [];
                 const seriesKey = [];
                 const seriesData = [];
-                Array.from(Object.keys(data)).forEach(title => {
-                    if (title === 'startTime') {
-                        return;
-                    } else {
-                        seriesKey.push(title);
-                        seriesData.push(data[title]);
-                    }
-                });
-                Vue.markRaw(this.myCt4[index].setOption({
-                    series: seriesKey.map((key, innerIdx) => ({
+                for (let i = 0; i < pidKey.length; ++i) {
+                    Array.from(Object.keys(data[i])).forEach(title => {
+                        if (title === 'startTime') {
+                            return;
+                        } else {
+                            seriesPidKey.push(pidKey[i]);
+                            seriesKey.push(title);
+                            seriesData.push(data[i][title]);
+                        }
+                    });
+                }
+                Vue.markRaw(this.myCt4.setOption({
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                            type: 'shadow'
+                            },
+                            formatter: (params) => (params.map((param) => {
+                                if (seriesPidKey[param.seriesIndex] === undefined) {
+                                    return '';
+                                }
+                                return `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value} MB<br/>`;
+                            }).join('')),
+                        },
+                        legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
+                        dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, top: 0},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            top: 70,
+                            bottom: 0,
+                            containLabel: true
+                        },
+                        xAxis: {
+                            data: ts.map(item => timeFormatter(item)),
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    opacity: 0.1
+                                }
+                            }
+                        },
+                        yAxis: [
+                            {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value} MB'
+                            },
+                            splitLine: {
+                                lineStyle: {
+                                    type: [1, 4]
+                                }
+                            },
+                            splitNumber: 2
+                            }
+                        ],
+                        series: seriesKey.map((key, innerIdx) => ({
                             data: seriesData[innerIdx].map((val => (val/1024/1024).toFixed(2))),
                             name: key,
                             type: 'line',
@@ -850,40 +946,89 @@ class FlameData {
                                 focus: 'series',
                                 scale: true
                             },
+                            color: myPalette[innerIdx % myPalette.length],
                             showSymbol: false,
                             smooth: 0.05,
                             connectNulls: true,
                             symbol: 'emptyCircle',
                             symbolSize: 8
                         })),
-                    xAxis: {
-                        data: ts.map(item => timeFormatter(item)),
-                        axisTick: {
-                            show: false
-                        },
-                        axisLine: {
-                            lineStyle: {
-                                opacity: 0.1
-                            }
-                        }
-                    }
-                }));
+                    }, true));
             },
-            cpuChange(key, index) {
-                const data = cpuDatas[key][index];
-                const ts = data.startTime;
+            memoryNodeChange() {
+                this.memoryPid = this.memoryPids[this.memoryNode];
+                this.memoryPidSelect = [this.memoryPid[0]];
+                this.memoryChange();
+            },
+            cpuNodeChange() {
+                this.cpuPid = this.cpuPids[this.cpuNode];
+                this.cpuPidSelect = [this.cpuPid[0]];
+                this.cpuChange();
+            },
+            cpuChange() {
+                const pidKey = [];
+                const data = this.cpuPidSelect.map(pid => {
+                    pidKey.push(pid);    
+                    return cpuD[this.cpuNode][pid];
+                });
+                const ts = data[0].startTime;
+                const seriesPidKey = [];
                 const seriesKey = [];
                 const seriesData = [];
-                Array.from(Object.keys(data)).forEach(title => {
-                    if (title === 'startTime') {
-                        return;
-                    } else {
-                        seriesKey.push(title);
-                        seriesData.push(data[title]);
-                    }
-                });
-                Vue.markRaw(this.myCt5[index].setOption({
-                    series: seriesKey.map((key, innerIdx) => ({
+                for (let i = 0; i < pidKey.length; ++i) {
+                    Array.from(Object.keys(data[i])).forEach(title => {
+                        if (title === 'startTime') {
+                            return;
+                        } else {
+                            seriesPidKey.push(pidKey[i]);
+                            seriesKey.push(title);
+                            seriesData.push(data[i][title]);
+                        }
+                    });
+                }
+                Vue.markRaw(this.myCt5.setOption({
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                            type: 'shadow'
+                            },
+                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value}%<br/>`).join(''))
+                        },
+                        legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
+                        dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, top: 0},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            top: 70,
+                            bottom: 0,
+                            containLabel: true
+                        },
+                        xAxis: {
+                            data: ts.map(item => timeFormatter(item)),
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    opacity: 0.1
+                                }
+                            }
+                        },
+                        yAxis: [
+                            {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value}%'
+                            },
+                            splitLine: {
+                                lineStyle: {
+                                    type: [1, 4]
+                                }
+                            },
+                            splitNumber: 2
+                            }
+                        ],
+                        series: seriesKey.map((key, innerIdx) => ({
                             data: seriesData[innerIdx].map((val => (val*100).toFixed(2))),
                             name: key,
                             type: 'line',
@@ -893,22 +1038,12 @@ class FlameData {
                             },
                             showSymbol: false,
                             smooth: 0.05,
+                            color: myPalette[innerIdx % myPalette.length],
                             connectNulls: true,
                             symbol: 'emptyCircle',
                             symbolSize: 8
                         })),
-                    xAxis: {
-                        data: ts.map(item => timeFormatter(item)),
-                        axisTick: {
-                            show: false
-                        },
-                        axisLine: {
-                            lineStyle: {
-                                opacity: 0.1
-                            }
-                        }
-                    }
-                }));
+                    }, true));
             }
         }
     };
