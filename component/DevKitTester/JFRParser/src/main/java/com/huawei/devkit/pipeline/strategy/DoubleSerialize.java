@@ -16,7 +16,7 @@ public class DoubleSerialize extends JsonSerializer<Double> {
     public void serialize(Double value, JsonGenerator gen, SerializerProvider serializers)
             throws IOException, JsonProcessingException {
         if (value != null) {
-            gen.writeString(DF.format(Math.round(value)));
+            gen.writeString(DF.format(value));
         }
     }
 }
