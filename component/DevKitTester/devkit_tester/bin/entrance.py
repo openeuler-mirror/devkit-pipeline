@@ -1,4 +1,5 @@
 import argparse
+import copy
 import datetime
 import logging
 import os
@@ -12,7 +13,7 @@ from devkit_utils import shell_tools
 from devkit_utils.devkit_client import DevKitClient
 from devkit_utils.error_coce import ErrorCodeEnum, ErrorCodeMsg
 from devkit_utils.log_config import config_log_ini
-from devkit_utils.pyinstaller_utils import obtain_root_path
+from devkit_utils.pyinstaller_utils import PyInstallerUtils
 from devkit_utils.transport_utils import SSHClientFactory
 from report.report import Report
 
@@ -20,11 +21,12 @@ ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
 class JmeterCommand:
-    def __init__(self, origin_command):
+    def __init__(self, origin_command, java_home):
         self.origin_command: str = origin_command
         self.csv_file = None
         self.result_dir = None
         self.jmx_file = None
+        self.java_home = java_home
 
     def check_and_init_jmeter_cmd(self):
         if not self.origin_command:
@@ -60,7 +62,9 @@ class JmeterCommand:
             else:
                 break
         else:
-            return self.__check_param_resource()
+            self.__check_java_version()
+            self.__check_param_resource()
+            return
         raise Exception(
             "The command line is not supported。example: sh jmeter.sh -n -t /home/demo.jmt "
             "-l /home/jmeter/result.csv -e -o /home/jmeter/empty_dir/")
@@ -75,6 +79,28 @@ class JmeterCommand:
                 raise Exception(f"the directory {self.result_dir} is exist or not empty")
         if not os.path.exists(self.jmx_file):
             raise Exception(f"the jmx file {self.jmx_file} is not exist")
+
+    def __check_java_version(self):
+        try:
+            if self.java_home:
+                if not os.path.exists(f"{self.java_home}/bin/java"):
+                    raise Exception("The currently specified java home is incorrect base on -m parameter")
+                command = f"{self.java_home}/bin/java -version"
+            else:
+                command = f"java -version"
+            logging.info("command is %s", command)
+            outcome = shell_tools.exec_shell(command, is_shell=True, timeout=None)
+            output = outcome.err if "version" in outcome.err else outcome.out
+            version_line = output.split(" ")[2].strip('"')
+            version = version_line.split(".")[0]
+        except Exception as ex:
+            logging.exception(ex)
+            raise Exception("Please use the -m parameter to specify java home,"
+                            " and the java version is greater than or equal to 11")
+        else:
+            if int(version) < 11:
+                raise Exception("Please use the -m parameter to specify java home,"
+                                " and the java version is greater than or equal to 11")
 
 
 class Distributor:
@@ -100,19 +126,20 @@ class Distributor:
         file_utils.create_dir(self.data_path)
         self.template_path = os.path.join(self.root_path, "config")
         self.git_path = args.git_path
-        self.jmeter_command: JmeterCommand = JmeterCommand(args.jmeter_command)
+        self.java_home = args.java_home
+        self.output = args.output if args.output else self.data_path
+        self.jmeter_command: JmeterCommand = JmeterCommand(args.jmeter_command, self.java_home)
         self.jmeter_thread: typing.Optional[threading.Thread] = None
         self.enable_jmeter_command = True if args.jmeter_command else False
+        # 节点差异时间
         self.node_time_gap = dict()
+        # 节点采集的JFR文件
         self.node_jfr_path = dict()
 
     def distribute(self):
         # 清空本地jfr文件
         file_utils.clear_dir(self.data_path)
-        # jmeter 命令校验
-        self.jmeter_command.check_and_init_jmeter_cmd()
-        # 校验联通性
-        self.__check_ips_connected()
+        self.__check()
         # 启动jmeter
         if self.enable_jmeter_command:
             self.__start_jmeter_thread()
@@ -138,26 +165,49 @@ class Distributor:
         # 等待jmeter完成
         if self.enable_jmeter_command:
             self.__generate_jmeter_data()
-            report = Report(report_path=self.data_path, template_path=self.template_path,
+            report = Report(report_dir=self.output, data_path=self.data_path, template_path=self.template_path,
                             jmeter_report_path=self.jmeter_command.csv_file,
                             git_path=self.git_path, devkit_tool_ip=self.devkit_ip,
                             devkit_tool_port=self.devkit_port, devkit_user_name=self.devkit_user)
         else:
-            report = Report(report_path=self.data_path, template_path=self.template_path,
+            report = Report(report_dir=self.output, data_path=self.data_path, template_path=self.template_path,
                             git_path=self.git_path, devkit_tool_ip=self.devkit_ip,
                             devkit_tool_port=self.devkit_port, devkit_user_name=self.devkit_user)
         report.report()
         self.__print_result(jfr_names)
 
+    def __check(self):
+        # jmeter 命令校验
+        self.jmeter_command.check_and_init_jmeter_cmd()
+        # 校验联通性
+        self.__check_ips_connected()
+        # 校验output
+        if not os.path.exists(self.output) or not os.path.isdir(self.output):
+            raise Exception("the output path specified by the -o parameter is s not a directory or doesn't exist")
+        final_report = os.path.join(self.output, "devkit_performance_report.html")
+        if os.path.exists(final_report):
+            raise Exception(
+                "the output path specified by the -o parameter doesn't contain the file named "
+                "devkit_performance_report.html ")
+        if not os.access(self.output, os.R_OK | os.W_OK | os.X_OK):
+            raise Exception("The output path specified by the -o parameter does have no permissions")
+
     def __generate_jmeter_data(self):
         time_gap = ','.join(f"{k}:{v}" for k, v in self.node_time_gap.items())
         jfr_path = ','.join(f"{k}:{item}" for k, v in self.node_jfr_path.items() for item in v)
-        command = (f"bash {self.root_path}/bin/generate_jmeter_result.sh -o {self.data_path} "
-                   f"-j {self.jmeter_command.csv_file} "
-                   f"-n {time_gap} "
-                   f"-f {jfr_path} ")
+        if self.java_home:
+            command = (f"export JAVA_HOME={self.java_home} && "
+                       f"bash {self.root_path}/bin/generate_jmeter_result.sh -o {self.data_path} "
+                       f"-j {self.jmeter_command.csv_file} "
+                       f"-n {time_gap} "
+                       f"-f {jfr_path} ")
+        else:
+            command = (f"bash {self.root_path}/bin/generate_jmeter_result.sh -o {self.data_path} "
+                       f"-j {self.jmeter_command.csv_file} "
+                       f"-n {time_gap} "
+                       f"-f {jfr_path} ")
         logging.info("command is %s", command)
-        outcome = shell_tools.exec_shell(command, timeout=None)
+        outcome = shell_tools.exec_shell(command, is_shell=True, timeout=None)
         logging.info("return_code: %s", outcome.return_code)
         logging.info("error: %s", outcome.err)
         logging.info("out: %s", outcome.out)
@@ -168,7 +218,12 @@ class Distributor:
         self.jmeter_thread.start()
 
     def __jmeter_start(self, command):
-        outcome = shell_tools.exec_shell(command, is_shell=True, timeout=self.SEVEN_DAYS)
+        if self.java_home:
+            new_env = copy.deepcopy(PyInstallerUtils.get_env())
+            new_env["JAVA_HOME"] = self.java_home
+            outcome = shell_tools.exec_shell(command, is_shell=True, timeout=self.SEVEN_DAYS, env=new_env)
+        else:
+            outcome = shell_tools.exec_shell(command, is_shell=True, timeout=self.SEVEN_DAYS)
         logging.info("return_code: %s", outcome.return_code)
         logging.info("error: %s", outcome.err)
         logging.info("out: %s", outcome.out)
@@ -360,7 +415,11 @@ def main():
                         help="git path")
     parser.add_argument("-j", "--jmeter-command", dest="jmeter_command", type=str,
                         help="the command that start jmeter tests")
-    parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
+    parser.add_argument("-m", "--java-home", dest="java_home", type=str,
+                        help="the java home for parsing the jfr, the java version is greater than or equal to 11")
+    parser.add_argument("-o", "--output", dest="output", type=str,
+                        help="the directory of the final report")
+    parser.set_defaults(root_path=PyInstallerUtils.obtain_root_path(ROOT_PATH))
     parser.set_defaults(password="")
     args = parser.parse_args()
     config_log_ini(args.root_path, "devkit_tester")

@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import re
 import subprocess
@@ -21,12 +22,13 @@ GIT_REPORT_DATA_LINE_NUM = 14
 
 
 class Report:
-    def __init__(self, report_path="./", template_path="./", git_path="./",
+    def __init__(self, report_dir="./", data_path="./", template_path="./", git_path="./",
                  jmeter_report_path=None, devkit_tool_ip="",
                  devkit_tool_port="8086", devkit_user_name="devadmin"):
-        if not os.path.isdir(report_path):
-            raise Exception(f"Report path:{report_path} illegal.")
-        self.report_dir = report_path
+        if not os.path.isdir(report_dir):
+            raise Exception(f"Report path:{report_dir} illegal.")
+        self.report_dir = report_dir
+        self.data_path = data_path
         self.git_path = git_path
         self.template_path = template_path
         self.jmeter_report_path = jmeter_report_path
@@ -42,7 +44,7 @@ class Report:
         html_lines[DEVKIT_REPORT_DATA_LINE_NUM] = "report_tb_data: {} \n".format(devkit_report_json)
         if self.jmeter_report_path:
             valid_page.append("'perf'")
-            jmeter_report = os.path.join(self.report_dir, "result.json")
+            jmeter_report = os.path.join(self.data_path, "result.json")
             with open(jmeter_report, 'r') as file:
                 html_lines[JMETER_REPORT_DATA_LINE_NUM] = "perf: {},\n".format(file.read())
         if self.git_path:
@@ -51,6 +53,7 @@ class Report:
             html_lines[GIT_REPORT_DATA_LINE_NUM] = "git_tb_data: {},\n".format(git_log)
         html_lines[REPORT_VALID_LINE] = "const validPages = [{}];\n".format(",".join(valid_page))
         final_report = os.path.join(self.report_dir, "devkit_performance_report.html")
+        logging.info("please view the report file : %s", os.path.realpath(final_report))
         with open(final_report, "w") as file:
             file.writelines(html_lines)
         return final_report

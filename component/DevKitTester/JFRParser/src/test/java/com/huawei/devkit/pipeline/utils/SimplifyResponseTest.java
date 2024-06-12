@@ -34,6 +34,6 @@ public final class SimplifyResponseTest {
         jmeterRTList.add(new JmeterRT(4L, 4d));
         Map<String, List<Object>> simplified = SimplifyResponse.simplify(jmeterRTList, JmeterRT.class);
         Assertions.assertEquals(simplified.get("responseTime").size(), 4);
-        Assertions.assertEquals(simplified.get("responseTime").toString(), List.of(1d, 2d, 3d, 4d).toString());
+        Assertions.assertEquals(simplified.get("responseTime").toString(), List.of("1.00", "2.00", "3.00", "4.00").toString());
     }
 }

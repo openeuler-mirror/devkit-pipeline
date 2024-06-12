@@ -5,10 +5,12 @@ import os.path
 import shutil
 import time
 
+import psutil
+
 from devkit_utils import shell_tools, file_utils
 from devkit_utils.error_coce import ErrorCodeEnum
 from devkit_utils.log_config import config_log_ini
-from devkit_utils.pyinstaller_utils import obtain_root_path
+from devkit_utils.pyinstaller_utils import PyInstallerUtils
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -43,6 +45,8 @@ class FlightRecordsFactory:
         self.response_file = os.path.join(root_path, "config/complete_the_upload.ini")
         self.now_date = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         file_utils.create_dir(self.dir_to_storage_jfr)
+        self.jcmd_path = None
+        self.user_is_root = False
 
     def start_sample(self):
         try:
@@ -51,26 +55,51 @@ class FlightRecordsFactory:
             self.__init_pids()
             if len(self.pids) == 0:
                 self.return_code = ErrorCodeEnum.NOT_FOUND_APPS
+                return
             elif not self.__check_jcmd():
                 self.return_code = ErrorCodeEnum.NOT_FOUND_JCMD
+                return
+            self.__init_user_is_root()
             logging.info("start_recorder")
-            self.__start_recorder()
-            if self.jfr_paths:
-                if self.wait_for_jmeter_stop:
-                    self.__wait_for_jmeter_has_stopping()
-                    self.__stop_recorder()
-                else:
-                    time.sleep(self.duration)
-                before = datetime.datetime.now()
-                # 停止采集
-                logging.info("check has stopped recorder")
-                while not self.__check_has_stopped_recorder() and (datetime.datetime.now() - before).seconds < 30:
-                    time.sleep(1)
+            if self.user_is_root:
+                self.__start_sample_by_root()
             else:
-                logging.exception(f"The target application {self.apps}  cannot be found or Operation not permitted")
+                self.__start_sample_by_common_user()
         finally:
             shell_tools.exec_shell(f"echo {self.return_code} >{self.response_file}", is_shell=True)
             logging.info("the current agent has been executed")
+
+    def __start_sample_by_root(self):
+        self.__start_recorder_by_root()
+        if self.jfr_paths:
+            if self.wait_for_jmeter_stop:
+                self.__wait_for_jmeter_has_stopping()
+                self.__stop_recorder_by_root()
+            else:
+                time.sleep(self.duration)
+            before = datetime.datetime.now()
+            # 停止采集
+            logging.info("check has stopped recorder")
+            while not self.__check_has_stopped_recorder_by_root() and (datetime.datetime.now() - before).seconds < 30:
+                time.sleep(1)
+        else:
+            logging.exception(f"The target application {self.apps}  cannot be found or Operation not permitted")
+
+    def __start_sample_by_common_user(self):
+        self.__start_recorder()
+        if self.jfr_paths:
+            if self.wait_for_jmeter_stop:
+                self.__wait_for_jmeter_has_stopping()
+                self.__stop_recorder()
+            else:
+                time.sleep(self.duration)
+            before = datetime.datetime.now()
+            # 停止采集
+            logging.info("check has stopped recorder")
+            while not self.__check_has_stopped_recorder() and (datetime.datetime.now() - before).seconds < 30:
+                time.sleep(1)
+        else:
+            logging.exception(f"The target application {self.apps}  cannot be found or Operation not permitted")
 
     def __wait_for_jmeter_has_stopping(self):
         before = datetime.datetime.now()
@@ -99,15 +128,40 @@ class FlightRecordsFactory:
             for pid in pids:
                 self.pids.append(TargetProcess(pid, app))
 
-    @staticmethod
-    def __check_jcmd():
+    def __check_jcmd(self):
         commander_to_check = "which jcmd"
         outcome = shell_tools.exec_shell(commander_to_check, is_shell=True)
         logging.info("check jcmd :%s", outcome)
         if outcome.return_code == 0:
+            self.jcmd_path = outcome.out.strip()
             return True
         else:
             return False
+
+    def __init_user_is_root(self):
+        if os.geteuid() == 0:
+            self.user_is_root = True
+        else:
+            self.user_is_root = False
+
+    def __start_recorder_by_root(self):
+        logging.info(PyInstallerUtils.get_env())
+        logging.info(os.environ)
+        for target in self.pids:
+            jfr_path = self.__jfr_name(target.name, target.pid)
+            username = psutil.Process(int(target.pid)).username()
+            command = (f"su - {username} -c '"
+                       f"{self.jcmd_path} {target.pid} JFR.start  settings={self.temporary_settings_path} "
+                       f"duration={self.duration}s  name={self.RECORD_NAME} filename={jfr_path}'")
+            logging.info(command)
+            outcome = shell_tools.exec_shell(command, is_shell=True)
+            logging.info(outcome)
+            if outcome.return_code == 0:
+                self.jfr_paths.append(jfr_path)
+                self.pids_to_start_recording.append(target)
+        # 移动到data目录下
+        with open(file=os.path.join(self.root_path, "config/upload_sample.ini"), mode="w", encoding="utf-8") as file:
+            file.write(os.linesep.join(self.jfr_paths))
 
     def __start_recorder(self):
         for target in self.pids:
@@ -124,11 +178,32 @@ class FlightRecordsFactory:
         with open(file=os.path.join(self.root_path, "config/upload_sample.ini"), mode="w", encoding="utf-8") as file:
             file.write(os.linesep.join(self.jfr_paths))
 
+    def __stop_recorder_by_root(self):
+        for target in self.pids_to_start_recording:
+            username = psutil.Process(int(target.pid)).username()
+            command = f"su - {username} -c '{self.jcmd_path} {target.pid} JFR.stop name={self.RECORD_NAME}'"
+            outcome = shell_tools.exec_shell(command, is_shell=True)
+            logging.info(outcome)
+
     def __stop_recorder(self):
         for target in self.pids_to_start_recording:
             outcome = shell_tools.exec_shell("jcmd {} JFR.stop name={}".format(target.pid, self.RECORD_NAME),
                                              is_shell=True)
             logging.info(outcome)
+
+    def __check_has_stopped_recorder_by_root(self):
+        for target in self.pids_to_start_recording:
+            username = psutil.Process(int(target.pid)).username()
+            command = f"su - {username} -c '{self.jcmd_path}  {target.pid} JFR.check name={self.RECORD_NAME}'"
+            outcome = shell_tools.exec_shell(command, is_shell=True)
+            logging.info(outcome)
+            if outcome.out.find("Could not find"):
+                self.pids_to_stop_recording.append(target)
+        if len(self.pids_to_stop_recording) == len(self.pids_to_start_recording):
+            return True
+        else:
+            self.pids_to_stop_recording.clear()
+            return False
 
     def __check_has_stopped_recorder(self):
         for target in self.pids_to_start_recording:
@@ -172,7 +247,7 @@ def main():
                         help="the task id of the sample")
     parser.add_argument("-w", "--wait-for-jmeter-stop", dest="waiting", action="store_true",
                         help="the sample stop when the jmeter stop")
-    parser.set_defaults(root_path=obtain_root_path(ROOT_PATH))
+    parser.set_defaults(root_path=PyInstallerUtils.obtain_root_path(ROOT_PATH))
     args = parser.parse_args()
     config_log_ini(args.root_path, "devkit_tester_agent")
     logging.info("start")

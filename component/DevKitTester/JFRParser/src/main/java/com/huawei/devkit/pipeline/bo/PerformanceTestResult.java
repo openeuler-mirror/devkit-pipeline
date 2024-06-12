@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class PerformanceTestResult {
@@ -73,6 +75,22 @@ public class PerformanceTestResult {
             this.toSimpleObject(this.frtMap, this.frt, JmeterRT.class);
             this.toSimpleObject(this.tpsMap, this.tps, JmeterTPS.class);
         }
+        List<Long> allStartTime = memoryMap.values().stream()
+                .flatMap(innerMap -> innerMap.values().stream())
+                .flatMap(List::stream)
+                .map(MemInfo::getStartTime)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+        this.insertNullInMemoryMap(allStartTime);
+        List<Long> allCpuStartTime = cpuMap.values().stream()
+                .flatMap(innerMap -> innerMap.values().stream())
+                .flatMap(List::stream)
+                .map(CpuInfo::getStartTime)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+        this.insertNullInCpuMap(allCpuStartTime);
         this.toSimpleObject2(this.memoryMap, this.memory, MemInfo.class);
         this.toSimpleObject2(this.cpuMap, this.cpu, CpuInfo.class);
     }
@@ -191,6 +209,52 @@ public class PerformanceTestResult {
         for (Map.Entry<String, List<T>> entry : origin.entrySet()) {
             target.put(entry.getKey(), SimplifyResponse.simplify(entry.getValue(), clazz));
         }
+    }
+
+    private void insertNullInMemoryMap(List<Long> allStartTime) {
+        for (String key : this.memoryMap.keySet()) {
+            Map<String, List<MemInfo>> oldMap = this.memoryMap.get(key);
+            Map<String, List<MemInfo>> newMap = new HashMap<>();
+            for (Map.Entry<String, List<MemInfo>> entry : oldMap.entrySet()) {
+                List<MemInfo> memInfos = this.insertNullInMemoryMap(entry.getValue(), allStartTime);
+                newMap.put(entry.getKey(), memInfos);
+            }
+            this.memoryMap.put(key, newMap);
+        }
+    }
+
+    private List<MemInfo> insertNullInMemoryMap(List<MemInfo> target, List<Long> allStartTime) {
+        List<MemInfo> finalMem = new ArrayList<>(allStartTime.size());
+        Map<Long, MemInfo> collected = target.stream()
+                .collect(Collectors.toMap(MemInfo::getStartTime, Function.identity()));
+        for (Long key : allStartTime) {
+            MemInfo info = collected.get(key);
+            finalMem.add(Objects.requireNonNullElseGet(info, () -> new MemInfo(key, null, null, null)));
+        }
+        return finalMem;
+    }
+
+    private void insertNullInCpuMap(List<Long> allStartTime) {
+        for (String key : this.cpuMap.keySet()) {
+            Map<String, List<CpuInfo>> oldMap = this.cpuMap.get(key);
+            Map<String, List<CpuInfo>> newMap = new HashMap<>();
+            for (Map.Entry<String, List<CpuInfo>> entry : oldMap.entrySet()) {
+                List<CpuInfo> memInfos = this.insertNullInCpuMap(entry.getValue(), allStartTime);
+                newMap.put(entry.getKey(), memInfos);
+            }
+            this.cpuMap.put(key, newMap);
+        }
+    }
+
+    private List<CpuInfo> insertNullInCpuMap(List<CpuInfo> target, List<Long> allStartTime) {
+        List<CpuInfo> finalMem = new ArrayList<>(allStartTime.size());
+        Map<Long, CpuInfo> collected = target.stream()
+                .collect(Collectors.toMap(CpuInfo::getStartTime, Function.identity()));
+        for (Long key : allStartTime) {
+            CpuInfo info = collected.get(key);
+            finalMem.add(Objects.requireNonNullElseGet(info, () -> new CpuInfo(key, null, null, null)));
+        }
+        return finalMem;
     }
 
     private <T> void toSimpleObject2(Map<String, Map<String, List<T>>> origin,

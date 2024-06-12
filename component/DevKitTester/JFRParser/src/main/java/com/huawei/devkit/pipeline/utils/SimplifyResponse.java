@@ -1,6 +1,7 @@
 package com.huawei.devkit.pipeline.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.huawei.devkit.pipeline.strategy.DoubleSerialize;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,9 +27,21 @@ public class SimplifyResponse {
             List<Object> list = new ArrayList<>();
             result.put(field.getName(), list);
             try {
-                for (T item : before) {
-                    list.add(field.get(item));
+                if (!before.isEmpty() && field.get(before.get(0)) instanceof Double) {
+                    for (T item : before) {
+                        Object value = field.get(item);
+                        if (Objects.isNull(value)) {
+                            list.add(null);
+                        } else {
+                            list.add(DoubleSerialize.DF.format(value));
+                        }
+                    }
+                } else {
+                    for (T item : before) {
+                        list.add(field.get(item));
+                    }
                 }
+
             } catch (IllegalAccessException e) {
                 logger.error(e);
             }

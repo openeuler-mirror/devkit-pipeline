@@ -65,7 +65,20 @@ class DevKitClient:
             logging.exception(ex)
             pass
 
-    def upload_report(self, file_path):
+    def upload_report_by_force(self, file_path):
+        ret = self.__upload_report(file_path)
+        if ret.status_code == requests.codes.ok:
+            return
+        if ret.json().get("code", "") == "JavaPerf.Upload.Recording.RecordingReachLimit":
+            records = self.__get_record_list()
+            task_id, create_time = "", "999999999999999999999999999999"
+            for o in records.json().get("members", []):
+                if float(o["createTime"]) < float(create_time):
+                    task_id, create_time = o["id"], o["createTime"]
+            self.__delete_report(task_id)
+            self.__upload_report(file_path)
+
+    def __upload_report(self, file_path):
         try:
             data = dict({"file": (os.path.basename(file_path), open(file_path, "rb").read())})
         except OSError as e:
@@ -80,7 +93,7 @@ class DevKitClient:
         else:
             return requests.post(url=url, headers=_header, data=encoded_data[0], verify=False, proxies=self.NO_PROXY)
 
-    def get_record_list(self):
+    def __get_record_list(self):
         url = f"https://{self.ip}:{self.port}/plugin/api/v1.0/java_perf/api/records/user/"
         data = {"userId": self.user_id}
         if self.use_proxy:
@@ -88,31 +101,9 @@ class DevKitClient:
         else:
             return requests.post(url=url, json=data, headers=self.header, verify=False, proxies=self.NO_PROXY)
 
-    def delete_report(self, task_id):
+    def __delete_report(self, task_id):
         url = f"https://{self.ip}:{self.port}/plugin/api/v1.0/java_perf/api/records/{task_id}/"
         if self.use_proxy:
             requests.delete(url=url, headers=self.header, verify=False)
         else:
             requests.delete(url=url, headers=self.header, verify=False, proxies=self.NO_PROXY)
-
-    def upload_report_by_force(self, file_path):
-        ret = self.upload_report(file_path)
-        if ret.status_code == requests.codes.ok:
-            return
-        if ret.json().get("code", "") == "JavaPerf.Upload.Recording.RecordingReachLimit":
-            records = self.get_record_list()
-            task_id, create_time = "", "999999999999999999999999999999"
-            for o in records.json().get("members", []):
-                if float(o["createTime"]) < float(create_time):
-                    task_id, create_time = o["id"], o["createTime"]
-            self.delete_report(task_id)
-            self.upload_report(file_path)
-
-
-if __name__ == "__main__":
-    try:
-        d = DevKitClient("172.39.173.2", "8086", "devadmin", "Huawei12#$")
-        d.upload_report_by_force("/home/panlonglong/Downloads/Main(136462)")
-        d.logout()
-    except Exception as e:
-        print(str(e))

@@ -7,6 +7,7 @@ import com.huawei.devkit.pipeline.bo.JmeterTPS;
 import com.huawei.devkit.pipeline.bo.PerformanceTestResult;
 import com.huawei.devkit.pipeline.constants.JFRConstants;
 import com.huawei.devkit.pipeline.utils.JmeterResultTransfer;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,12 +85,12 @@ public class JmeterResultParser {
 
         long start = startTime;
         long end = startTime + JFRConstants.MS_1000;
-
+        DescriptiveStatistics statistics = new DescriptiveStatistics();
         boolean exist = false;
         for (int i = 0; start < endTime; start += JFRConstants.MS_1000, end += JFRConstants.MS_1000) {
-
             while (i < results.size() && results.get(i).getStartTime() >= start && results.get(i).getStartTime() < end) {
                 summary.samplesIncrease();
+                statistics.addValue(results.get(i).getLatency());
                 latencyTotalPerSec += results.get(i).getLatency();
                 latencyTotal += results.get(i).getLatency();
                 samplePer++;
@@ -115,10 +116,16 @@ public class JmeterResultParser {
             latencyFailPerSec = 0;
             exist = false;
         }
-        summary.setThroughput(summary.getSamples() * JFRConstants.MS_TO_S /
-                getThroughputTime(startTime, results.get(results.size() - 1).getStartTime()));
+        summary.setMinLatency(statistics.getMin());
+        summary.setMaxLatency(statistics.getMax());
+        summary.setMedian(statistics.getPercentile(50));
+        summary.setLatency90(statistics.getPercentile(90));
+        summary.setLatency95(statistics.getPercentile(95));
+        summary.setLatency99(statistics.getPercentile(99));
+        JmeterResult lastResult = results.get(results.size() - 1);
+        summary.setThroughput(summary.getSamples() * (double) JFRConstants.MS_TO_S /
+                getThroughputTime(startTime, lastResult.getStartTime() + lastResult.getLatency()));
         summary.setAverageLatency(latencyTotal / (double) summary.getSamples());
-        this.filledSummary(results);
     }
 
     public JmeterReportSummary getSummary() {

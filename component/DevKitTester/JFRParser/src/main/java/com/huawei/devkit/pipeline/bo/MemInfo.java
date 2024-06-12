@@ -6,13 +6,13 @@ public class MemInfo {
     @JsonProperty("t")
     private long startTime;
     @JsonProperty("c")
-    private long committedSize;
+    private Long committedSize;
     @JsonProperty("r")
-    private long reservedSize;
+    private Long reservedSize;
     @JsonProperty("u")
-    private long heapUsed;
+    private Long heapUsed;
 
-    public MemInfo(long startTime, long committedSize, long reservedSize, long heapUsed) {
+    public MemInfo(long startTime, Long committedSize, Long reservedSize, Long heapUsed) {
         this.startTime = startTime;
         this.committedSize = committedSize;
         this.reservedSize = reservedSize;
