@@ -12,14 +12,14 @@ default_project="Bigdata Database Storage Arm Virt Acclib Virtual HPC"
 acquire_value(){
     project=$1
     key=$2
-    grep $project -A 15  $config_file |grep -m 1 $key|awk -F= '{print $2}'
+    grep $project -A 100  $config_file |grep -m 1 $key|awk -F= '{print $2}'
 }
 
 
 ######################获取配置文件中选择校验的解决方案###########
 acquire_select_project(){
     all_name=""
-	for per_project in $default_project
+	for per_poject in $default_project
 	do
 		status=$(acquire_value $per_project check)
 		if [[ $status = True ]]; then
@@ -152,16 +152,30 @@ collect_database(){
    mysql_password=$3
    database_name=$4
    plugin_path=$1/lib/plugin
+   timeout=60
    $mysql_install_path/bin/mysqld_safe --defaults-file=/etc/my.cnf &
-   sleep 20
-   mysql -u $mysql_username -p$mysql_password -D $database_name -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'thread_pool%'" > $log_path/database_mysql.log
-   mysql -u $mysql_username -p$mysql_password -D $database_name -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'kovae%'" >> $log_path/database_mysql.log
-   echo thread_pool: $(ls $plugin_path |grep thread_pool.so) >> $log_path/database_mysql.log
-   echo kovae_path: $(ls $plugin_path |grep ha_kovae.so) >>  $log_path/database_mysql.log
-   readelf -a $mysql_install_path/bin/mysqld|grep bolt >> $log_path/database_mysql.log
-   echo no_lock: $(objdump -d $mysql_install_path/bin/mysqld|grep -c row_vers_build_for_semi_consistent_readP5trx_t) >> $log_path/database_mysql.log
-   objdump -d $mysql_install_path/bin/mysqld |grep crc32cb >> $log_path/database_mysql.log
-   pkill -9 mysql
+   # 循环判断进程是否启动
+   for ((i=0; i<=$timeout; i++)); do
+       if ps -ef | grep -v grep | grep "mysql" > /dev/null; then
+           echo "Process mysql started."
+           # 执行下一步操作
+	   sleep 5
+	   $mysql_install_path/bin/mysql -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'thread_pool%'" > $log_path/database_mysql.log
+           $mysql_install_path/bin/mysql -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'kovae%'" >> $log_path/database_mysql.log
+           echo thread_pool: $(ls $plugin_path |grep thread_pool.so) >> $log_path/database_mysql.log
+           echo kovae_path: $(ls $plugin_path |grep ha_kovae.so) >>  $log_path/database_mysql.log
+           readelf -a $mysql_install_path/bin/mysqld|grep bolt >> $log_path/database_mysql.log
+           echo no_lock: $(objdump -d $mysql_install_path/bin/mysqld|grep -c row_vers_build_for_semi_consistent_readP5trx_t) >> $log_path/database_mysql.log
+           objdump -d $mysql_install_path/bin/mysqld |grep crc32cb >> $log_path/database_mysql.log
+           pkill -9 mysql
+	   break
+       fi
+           sleep 1
+       if [ $timeout -eq $i ];then
+	   echo "Timeout error: mysql process not started in $timeout seconds.i"
+	   exit 1
+       fi
+   done
 }
 
 
@@ -423,7 +437,7 @@ collect_bigdata_operator(){
     omnioperator_dir=$3
 	if [ -e $spark_path ] && [ -e $omnioperator_dir ];
 	then
-        spark_version=`readlink -f $spark_path | awk -F'-' '{{print $2}}'`
+        spark_version=`awk '{print $2}' $spark_path/RELEASE | head -n 1`
         omnioperator_version=`cat $omnioperator_dir/version.txt | grep 'Component Version' | awk -F ": " '{print $2}'`
         echo "spark version:$spark_version omnioperator version:$omnioperator_version" >$log_path/bigdata_operator.log 2>&1
         spark_omni_func=(
@@ -655,6 +669,9 @@ else
 fi
 main
 tar_log_file $customer_information
+
+
+
 
 
 
