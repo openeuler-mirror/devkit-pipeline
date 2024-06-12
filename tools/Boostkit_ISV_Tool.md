@@ -70,6 +70,12 @@ spark的安装路径，默认为/home/
 
 
 
+> omnioperator_dir=/opt/omni-operator
+
+算子加速的安装路径，默认为/opt/omni-operator
+
+
+
 > omniadvisor_dir=/home
 
 参数调优的安装路径，默认为/home
@@ -255,6 +261,26 @@ check 默认为False, 置为True 则开启HPC相关特性使能信息收集功�
 > sme
 
 引用HPC SME改造二进制文件绝对路径
+
+
+
+### 1.3 采集工具使用说明
+
+#### 1.3.1 二进制使用
+
+```
+./collect_msg 
+# 同级目录下具有config.ini 配置文件，且已按1.2中对应解决方案完成相关参数配置
+```
+
+#### 1.3.2  shell 脚本使用
+
+```
+bash collect_msg.sh 
+# 同级目录下具有config.ini 配置文件， 且已按1.2中对应解决方案完成相关参数配置
+```
+
+
 
 ## 1. **分析工具**
 
