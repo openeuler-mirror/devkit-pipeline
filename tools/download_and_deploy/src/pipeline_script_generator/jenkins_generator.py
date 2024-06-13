@@ -2,6 +2,7 @@ from pipeline_script_generator.script_generator import ScriptGenerator
 
 
 class JenkinsScript(ScriptGenerator):
+    name = "jenkins"
     base_template = """
 def get_code(GIT_BRANCH, GIT_TARGET_DIR_NAME, GIT_URL) {
     sh '''

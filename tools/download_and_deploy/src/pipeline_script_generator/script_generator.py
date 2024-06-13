@@ -2,6 +2,7 @@ from constant import *
 
 
 class ScriptGenerator:
+    name = ""
     base_template = ""
     source_migration_template = ""
     package_migration_template = ""
