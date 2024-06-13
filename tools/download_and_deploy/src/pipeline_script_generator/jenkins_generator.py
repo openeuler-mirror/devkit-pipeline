@@ -3,6 +3,17 @@ from pipeline_script_generator.script_generator import ScriptGenerator
 
 class JenkinsScript(ScriptGenerator):
     base_template = """
+def get_code(GIT_BRANCH, GIT_TARGET_DIR_NAME, GIT_URL) {
+    sh '''
+    rm -fr "${GIT_TARGET_DIR_NAME}"
+    '''
+    checkout scmGit(branches: [[name: "*/${GIT_BRANCH}"]], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${GIT_TARGET_DIR_NAME}"], cleanBeforeCheckout(deleteUntrackedNestedRepositories: true)],userRemoteConfigs: [[url: "${GIT_URL}"]])
+    sh '''
+    rm -rf ./report_dir
+    mkdir ./report_dir
+    '''
+}
+    
 pipeline {
     agent none
     options {
@@ -61,26 +72,12 @@ pipeline {
 
         // 编译参数
         // 编译命令
-        BUILD_COMMAND = ""
+        BUILD_COMMAND = '''
+        
+        '''
 
     }
     stages{
-        // 获取源码
-        stage('git-clone-code') {
-            steps {
-                checkout scmGit(branches: [[name: "*/${GIT_BRANCH}"]], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${GIT_TARGET_DIR_NAME}"], cleanBeforeCheckout(deleteUntrackedNestedRepositories: true)], userRemoteConfigs: [[credentialsId: "${CREDENTIALS_ID}", url: "${GIT_URL}"]])
-            }   
-        }
-        // 创建门禁报告存储路径
-        stage('mkdir-devkit-report') {
-            steps {
-                sh '''
-                    rm -rf ./report_dir
-                    mkdir ./report_dir
-                '''   
-            }
-
-        }
 ##STAGES##
     }
 }
@@ -92,6 +89,7 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
+                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
                 sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
@@ -218,6 +216,7 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
+                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
                 sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
@@ -272,7 +271,8 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
-                 sh '''
+                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+                sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
                 script{
@@ -326,6 +326,7 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
+                 get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
                  sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
@@ -380,6 +381,7 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
+                 get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
                  sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
@@ -434,9 +436,8 @@ pipeline {
                 label 'kunpeng_c_builder_gcc'
             }
             steps {
-            sh ''' 
-            "${BUILD_COMMAND}"
-            '''
+            get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+            sh "${BUILD_COMMAND}"
             }
        }
 """
@@ -447,9 +448,10 @@ pipeline {
                 label 'kunpeng_c_builder_bisheng_compiler'
             }
             steps {
-            sh ''' source ${HOME}/.local/wrap-bin/devkit_pipeline.sh
-            "${BUILD_COMMAND}"
-            '''
+            get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+            sh ''' source ${HOME}/.local/wrap-bin/devkit_pipeline.sh '''
+            sh "${BUILD_COMMAND}"
+            
             }
        }
 """
@@ -460,6 +462,7 @@ pipeline {
                 label 'kunpeng_c_builder_gcc'
             }
             steps {
+            get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
             sh ''' 
             export PATH=${HOME}/.local/gcc-10.3.1-2023.12-aarch64-linux/bin:$PATH
             a-fot --config_file a-fot.ini
