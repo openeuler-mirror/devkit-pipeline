@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+bin_dir=$(cd $(dirname $0); pwd)
+root_dir=`realpath $bin_dir/../`
+
+ct_sh_path=${root_dir}/Chinese/compatibility_testing.sh
+cloud_jar=${root_dir}/cloudTest.jar
+
+cd ${root_dir}/Chinese/
+sh $ct_sh_path
+
+java -jar $cloud_jar &
+sleep 15
+jar_pid=$!
+curl --location --request GET 'http://127.0.0.1:10037/api/v1/report?savePath='${root_dir}'/Chinese/log.json&file='${root_dir}'/Chinese/log.tar.gz'
+kill -9 $jar_pid
+cp -rf ${root_dir}/template.html.bak ${root_dir}/template.html
+cd ${root_dir}
+python3 ${root_dir}/json2html.py
+

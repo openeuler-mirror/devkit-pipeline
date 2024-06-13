@@ -1,0 +1,131 @@
+=======================================================================
+#Function description: A tool used for performing compatibility and performance tests and collecting performance indicators and run logs.
+#Version information: Copyright © Huawei Technologies Co., Ltd. 2020–2022
+#Change history: Modified on 2022-02-10
+=======================================================================
+
+#########################Environment Dependency######################################
+1. System version: CentOS 7.6, NeoKylin V7Update6, Ubuntu 18.0.1, or Kylin 4.0.2,
+UOS 20 SP1, SUSE 12-SP5, and openEuler 20.03 (LTS)
+
+2. Install the RPM package.
+nmap-ncat,nmap,ipmitool,dmidecode,net-tools,pciutils,util-linux,sysstat
+bc.
+
+3. If a cluster contains multiple nodes, configure SSH password-free login for each node and mutual trust between nodes.
+
+
+
+#########################Procedure######################################
+1. Modify the compatibility_testing.conf configuration file by setting the following information:
+
+
+# Enter the name of the application software. Use commas (,) to separate multiple application names.
+# Run the ps or docker top command to query the background process name in the CMD column.
+application_names=
+# Enter the command for starting the application software. Use commas (,) to separate the startup commands of multiple applications.
+start_app_commands=
+# Enter the command for stopping the application software. Use commas (,) to separate the stop commands of multiple applications.
+stop_app_commands=
+# (Optional) Enter the command for starting the pressure test tool of the tested application software.
+start_performance_scripts=
+# For Kubernetes cluster, enter Y. For other environments, leave it blank.
+kubernetes_env=
+
+# For multi-node cluster deployment, fill in the information as required, which is not required for single-node deployment.
+# List of IP addresses in the cluster. Use commas (,) to separate IP addresses from each other. Do not add the IP address of
+# the server where the current script is located.
+cluster_ip_lists=
+
+# Set this parameter for the Validated certification tests. You do not need to set this parameter for Compatible certification tests.
+# CVE vulnerability scan directory. Use commas (,) to separate multiple directories. A CVE vulnerability check tool is already available
+# for Validated certification tests. You do not need to set this parameter for Validated certification tests.
+# In a cluster, set the directory of the server where the script is not located to 'IP:directory', for example, '192.168.2.2:/root/tomcat'.
+cve_scan_path=
+# CLamAV antivirus scan directory. Use commas (,) to separate multiple directories. Commercial antivirus software is already available for
+# Validated certification tests. You do not need to set this parameter for Validated certification tests.
+# In a cluster, set the directory of the server where the script is not located to 'IP:directory', for example, '192.168.2.2:/root/tomcat'.
+clamav_scan_path=
+
+2. After confirming the settings, run the collection tool as the root user.
+
+Usage
+On the CentOS, NeoKylin, SUSE, or openEuler operating system, run the sh compatibility_testing.sh
+On the Ubuntu, Kylin, or UOS operating system, run the bash compatibility_testing.sh
+If a cluster contains multiple nodes, execute the script on the control node(primary node).
+
+
+
+The automatic test tool starts to execute the script. The script consists of 10 steps and takes about 50 minutes.
+ The procedure is as follows:
+***********************************************************************
+Step 1: Start checking the software dependency.
+Step 1: Finish checking the software dependency.
+Step 2: Start checking the configuration file.
+Step 2: Finish checking the configuration file.
+Step 3: Start checking the test environment.
+Step 3: Finish checking the test environment.
+Step 4: Collect data related to system resources, such as CPUs, memory, drives, NICs, and power consumption, before starting the application.
+Step 4: Finish the collection before the application is started.
+Step 5: Start the service application.
+Step 5: Finish starting the service application.
+Step 6: Perform a security test by scanning the listening port when the application is running.
+Step 6: Finish scanning the listening port.
+Step 7: Collect data related to system resources such as CPUs, memory, drives, and NICs under service pressure.
+Step 7: Finish collecting the data.
+Step 8: Perform a reliability test. Start the application after it is forcibly terminated.
+Step 8: Finish the reliability test.
+Step 9: Collect data related to system resources, such as CPUs, memory, drives, NICs, and power consumption, after the application is stopped.
+Step 9: Finish collecting the data after the application is stopped.
+Step 10: Package the collected test data.
+After the collection is complete, the log package log_yyyymmddHHMMSS.tar.gz is stored in the directory
+/data/monitor.
+
+***********************************************************************
+
+
+#########################Directory Structure of the Log Package########################
+├── compatibility_testing.conf
+├── hardware
+│   ├── hardware_cpu.log
+│   ├── hardware_disk.log
+│   ├── hardware_info.log
+│   └── hardware_pcie.log
+├── others
+│   └── info.log_yyyymmdd
+├── product
+│   └── product_name.log
+├── software
+│   └── system_version.log
+├── system
+│   └── message.log
+└── test
+    ├── compatible
+    │   ├── test_perf_cpu_0.log
+    │   ├── test_perf_cpu_1.log
+    │   ├── test_perf_disk_0.log
+    │   ├── test_perf_disk_1.log
+    │   ├── test_perf_mem_0.log
+    │   ├── test_perf_mem_1.log
+    │   ├── test_perf_net_0.log
+    │   └── test_perf_net_1.log
+    ├── dfx
+    ├── function
+    ├── performance
+    │   ├── test_perf_cpu_1.log
+    │   ├── test_perf_disk_1.log
+    │   ├── test_perf_mem_1.log
+    │   └── test_perf_net_1.log
+    ├── power
+    │   ├── test_power_0.log
+    │   └── test_power_1.log
+    └── safety
+        ├── {ip}protocol.gnmap
+        ├── {ip}protocol.nmap
+        ├── {ip}protocol.xml
+        ├── {ip}tcp.gnmap
+        ├── {ip}tcp.nmap
+        ├── {ip}tcp.xml
+        ├── {ip}udp.gnmap
+        ├── {ip}udp.nmap
+        └── {ip}1udp.xml

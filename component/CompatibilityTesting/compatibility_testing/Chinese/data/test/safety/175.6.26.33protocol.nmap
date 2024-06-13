@@ -1,0 +1,16 @@
+# Nmap 7.80 scan initiated Mon May 27 21:50:27 2024 as: nmap -sO -v --reason -n -oA data/test/safety/175.6.26.33protocol --host-timeout 360 175.6.26.33
+Nmap scan report for 175.6.26.33
+Host is up, received localhost-response (0.000014s latency).
+Not shown: 249 closed protocols
+Reason: 249 proto-unreaches
+PROTOCOL STATE         SERVICE REASON
+1        open          icmp    proto-unreach ttl 64
+2        open|filtered igmp    no-response
+6        open          tcp     proto-response ttl 64
+17       open          udp     port-unreach ttl 64
+103      open|filtered pim     no-response
+136      open|filtered udplite no-response
+255      open|filtered unknown no-response
+
+Read data files from: /usr/bin/../share/nmap
+# Nmap done at Mon May 27 21:50:29 2024 -- 1 IP address (1 host up) scanned in 1.29 seconds

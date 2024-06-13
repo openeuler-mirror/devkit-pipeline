@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Mon May 27 21:53:06 2024 as: nmap -sU -A -v -&#45;reason -p- -n -Pn -oA data/test/safety/192.168.122.1udp -&#45;host-timeout 360 192.168.122.1 -->
+<nmaprun scanner="nmap" args="nmap -sU -A -v -&#45;reason -p- -n -Pn -oA data/test/safety/192.168.122.1udp -&#45;host-timeout 360 192.168.122.1" start="1716817986" startstr="Mon May 27 21:53:06 2024" version="7.80" xmloutputversion="1.04">
+<scaninfo type="udp" protocol="udp" numservices="65535" services="1-65535"/>
+<verbose level="1"/>
+<debugging level="0"/>
+<taskbegin task="NSE" time="1716817987"/>
+<taskend task="NSE" time="1716817987"/>
+<taskbegin task="NSE" time="1716817987"/>
+<taskend task="NSE" time="1716817987"/>
+<taskbegin task="NSE" time="1716817987"/>
+<taskend task="NSE" time="1716817987"/>
+<taskbegin task="UDP Scan" time="1716817987"/>
+<taskend task="UDP Scan" time="1716817989" extrainfo="65535 total ports"/>
+<taskbegin task="Service scan" time="1716817989"/>
+<taskprogress task="Service scan" time="1716818087" percent="66.67" remaining="50" etc="1716818136"/>
+<taskend task="Service scan" time="1716818087" extrainfo="3 services on 1 host"/>
+<taskbegin task="NSE" time="1716818088"/>
+<taskend task="NSE" time="1716818116"/>
+<taskbegin task="NSE" time="1716818116"/>
+<taskend task="NSE" time="1716818117"/>
+<taskbegin task="NSE" time="1716818117"/>
+<taskend task="NSE" time="1716818117"/>
+<host starttime="1716817987" endtime="1716818117"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="192.168.122.1" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65532">
+<extrareasons reason="port-unreaches" count="65532"/>
+</extraports>
+<port protocol="udp" portid="53"><state state="open" reason="udp-response" reason_ttl="0"/><service name="domain" product="dnsmasq" version="2.82" method="probed" conf="10"><cpe>cpe:/a:thekelleys:dnsmasq:2.82</cpe></service><script id="dns-nsid" output="&#xa;  bind.version: dnsmasq-2.82"><elem key="bind.version">dnsmasq-2.82</elem>
+</script><script id="dns-recursion" output="Recursion appears to be enabled"/></port>
+<port protocol="udp" portid="67"><state state="open|filtered" reason="no-response" reason_ttl="0"/><service name="dhcps" method="table" conf="3"/></port>
+<port protocol="udp" portid="9094"><state state="open|filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+<os><portused state="closed" proto="udp" portid="1"/>
+</os>
+<distance value="0"/>
+<times srtt="20" rttvar="9" to="100000"/>
+</host>
+<taskbegin task="NSE" time="1716818117"/>
+<taskend task="NSE" time="1716818117"/>
+<taskbegin task="NSE" time="1716818117"/>
+<taskend task="NSE" time="1716818117"/>
+<taskbegin task="NSE" time="1716818117"/>
+<taskend task="NSE" time="1716818117"/>
+<runstats><finished time="1716818117" timestr="Mon May 27 21:55:17 2024" elapsed="131.35" summary="Nmap done at Mon May 27 21:55:17 2024; 1 IP address (1 host up) scanned in 131.35 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

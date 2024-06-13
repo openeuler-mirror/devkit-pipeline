@@ -1,0 +1,5 @@
+# Nmap 7.80 scan initiated Mon May 27 21:53:06 2024 as: nmap -sU -A -v --reason -p- -n -Pn -oA data/test/safety/192.168.122.1udp --host-timeout 360 192.168.122.1
+# Ports scanned: TCP(0;) UDP(65535;1-65535) SCTP(0;) PROTOCOLS(0;)
+Host: 192.168.122.1 ()	Status: Up
+Host: 192.168.122.1 ()	Ports: 53/open/udp//domain//dnsmasq 2.82/, 67/open|filtered/udp//dhcps///, 9094/open|filtered/udp/////	Ignored State: closed (65532)
+# Nmap done at Mon May 27 21:55:17 2024 -- 1 IP address (1 host up) scanned in 131.35 seconds

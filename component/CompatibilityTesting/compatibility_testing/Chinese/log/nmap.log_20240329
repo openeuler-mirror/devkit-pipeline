@@ -1,0 +1,550 @@
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:42 CST
+NSE: Loaded 151 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating SYN Stealth Scan at 10:42
+Scanning 192.168.0.1 [65535 ports]
+Discovered open port 22/tcp on 192.168.0.1
+Discovered open port 6002/tcp on 192.168.0.1
+Discovered open port 6000/tcp on 192.168.0.1
+Discovered open port 6001/tcp on 192.168.0.1
+Completed SYN Stealth Scan at 10:42, 0.92s elapsed (65535 total ports)
+Initiating Service scan at 10:42
+Scanning 4 services on 192.168.0.1
+Completed Service scan at 10:42, 0.01s elapsed (4 services on 1 host)
+Initiating OS detection (try #1) against 192.168.0.1
+NSE: Script scanning 192.168.0.1.
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.10s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.01s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Nmap scan report for 192.168.0.1
+Host is up, received user-set (0.000013s latency).
+Not shown: 65531 closed ports
+Reason: 65531 resets
+PORT     STATE SERVICE REASON         VERSION
+22/tcp   open  ssh     syn-ack ttl 64 OpenSSH 8.2 (protocol 2.0)
+6000/tcp open  vnc     syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+6001/tcp open  vnc     syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+6002/tcp open  vnc     syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+Device type: general purpose
+Running: Linux 2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6.32
+OS details: Linux 2.6.32
+Uptime guess: 22.160 days (since Thu Mar  7 06:51:51 2024)
+Network Distance: 0 hops
+TCP Sequence Prediction: Difficulty=261 (Good luck!)
+IP ID Sequence Generation: All zeros
+
+NSE: Script Post-scanning.
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 3.17 seconds
+           Raw packets sent: 65557 (2.885MB) | Rcvd: 131116 (5.508MB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:42 CST
+NSE: Loaded 151 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating UDP Scan at 10:42
+Scanning 192.168.0.1 [65535 ports]
+Completed UDP Scan at 10:42, 0.92s elapsed (65535 total ports)
+Initiating Service scan at 10:42
+Initiating OS detection (try #1) against 192.168.0.1
+Retrying OS detection (try #2) against 192.168.0.1
+NSE: Script scanning 192.168.0.1.
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Nmap scan report for 192.168.0.1
+Host is up, received user-set (0.000012s latency).
+All 65535 scanned ports on 192.168.0.1 are closed because of 65535 port-unreaches
+Too many fingerprints match this host to give specific OS details
+Network Distance: 0 hops
+
+NSE: Script Post-scanning.
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 3.07 seconds
+           Raw packets sent: 65547 (1.840MB) | Rcvd: 131092 (5.513MB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:42 CST
+Initiating IPProto Scan at 10:42
+Scanning 192.168.0.1 [256 ports]
+Discovered open port 6/ip on 192.168.0.1
+Discovered open port 1/ip on 192.168.0.1
+Discovered open port 17/ip on 192.168.0.1
+Completed IPProto Scan at 10:42, 1.25s elapsed (256 total ports)
+Nmap scan report for 192.168.0.1
+Host is up, received localhost-response (0.00027s latency).
+Not shown: 249 closed protocols
+Reason: 249 proto-unreaches
+PROTOCOL STATE         SERVICE REASON
+1        open          icmp    proto-unreach ttl 64
+2        open|filtered igmp    no-response
+6        open          tcp     proto-response ttl 64
+17       open          udp     port-unreach ttl 64
+103      open|filtered pim     no-response
+136      open|filtered udplite no-response
+255      open|filtered unknown no-response
+
+Read data files from: /usr/bin/../share/nmap
+Nmap done: 1 IP address (1 host up) scanned in 1.29 seconds
+           Raw packets sent: 260 (5.284KB) | Rcvd: 512 (17.392KB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:42 CST
+NSE: Loaded 151 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating NSE at 10:42
+Completed NSE at 10:42, 0.00s elapsed
+Initiating SYN Stealth Scan at 10:42
+Scanning 175.6.26.33 [65535 ports]
+Discovered open port 22/tcp on 175.6.26.33
+Discovered open port 6001/tcp on 175.6.26.33
+Discovered open port 9090/tcp on 175.6.26.33
+Discovered open port 6002/tcp on 175.6.26.33
+Discovered open port 6000/tcp on 175.6.26.33
+Discovered open port 8086/tcp on 175.6.26.33
+Completed SYN Stealth Scan at 10:42, 0.94s elapsed (65535 total ports)
+Initiating Service scan at 10:42
+Scanning 6 services on 175.6.26.33
+Completed Service scan at 10:43, 107.72s elapsed (6 services on 1 host)
+Initiating OS detection (try #1) against 175.6.26.33
+NSE: Script scanning 175.6.26.33.
+Initiating NSE at 10:43
+Completed NSE at 10:43, 0.12s elapsed
+Initiating NSE at 10:43
+Completed NSE at 10:43, 0.11s elapsed
+Initiating NSE at 10:43
+Completed NSE at 10:43, 0.00s elapsed
+Nmap scan report for 175.6.26.33
+Host is up, received user-set (0.000012s latency).
+Not shown: 65529 closed ports
+Reason: 65529 resets
+PORT     STATE SERVICE         REASON         VERSION
+22/tcp   open  ssh             syn-ack ttl 64 OpenSSH 8.2 (protocol 2.0)
+6000/tcp open  vnc             syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+6001/tcp open  vnc             syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+6002/tcp open  vnc             syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+8086/tcp open  http            syn-ack ttl 64 nginx
+|_http-title: Error
+9090/tcp open  ssl/zeus-admin? syn-ack ttl 64
+| ssl-cert: Subject: commonName=Profiler Server Certificate/organizationName=Huawei Technologies Ltd./stateOrProvinceName=Shanghai/countryName=CN
+| Subject Alternative Name: IP Address:175.6.26.33
+| Issuer: organizationName=Huawei Technologies Ltd./stateOrProvinceName=Shanghai/countryName=CN
+| Public Key type: rsa
+| Public Key bits: 3072
+| Signature Algorithm: sha384WithRSAEncryption
+| Not valid before: 2024-03-23T17:35:25
+| Not valid after:  2034-03-24T17:35:25
+| MD5:   a63c ab1d 43c7 ec0b 3e7f 316f ffd8 5669
+|_SHA-1: 2e4a 8546 55ce 0c7f dda4 8dbb 9e17 423e d039 826a
+Device type: general purpose
+Running: Linux 2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6.32
+OS details: Linux 2.6.32
+Uptime guess: 40.658 days (since Sat Feb 17 18:55:58 2024)
+Network Distance: 0 hops
+TCP Sequence Prediction: Difficulty=258 (Good luck!)
+IP ID Sequence Generation: All zeros
+
+NSE: Script Post-scanning.
+Initiating NSE at 10:43
+Completed NSE at 10:43, 0.00s elapsed
+Initiating NSE at 10:43
+Completed NSE at 10:43, 0.00s elapsed
+Initiating NSE at 10:43
+Completed NSE at 10:43, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 111.00 seconds
+           Raw packets sent: 65557 (2.885MB) | Rcvd: 131118 (5.508MB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:43 CST
+NSE: Loaded 151 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating UDP Scan at 10:44
+Scanning 175.6.26.33 [65535 ports]
+Completed UDP Scan at 10:44, 0.95s elapsed (65535 total ports)
+Initiating Service scan at 10:44
+Initiating OS detection (try #1) against 175.6.26.33
+Retrying OS detection (try #2) against 175.6.26.33
+NSE: Script scanning 175.6.26.33.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Nmap scan report for 175.6.26.33
+Host is up, received user-set (0.000015s latency).
+All 65535 scanned ports on 175.6.26.33 are closed because of 65535 port-unreaches
+Too many fingerprints match this host to give specific OS details
+Network Distance: 0 hops
+
+NSE: Script Post-scanning.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 3.07 seconds
+           Raw packets sent: 65547 (1.840MB) | Rcvd: 131092 (5.513MB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:44 CST
+Initiating IPProto Scan at 10:44
+Scanning 175.6.26.33 [256 ports]
+Discovered open port 17/ip on 175.6.26.33
+Discovered open port 1/ip on 175.6.26.33
+Discovered open port 6/ip on 175.6.26.33
+Completed IPProto Scan at 10:44, 1.24s elapsed (256 total ports)
+Nmap scan report for 175.6.26.33
+Host is up, received localhost-response (0.0000080s latency).
+Not shown: 249 closed protocols
+Reason: 249 proto-unreaches
+PROTOCOL STATE         SERVICE REASON
+1        open          icmp    proto-unreach ttl 64
+2        open|filtered igmp    no-response
+6        open          tcp     proto-response ttl 64
+17       open          udp     port-unreach ttl 64
+103      open|filtered pim     no-response
+136      open|filtered udplite no-response
+255      open|filtered unknown no-response
+
+Read data files from: /usr/bin/../share/nmap
+Nmap done: 1 IP address (1 host up) scanned in 1.28 seconds
+           Raw packets sent: 260 (5.284KB) | Rcvd: 512 (17.392KB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:44 CST
+NSE: Loaded 151 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating SYN Stealth Scan at 10:44
+Scanning 195.6.26.33 [65535 ports]
+Discovered open port 22/tcp on 195.6.26.33
+Discovered open port 6001/tcp on 195.6.26.33
+Discovered open port 6002/tcp on 195.6.26.33
+Discovered open port 6000/tcp on 195.6.26.33
+Completed SYN Stealth Scan at 10:44, 0.98s elapsed (65535 total ports)
+Initiating Service scan at 10:44
+Scanning 4 services on 195.6.26.33
+Completed Service scan at 10:44, 0.01s elapsed (4 services on 1 host)
+Initiating OS detection (try #1) against 195.6.26.33
+NSE: Script scanning 195.6.26.33.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.10s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.01s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Nmap scan report for 195.6.26.33
+Host is up, received user-set (0.000014s latency).
+Not shown: 65531 closed ports
+Reason: 65531 resets
+PORT     STATE SERVICE REASON         VERSION
+22/tcp   open  ssh     syn-ack ttl 64 OpenSSH 8.2 (protocol 2.0)
+6000/tcp open  vnc     syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+6001/tcp open  vnc     syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+6002/tcp open  vnc     syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+Device type: general purpose
+Running: Linux 2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6.32
+OS details: Linux 2.6.32
+Uptime guess: 21.659 days (since Thu Mar  7 18:55:14 2024)
+Network Distance: 0 hops
+TCP Sequence Prediction: Difficulty=261 (Good luck!)
+IP ID Sequence Generation: All zeros
+
+NSE: Script Post-scanning.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 3.21 seconds
+           Raw packets sent: 65557 (2.885MB) | Rcvd: 131116 (5.508MB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:44 CST
+NSE: Loaded 151 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating UDP Scan at 10:44
+Scanning 195.6.26.33 [65535 ports]
+Completed UDP Scan at 10:44, 0.96s elapsed (65535 total ports)
+Initiating Service scan at 10:44
+Initiating OS detection (try #1) against 195.6.26.33
+Retrying OS detection (try #2) against 195.6.26.33
+NSE: Script scanning 195.6.26.33.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Nmap scan report for 195.6.26.33
+Host is up, received user-set (0.000015s latency).
+All 65535 scanned ports on 195.6.26.33 are closed because of 65535 port-unreaches
+Too many fingerprints match this host to give specific OS details
+Network Distance: 0 hops
+
+NSE: Script Post-scanning.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 3.11 seconds
+           Raw packets sent: 65547 (1.840MB) | Rcvd: 131092 (5.513MB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:44 CST
+Initiating IPProto Scan at 10:44
+Scanning 195.6.26.33 [256 ports]
+Discovered open port 1/ip on 195.6.26.33
+Discovered open port 6/ip on 195.6.26.33
+Discovered open port 17/ip on 195.6.26.33
+Completed IPProto Scan at 10:44, 1.25s elapsed (256 total ports)
+Nmap scan report for 195.6.26.33
+Host is up, received localhost-response (0.0000080s latency).
+Not shown: 249 closed protocols
+Reason: 249 proto-unreaches
+PROTOCOL STATE         SERVICE REASON
+1        open          icmp    proto-unreach ttl 64
+2        open|filtered igmp    no-response
+6        open          tcp     proto-response ttl 64
+17       open          udp     port-unreach ttl 64
+103      open|filtered pim     no-response
+136      open|filtered udplite no-response
+255      open|filtered unknown no-response
+
+Read data files from: /usr/bin/../share/nmap
+Nmap done: 1 IP address (1 host up) scanned in 1.29 seconds
+           Raw packets sent: 260 (5.284KB) | Rcvd: 512 (17.392KB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:44 CST
+NSE: Loaded 151 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating SYN Stealth Scan at 10:44
+Scanning 192.168.122.1 [65535 ports]
+Discovered open port 22/tcp on 192.168.122.1
+Discovered open port 53/tcp on 192.168.122.1
+Discovered open port 6001/tcp on 192.168.122.1
+Discovered open port 6002/tcp on 192.168.122.1
+Discovered open port 6000/tcp on 192.168.122.1
+Completed SYN Stealth Scan at 10:44, 1.00s elapsed (65535 total ports)
+Initiating Service scan at 10:44
+Scanning 5 services on 192.168.122.1
+Completed Service scan at 10:44, 6.01s elapsed (5 services on 1 host)
+Initiating OS detection (try #1) against 192.168.122.1
+NSE: Script scanning 192.168.122.1.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 8.04s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.01s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Nmap scan report for 192.168.122.1
+Host is up, received user-set (0.000019s latency).
+Not shown: 65530 closed ports
+Reason: 65530 resets
+PORT     STATE SERVICE REASON         VERSION
+22/tcp   open  ssh     syn-ack ttl 64 OpenSSH 8.2 (protocol 2.0)
+53/tcp   open  domain  syn-ack ttl 64 dnsmasq 2.82
+| dns-nsid: 
+|_  bind.version: dnsmasq-2.82
+6000/tcp open  vnc     syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+6001/tcp open  vnc     syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+6002/tcp open  vnc     syn-ack ttl 64 VNC (protocol 3.8)
+| vnc-info: 
+|   Protocol version: 3.8
+|   Security types: 
+|_    VNC Authentication (2)
+Device type: general purpose
+Running: Linux 2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6.32
+OS details: Linux 2.6.32
+Uptime guess: 3.443 days (since Tue Mar 26 00:06:53 2024)
+Network Distance: 0 hops
+TCP Sequence Prediction: Difficulty=258 (Good luck!)
+IP ID Sequence Generation: All zeros
+
+NSE: Script Post-scanning.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 17.18 seconds
+           Raw packets sent: 65557 (2.885MB) | Rcvd: 131117 (5.508MB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:44 CST
+NSE: Loaded 151 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating NSE at 10:44
+Completed NSE at 10:44, 0.00s elapsed
+Initiating UDP Scan at 10:44
+Scanning 192.168.122.1 [65535 ports]
+Completed UDP Scan at 10:44, 2.36s elapsed (65535 total ports)
+Initiating Service scan at 10:44
+Scanning 2 services on 192.168.122.1
+Discovered open port 53/udp on 192.168.122.1
+Discovered open|filtered port 53/udp on 192.168.122.1 is actually open
+Completed Service scan at 10:46, 97.60s elapsed (2 services on 1 host)
+Initiating OS detection (try #1) against 192.168.122.1
+Retrying OS detection (try #2) against 192.168.122.1
+NSE: Script scanning 192.168.122.1.
+Initiating NSE at 10:46
+Completed NSE at 10:46, 14.01s elapsed
+Initiating NSE at 10:46
+Completed NSE at 10:46, 1.01s elapsed
+Initiating NSE at 10:46
+Completed NSE at 10:46, 0.00s elapsed
+Nmap scan report for 192.168.122.1
+Host is up, received user-set (0.000013s latency).
+Not shown: 65533 closed ports
+Reason: 65533 port-unreaches
+PORT   STATE         SERVICE REASON       VERSION
+53/udp open          domain  udp-response dnsmasq 2.82
+| dns-nsid: 
+|_  bind.version: dnsmasq-2.82
+|_dns-recursion: Recursion appears to be enabled
+67/udp open|filtered dhcps   no-response
+Too many fingerprints match this host to give specific OS details
+Network Distance: 0 hops
+
+NSE: Script Post-scanning.
+Initiating NSE at 10:46
+Completed NSE at 10:46, 0.00s elapsed
+Initiating NSE at 10:46
+Completed NSE at 10:46, 0.00s elapsed
+Initiating NSE at 10:46
+Completed NSE at 10:46, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 117.11 seconds
+           Raw packets sent: 65549 (1.840MB) | Rcvd: 131092 (5.513MB)
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-03-29 10:46 CST
+Initiating IPProto Scan at 10:46
+Scanning 192.168.122.1 [256 ports]
+Discovered open port 1/ip on 192.168.122.1
+Discovered open port 17/ip on 192.168.122.1
+Discovered open port 6/ip on 192.168.122.1
+Completed IPProto Scan at 10:46, 1.24s elapsed (256 total ports)
+Nmap scan report for 192.168.122.1
+Host is up, received localhost-response (0.0000080s latency).
+Not shown: 249 closed protocols
+Reason: 249 proto-unreaches
+PROTOCOL STATE         SERVICE REASON
+1        open          icmp    proto-unreach ttl 64
+2        open|filtered igmp    no-response
+6        open          tcp     proto-response ttl 64
+17       open          udp     port-unreach ttl 64
+103      open|filtered pim     no-response
+136      open|filtered udplite no-response
+255      open|filtered unknown no-response
+
+Read data files from: /usr/bin/../share/nmap
+Nmap done: 1 IP address (1 host up) scanned in 1.29 seconds
+           Raw packets sent: 260 (5.284KB) | Rcvd: 512 (17.392KB)

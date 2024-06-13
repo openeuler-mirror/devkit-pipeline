@@ -1,0 +1,17 @@
+# Nmap 7.80 scan initiated Mon May 27 21:55:17 2024 as: nmap -sO -v --reason -n -oA data/test/safety/192.168.122.1protocol --host-timeout 360 192.168.122.1
+Nmap scan report for 192.168.122.1
+Host is up, received localhost-response (0.000010s latency).
+Not shown: 248 closed protocols
+Reason: 248 proto-unreaches
+PROTOCOL STATE         SERVICE REASON
+1        open          icmp    proto-unreach ttl 64
+2        open|filtered igmp    no-response
+6        open          tcp     proto-response ttl 64
+17       open          udp     port-unreach ttl 64
+103      open|filtered pim     no-response
+136      open|filtered udplite no-response
+171      open          unknown proto-response ttl 50
+255      open|filtered unknown no-response
+
+Read data files from: /usr/bin/../share/nmap
+# Nmap done at Mon May 27 21:55:19 2024 -- 1 IP address (1 host up) scanned in 1.28 seconds

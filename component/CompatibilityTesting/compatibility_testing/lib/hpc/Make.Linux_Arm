@@ -1,0 +1,79 @@
+SHELL        = /bin/sh
+
+CD           = cd
+
+CP           = cp
+
+LN_S         = ln -fs
+
+MKDIR        = mkdir -p
+
+RM           = /bin/rm -f
+
+TOUCH        = touch
+
+ 
+
+ARCH         = Linux_Arm
+
+HOME         = ${HPL_PATH}
+
+TOPdir       = $(HOME)/hpl-2.3
+
+INCdir       = $(TOPdir)/include
+
+BINdir       = $(TOPdir)/bin/$(ARCH)
+
+LIBdir       = $(TOPdir)/lib/$(ARCH)
+
+HPLlib       = $(LIBdir)/libhpl.a
+
+ 
+
+LAdir        = ${OPENBLAS_PATH}
+
+ifndef  LAinc
+
+LAinc        = $(LAdir)/include
+
+endif
+
+ifndef  LAlib
+
+LAlib = ${OPENBLAS_PATH}/lib/libopenblas.a
+
+endif
+
+ 
+
+F2CDEFS      = -DAdd__ -DF77_INTEGER=int -DstringSunStyle
+
+HPL_INCLUDES = -I$(INCdir) -I$(INCdir)/$(ARCH) -I$(LAinc) $(MPinc)
+
+HPL_LIBS     = $(HPLlib) $(LAlib) $(MPlib)
+
+HPL_OPTS     = -DHPL_DETAILED_TIMING -DHPL_PROGRESS_REPORT
+
+HPL_DEFS     = $(F2CDEFS) $(HPL_OPTS) $(HPL_INCLUDES)
+
+ 
+
+CC       = mpicc
+
+CCNOOPT  = $(HPL_DEFS)
+
+OMP_DEFS = -fopenmp
+
+CCFLAGS  = $(HPL_DEFS) -O3
+
+LINKER       = $(CC)
+
+LINKFLAGS    = $(CCFLAGS) $(OMP_DEFS)
+
+ 
+
+ARCHIVER     = ar
+
+ARFLAGS      = r
+
+RANLIB       = echo

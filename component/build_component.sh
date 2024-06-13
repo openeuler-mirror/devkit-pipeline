@@ -22,6 +22,12 @@ function build_devkit_installer() {
     bash "${current_dir}"/DevKitWeb/build_devkit_installer.sh
 }
 
+function handle_compatibility_testing() {
+    mkdir -p "${final_component_dir}"/CompatibilityTesting
+    cp "${current_dir}"/CompatibilityTesting/install.sh "${final_component_dir}"/CompatibilityTesting
+    cp "${current_dir}"/CompatibilityTesting/check_install_result.sh "${final_component_dir}"/CompatibilityTesting
+}
+
 function main() {
     if [[ -d ${final_component_dir} ]]; then
         rm -rf "${final_component_dir}"
@@ -31,16 +37,17 @@ function main() {
 
     component_arrays=(
         "BiShengCompiler" "BiShengJDK8" "BiShengJDK17" "GCCforOpenEuler"
-        "CompatibilityTesting" "NonInvasiveSwitching" "A-FOT"
+        "NonInvasiveSwitching" "A-FOT"
         "DevKitCLI" "ClamAV"
     )
     for element in "${component_arrays[@]}"; do
         cp -rf "${current_dir}/${element}" "${final_component_dir}"
     done
 
-    rm -fr "${final_component_dir}/{DevKitTester, DevKitWeb, OpenEulerMirrorISO}"
+    rm -fr "${final_component_dir}/{CompatibilityTesting, DevKitTester, DevKitWeb, OpenEulerMirrorISO}"
     build_devkit_tester
     build_devkit_installer
+    handle_compatibility_testing
 }
 
 main "$@"
