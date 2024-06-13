@@ -4,7 +4,7 @@ from pipeline_script_generator.script_generator import ScriptGenerator
 class JenkinsScript(ScriptGenerator):
     base_template = """
 pipeline {
-    agent any
+    agent none
     options {
         timeout(time: 1, unit: 'HOURS')
     }
@@ -429,9 +429,9 @@ pipeline {
 """
     build_template = """
         // 普通编译 
-        stage('build') {
+        stage('gcc-build') {
             agent {
-                label 'kunpeng_##BUILDER_LABEL##'
+                label 'kunpeng_c_builder_gcc'
             }
             steps {
             sh ''' 
@@ -444,7 +444,7 @@ pipeline {
         // 使用毕昇编译器编译
         stage('bisheng-build') {
             agent {
-                label 'kunpeng_##BUILDER_LABEL##'
+                label 'kunpeng_c_builder_bisheng_compiler'
             }
             steps {
             sh ''' source ${HOME}/.local/wrap-bin/devkit_pipeline.sh
@@ -457,7 +457,7 @@ pipeline {
         // 使用GCC for openEuler编译，使用A-FOT工具时，需要根据用户指南填写配置项
         stage('A-FOT') {
             agent {
-                label '##BUILDER_LABEL##'
+                label 'kunpeng_c_builder_gcc'
             }
             steps {
             sh ''' 
