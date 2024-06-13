@@ -16,10 +16,13 @@ bash "${current_dir}"/tools/download_and_deploy/build_download.sh
 
 bash "${current_dir}"/tools/download_and_deploy/build_install.sh
 
+bash "${current_dir}"/tools/download_and_deploy/build_pipeline_script_generator.sh
+
 cd "${current_dir}"/build
 
 mkdir -p "${current_dir}"/build/devkit-pipeline-${tag}/linux
 cp -rf  "${current_dir}"/build/deploy_tool/dist/*  "${current_dir}"/build/devkit-pipeline-${tag}/linux
 cp -rf  "${current_dir}"/build/download_tool/dist/*  "${current_dir}"/build/devkit-pipeline-${tag}/linux
+cp -rf  "${current_dir}"/build/script_gen_dependency/dist/*  "${current_dir}"/build/devkit-pipeline-${tag}/linux
 
 tar -zcvf devkit-pipeline-${tag}.tar.gz devkit-pipeline-${tag}

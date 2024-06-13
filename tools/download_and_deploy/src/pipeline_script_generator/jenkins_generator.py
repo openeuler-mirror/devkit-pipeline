@@ -75,6 +75,9 @@ pipeline {
         BUILD_COMMAND = '''
         
         '''
+        
+        //病毒扫描路径
+        CLAMAV_PATH = ""
 
     }
     stages{
@@ -471,35 +474,7 @@ pipeline {
        }
 """
     java_perf_template = """
-        // 鲲鹏兼容测试
-        stage('compatibility_test') {
-            agent {
-                label 'kunpeng_executor'
-            }
-            steps {
-                script{
-                    echo '====== lkp test ======'
-                    sh '''
-                        CURDIR=$(pwd)
-                        cp -rf ${HOME}/.local/compatibility_testing/template.html.bak ${HOME}/.local/compatibility_testing/template.html
-                        sh compatibility_test 
-                        cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html $CURDIR
-                    '''
-                    sh(script: "sudo bash ${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim() // 这个是用于判断lkp 命令后生成的结果是否符合预期，需要根据不同的run脚本生成的结果文件去做不同的结果判断结果
-                }
-            }
-            post {
-                always {
-                    publishHTML(target: [allowMissing: false,
-                                            alwaysLinkToLastBuild: false,
-                                            keepAll              : true,
-                                            reportDir            : '.',
-                                            reportFiles          : 'compatibility_report.html',
-                                            reportName           : 'compatibility test Report']
-                    )
-                }
-            }        
-        }
+
 """
     compatibility_test_template = """
         // 鲲鹏兼容测试
@@ -532,4 +507,17 @@ pipeline {
             }        
         }
 """
-    clamav_template = ""
+
+    clamav_template = """
+        //病毒扫描
+        stage('clamav') {
+            agent {label 'kunpeng_clamav'}
+            steps {
+                sh '''
+                freshclam
+                clamav -i -r "${CLAMAV_PATH}" -l clamav.log
+                '''
+            }
+        
+        }    
+"""

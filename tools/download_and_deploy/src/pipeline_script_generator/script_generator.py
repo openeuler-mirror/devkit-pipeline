@@ -29,7 +29,7 @@ class ScriptGenerator:
             ],
             C_BUILDER_GCC: [self.build_template, self.a_fot_template],
             C_BUILDER_BISHENG_COMPILER: [self.bisheng_compiler_template],
-            EXECUTOR: [self.compatibility_test_template, self.java_perf_template],
+            EXECUTOR: [self.compatibility_test_template],
             CLAMAV: [self.clamav_template]
         }
 
