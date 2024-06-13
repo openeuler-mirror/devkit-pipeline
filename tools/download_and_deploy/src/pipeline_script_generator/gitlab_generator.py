@@ -3,6 +3,7 @@ from pipeline_script_generator.script_generator import ScriptGenerator
 
 class GitlabScript(ScriptGenerator):
     name = "gitlab"
+    seprator = "#"
     base_template = """
 stages:
   - migrating-applications
@@ -39,6 +40,8 @@ variables:
   # 编译参数
   # 编译命令
   BUILD_COMMAND: ""
+  # A-FOT配置文件存放路径
+  A_FOT_CONF_PATH： ""
   
   # Java Performance Analysis功能参数
   # 需要采集的目标程序所在的服务器地址， 多个使用逗号隔离
@@ -195,7 +198,7 @@ A-FOT:
     - kunpeng_c_builder_gcc # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - export PATH=${HOME}/.local/gcc-10.3.1-2023.12-aarch64-linux/bin:$PATH
-    - a-fot --config_file a-fot.ini    
+    - a-fot --config_file $A_FOT_CONF_PATH/a-fot.ini    
 """
     java_perf_template = ""
     compatibility_test_template = """

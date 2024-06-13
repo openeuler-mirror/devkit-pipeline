@@ -3,6 +3,7 @@ from constant import *
 
 class ScriptGenerator:
     name = ""
+    seprator = "/"
     base_template = ""
     source_migration_template = ""
     package_migration_template = ""
@@ -39,7 +40,7 @@ class ScriptGenerator:
         }
 
     def generate(self):
-        separator = "/" + "*"*120 + "/\n"
+        separator = self.seprator * 120 + "\n"
         conf = separator
         for role in ROLE_LIST:
             if role not in self.data:
