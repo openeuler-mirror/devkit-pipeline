@@ -2,7 +2,19 @@ from pipeline_script_generator.script_generator import ScriptGenerator
 
 
 class JenkinsScript(ScriptGenerator):
+    name = "jenkins"
     base_template = """
+def get_code(GIT_BRANCH, GIT_TARGET_DIR_NAME, GIT_URL) {
+    sh '''
+    rm -fr "${GIT_TARGET_DIR_NAME}"
+    '''
+    checkout scmGit(branches: [[name: "*/${GIT_BRANCH}"]], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${GIT_TARGET_DIR_NAME}"], cleanBeforeCheckout(deleteUntrackedNestedRepositories: true)],userRemoteConfigs: [[url: "${GIT_URL}"]])
+    sh '''
+    rm -rf ./report_dir
+    mkdir ./report_dir
+    '''
+}
+    
 pipeline {
     agent none
     options {
@@ -61,26 +73,17 @@ pipeline {
 
         // 编译参数
         // 编译命令
-        BUILD_COMMAND = ""
+        BUILD_COMMAND = '''
+        
+        '''
+        //A-FOT配置文件存放的路径
+        A_FOT_CONF_PATH = ""
+        
+        //病毒扫描路径
+        CLAMAV_PATH = ""
 
     }
     stages{
-        // 获取源码
-        stage('git-clone-code') {
-            steps {
-                checkout scmGit(branches: [[name: "*/${GIT_BRANCH}"]], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${GIT_TARGET_DIR_NAME}"], cleanBeforeCheckout(deleteUntrackedNestedRepositories: true)], userRemoteConfigs: [[credentialsId: "${CREDENTIALS_ID}", url: "${GIT_URL}"]])
-            }   
-        }
-        // 创建门禁报告存储路径
-        stage('mkdir-devkit-report') {
-            steps {
-                sh '''
-                    rm -rf ./report_dir
-                    mkdir ./report_dir
-                '''   
-            }
-
-        }
 ##STAGES##
     }
 }
@@ -92,6 +95,7 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
+                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
                 sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
@@ -218,6 +222,7 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
+                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
                 sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
@@ -272,7 +277,8 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
-                 sh '''
+                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+                sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
                 script{
@@ -326,6 +332,7 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
+                 get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
                  sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
@@ -380,6 +387,7 @@ pipeline {
                 label 'kunpeng_scanner'
             }
             steps {
+                 get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
                  sh '''
                     /usr/bin/rm -rf ./report_dir/*.html
                 '''
@@ -427,16 +435,39 @@ pipeline {
             }
         }
 """
-    build_template = """
+    java8_build_template = """
+        // 普通编译 
+        stage('java8-build') {
+            agent {
+                label 'kunpeng_java_builder_jdk8'
+            }
+            steps {
+            get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+            sh "${BUILD_COMMAND}"
+            }
+       }    
+"""
+    java17_build_template = """
+            // 普通编译 
+            stage('java17-build') {
+                agent {
+                    label 'kunpeng_java_builder_jdk17'
+                }
+                steps {
+                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+                sh "${BUILD_COMMAND}"
+                }
+           }    
+"""
+    gcc_template = """
         // 普通编译 
         stage('gcc-build') {
             agent {
                 label 'kunpeng_c_builder_gcc'
             }
             steps {
-            sh ''' 
-            "${BUILD_COMMAND}"
-            '''
+            get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+            sh "${BUILD_COMMAND}"
             }
        }
 """
@@ -447,9 +478,10 @@ pipeline {
                 label 'kunpeng_c_builder_bisheng_compiler'
             }
             steps {
-            sh ''' source ${HOME}/.local/wrap-bin/devkit_pipeline.sh
-            "${BUILD_COMMAND}"
-            '''
+            get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+            sh ''' source ${HOME}/.local/wrap-bin/devkit_pipeline.sh '''
+            sh "${BUILD_COMMAND}"
+            
             }
        }
 """
@@ -460,43 +492,16 @@ pipeline {
                 label 'kunpeng_c_builder_gcc'
             }
             steps {
+            get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
             sh ''' 
             export PATH=${HOME}/.local/gcc-10.3.1-2023.12-aarch64-linux/bin:$PATH
-            a-fot --config_file a-fot.ini
+            a-fot --config_file "${A_FOT_CONF_PATH}"/a-fot.ini
             '''
             }
        }
 """
     java_perf_template = """
-        // 鲲鹏兼容测试
-        stage('compatibility_test') {
-            agent {
-                label 'kunpeng_executor'
-            }
-            steps {
-                script{
-                    echo '====== lkp test ======'
-                    sh '''
-                        CURDIR=$(pwd)
-                        cp -rf ${HOME}/.local/compatibility_testing/template.html.bak ${HOME}/.local/compatibility_testing/template.html
-                        sh compatibility_test 
-                        cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html $CURDIR
-                    '''
-                    sh(script: "sudo bash ${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim() // 这个是用于判断lkp 命令后生成的结果是否符合预期，需要根据不同的run脚本生成的结果文件去做不同的结果判断结果
-                }
-            }
-            post {
-                always {
-                    publishHTML(target: [allowMissing: false,
-                                            alwaysLinkToLastBuild: false,
-                                            keepAll              : true,
-                                            reportDir            : '.',
-                                            reportFiles          : 'compatibility_report.html',
-                                            reportName           : 'compatibility test Report']
-                    )
-                }
-            }        
-        }
+
 """
     compatibility_test_template = """
         // 鲲鹏兼容测试
@@ -506,14 +511,13 @@ pipeline {
             }
             steps {
                 script{
-                    echo '====== lkp test ======'
                     sh '''
                         CURDIR=$(pwd)
                         cp -rf ${HOME}/.local/compatibility_testing/template.html.bak ${HOME}/.local/compatibility_testing/template.html
-                        sh compatibility_test 
+                        ${HOME}/.local/compatibility_testing/bin/compatibility_test 
                         cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html $CURDIR
                     '''
-                    sh(script: "sudo bash ${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim() // 这个是用于判断lkp 命令后生成的结果是否符合预期，需要根据不同的run脚本生成的结果文件去做不同的结果判断结果
+                    sh(script: "sudo bash ${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim()
                 }
             }
             post {
@@ -529,4 +533,17 @@ pipeline {
             }        
         }
 """
-    clamav_template = ""
+
+    clamav_template = """
+        //病毒扫描
+        stage('clamav') {
+            agent {label 'kunpeng_clamav'}
+            steps {
+                sh '''
+                freshclam
+                clamscan -i -r "${CLAMAV_PATH}" -l clamav.log
+                '''
+            }
+        
+        }    
+"""
