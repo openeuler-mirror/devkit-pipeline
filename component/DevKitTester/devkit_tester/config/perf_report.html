@@ -764,7 +764,7 @@ class FlameData {
                             axisPointer: {
                             type: 'shadow'
                             },
-                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value?param.value:"--"}%<br/>`).join(''))
+                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value?param.value+"%":"--"}<br/>`).join(''))
                         },
                         legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
                         dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, top: 0},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
@@ -992,7 +992,7 @@ class FlameData {
                             axisPointer: {
                             type: 'shadow'
                             },
-                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value?param.value:"--"}%<br/>`).join(''))
+                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value?param.value+"%":"--"}<br/>`).join(''))
                         },
                         legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
                         dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, top: 0},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
