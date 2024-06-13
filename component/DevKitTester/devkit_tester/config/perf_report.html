@@ -567,6 +567,13 @@ class FlameData {
                 memoryPids,
                 cpuNodes,
                 cpuPids,
+                nodeNameMap:{
+                    "committedSize":"提交堆内存",
+                    "heapUsed":"已用堆内存",
+                    "jvmUser":"JVM用户态",
+                    "jvmSystem":"JVM内核态",
+                    "machineTotal":"系统总使用率",
+                }
             };
         },
         mounted() {
@@ -728,7 +735,7 @@ class FlameData {
                         ],
                         series: seriesKey.map((key, innerIdx) => ({
                             data: seriesData[innerIdx].map((val => val?(val/1024/1024).toFixed(2):val)),
-                            name: key,
+                            name: this.nodeNameMap[key],
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -810,7 +817,7 @@ class FlameData {
                         ],
                         series: seriesKey.map((key, innerIdx) => ({
                             data: seriesData[innerIdx].map((val => val?(val*100).toFixed(2):val)),
-                            name: key,
+                            name: this.nodeNameMap[key],
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -948,7 +955,7 @@ class FlameData {
                         ],
                         series: seriesKey.map((key, innerIdx) => ({
                             data: seriesData[innerIdx].map((val => val?(val/1024/1024).toFixed(2):val)),
-                            name: key,
+                            name: this.nodeNameMap[key],
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -1038,7 +1045,7 @@ class FlameData {
                         ],
                         series: seriesKey.map((key, innerIdx) => ({
                             data: seriesData[innerIdx].map((val => val?(val*100).toFixed(2):val)),
-                            name: key,
+                            name: this.nodeNameMap[key],
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
