@@ -16,6 +16,8 @@ executor:
   - 192.168.0.1
 compatibility:
   - 192.168.0.1
+tester:
+  - 192.168.0.1
 devkit:
   - 192.168.0.3
 clamav:
