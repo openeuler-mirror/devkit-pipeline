@@ -36,6 +36,7 @@ class ScriptGenerator:
             JAVA_BUILDER_JDK8: [self.java8_build_template],
             JAVA_BUILDER_JDK17: [self.java17_build_template],
             COMPATIBILITY: [self.compatibility_test_template],
+            TESTER: [self.java_perf_template],
             CLAMAV: [self.clamav_template]
         }
 

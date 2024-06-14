@@ -41,7 +41,7 @@ variables:
   # 编译命令
   BUILD_COMMAND: ""
   # A-FOT配置文件存放路径
-  A_FOT_CONF_PATH： ""
+  A_FOT_CONF_PATH: ""
   
   # Java Performance Analysis功能参数
   # 需要采集的目标程序所在的服务器地址， 多个使用逗号隔离
@@ -164,7 +164,7 @@ build:
     - $BUILD_COMMAND
 """
     bisheng_compiler_template = """
-# 普通编译
+# 使用毕昇编译器编译
 build:
   stage: build
   tags:
@@ -200,7 +200,25 @@ A-FOT:
     - export PATH=${HOME}/.local/gcc-10.3.1-2023.12-aarch64-linux/bin:$PATH
     - a-fot --config_file $A_FOT_CONF_PATH/a-fot.ini    
 """
-    java_perf_template = ""
+    java_perf_template = """
+# java性能调优
+java-performance-analysis:
+  stage: test
+  tags:
+    - kunpeng_tester # 对应gitlab-runner注册时的标签，可选择多个
+  script:
+    - /usr/bin/rm -rf ./report_dir/*.html
+    - set -e 
+    - CURDIR=$(pwd) 
+    # 删除上次jmeter产生的报告 (jmeter 命令-l、-o指定的文件和路径) 
+    - rm -rf ${JAVA_JMETER_RESULT_FILE_NAME} ${JAVA_JMETER_RESULT_REPORT_DIR}
+    # 运行java性能采集 
+    - ${HOME}/.local/devkit_tester/bin/entrance -i ${TARGET_SERVER_IP} -u root -f ${HOME}/.ssh/id_rsa -D ${DEVKIT_WEB_IP} -a ${JAVA_APPLICATION_NAME} -d ${JAVA_COLLECTION_APPLICATION_DURATION} -g ./${GIT_TARGET_DIR_NAME} -j 'sh ${JAVA_JMETER_COMMAND}' -o ./
+  artifacts:
+    paths:
+      - devkit_performance_report.html
+    name: Java_Performance_Report
+"""
     compatibility_test_template = """
 # 鲲鹏兼容测试  
 compatibility_test:       # This job runs in the build stage, which runs first.
@@ -210,10 +228,10 @@ compatibility_test:       # This job runs in the build stage, which runs first.
   script:
     - CURDIR=$(pwd)
     - echo $CURDIR
-    - /bin/cp -rf /root/.local/compatibility_testing/template.html.bak /root/.local/compatibility_testing/template.html
-    - /bin/bash compatibility_test 
-    - /bin/cp -rf /root/.local/compatibility_testing/compatibility_report.html $CURDIR/compatibility_report.html
-    - sudo /bin/bash /root/.local/compatibility_testing/report_result.sh
+    - cp -rf ${HOME}/.local/compatibility_testing/template.html.bak ${HOME}/.local/compatibility_testing/template.html
+    - ${HOME}/.local/compatibility_testing/bin/compatibility_test 
+    - cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html $CURDIR/compatibility_report.html
+    - sudo /bin/bash ${HOME}/.local/compatibility_testing/report_result.sh
     - echo "请去 '${CURDIR}'/compatibility_report.html 查看报告 "
   artifacts:
     paths:
@@ -223,10 +241,11 @@ compatibility_test:       # This job runs in the build stage, which runs first.
     clamav_template = """
 # 病毒扫描
 clamscan:
-  stage: build
+  stage: clamav
   tags:
     - kunpeng_clamav # 对应gitlab-runner注册时的标签，可选择多个
   script:
+    - freshclam
     - clamscan -i -r ./ -l ./clamscan.log
   artifacts:
     paths:

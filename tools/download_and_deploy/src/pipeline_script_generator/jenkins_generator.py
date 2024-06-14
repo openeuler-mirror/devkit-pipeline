@@ -502,6 +502,36 @@ pipeline {
        }
 """
     java_perf_template = """
+        // java性能调优
+        stage('java-performance-analysis') { 
+            agent { 
+                label 'kunpeng_tester' 
+            } 
+            steps { 
+                echo '====== Java Performance Analysis ======' 
+                sh ''' 
+                    /usr/bin/rm -rf ./report_dir/*.html
+                    # 设置当返回不为0时 停止下一步，直接返回 
+                    set -e 
+                    CURDIR=$(pwd) 
+                    # 删除上次jmeter产生的报告 (jmeter 命令-l、-o指定的文件和路径) 
+                    rm -rf "${JAVA_JMETER_RESULT_FILE_NAME}" "${JAVA_JMETER_RESULT_REPORT_DIR}"
+                    # 运行java性能采集 
+                    ${HOME}/.local/devkit_tester/bin/entrance -i "${TARGET_SERVER_IP}" -u root -f ${HOME}/.ssh/id_rsa -D "${DEVKIT_WEB_IP}" -a "${JAVA_APPLICATION_NAME}" -d "${JAVA_COLLECTION_APPLICATION_DURATION}" -g "./${GIT_TARGET_DIR_NAME}" -j 'sh "${JAVA_JMETER_COMMAND}"' -o ./report_dir
+                ''' 
+            } 
+            post { 
+                always { 
+                    publishHTML(target: [allowMissing: false, 
+                                alwaysLinkToLastBuild: false, 
+                                keepAll              : true, 
+                                reportDir            : './report_dir', 
+                                reportFiles          : 'devkit_performance_report.html', 
+                                reportName           : 'Java Performance Report'] 
+                                ) 
+                } 
+            }       
+        }
 
 """
     compatibility_test_template = """
