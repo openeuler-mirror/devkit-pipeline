@@ -43,9 +43,7 @@ ROLE_COMPONENT = {
     JAVA_BUILDER_JDK17: ["BiShengJDK17"],
     EXECUTOR: ["CompatibilityTesting"],
     COMPATIBILITY: ["CompatibilityTesting"],
-    TESTER: [
-        # "DevKitTester"
-    ],
+    TESTER: ["DevKitTester"],
     DEVKIT: ["DevKitWeb"],
     CLAMAV: ["ClamAV"],
 }

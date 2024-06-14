@@ -1,5 +1,6 @@
 package com.huawei.devkit.pipeline.bo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MemInfo {
@@ -7,7 +8,7 @@ public class MemInfo {
     private long startTime;
     @JsonProperty("c")
     private Long committedSize;
-    @JsonProperty("r")
+    @JsonIgnore
     private Long reservedSize;
     @JsonProperty("u")
     private Long heapUsed;

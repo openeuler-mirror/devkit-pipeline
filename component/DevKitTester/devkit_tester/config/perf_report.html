@@ -130,7 +130,7 @@
                                     <el-option
                                         v-for="(item, index) in topNs.rt"
                                         :key="item"
-                                        :label="group.rt.Total[item]"
+                                        :label="group.rt.Total[item]?group.rt.Total[item]:'--'"
                                         :value="item"
                                     />
                                 </el-select>
@@ -147,7 +147,7 @@
                                     <el-option
                                         v-for="(item, index) in topNs.frt"
                                         :key="item"
-                                        :label="group.frt.Total[item]"
+                                        :label="group.frt.Total[item]?group.frt.Total[item]:'--'"
                                         :value="item"
                                     />
                                 </el-select>
@@ -361,7 +361,15 @@
     
     const getTopN = (data, topN) => {
         const idxArr = [...Array(data.length).keys()]
-        return idxArr.sort((a, b) => data[b] - data[a]).slice(0, topN);
+        return idxArr.sort((a, b) => {
+            if (data[a] === null||data[a] === undefined) {
+                return 1;
+            } else if (data[a] === null || data[a] === undefined) {
+                return -1;
+            } else {
+                return data[b] - data[a];
+            }
+        }).slice(0, topN);
     }
 
     const topN = 10;
@@ -479,7 +487,7 @@ class FlameData {
         }
         const rc = carr.join(' ');
         const factor = relation === 0 ? 20 : 50;
-        const fillOpacity = Math.max(0.35, Math.min(1-Math.abs(fd-d)/factor, 1));
+        const fillOpacity = relation === 0 ? 0.3 : Math.max(0.35, Math.min(1-Math.abs(fd-d)/factor, 1));
         const strokeOpacity = Math.sqrt(fillOpacity);
         const rt = `<rect id="r${id}" x="${rx.toFixed(1)}" y="${ry.toFixed(1)}" style="fill-opacity: ${fillOpacity}; stroke-opacity: ${strokeOpacity}" height="${RECT_HEIGHT}" width="${width.toFixed(1)}" rx="3" class="${rc}"><title>${v}, ${name.replace(/</g, '&lt;')}, ${(vr*100).toFixed(2)}%</title></rect>`;
         if(width < TEXT_LIMIT) {
@@ -559,6 +567,13 @@ class FlameData {
                 memoryPids,
                 cpuNodes,
                 cpuPids,
+                nodeNameMap:{
+                    "committedSize":"提交堆内存",
+                    "heapUsed":"已用堆内存",
+                    "jvmUser":"JVM用户态",
+                    "jvmSystem":"JVM内核态",
+                    "machineTotal":"系统总使用率",
+                }
             };
         },
         mounted() {
@@ -681,7 +696,7 @@ class FlameData {
                                 if (seriesPidKey[param.seriesIndex] === undefined) {
                                     return '';
                                 }
-                                return `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value} MB<br/>`;
+                                return `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value===null||param.value===undefined?"--":param.value+" MB"}<br/>`;
                             }).join('')),
                         },
                         legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
@@ -719,8 +734,8 @@ class FlameData {
                             }
                         ],
                         series: seriesKey.map((key, innerIdx) => ({
-                            data: seriesData[innerIdx].map((val => (val/1024/1024).toFixed(2))),
-                            name: key,
+                            data: seriesData[innerIdx].map((val => val?(val/1024/1024).toFixed(2):val)),
+                            name: this.nodeNameMap[key],
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -764,7 +779,7 @@ class FlameData {
                             axisPointer: {
                             type: 'shadow'
                             },
-                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value}%<br/>`).join(''))
+                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value===null||param.value===undefined?"--":param.value+"%"}<br/>`).join(''))
                         },
                         legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
                         dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, top: 0},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
@@ -801,8 +816,8 @@ class FlameData {
                             }
                         ],
                         series: seriesKey.map((key, innerIdx) => ({
-                            data: seriesData[innerIdx].map((val => (val*100).toFixed(2))),
-                            name: key,
+                            data: seriesData[innerIdx].map((val => val?(val*100).toFixed(2):val)),
+                            name: this.nodeNameMap[key],
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -901,7 +916,7 @@ class FlameData {
                                 if (seriesPidKey[param.seriesIndex] === undefined) {
                                     return '';
                                 }
-                                return `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value} MB<br/>`;
+                                return `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value===null||param.value===undefined ? "--" :param.value + " MB" }<br/>`;
                             }).join('')),
                         },
                         legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
@@ -939,8 +954,8 @@ class FlameData {
                             }
                         ],
                         series: seriesKey.map((key, innerIdx) => ({
-                            data: seriesData[innerIdx].map((val => (val/1024/1024).toFixed(2))),
-                            name: key,
+                            data: seriesData[innerIdx].map((val => val?(val/1024/1024).toFixed(2):val)),
+                            name: this.nodeNameMap[key],
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
@@ -992,7 +1007,7 @@ class FlameData {
                             axisPointer: {
                             type: 'shadow'
                             },
-                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value}%<br/>`).join(''))
+                            formatter: (params) => (params.map((param,idx) => `${param.marker} [${seriesPidKey[param.seriesIndex]}] ${param.seriesName}&emsp;&emsp;${param.value===null||param.value===undefined?"--":param.value+"%"}<br/>`).join(''))
                         },
                         legend: {top: 40, itemStyle: {color: 'black'}, lineStyle: {color: 'black'}},
                         dataZoom: [{type: 'slider', start: 0, end: 50 / ts.length * 100, top: 0},{type: 'inside', start: 0, end: 50 / ts.length * 100}],
@@ -1029,8 +1044,8 @@ class FlameData {
                             }
                         ],
                         series: seriesKey.map((key, innerIdx) => ({
-                            data: seriesData[innerIdx].map((val => (val*100).toFixed(2))),
-                            name: key,
+                            data: seriesData[innerIdx].map((val => val?(val*100).toFixed(2):val)),
+                            name: this.nodeNameMap[key],
                             type: 'line',
                             emphasis: {
                                 focus: 'series',
