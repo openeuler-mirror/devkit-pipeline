@@ -23,8 +23,6 @@ pipeline {
     }
     environment {
         // 获取源码参数
-        // 用于指定Jenkins应该使用哪个凭据来访问源代码存储库，是凭据管理中“唯一标识”的值
-        CREDENTIALS_ID = ""
         // 源代码存储库的克隆地址
         GIT_URL = ""
         // 源代码存储库的克隆分支
