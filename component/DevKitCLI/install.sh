@@ -2,9 +2,21 @@
 set -e
 cd /tmp/devkitdependencies/
 
-mkdir -p ${HOME}/.local
-echo "Decompress DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz to ${HOME}/.local"
-tar --no-same-owner -zxf /tmp/devkitdependencies/DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz -C ${HOME}/.local
-echo "Decompress DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz to ${HOME}/.local finished."
-sudo ln -s ${HOME}/.local/DevKit-CLI-24.0.RC1-Linux-Kunpeng/devkit /usr/local/bin
-echo "create DevkitCLI soft-link success."
+function main() {
+    mkdir -p ${HOME}/.local
+    echo "Decompress DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz to ${HOME}/.local"
+    tar --no-same-owner -zxf /tmp/devkitdependencies/DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz -C ${HOME}/.local
+    echo "Decompress DevKit-CLI-24.0.RC1-Linux-Kunpeng.tar.gz to ${HOME}/.local finished."
+
+    echo "change ${HOME}/.bashrc"
+    sed -i '/DevKit-CLI-24.0.RC1-Linux-Kunpeng/d' ${HOME}/.bashrc
+    cat >> ${HOME}/.bashrc <<'EOF'
+export PATH=${HOME}/.local/DevKit-CLI-24.0.RC1-Linux-Kunpeng:${PATH}
+EOF
+
+    echo "source ${HOME}/.bashrc"
+    set +x
+    source ${HOME}/.bashrc
+}
+
+main "$@"

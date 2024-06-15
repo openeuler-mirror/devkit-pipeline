@@ -10,4 +10,3 @@ class DevkitCLIDeploy(DeployBase):
         os.path.join("/tmp", constant.DEPENDENCY_DIR, "DevKitCLI" + "install.sh"),
         os.path.join("/tmp", constant.DEPENDENCY_DIR, "DevKitCLI" + "check_install_result.sh"),
     ]
-    sudo = True
