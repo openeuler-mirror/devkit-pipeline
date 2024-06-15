@@ -62,7 +62,7 @@ pipeline {
         // 需要采集的应用名称，多个采用逗号隔离
         JAVA_APPLICATION_NAME = ""
         // 采集目标应用时间，单位秒。当存在-j参数时，jmeter结束或者到达采集执行时间，结束采集
-        JAVA_COLLECTION_APPLICATION_DURATION = ""
+        JAVA_COLLECTION_APPLICATION_DURATION = 10
         // jmeter执行命令。例如：bash /opt/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/xxx/Request.jmx -l /home/xxx/result.html -eo /home/xxx/report
         JAVA_JMETER_COMMAND = ""
         // jmeter -l参数，将测试结果以指定的文件名保存到本地
