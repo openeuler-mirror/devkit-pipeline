@@ -23,8 +23,6 @@ pipeline {
     }
     environment {
         // 获取源码参数
-        // 用于指定Jenkins应该使用哪个凭据来访问源代码存储库，是凭据管理中“唯一标识”的值
-        CREDENTIALS_ID = ""
         // 源代码存储库的克隆地址
         GIT_URL = ""
         // 源代码存储库的克隆分支
@@ -62,7 +60,7 @@ pipeline {
         // 需要采集的应用名称，多个采用逗号隔离
         JAVA_APPLICATION_NAME = ""
         // 采集目标应用时间，单位秒。当存在-j参数时，jmeter结束或者到达采集执行时间，结束采集
-        JAVA_COLLECTION_APPLICATION_DURATION = ""
+        JAVA_COLLECTION_APPLICATION_DURATION = 10
         // jmeter执行命令。例如：bash /opt/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/xxx/Request.jmx -l /home/xxx/result.html -eo /home/xxx/report
         JAVA_JMETER_COMMAND = ""
         // jmeter -l参数，将测试结果以指定的文件名保存到本地
@@ -449,16 +447,16 @@ pipeline {
        }    
 """
     java17_build_template = """
-            // 普通编译 
-            stage('java17-build') {
-                agent {
-                    label 'kunpeng_java_builder_jdk17'
-                }
-                steps {
-                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
-                sh "${BUILD_COMMAND}"
-                }
-           }    
+        // 普通编译 
+        stage('java17-build') {
+            agent {
+                label 'kunpeng_java_builder_jdk17'
+            }
+            steps {
+            get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+            sh "${BUILD_COMMAND}"
+            }
+        }    
 """
     gcc_template = """
         // 普通编译 
@@ -517,7 +515,7 @@ pipeline {
                     # 删除上次jmeter产生的报告 (jmeter 命令-l、-o指定的文件和路径) 
                     rm -rf "${JAVA_JMETER_RESULT_FILE_NAME}" "${JAVA_JMETER_RESULT_REPORT_DIR}"
                     # 运行java性能采集 
-                    ${HOME}/.local/devkit_tester/bin/entrance -i "${TARGET_SERVER_IP}" -u root -f ${HOME}/.ssh/id_rsa -D "${DEVKIT_WEB_IP}" -a "${JAVA_APPLICATION_NAME}" -d "${JAVA_COLLECTION_APPLICATION_DURATION}" -g "./${GIT_TARGET_DIR_NAME}" -j 'sh "${JAVA_JMETER_COMMAND}"' -o ./report_dir
+                    ${HOME}/.local/devkit_tester/bin/entrance -i "${JAVA_TARGET_SERVER_IP}" -u root -f ${HOME}/.ssh/id_rsa -D "${DEVKIT_WEB_IP}" -a "${JAVA_APPLICATION_NAME}" -d "${JAVA_COLLECTION_APPLICATION_DURATION}" -g "./${GIT_TARGET_DIR_NAME}" -j "sh ${JAVA_JMETER_COMMAND}" -o ./report_dir
                 ''' 
             } 
             post { 
@@ -543,12 +541,13 @@ pipeline {
             steps {
                 script{
                     sh '''
-                        CURDIR=$(pwd)
+                        rm -rf ./report_dir
+                        mkdir ./report_dir
                         cp -rf ${HOME}/.local/compatibility_testing/template.html.bak ${HOME}/.local/compatibility_testing/template.html
                         ${HOME}/.local/compatibility_testing/bin/compatibility_test 
-                        cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html $CURDIR
+                        cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html ./report_dir
                     '''
-                    sh(script: "sudo bash ${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim()
+                    sh(script: "sh ${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim()
                 }
             }
             post {

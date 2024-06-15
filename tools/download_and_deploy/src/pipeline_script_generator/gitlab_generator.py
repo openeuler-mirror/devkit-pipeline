@@ -49,7 +49,7 @@ variables:
   # 需要采集的应用名称，多个采用逗号隔离
   JAVA_APPLICATION_NAME: ""
   # 采集目标应用时间，单位秒。当存在-j参数时，jmeter结束或者到达采集执行时间，结束采集
-  JAVA_COLLECTION_APPLICATION_DURATION: ""
+  JAVA_COLLECTION_APPLICATION_DURATION: 10
   # jmeter执行命令。例如：bash /opt/apache-jmeter-5.6.3/bin/jmeter.sh -nt /home/xxx/Request.jmx -l /home/xxx/result.html -eo /home/xxx/report
   JAVA_JMETER_COMMAND: ""
   # jmeter -l参数，将测试结果以指定的文件名保存到本地
@@ -213,7 +213,7 @@ java-performance-analysis:
     # 删除上次jmeter产生的报告 (jmeter 命令-l、-o指定的文件和路径) 
     - rm -rf ${JAVA_JMETER_RESULT_FILE_NAME} ${JAVA_JMETER_RESULT_REPORT_DIR}
     # 运行java性能采集 
-    - ${HOME}/.local/devkit_tester/bin/entrance -i ${TARGET_SERVER_IP} -u root -f ${HOME}/.ssh/id_rsa -D ${DEVKIT_WEB_IP} -a ${JAVA_APPLICATION_NAME} -d ${JAVA_COLLECTION_APPLICATION_DURATION} -g ./${GIT_TARGET_DIR_NAME} -j 'sh ${JAVA_JMETER_COMMAND}' -o ./
+    - ${HOME}/.local/devkit_tester/bin/entrance -i ${JAVA_TARGET_SERVER_IP} -u root -f ${HOME}/.ssh/id_rsa -D ${DEVKIT_WEB_IP} -a ${JAVA_APPLICATION_NAME} -d ${JAVA_COLLECTION_APPLICATION_DURATION} -g ./${GIT_TARGET_DIR_NAME} -j 'sh ${JAVA_JMETER_COMMAND}' -o ./
   artifacts:
     paths:
       - devkit_performance_report.html
@@ -231,7 +231,7 @@ compatibility_test:       # This job runs in the build stage, which runs first.
     - cp -rf ${HOME}/.local/compatibility_testing/template.html.bak ${HOME}/.local/compatibility_testing/template.html
     - ${HOME}/.local/compatibility_testing/bin/compatibility_test 
     - cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html $CURDIR/compatibility_report.html
-    - sudo /bin/bash ${HOME}/.local/compatibility_testing/report_result.sh
+    - sh ${HOME}/.local/compatibility_testing/report_result.sh
     - echo "请去 '${CURDIR}'/compatibility_report.html 查看报告 "
   artifacts:
     paths:
