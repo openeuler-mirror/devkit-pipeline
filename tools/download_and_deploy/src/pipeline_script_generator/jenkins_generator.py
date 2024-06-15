@@ -549,7 +549,7 @@ pipeline {
                         ${HOME}/.local/compatibility_testing/bin/compatibility_test 
                         cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html ./report_dir
                     '''
-                    sh(script: "${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim()
+                    sh(script: "sh ${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim()
                 }
             }
             post {
