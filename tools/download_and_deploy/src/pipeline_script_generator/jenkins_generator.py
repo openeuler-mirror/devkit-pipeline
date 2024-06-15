@@ -543,12 +543,13 @@ pipeline {
             steps {
                 script{
                     sh '''
-                        CURDIR=$(pwd)
+                        rm -rf ./report_dir
+                        mkdir ./report_dir
                         cp -rf ${HOME}/.local/compatibility_testing/template.html.bak ${HOME}/.local/compatibility_testing/template.html
                         ${HOME}/.local/compatibility_testing/bin/compatibility_test 
-                        cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html $CURDIR
+                        cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html ./report_dir
                     '''
-                    sh(script: "sudo bash ${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim()
+                    sh(script: "${HOME}/.local/compatibility_testing/report_result.sh", returnStdout:true).trim()
                 }
             }
             post {
