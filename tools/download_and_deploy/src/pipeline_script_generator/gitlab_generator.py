@@ -231,7 +231,7 @@ compatibility_test:       # This job runs in the build stage, which runs first.
     - cp -rf ${HOME}/.local/compatibility_testing/template.html.bak ${HOME}/.local/compatibility_testing/template.html
     - ${HOME}/.local/compatibility_testing/bin/compatibility_test 
     - cp -rf ${HOME}/.local/compatibility_testing/compatibility_report.html $CURDIR/compatibility_report.html
-    - sudo /bin/bash ${HOME}/.local/compatibility_testing/report_result.sh
+    - sh ${HOME}/.local/compatibility_testing/report_result.sh
     - echo "请去 '${CURDIR}'/compatibility_report.html 查看报告 "
   artifacts:
     paths:
