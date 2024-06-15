@@ -449,16 +449,16 @@ pipeline {
        }    
 """
     java17_build_template = """
-            // 普通编译 
-            stage('java17-build') {
-                agent {
-                    label 'kunpeng_java_builder_jdk17'
-                }
-                steps {
-                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
-                sh "${BUILD_COMMAND}"
-                }
-           }    
+        // 普通编译 
+        stage('java17-build') {
+            agent {
+                label 'kunpeng_java_builder_jdk17'
+            }
+            steps {
+            get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+            sh "${BUILD_COMMAND}"
+            }
+        }    
 """
     gcc_template = """
         // 普通编译 
