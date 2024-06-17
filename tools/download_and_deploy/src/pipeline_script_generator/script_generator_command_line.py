@@ -11,8 +11,6 @@ class CommandLine:
     def add_options(cls, parser):
         parser.add_argument("-f", "--config", action="store", dest="yaml_path", default=DEFAULT_YAML_PATH,
                             help="Assign yaml config file path. Default path is 'machine.yaml' in current directory.")
-        parser.add_argument("--debug", action="store_true", dest="debug", default=True,
-                            help="Open debug log. Default is True.")
         parser.add_argument("--silent", action="store_true", dest="silent", default=False, help="Close debug log.")
 
     @classmethod
