@@ -224,7 +224,7 @@ java-performance-analysis:
 compatibility_test:       # This job runs in the build stage, which runs first.
   stage: test
   tags:
-    - kunpeng_executor # 对应gitlab-runner注册时的标签，可选择多个
+    - compatibility_test # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - CURDIR=$(pwd)
     - echo $CURDIR

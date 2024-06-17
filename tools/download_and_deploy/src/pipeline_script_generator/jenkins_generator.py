@@ -536,7 +536,7 @@ pipeline {
         // 鲲鹏兼容测试
         stage('compatibility_test') {
             agent {
-                label 'kunpeng_executor'
+                label 'compatibility_test'
             }
             steps {
                 script{
