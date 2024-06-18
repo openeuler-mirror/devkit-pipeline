@@ -156,7 +156,6 @@ class FlightRecordsFactory:
 
     def __start_recorder_by_root(self):
         logging.info(PyInstallerUtils.get_env())
-        logging.info(os.environ)
         for target in self.pids:
             if target.is_docker:
                 docker_utils.create_dir_in_docker(target.docker_id, self.tmp_dir, mode=777)
