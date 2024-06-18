@@ -7,7 +7,7 @@ import time
 
 import psutil
 
-from devkit_utils import shell_tools, file_utils
+from devkit_utils import shell_tools, file_utils, docker_utils
 from devkit_utils.error_coce import ErrorCodeEnum
 from devkit_utils.log_config import config_log_ini
 from devkit_utils.pyinstaller_utils import PyInstallerUtils
@@ -16,10 +16,13 @@ ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
 class TargetProcess:
-    def __init__(self, pid, name):
+    def __init__(self, pid, name, is_docker=False, docker_id=None):
         self.pid = pid
         self.name = name
         self.jfr_name = None
+        self.is_docker = is_docker
+        self.docker_id = docker_id
+        self.jfr_path = None
 
 
 class FlightRecordsFactory:
@@ -47,6 +50,7 @@ class FlightRecordsFactory:
         file_utils.create_dir(self.dir_to_storage_jfr)
         self.jcmd_path = None
         self.user_is_root = False
+        self.is_docker = False
 
     def start_sample(self):
         try:
@@ -82,6 +86,7 @@ class FlightRecordsFactory:
             logging.info("check has stopped recorder")
             while not self.__check_has_stopped_recorder_by_root() and (datetime.datetime.now() - before).seconds < 30:
                 time.sleep(1)
+            self.__copy_to_host()
         else:
             logging.exception(f"The target application {self.apps}  cannot be found or Operation not permitted")
 
@@ -98,6 +103,7 @@ class FlightRecordsFactory:
             logging.info("check has stopped recorder")
             while not self.__check_has_stopped_recorder() and (datetime.datetime.now() - before).seconds < 30:
                 time.sleep(1)
+            self.__copy_to_host()
         else:
             logging.exception(f"The target application {self.apps}  cannot be found or Operation not permitted")
 
@@ -126,7 +132,11 @@ class FlightRecordsFactory:
             logging.info("app:%s to pid %s", app, outcome)
             pids = outcome.out.split()
             for pid in pids:
-                self.pids.append(TargetProcess(pid, app))
+                is_docker, docker_id = docker_utils.is_docker_process(pid)
+                if is_docker:
+                    self.pids.append(TargetProcess(pid, app, is_docker, docker_id))
+                else:
+                    self.pids.append(TargetProcess(pid, app))
 
     def __check_jcmd(self):
         commander_to_check = "which jcmd"
@@ -148,6 +158,12 @@ class FlightRecordsFactory:
         logging.info(PyInstallerUtils.get_env())
         logging.info(os.environ)
         for target in self.pids:
+            if target.is_docker:
+                docker_utils.create_dir_in_docker(target.docker_id, self.tmp_dir, mode=777)
+                docker_utils.create_dir_in_docker(target.docker_id, self.tmp_config_dir, mode=777)
+                docker_utils.create_dir_in_docker(target.docker_id, self.tmp_data_dir, mode=777)
+                docker_utils.copy_to_docker(target.docker_id, self.temporary_settings_path,
+                                            self.tmp_config_dir)
             jfr_path = self.__jfr_name(target.name, target.pid)
             username = psutil.Process(int(target.pid)).username()
             command = (f"su - {username} -c '"
@@ -157,6 +173,7 @@ class FlightRecordsFactory:
             outcome = shell_tools.exec_shell(command, is_shell=True)
             logging.info(outcome)
             if outcome.return_code == 0:
+                target.jfr_path = jfr_path
                 self.jfr_paths.append(jfr_path)
                 self.pids_to_start_recording.append(target)
         # 移动到data目录下
@@ -165,6 +182,12 @@ class FlightRecordsFactory:
 
     def __start_recorder(self):
         for target in self.pids:
+            if target.is_docker:
+                docker_utils.create_dir_in_docker(target.docker_id, self.tmp_dir, mode=777)
+                docker_utils.create_dir_in_docker(target.docker_id, self.tmp_config_dir, mode=777)
+                docker_utils.create_dir_in_docker(target.docker_id, self.tmp_data_dir, mode=777)
+                docker_utils.copy_to_docker(target.docker_id, self.temporary_settings_path,
+                                            self.tmp_config_dir)
             jfr_path = self.__jfr_name(target.name, target.pid)
             command = (f"jcmd {target.pid} JFR.start settings={self.temporary_settings_path} duration={self.duration}s"
                        f" name={self.RECORD_NAME} filename={jfr_path}")
@@ -172,6 +195,7 @@ class FlightRecordsFactory:
             outcome = shell_tools.exec_shell(command, is_shell=True)
             logging.info(outcome)
             if outcome.return_code == 0:
+                target.jfr_path = jfr_path
                 self.jfr_paths.append(jfr_path)
                 self.pids_to_start_recording.append(target)
         # 移动到data目录下
@@ -217,6 +241,16 @@ class FlightRecordsFactory:
         else:
             self.pids_to_stop_recording.clear()
             return False
+
+    def __copy_to_host(self):
+        for target in self.pids_to_start_recording:
+            if target.is_docker:
+                outcome = shell_tools.exec_shell(f"docker cp {target.docker_id}:{target.jfr_path} {target.jfr_path}",
+                                                 is_shell=True)
+                logging.info(outcome)
+                outcome = shell_tools.exec_shell(f"docker exec {target.docker_id} rm -rf {self.tmp_dir}",
+                                                 is_shell=True)
+                logging.info(outcome)
 
     def __jfr_name(self, app, pid):
         return os.path.join(self.tmp_data_dir, f"{app}_PID_{pid}_Time_{self.now_date}.jfr")
