@@ -12,12 +12,13 @@ fi
 
 java_path=$(which java)
 if [[ ${java_path} != ${HOME}/.local/bisheng-jdk-17.0.10/bin/java ]]; then
-    sed -i '/bisheng-jdk-17.0.10/d' ${HOME}/.bashrc
+    sed -i '/bisheng-jdk-17.0.10/,+1d' ${HOME}/.bashrc
 
     echo "change ${HOME}/.bashrc"
     cat >> ${HOME}/.bashrc <<'EOF'
 export JAVA_HOME=${HOME}/.local/bisheng-jdk-17.0.10
 export PATH=${JAVA_HOME}/bin:${PATH}
+
 EOF
 
     echo "source ${HOME}/.bashrc"

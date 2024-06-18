@@ -59,6 +59,9 @@ variables:
   # Devkit工具部署的环境IP
   DEVKIT_WEB_IP: ""
   
+  # 待病毒扫描的路径
+  CLAMAV_PATH: ""
+  
 ##STAGES##
 """
     source_migration_template = """
@@ -70,6 +73,9 @@ source-code-migration:
   script:
     - echo '====== 源码迁移 ======'
     - devkit porting src-mig -i ./ -c $SOURCE_CODE_COMMAND -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
+    # - devkit porting src-mig -i ./  -s  interpreted -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
+    # - devkit porting src-mig -i ./  -c "${SOURCE_CODE_COMMAND}" -s asm -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
+    # - devkit porting src-mig -i ./  -s 'go' -b go -c 'go build' -r html || [ $? -eq 1 ] && echo 'Warning:扫描报告包含建议项'
     - mv ./src-mig*.html ./SourceCodeScanningReport.html
   artifacts:
     paths:
@@ -224,7 +230,7 @@ java-performance-analysis:
 compatibility_test:       # This job runs in the build stage, which runs first.
   stage: test
   tags:
-    - kunpeng_executor # 对应gitlab-runner注册时的标签，可选择多个
+    - compatibility_test # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - CURDIR=$(pwd)
     - echo $CURDIR
@@ -246,7 +252,7 @@ clamscan:
     - kunpeng_clamav # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - freshclam
-    - clamscan -i -r ./ -l ./clamscan.log
+    - clamscan -i -r ${CLAMAV_PATH} -l ./clamscan.log
   artifacts:
     paths:
       - clamscan.log

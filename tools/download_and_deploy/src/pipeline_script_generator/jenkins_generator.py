@@ -75,10 +75,10 @@ pipeline {
         BUILD_COMMAND = '''
         
         '''
-        //A-FOT配置文件存放的路径
+        // A-FOT配置文件存放的路径
         A_FOT_CONF_PATH = ""
         
-        //病毒扫描路径
+        // 待病毒扫描的路径
         CLAMAV_PATH = ""
 
     }
@@ -103,7 +103,7 @@ pipeline {
                                       devkit porting src-mig -i "./${GIT_TARGET_DIR_NAME}" -c "${SOURCE_CODE_COMMAND}" -r html -o ./report_dir
                                       #  devkit porting src-mig -i "./${GIT_TARGET_DIR_NAME}" -s  interpreted -r html -o ./report_dir
                                       #  devkit porting src-mig -i "./${GIT_TARGET_DIR_NAME}" -c "${SOURCE_CODE_COMMAND}" -s asm -r html -o ./report_dir
-                                      #  devkit porting src-mig -i "./${GIT_TARGET_DIR_NAME}" -s  go -r html -o ./report_dir
+                                      #  devkit porting src-mig -i "./${GIT_TARGET_DIR_NAME}" -s 'go' -b go -c 'go build' -r html -o ./report_dir
                                         ''')
                    switch(STATUS_CODE) {
                         case 0:
@@ -536,7 +536,7 @@ pipeline {
         // 鲲鹏兼容测试
         stage('compatibility_test') {
             agent {
-                label 'kunpeng_executor'
+                label 'compatibility_test'
             }
             steps {
                 script{
