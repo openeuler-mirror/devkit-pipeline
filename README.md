@@ -22,12 +22,9 @@ wget -c https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.2/dev
 
 ```shell
 说明：
-
 user：当前节点连接其他节点配置免密的用户名。
 pkey：配置免密所用公钥对应的私钥路径。
-
 scanner、java_builder_jdk8、java_builder_jdk17、c_builder_gcc、c_builder_bisheng_compiler、compatibility、tester、devkit、clamav均为角色名称，大致与组件一一对应，需以yaml列表的形式修改角色对应的IP地址。
-
 ```
 ###### 3.配置免密
 
@@ -35,32 +32,26 @@ scanner、java_builder_jdk8、java_builder_jdk17、c_builder_gcc、c_builder_bis
 ssh-keygen -t rsa
 ssh-copy-id -i  ${HOME}/.ssh/id_rsa.pub USER@REMOTE_HOST
 ```
-
 ###### 4.配置sudo免密
 执行visudo命令修改“/etc/sudoers”文件。
 普通用户（USER）配置sudo权限，需在“/etc/sudoers”文件中对比“root ALL=(ALL) ALL”新增一行。
-
 ```
 root    ALL=(ALL)       ALL 
 USER    ALL=(ALL)       NOPASSWD: ALL
 ```
 普通用户（USER）配置sudo免密，需在“ /etc/sudoers”文件中对比 “# %wheel ALL=(ALL) NOPASSWD: ALL”新增一行。
-
 ```
 # %wheel        ALL=(ALL)       NOPASSWD: ALL 
 USER            ALL=(ALL)       NOPASSWD: ALL
 ```
 ###### 5.安装部署前安装关键倚赖
-
 ```shell
 yum install tar -y
-
 yum install perf -y    (A-FOT组件必备)
 yum install clamav -y  (ClamAV组件必备)
 ```
 ###### 6.安装部署原生开发组件（关键命令）
 可按machine.yaml配置文件中的有效角色部署GCCforOpenEuler、BiSheng Compiler、BiSheng JDK8、BiSheng JDK17、Compatibility Testing、DevKit Web、DevKit CLI、DevKit Tester、ClamAV组件。
-
 ```
 ./deploy_tool -f machine.yaml
 ```
