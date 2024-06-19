@@ -6,8 +6,9 @@ from devkit_utils import shell_tools
 
 def get_docker_id(docker_path: str):
     paths_name = docker_path.strip().split("/")
-    if len(paths_name) >= 3:
-        return paths_name[2]
+    length = len(paths_name)
+    if length >= 3:
+        return paths_name[length - 1]
     else:
         raise Exception("can not found docker id")
 
@@ -21,6 +22,8 @@ def is_docker_process(pid):
         for line in cgroup_infos:
             fields = line.split(":")
             if len(fields) >= 3 and str(fields[1]) == "devices" and str(fields[2]).startswith("/docker"):
+                return True, get_docker_id(fields[2])
+            if len(fields) >= 3 and str(fields[1]) == "devices" and str(fields[2]).startswith("/kubepods"):
                 return True, get_docker_id(fields[2])
     return False, None
 
