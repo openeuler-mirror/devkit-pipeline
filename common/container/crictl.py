@@ -80,7 +80,7 @@ class CrictlContainerFactory(ContainerFactory):
                 self.container_id_index = i
             if field == "name":
                 self.name_index = i
-            if field == "pod_id":
+            if field == "pod id":
                 self.pod_id_index = i
             if field == "pod":
                 self.pod_index = i
