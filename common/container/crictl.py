@@ -1,5 +1,6 @@
 import logging
 import os.path
+import re
 import typing
 
 from container.container import Container, ContainerFactory
@@ -63,18 +64,18 @@ class CrictlContainerFactory(ContainerFactory):
     def get_container(self) -> typing.List[Container]:
         containers = list()
         outcome = shell_tools.exec_shell("crictl ps", is_shell=True)
-        lines = outcome.out.split("\n")
+        lines = outcome.out.strip().split("\n")
         self.__parse(lines[0])
         for line in lines[1:]:
-            fields = line.split()
+            fields = re.split(r"\s{2,}", line)
             containers.append(CrictlContainer(fields[self.container_id_index], fields[self.name_index],
                                               fields[self.pod_id_index], fields[self.pod_index]))
         return containers
 
     def __parse(self, header: str):
-        fields = header.split()
+        fields = re.split(r"\s{2,}", header)
         for i in range(0, len(fields)):
-            field = header[i].lower()
+            field = fields[i].lower()
             if field == "container":
                 self.container_id_index = i
             if field == "name":

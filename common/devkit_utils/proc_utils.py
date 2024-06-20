@@ -18,7 +18,7 @@ def is_java_process(pid) -> bool:
     return False
 
 
-def is_container_process(pid, containers: typing.List[Container]) -> (bool, Container):
+def is_container_process(pid, containers: typing.List[Container]) -> tuple[bool, typing.Optional[Container]]:
     """
     判断是否是一个容器进程
     """
@@ -30,10 +30,10 @@ def is_container_process(pid, containers: typing.List[Container]) -> (bool, Cont
         for line in cgroup_infos:
             # 三层结构不支持 宿主机-containerd-containerd
             # 当前只支持两层结构 宿主机-containerd，并且宿主机 有 docker 或者（crictl和kubectl）命令
-            if "devices" in line and "/docker/" in line:
-                return True, __get_container(line, containers, True)
             if "devices" in line and "/kubepods/" in line:
                 return True, __get_container(line, containers, False)
+            if "devices" in line and "/docker/" in line:
+                return True, __get_container(line, containers, True)
     return False, None
 
 

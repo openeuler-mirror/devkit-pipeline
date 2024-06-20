@@ -51,7 +51,7 @@ class DockerContainerFactory(ContainerFactory):
     def get_container(self) -> typing.List[Container]:
         containers = list()
         outcome = shell_tools.exec_shell("docker ps", is_shell=True)
-        lines = outcome.out.split("\n")
+        lines = outcome.out.strip().split("\n")
         for line in lines[1:]:
             fields = line.split()
             containers.append(DockerContainer(fields[self.container_id_index]))
