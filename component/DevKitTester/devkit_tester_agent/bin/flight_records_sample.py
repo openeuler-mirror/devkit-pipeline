@@ -4,9 +4,11 @@ import logging.config
 import os.path
 import shutil
 import time
+import typing
 
 import psutil
 
+from container.container import Container
 from devkit_utils import shell_tools, file_utils, container_utils, proc_utils
 from devkit_utils.error_coce import ErrorCodeEnum
 from devkit_utils.log_config import config_log_ini
@@ -16,11 +18,11 @@ ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
 class TargetProcess:
-    def __init__(self, pid, name, container=None):
+    def __init__(self, pid, name, container: typing.Optional[Container] = None):
         self.pid = pid
         self.name = name
         self.jfr_name = None
-        self.container = container
+        self.container: typing.Optional[Container] = container
         self.jfr_path = None
 
 
@@ -34,7 +36,7 @@ class FlightRecordsFactory:
         self.root_path = root_path
         self.wait_for_jmeter_stop = wait_for_jmeter_stop
         self.pids: list[TargetProcess] = list()
-        self.pids_to_start_recording = list()
+        self.pids_to_start_recording: list[TargetProcess] = list()
         self.pids_to_stop_recording = list()
         self.jfr_paths: list[str] = []
         self.return_code = ErrorCodeEnum.FINISHED
