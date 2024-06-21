@@ -16,6 +16,7 @@ class CrictlContainer(Container):
         self.pod = pod
 
     def create_dir_in_container(self, target_dir, mode=755):
+        logging.info("create dir:%s", target_dir)
         outcome = shell_tools.exec_shell(f"kubectl exec {self.pod} -c {self.name} -- mkdir -p {target_dir}",
                                          is_shell=True)
         logging.info(outcome)
@@ -24,6 +25,7 @@ class CrictlContainer(Container):
         logging.info(outcome)
 
     def copy_to_container(self, origin_file, target_dir, mode=755):
+        logging.info("origin:%s  target:%s", origin_file, target_dir)
         file_name = os.path.basename(origin_file)
         outcome = shell_tools.exec_shell(f"kubectl cp -c {self.name} {origin_file} {self.pod}:{target_dir}",
                                          is_shell=True)
@@ -34,11 +36,13 @@ class CrictlContainer(Container):
         logging.info(outcome)
 
     def copy_to_host(self, origin_file, target_dir, mode=755):
+        logging.info("origin:%s  target:%s", origin_file, target_dir)
         outcome = shell_tools.exec_shell(f"kubectl cp -c {self.name} {self.pod}:{origin_file} {target_dir}",
                                          is_shell=True)
         logging.info(outcome)
 
     def delete_in_container(self, target_dir):
+        logging.info("target:%s", target_dir)
         outcome = shell_tools.exec_shell(f"kubectl exec {self.pod} -c {self.name} -- rm -rf {target_dir}",
                                          is_shell=True)
         logging.info(outcome)
