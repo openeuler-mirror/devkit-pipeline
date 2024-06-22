@@ -280,24 +280,3 @@ bash collect_msg.sh
 # 同级目录下具有config.ini 配置文件， 且已按1.2中对应解决方案完成相关参数配置
 ```
 
-
-
-## 1. **分析工具**
-
-### 1.1 **分析工具能力说明**
-
-     用于分析鲲鹏使能套件BoostKit 特性使能情况，以及系统信息。工具输入信息来源为信息收集工具生成的tar.gz 压缩包，输出特性使能情况 以及服务器相关信息的html 报告
-
-  如下图 new_report.html
-
-![bigdata](./BoostKit_pic/all2.png)36723.png)
-
-### 1.2 **分析工具使用说明**
-
-```
-./isv_tool -tool BoostKit  -package ./xxx技术限公司_isv_msg_202404081100.tar.gz
-```
-
--tool # 指定分析BoostKit 特性使能情况
-
--package # 输入采集压缩包，一般由采集工具一键收集生成的压缩包名称

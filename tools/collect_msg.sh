@@ -19,7 +19,7 @@ acquire_value(){
 ######################获取配置文件中选择校验的解决方案###########
 acquire_select_project(){
     all_name=""
-	for per_poject in $default_project
+	for per_project in $default_project
 	do
 		status=$(acquire_value $per_project check)
 		if [[ $status = True ]]; then
@@ -251,7 +251,7 @@ collect_storage_acc(){
     ldd /usr/bin/ceph-osd > $log_path/storage_acc.log
     bcache_dev=$(ls /sys/class/block|grep -m 1 bcache)
     # 如果没有课增加异常判断
-    ll /sys/class/block/$bcache_dev/bcache/cache/internal/traffic_policy_start >> $log_path/storage_acc.log
+    ls -l /sys/class/block/$bcache_dev/bcache/cache/internal/traffic_policy_start >> $log_path/storage_acc.log
 
     pool_list=$(rados lspools |grep -wx $ec_pool)
     if [[ $pool_list =~ $ec_pool ]];
