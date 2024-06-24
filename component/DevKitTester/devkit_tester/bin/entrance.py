@@ -343,12 +343,12 @@ class Distributor:
                 logging.info("ip:%s start devkit pipeline agent", ip)
                 if self.enable_jmeter_command:
                     start_command = (
-                        f"bash {task_id}/devkit_tester_agent/bin/devkit_agent_start.sh -a {self.apps} "
-                                     f"-d {self.duration} -t {task_id} -w")
+                        f"bash --login -c 'bash {task_id}/devkit_tester_agent/bin/devkit_agent_start.sh -a {self.apps} "
+                        f"-d {self.duration} -t {task_id} -w'")
                 else:
                     start_command = (
-                        f"bash {task_id}/devkit_tester_agent/bin/devkit_agent_start.sh -a {self.apps} "
-                                     f"-d {self.duration} -t {task_id}")
+                        f"bash --login -c 'bash {task_id}/devkit_tester_agent/bin/devkit_agent_start.sh -a {self.apps} "
+                        f"-d {self.duration} -t {task_id}'")
                 stdin, stdout, stderr = ssh_client.exec_command(start_command)
                 logging.info("start the sampling process on server %s:%s", ip, stderr.readlines())
                 self.__close_pipeline(stdin, stdout, stderr)
