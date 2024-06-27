@@ -253,12 +253,12 @@ collect_storage_acc(){
     # 如果没有课增加异常判断
     ls -l /sys/class/block/$bcache_dev/bcache/cache/internal/traffic_policy_start >> $log_path/storage_acc.log
 
-    pool_list=$(rados lspools |grep -wx $ec_pool)
+    pool_list=$(sudo rados lspools |grep -wx $ec_pool)
     if [[ $pool_list =~ $ec_pool ]];
     then
 	      echo "ec_pool created" >> $log_path/storage_acc.log
 	      pid_num=$(ps -ef|grep  osd|grep -v grep|head -n 1|awk '{print $2}')
-	      cat /proc/$pid_num/smaps |grep ksal >> $log_path/storage_acc.log
+	      sudo cat /proc/$pid_num/smaps |grep ksal >> $log_path/storage_acc.log
     else
 	      echo "ec_pool not exist" >> $log_path/storage_acc.log
     fi
@@ -617,7 +617,7 @@ main(){
       then
           echo "start collect Storage msg..."
           ec_pool_name=$(acquire_value Storage ec_pool_name)
-          collect_storage_acc ec_pool_name
+          collect_storage_acc $ec_pool_name
           echo "Storage collect msg Done..."
       elif [ $per_project = "Bigdata" ];
       then
