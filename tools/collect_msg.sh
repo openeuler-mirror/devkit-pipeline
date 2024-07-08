@@ -236,10 +236,14 @@ collect_acceleration_library(){
     system_lib=$1
     hmpp_lib=$2
     math_lib=$3
+    math_jar=$4
+    math_java=$5
     openssl speed -elapsed -engine kae rsa2048  > $log_path/acceleration_library.log 2>&1
     ldd $1 >> $log_path/acceleration_library.log
     ldd $2 >> $log_path/acceleration_library.log
     ldd $3 >> $log_path/acceleration_library.log
+    jar -tf $4 >> $log_path/acceleration_library_kml_java.log
+    javap -v $5 >> $log_path/acceleration_library_kml_java.log
 }
 
 
