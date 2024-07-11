@@ -1,7 +1,11 @@
 #!/bin/bash
+# 检查bishengJDK安装的三个方面
+# 1. 检查安装路径是否存在
+# 2. 检查JAVA_HOME是否和安装路径一致
+# 3. 检查java命令的全路径形式包含安装路径
 
-# 安装的目标位置，当前最终安装在/opt/software/bisheng-jdk1.8.0_402
-TARGET_DIR=/opt/software/bisheng-jdk1.8.0_402
+# 安装的目标位置，当前最终安装在/opt/software/bisheng-jdk1.8.0_412
+TARGET_DIR=/opt/software/bisheng-jdk1.8.0_412
 # 哪些服务器需要安装  每行一个服务器 格式：ip password 。其中password可以不写 默认为DEFAULT_PASSWORD
 IP_FILE=ip.all
 # 服务器的登陆用户
@@ -18,7 +22,7 @@ function initialize_arr() {
   while read line || [[ -n ${line} ]]
   do
     local ip=`echo "${line}"|awk '{print $1}'`
-    if [[ -n $ip ]];then
+    if [[ -z $ip ]];then
       continue
     fi
     local password=`echo "${line}"|awk '{print $2}'`
@@ -38,33 +42,35 @@ function connect_host_and_check_bisheng_jdk() {
 /usr/bin/expect > /dev/null << EOF
 set timeout 10
 send_user "$USER@$ip:create dir"
-spawn ssh $USER@Sip
+spawn ssh $USER@$ip
 expect {
   "*yes/no" {send "yes\r";exp_continue}
+  "Permission denied, please try again" {send_user "Permission denied to login user:$USER"; exit 1;}
   "*password" {send "$passwd\r";exp_continue}
   "*Password" {send "$passwd\r";exp_continue}
   "Enter passphrase for key*" {send "$passwd\r";exp_continue}
-  "Permission denied, please try again" {send_user "Permission denied to login user:$USER"; exit 1;}
-  "Last login:" {send_user "success to login"}
-  timeout {send_user "time out to login user:$USER"; exit 2}
+  "Last login:" {send_user "success to login\n"}
+  timeout {send_user "time out to login user:$USER\n"; exit 2}
 }
 
-expect -re "$|#" { send "ls -l $TARGET_DIR\r"}
+expect -re "$|#" { send "if \[ -d $TARGET_DIR \];then echo \"True\"; else echo \"False\";fi\r"}
 expect {
-  "No such file" {send_user "success to update JAVA_HOME";exit 3}
-  "$TARGET_DIR" {send_user "success to copy bisheng jdk to server";}
-  timeout {send_user "time out to ls"; exit 3}
+  "True" {send_user "success to copy bisheng jdk to server";}
+  "False" {send_user "failed to copy bisheng jdk to server";exit 3}
+  timeout {send_user "time out to -d"; exit 3}
 }
 
-expect -re "$|#" { send "echo  \$JAVA_HOME\r"}
+expect -re "$|#" { send "env|grep JAVA_HOME"}
 expect {
   "$TARGET_DIR" {send_user "success to update JAVA_HOME";}
-  timeout {send_user "time out to echo JAVA_HOME"; exit 4}
+  -re "$|#" {send_user "failed to update JAVA_HOME"; exit 4}
+  timeout {send_user "time out to env JAVA_HOME"; exit 4}
 }
 
 expect -re "$|#" { send "which java\r"}
 expect {
-  "$TARGET_DIR" {send_user "success to login";}
+  "$TARGET_DIR" {send_user "success to update PATH";}
+  -re "$|#" {send_user "failed to update PATH"; exit 5}
   timeout {send_user "time out to which java"; exit 5}
 }
 expect -re "$|#" { send "logout\r"}
@@ -82,11 +88,11 @@ function print_result() {
   elif [[ $ret -eq 2 ]];then
     echo -e "\033[31m 服务器${ip_arr[$index]} 登陆超时。可能原因：服务器地址不正确或者登陆返回不包含Last login或者缺少命令  \033[0m"
   elif [[ $ret -eq 3 ]];then
-    echo -e "\033[31m 服务器${ip_arr[$index]} 不存在文件夹$TARGET_DIR。 \033[0m"
+    echo -e "\033[31m 服务器${ip_arr[$index]} 中 $TARGET_DIR 文件夹不存在。 \033[0m"
   elif [[ $ret -eq 4 ]];then
-    echo -e "\033[31m 服务器${ip_arr[$index]} 用户${USER}的环境变量JAVA_HOME不是$TARGET_DIR。 \033[0m"
+    echo -e "\033[31m 服务器${ip_arr[$index]} 用户${USER}的JAVA_HOME环境变量不是$TARGET_DIR。 \033[0m"
   else
-    echo -e "\033[31m 服务器${ip_arr[$index]} 直接使用java命令不是${TARGET_DIR}/bin/java。\033[0m"
+    echo -e "\033[31m 服务器${ip_arr[$index]} 直接使用的java命令不是${TARGET_DIR}/bin/java。\033[0m"
   fi
 }
 
