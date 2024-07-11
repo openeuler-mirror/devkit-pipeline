@@ -4,9 +4,9 @@
 # 2. 检查JAVA_HOME是否和安装路径一致
 # 3. 检查java命令的全路径形式包含安装路径
 
-# 安装的目标位置，当前最终安装在/opt/software/bisheng-jdk1.8.0_412
-TARGET_DIR=/opt/software/bisheng-jdk1.8.0_412
-# 哪些服务器需要安装  每行一个服务器 格式：ip password 。其中password可以不写 默认为DEFAULT_PASSWORD
+# 安装的目标位置,即JAVA_HOME
+JAVA_HOME_VALUE=/opt/software/bisheng-jdk1.8.0_412
+# 哪些服务器需要检查  每行一个服务器 格式：ip password 。其中password可以不写 默认为DEFAULT_PASSWORD
 IP_FILE=ip.all
 # 服务器的登陆用户
 USER=root
@@ -53,7 +53,7 @@ expect {
   timeout {send_user "time out to login user:$USER\n"; exit 2}
 }
 
-expect -re "$|#" { send "if \[ -d $TARGET_DIR \];then echo \"True\"; else echo \"False\";fi\r"}
+expect -re "$|#" { send "if \[ -d $JAVA_HOME_VALUE \];then echo \"True\"; else echo \"False\";fi\r"}
 expect {
   "True" {send_user "success to copy bisheng jdk to server";}
   "False" {send_user "failed to copy bisheng jdk to server";exit 3}
@@ -62,14 +62,14 @@ expect {
 
 expect -re "$|#" { send "env|grep JAVA_HOME"}
 expect {
-  "$TARGET_DIR" {send_user "success to update JAVA_HOME";}
+  "$JAVA_HOME_VALUE" {send_user "success to update JAVA_HOME";}
   -re "$|#" {send_user "failed to update JAVA_HOME"; exit 4}
   timeout {send_user "time out to env JAVA_HOME"; exit 4}
 }
 
 expect -re "$|#" { send "which java\r"}
 expect {
-  "$TARGET_DIR" {send_user "success to update PATH";}
+  "$JAVA_HOME_VALUE" {send_user "success to update PATH";}
   -re "$|#" {send_user "failed to update PATH"; exit 5}
   timeout {send_user "time out to which java"; exit 5}
 }
@@ -88,11 +88,11 @@ function print_result() {
   elif [[ $ret -eq 2 ]];then
     echo -e "\033[31m 服务器${ip_arr[$index]} 登陆超时。可能原因：服务器地址不正确或者登陆返回不包含Last login或者缺少命令  \033[0m"
   elif [[ $ret -eq 3 ]];then
-    echo -e "\033[31m 服务器${ip_arr[$index]} 中 $TARGET_DIR 文件夹不存在。 \033[0m"
+    echo -e "\033[31m 服务器${ip_arr[$index]} 中 $JAVA_HOME_VALUE 文件夹不存在。 \033[0m"
   elif [[ $ret -eq 4 ]];then
-    echo -e "\033[31m 服务器${ip_arr[$index]} 用户${USER}的JAVA_HOME环境变量不是$TARGET_DIR。 \033[0m"
+    echo -e "\033[31m 服务器${ip_arr[$index]} 用户${USER}的JAVA_HOME环境变量不是$JAVA_HOME_VALUE。 \033[0m"
   else
-    echo -e "\033[31m 服务器${ip_arr[$index]} 直接使用的java命令不是${TARGET_DIR}/bin/java。\033[0m"
+    echo -e "\033[31m 服务器${ip_arr[$index]} 直接使用的java命令不是${JAVA_HOME_VALUE}/bin/java。\033[0m"
   fi
 }
 
