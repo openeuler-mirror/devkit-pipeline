@@ -49,7 +49,7 @@ expect {
   timeout {send_user "time out to login user:$USER"; exit 2}
 }
 
-expect -re "$|#" { send "ls  $TARGET_DIR\r"}
+expect -re "$|#" { send "ls -l $TARGET_DIR\r"}
 expect {
   "No such file" {send_user "success to update JAVA_HOME";exit 3}
   "$TARGET_DIR" {send_user "success to copy bisheng jdk to server";}
