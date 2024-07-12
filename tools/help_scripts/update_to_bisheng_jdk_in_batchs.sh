@@ -73,7 +73,7 @@ expect {
   "*password" {send "$passwd\r";}
   "*Password" {send "$passwd\r";}
   "Enter passphrase for key*" {send "$passwd\r";}
-  "Authorized users" { send_user "success to copy file\n"}
+  "$BISHENG_JDK_TAR" { send_user "success to copy file\n"}
   timeout {exit 2}
 }
 
