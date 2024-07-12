@@ -66,16 +66,19 @@ expect {
 expect -re "$|#" { send "mkdir -p $TARGET_DIR\r"}
 expect -re "$|#" { send "logout\r"}
 
+set timeout 120
 expect -re "$|#"
 spawn scp -r $BISHENG_TAR_DIR/$BISHENG_JDK_TAR  $USER@$ip:$TARGET_DIR
 expect {
   "*yes/no" {send "yes\r";exp_continue}
-  "*password" {send "$passwd\r";}
-  "*Password" {send "$passwd\r";}
-  "Enter passphrase for key*" {send "$passwd\r";}
-  "$BISHENG_JDK_TAR" { send_user "success to copy file\n"}
+  "*password" {send "$passwd\r";exp_continue}
+  "*Password" {send "$passwd\r";exp_continue}
+  "Enter passphrase for key*" {send "$passwd\r";exp_continue}
+  "100%" { send_user "success to copy file\n"}
   timeout {exit 2}
 }
+
+set timeout 10
 
 expect -re "$|#"
 spawn ssh $USER@$ip
