@@ -73,7 +73,7 @@ expect {
   "*password" {send "$passwd\r";}
   "*Password" {send "$passwd\r";}
   "Enter passphrase for key*" {send "$passwd\r";}
-  -re "$|#" {send_user "success to copy file\n"}
+  timeout {send_user "success to copy file\n"}
 }
 
 expect -re "$|#"
