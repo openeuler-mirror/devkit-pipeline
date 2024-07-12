@@ -19,30 +19,6 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<!--
- | This is the configuration file for Maven. It can be specified at two levels:
- |
- |  1. User Level. This settings.xml file provides configuration for a single user,
- |                 and is normally provided in ${user.home}/.m2/settings.xml.
- |
- |                 NOTE: This location can be overridden with the CLI option:
- |
- |                 -s /path/to/user/settings.xml
- |
- |  2. Global Level. This settings.xml file provides configuration for all Maven
- |                 users on a machine (assuming they're all using the same Maven
- |                 installation). It's normally provided in
- |                 ${maven.conf}/settings.xml.
- |
- |                 NOTE: This location can be overridden with the CLI option:
- |
- |                 -gs /path/to/global/settings.xml
- |
- | The sections in this sample file are intended to give you a running start at
- | getting the most out of your Maven installation. Where appropriate, the default
- | values (values used when the setting is not specified) are provided.
- |
- |-->
 <settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
@@ -158,16 +134,9 @@ under the License.
         </mirror>
          -->
         <mirror>
-            <id>maven-default-http-blocker</id>
-            <mirrorOf>external:http:*</mirrorOf>
-            <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
-            <url>http://0.0.0.0/</url>
-            <blocked>true</blocked>
-        </mirror>
-        <mirror>
-            <id>jboss</id>
+            <id>huaweicloud</id>
             <mirrorOf>*</mirrorOf>
-            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
+            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
         </mirror>
     </mirrors>
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  ~ Copyright (c) Huawei Technologies Co., Ltd. 2024. All rights reserved.
+  -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.huawei.devkit.code.inspector.dao.RuleViolationInfoMapper">
+
+    <insert id="addRuleViolationInfos">
+        insert into rule_violation_info (rule_id, file_path_hash, file_path, line, lineno, merge_id, message, shielded,
+        commit_request_to_shield, time) values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.ruleId}, #{item.filePathHash}, #{item.filePath}, #{item.line}, #{item.lineno},
+            #{item.merge_id}, #{item.message}, #{item.shielded}, #{item.commit_request_to_shield}, #{item.time}
+            )
+        </foreach>
+    </insert>
+
+</mapper>
