@@ -16,7 +16,7 @@
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
  -->
 <module name="Checker">
-
+    <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
         <module name="AnnotationLocation">
@@ -25,6 +25,7 @@
                       value="false"/>
             <property name="allowSamelineParameterizedAnnotation" value="false"/>
             <property name="allowSamelineMultipleAnnotations" value="false"/>
+            <property name="severity" value="error"/>
         </module>
     </module>
     <module name="LineLength">

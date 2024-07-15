@@ -16,6 +16,7 @@
         file_path varchar(256),
         line varchar(256),
         lineno int,
+        level int,
         merge_id varchar(50),
         message varchar(256),
         shielded boolean,

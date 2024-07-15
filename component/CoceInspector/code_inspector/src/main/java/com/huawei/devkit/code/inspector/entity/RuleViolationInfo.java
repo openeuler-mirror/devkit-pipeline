@@ -26,4 +26,5 @@ public class RuleViolationInfo {
     private boolean shielded;
     private boolean commitRequestToShield;
     private long time;
+    private int level;
 }

@@ -10,6 +10,7 @@ import com.huawei.devkit.code.inspector.entity.RuleViolationInfo;
 import com.huawei.devkit.code.inspector.perload.DataBasePreLoad;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
+import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
 import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.session.SqlSession;
 
@@ -75,7 +76,8 @@ public class DataBaseListener implements AuditListener {
         RuleViolationInfo ruleViolation = RuleViolationInfo.builder().filePath(event.getFileName())
                 .lineno(event.getLine()).time(this.time).filePathHash(event.getFileName().hashCode())
                 .message(event.getMessage()).ruleId(event.getViolation().getModuleId())
-                .mergeId(this.mergeId).shielded(false).commitRequestToShield(false).build();
+                .mergeId(this.mergeId).shielded(false).commitRequestToShield(false)
+                .level(SeverityLevel.ERROR == event.getSeverityLevel() ? 1 : 0).build();
         this.infoList.add(ruleViolation);
     }
 

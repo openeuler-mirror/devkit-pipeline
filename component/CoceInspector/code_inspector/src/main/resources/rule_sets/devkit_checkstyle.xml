@@ -24,7 +24,7 @@
     <module name="BeforeExecutionExclusionFileFilter">
         <property name="fileNamePattern" value="module\-info\.java$"/>
     </module>
-  
+
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
@@ -37,6 +37,13 @@
     </module>
 
     <module name="TreeWalker">
-
+        <module name="AnnotationLocation">
+            <property name="id" value="allow_anocation"/>
+            <property name="allowSamelineSingleParameterlessAnnotation"
+                      value="false"/>
+            <property name="allowSamelineParameterizedAnnotation" value="false"/>
+            <property name="allowSamelineMultipleAnnotations" value="false"/>
+        </module>
     </module>
 </module>
+
