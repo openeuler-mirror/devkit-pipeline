@@ -26,7 +26,6 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
 import com.puppycrawl.tools.checkstyle.api.RootModule;
 import com.puppycrawl.tools.checkstyle.utils.ChainedPropertyUtil;
-import picocli.CommandLine;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,37 +56,20 @@ public class CheckStyleWrapper {
      */
     public static final String LOAD_PROPERTIES_EXCEPTION = "Main.loadProperties";
 
-    private static final int EXIT_WITH_INVALID_USER_INPUT_CODE = -1;
-    private static final int EXIT_WITH_CHECKSTYLE_EXCEPTION_CODE = -2;
-
 
     /**
      * Loops over the files specified checking them for errors. The exit code
      * is the number of errors found in all the files.
      *
      * @throws IOException if there is a problem with files access
-     * @noinspection UseOfSystemOutOrSystemErr, CallToPrintStackTrace, CallToSystemExit
-     * @noinspectionreason UseOfSystemOutOrSystemErr - driver class for Checkstyle requires
-     * usage of System.out and System.err
-     * @noinspectionreason CallToPrintStackTrace - driver class for Checkstyle must be able to
-     * show all details in case of failure
-     * @noinspectionreason CallToSystemExit - driver class must call exit
      **/
-    public static void main(CliOptions cliOptions) throws IOException {
-        int exitStatus = 0;
+    public static void checkStyle(CliOptions cliOptions) throws IOException {
         int errorCounter = 0;
         try {
             final List<File> filesToProcess = getFilesToProcess(cliOptions);
             errorCounter = runCheckstyle(cliOptions, filesToProcess);
-        } catch (CommandLine.ParameterException ex) {
-            exitStatus = EXIT_WITH_INVALID_USER_INPUT_CODE;
-            System.err.println(ex.getMessage());
-            System.err.println("Usage: checkstyle [OPTIONS]... FILES...");
-            System.err.println("Try 'checkstyle --help' for more information.");
         } catch (CheckstyleException ex) {
-            exitStatus = EXIT_WITH_CHECKSTYLE_EXCEPTION_CODE;
             errorCounter = 1;
-            ex.printStackTrace();
         } finally {
             // return exit code base on validation of Checker
             if (errorCounter > 0) {

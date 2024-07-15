@@ -12,11 +12,13 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class CodeInspector {
+    private static final int EXIT_WITH_INVALID_USER_INPUT_CODE = -1;
 
     private static final Logger logger = LogManager.getLogger(CodeInspector.class);
 
 
     public static void main(String[] args) {
+        int status = 0;
         try {
             logger.info("start enter log");
             final CliOptions cliOptions = new CliOptions();
@@ -27,9 +29,17 @@ public class CodeInspector {
             Properties properties = PropertiesUtils.loadProperties("config.properties");
             PropertiesUtils.configAndUpdate(properties);
             DataBasePreLoad.preload(properties);
-            CheckStyleWrapper.main(cliOptions);
+            CheckStyleWrapper.checkStyle(cliOptions);
+        } catch (CommandLine.ParameterException ex) {
+            status = -1;
+            logger.error("error", ex);
+            System.err.println(ex.getMessage());
+            System.err.println("Usage: checkstyle [OPTIONS]... FILES...");
+            System.err.println("Try 'checkstyle --help' for more information.");
         } catch (IOException ex) {
+            status = -1;
             logger.error("error", ex);
         }
+        Runtime.getRuntime().exit(status);
     }
 }
