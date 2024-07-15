@@ -60,7 +60,7 @@ expect {
   timeout {send_user "time out to -d"; exit 3}
 }
 
-expect -re "$|#" { send "env|grep JAVA_HOME"}
+expect -re "$|#" { send "env|grep JAVA_HOME\r"}
 expect {
   "$JAVA_HOME_VALUE" {send_user "success to update JAVA_HOME";}
   timeout {send_user "time out to env JAVA_HOME"; exit 4}
