@@ -4,20 +4,20 @@
 
 package com.huawei.devkit.code.inspector.wrappers;
 
+import com.huawei.devkit.code.inspector.entity.CliOptions;
+import com.huawei.devkit.code.inspector.entity.OutputStyle;
+import com.huawei.devkit.code.inspector.listener.DataBaseListener;
 import com.puppycrawl.tools.checkstyle.AbstractAutomaticBean;
 import com.puppycrawl.tools.checkstyle.Checker;
 import com.puppycrawl.tools.checkstyle.ConfigurationLoader;
 import com.puppycrawl.tools.checkstyle.DefaultConfiguration;
-import com.puppycrawl.tools.checkstyle.DefaultLogger;
 import com.puppycrawl.tools.checkstyle.Definitions;
 import com.puppycrawl.tools.checkstyle.LocalizedMessage;
 import com.puppycrawl.tools.checkstyle.Main;
 import com.puppycrawl.tools.checkstyle.ModuleFactory;
 import com.puppycrawl.tools.checkstyle.PackageObjectFactory;
 import com.puppycrawl.tools.checkstyle.PropertiesExpander;
-import com.puppycrawl.tools.checkstyle.SarifLogger;
 import com.puppycrawl.tools.checkstyle.ThreadModeSettings;
-import com.puppycrawl.tools.checkstyle.XMLLogger;
 import com.puppycrawl.tools.checkstyle.XpathFileGeneratorAstFilter;
 import com.puppycrawl.tools.checkstyle.XpathFileGeneratorAuditListener;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
@@ -26,7 +26,6 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
 import com.puppycrawl.tools.checkstyle.api.RootModule;
 import com.puppycrawl.tools.checkstyle.utils.ChainedPropertyUtil;
-import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -35,13 +34,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * CheckStyleWrapper
@@ -69,7 +65,6 @@ public class CheckStyleWrapper {
      * Loops over the files specified checking them for errors. The exit code
      * is the number of errors found in all the files.
      *
-     * @param args the command line arguments.
      * @throws IOException if there is a problem with files access
      * @noinspection UseOfSystemOutOrSystemErr, CallToPrintStackTrace, CallToSystemExit
      * @noinspectionreason UseOfSystemOutOrSystemErr - driver class for Checkstyle requires
@@ -78,17 +73,10 @@ public class CheckStyleWrapper {
      * show all details in case of failure
      * @noinspectionreason CallToSystemExit - driver class must call exit
      **/
-    public static void main(String... args) throws IOException {
-
-        final CliOptions cliOptions = new CliOptions();
-        final CommandLine commandLine = new CommandLine(cliOptions);
-        commandLine.setUsageHelpWidth(CliOptions.HELP_WIDTH);
-        commandLine.setCaseInsensitiveEnumValuesAllowed(true);
-
+    public static void main(CliOptions cliOptions) throws IOException {
         int exitStatus = 0;
         int errorCounter = 0;
         try {
-            commandLine.parseArgs(args);
             final List<File> filesToProcess = getFilesToProcess(cliOptions);
             errorCounter = runCheckstyle(cliOptions, filesToProcess);
         } catch (CommandLine.ParameterException ex) {
@@ -123,7 +111,7 @@ public class CheckStyleWrapper {
         final List<Pattern> patternsToExclude = options.getExclusions();
 
         final List<File> result = new LinkedList<>();
-        for (File file : options.files) {
+        for (File file : options.getFiles()) {
             result.addAll(listFiles(file, patternsToExclude));
         }
         return result;
@@ -196,10 +184,10 @@ public class CheckStyleWrapper {
         // setup the properties
         final Properties props;
 
-        if (options.propertiesFile == null) {
+        if (options.getPropertiesFile() == null) {
             props = System.getProperties();
         } else {
-            props = loadProperties(options.propertiesFile);
+            props = loadProperties(options.getPropertiesFile());
         }
 
         // create a configuration
@@ -208,14 +196,14 @@ public class CheckStyleWrapper {
                         CliOptions.TREE_WALKER_THREADS_NUMBER);
 
         final ConfigurationLoader.IgnoredModulesOptions ignoredModulesOptions;
-        if (options.executeIgnoredModules) {
+        if (options.isExecuteIgnoredModules()) {
             ignoredModulesOptions = ConfigurationLoader.IgnoredModulesOptions.EXECUTE;
         } else {
             ignoredModulesOptions = ConfigurationLoader.IgnoredModulesOptions.OMIT;
         }
 
         final Configuration config = ConfigurationLoader.loadConfiguration(
-                options.configurationFile, new PropertiesExpander(props),
+                options.getConfigurationFile(), new PropertiesExpander(props),
                 ignoredModulesOptions, multiThreadModeSettings);
 
         // create RootModule object and run it
@@ -225,7 +213,7 @@ public class CheckStyleWrapper {
 
         try {
             final AuditListener listener;
-            if (options.generateXpathSuppressionsFile) {
+            if (options.isGenerateXpathSuppressionsFile()) {
                 // create filter to print generated xpath suppressions file
                 final Configuration treeWalkerConfig = getTreeWalkerConfig(config);
                 if (treeWalkerConfig != null) {
@@ -233,19 +221,21 @@ public class CheckStyleWrapper {
                             new DefaultConfiguration(
                                     XpathFileGeneratorAstFilter.class.getName());
                     moduleConfig.addProperty(CliOptions.ATTRIB_TAB_WIDTH_NAME,
-                            String.valueOf(options.tabWidth));
+                            String.valueOf(options.getTabWidth()));
                     ((DefaultConfiguration) treeWalkerConfig).addChild(moduleConfig);
                 }
 
-                listener = new XpathFileGeneratorAuditListener(getOutputStream(options.outputPath),
-                        getOutputStreamOptions(options.outputPath));
+                listener = new XpathFileGeneratorAuditListener(getOutputStream(options.getOutputPath()),
+                        getOutputStreamOptions(options.getOutputPath()));
             } else {
-                listener = createListener(options.format, options.outputPath);
+                listener = createListener(options.getFormat(), options.getOutputPath());
             }
 
             rootModule.setModuleClassLoader(moduleClassLoader);
             rootModule.configure(config);
+            DataBaseListener baseListener = new DataBaseListener("");
             rootModule.addListener(listener);
+            rootModule.addListener(baseListener);
 
             // run RootModule
             errorCounter = rootModule.process(filesToProcess);
@@ -326,7 +316,7 @@ public class CheckStyleWrapper {
      * @return a fresh new {@code AuditListener}
      * @throws IOException when provided output location is not found
      */
-    private static AuditListener createListener(OutputFormat format, Path outputLocation)
+    private static AuditListener createListener(OutputStyle format, Path outputLocation)
             throws IOException {
         final OutputStream out = getOutputStream(outputLocation);
         final AbstractAutomaticBean.OutputStreamOptions closeOutputStreamOption =
@@ -371,223 +361,4 @@ public class CheckStyleWrapper {
         return result;
     }
 
-    /**
-     * Enumeration over the possible output formats.
-     *
-     * @noinspection PackageVisibleInnerClass
-     * @noinspectionreason PackageVisibleInnerClass - we keep this enum package visible for tests
-     */
-    enum OutputFormat {
-        /**
-         * XML output format.
-         */
-        XML,
-        /**
-         * SARIF output format.
-         */
-        SARIF,
-        /**
-         * Plain output format.
-         */
-        PLAIN;
-
-        /**
-         * Returns a new AuditListener for this OutputFormat.
-         *
-         * @param out     the output stream
-         * @param options the output stream options
-         * @return a new AuditListener for this OutputFormat
-         * @throws IOException if there is any IO exception during logger initialization
-         */
-        public AuditListener createListener(
-                OutputStream out,
-                AbstractAutomaticBean.OutputStreamOptions options) throws IOException {
-            final AuditListener result;
-            if (this == XML) {
-                result = new XMLLogger(out, options);
-            } else if (this == SARIF) {
-                result = new SarifLogger(out, options);
-            } else {
-                result = new DefaultLogger(out, options);
-            }
-            return result;
-        }
-
-        /**
-         * Returns the name in lowercase.
-         *
-         * @return the enum name in lowercase
-         */
-        @Override
-        public String toString() {
-            return name().toLowerCase(Locale.ROOT);
-        }
-    }
-
-    /**
-     * Command line options.
-     *
-     * @noinspection unused, FieldMayBeFinal, CanBeFinal,
-     * MismatchedQueryAndUpdateOfCollection, LocalCanBeFinal
-     * @noinspectionreason FieldMayBeFinal - usage of picocli requires
-     * suppression of above inspections
-     * @noinspectionreason CanBeFinal - usage of picocli requires
-     * suppression of above inspections
-     * @noinspectionreason MismatchedQueryAndUpdateOfCollection - list of files is gathered and used
-     * via reflection by picocli library
-     * @noinspectionreason LocalCanBeFinal - usage of picocli requires
-     * suppression of above inspections
-     */
-    @CommandLine.Command(name = "checkstyle", description = "Checkstyle verifies that the specified "
-            + "source code files adhere to the specified rules. By default, violations are "
-            + "reported to standard out in plain format. Checkstyle requires a configuration "
-            + "XML file that configures the checks to apply.",
-            mixinStandardHelpOptions = true)
-    private static final class CliOptions {
-
-        /**
-         * Width of CLI help option.
-         */
-        private static final int HELP_WIDTH = 100;
-
-        /**
-         * The default number of threads to use for checker and the tree walker.
-         */
-        private static final int DEFAULT_THREAD_COUNT = 1;
-
-        /**
-         * Name for the moduleConfig attribute 'tabWidth'.
-         */
-        private static final String ATTRIB_TAB_WIDTH_NAME = "tabWidth";
-
-        /**
-         * Default output format.
-         */
-        private static final OutputFormat DEFAULT_OUTPUT_FORMAT = OutputFormat.PLAIN;
-
-        /**
-         * Option name for output format.
-         */
-        private static final String OUTPUT_FORMAT_OPTION = "-f";
-
-        /**
-         * The checker threads number.
-         * This option has been skipped for CLI options intentionally.
-         */
-        private static final int CHECKER_THREADS_NUMBER = DEFAULT_THREAD_COUNT;
-
-        /**
-         * The tree walker threads number.
-         */
-        private static final int TREE_WALKER_THREADS_NUMBER = DEFAULT_THREAD_COUNT;
-
-        /**
-         * List of file to validate.
-         */
-        @CommandLine.Parameters(arity = "1..*", description = "One or more source files to verify")
-        private List<File> files;
-
-        /**
-         * Config file location.
-         */
-        @CommandLine.Option(names = "-c", description = "Specifies the location of the file that defines"
-                + " the configuration modules. The location can either be a filesystem location"
-                + ", or a name passed to the ClassLoader.getResource() method.")
-        private String configurationFile;
-
-        /**
-         * Output file location.
-         */
-        @CommandLine.Option(names = "-o", description = "Sets the output file. Defaults to stdout.")
-        private Path outputPath;
-
-        /**
-         * Properties file location.
-         */
-        @CommandLine.Option(names = "-p", description = "Sets the property files to load.")
-        private File propertiesFile;
-
-        /**
-         * Tab character length.
-         *
-         * @noinspection CanBeFinal
-         * @noinspectionreason CanBeFinal - we use picocli, and it uses
-         * reflection to manage such fields
-         */
-        @CommandLine.Option(names = {"-w", "--tabWidth"},
-                description = "Sets the length of the tab character. "
-                        + "Used only with -s option. Default value is ${DEFAULT-VALUE}.")
-        private int tabWidth = CommonUtil.DEFAULT_TAB_WIDTH;
-
-        /**
-         * Switch whether to generate suppressions file or not.
-         */
-        @CommandLine.Option(names = {"-g", "--generate-xpath-suppression"},
-                description = "Generates to output a suppression xml to use to suppress all "
-                        + "violations from user's config. Instead of printing every violation, "
-                        + "all violations will be catched and single suppressions xml file will "
-                        + "be printed out. Used only with -c option. Output "
-                        + "location can be specified with -o option.")
-        private boolean generateXpathSuppressionsFile;
-
-        /**
-         * Output format.
-         *
-         * @noinspection CanBeFinal
-         * @noinspectionreason CanBeFinal - we use picocli, and it uses
-         * reflection to manage such fields
-         */
-        @CommandLine.Option(names = "-f",
-                description = "Specifies the output format. Valid values: "
-                        + "${COMPLETION-CANDIDATES} for XMLLogger, SarifLogger, "
-                        + "and DefaultLogger respectively. Defaults to ${DEFAULT-VALUE}.")
-        private OutputFormat format = DEFAULT_OUTPUT_FORMAT;
-
-        /**
-         * Option that allows users to specify a list of paths to exclude.
-         *
-         * @noinspection CanBeFinal
-         * @noinspectionreason CanBeFinal - we use picocli, and it uses
-         * reflection to manage such fields
-         */
-        @CommandLine.Option(names = {"-e", "--exclude"},
-                description = "Directory/file to exclude from CheckStyle. The path can be the "
-                        + "full, absolute path, or relative to the current path. Multiple "
-                        + "excludes are allowed.")
-        private List<File> exclude = new ArrayList<>();
-
-        /**
-         * Option that allows users to specify a regex of paths to exclude.
-         *
-         * @noinspection CanBeFinal
-         * @noinspectionreason CanBeFinal - we use picocli, and it uses
-         * reflection to manage such fields
-         */
-        @CommandLine.Option(names = {"-x", "--exclude-regexp"},
-                description = "Directory/file pattern to exclude from CheckStyle. Multiple "
-                        + "excludes are allowed.")
-        private List<Pattern> excludeRegex = new ArrayList<>();
-
-        /**
-         * Switch whether to execute ignored modules or not.
-         */
-        @CommandLine.Option(names = {"-E", "--executeIgnoredModules"},
-                description = "Allows ignored modules to be run.")
-        private boolean executeIgnoredModules;
-
-        /**
-         * Gets the list of exclusions provided through the command line arguments.
-         *
-         * @return List of exclusion patterns.
-         */
-        private List<Pattern> getExclusions() {
-            final List<Pattern> result = exclude.stream()
-                    .map(File::getAbsolutePath)
-                    .map(Pattern::quote)
-                    .map(pattern -> Pattern.compile("^" + pattern + "$"))
-                    .collect(Collectors.toCollection(ArrayList::new));
-            result.addAll(excludeRegex);
-            return result;
-        }
-    }
 }

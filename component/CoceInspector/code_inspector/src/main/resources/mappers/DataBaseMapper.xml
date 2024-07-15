@@ -8,7 +8,7 @@
 
 <mapper namespace="com.huawei.devkit.code.inspector.dao.DataBaseMapper">
     <update id="createTable">
-        create table if not exist rule_violation_info
+        create table if not exists rule_violation_info
         (
         id integer primary key autoincrement,
         rule_id int,
