@@ -91,6 +91,7 @@ expect {
   timeout {exit 2}
 }
 
+set timeout 10
 expect -re "$|#"
 spawn ssh $USER@$ip
 expect {
