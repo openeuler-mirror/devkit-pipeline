@@ -40,7 +40,7 @@ function connect_host_and_check_bisheng_jdk() {
   local ip=$1
   local passwd=$2
 /usr/bin/expect << EOF
-set timeout 10
+set timeout 5
 send_user "$USER@$ip:create dir"
 spawn ssh $USER@$ip
 expect {
