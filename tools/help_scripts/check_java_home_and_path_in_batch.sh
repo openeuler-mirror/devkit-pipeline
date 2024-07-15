@@ -39,7 +39,7 @@ function initialize_arr() {
 function connect_host_and_check_bisheng_jdk() {
   local ip=$1
   local passwd=$2
-/usr/bin/expect > /dev/null << EOF
+/usr/bin/expect << EOF
 set timeout 10
 send_user "$USER@$ip:create dir"
 spawn ssh $USER@$ip
@@ -63,14 +63,12 @@ expect {
 expect -re "$|#" { send "env|grep JAVA_HOME"}
 expect {
   "$JAVA_HOME_VALUE" {send_user "success to update JAVA_HOME";}
-  -re "$|#" {send_user "failed to update JAVA_HOME"; exit 4}
   timeout {send_user "time out to env JAVA_HOME"; exit 4}
 }
 
 expect -re "$|#" { send "which java\r"}
 expect {
   "$JAVA_HOME_VALUE" {send_user "success to update PATH";}
-  -re "$|#" {send_user "failed to update PATH"; exit 5}
   timeout {send_user "time out to which java"; exit 5}
 }
 expect -re "$|#" { send "logout\r"}
