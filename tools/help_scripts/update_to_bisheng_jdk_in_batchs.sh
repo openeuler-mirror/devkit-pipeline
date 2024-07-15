@@ -105,7 +105,7 @@ expect {
 expect -re "$|#" { send "bash ${TARGET_DIR}/unpack_and_modify.sh ${BISHENG_JDK_TAR} ${BISHENG_DIR} ${TARGET_DIR}\r"}
 expect {
   "success" {send_user "success to unpack_and_modify"}
-  timeout {send_user "time out to login user:$USER"; exit 2}
+  timeout {send_user "time out to unpack_and_modify:$USER"; exit 2}
 }
 expect -re "$|#" { send "rm -rf $TARGET_DIR/$BISHENG_JDK_TAR\r"}
 expect -re "$|#" { send "rm -rf $TARGET_DIR/unpack_and_modify.sh\r"}

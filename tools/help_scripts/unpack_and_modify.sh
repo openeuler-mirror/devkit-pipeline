@@ -16,6 +16,6 @@ chmod -R 755 $TARGET_DIR
 
 echo $ADD_JAVA_HOME >>/etc/profile
 
-echo 'export PATH=\${JAVA_HOME}/bin:\${PATH}' >>/etc/profile
+echo 'export PATH=${JAVA_HOME}/bin:${PATH}' >>/etc/profile
 
 echo "success"
