@@ -56,18 +56,18 @@ send_user "$USER@$ip:create dir"
 spawn ssh $USER@$ip
 expect {
   "*yes/no" {send "yes\r";exp_continue}
-  "Permission denied, please try again" {send_user "Permission denied to login user:$USER"; exit 1;}
+  "Permission denied, please try again" {send_user "Permission denied to login user:$USER\n"; exit 1;}
   "*password" {send "$passwd\r";exp_continue}
   "*Password" {send "$passwd\r";exp_continue}
   "Enter passphrase for key*" {send "$passwd\r";exp_continue}
   "Last login:" {send_user "success to login"}
   timeout {send_user "time out to login user:$USER"; exit 2}
 }
-expect -re "$|#" { send "mkdir -p $TARGET_DIR\r"}
-expect -re "$|#" { send "logout\r"}
+expect -re "\[\$#\]" { send "mkdir -p $TARGET_DIR\r"}
+expect -re "\[\$#\]" { send "logout\r"}
 
 set timeout 120
-expect -re "$|#"
+expect -re "\[\$#\]"
 spawn scp -r $BISHENG_TAR_DIR/$BISHENG_JDK_TAR  $USER@$ip:$TARGET_DIR
 expect {
   "*yes/no" {send "yes\r";exp_continue}
@@ -80,7 +80,7 @@ expect {
 
 set timeout 20
 
-expect -re "$|#"
+expect -re "\[\$#\]"
 spawn scp -r unpack_and_modify.sh  $USER@$ip:$TARGET_DIR
 expect {
   "*yes/no" {send "yes\r";exp_continue}
@@ -92,7 +92,7 @@ expect {
 }
 
 set timeout 10
-expect -re "$|#"
+expect -re "\[\$#\]"
 spawn ssh $USER@$ip
 expect {
   "*yes/no" {send "yes\r";exp_continue}
@@ -103,14 +103,15 @@ expect {
   "Last login:" {send_user "success to login"}
   timeout {send_user "time out to login user:$USER"; exit 2}
 }
-expect -re "$|#" { send "bash ${TARGET_DIR}/unpack_and_modify.sh ${BISHENG_JDK_TAR} ${BISHENG_DIR} ${TARGET_DIR}\r"}
+expect -re "\[\$#\]" { send "bash ${TARGET_DIR}/unpack_and_modify.sh ${BISHENG_JDK_TAR} ${BISHENG_DIR} ${TARGET_DIR}\r"}
 expect {
   "success" {send_user "success to unpack_and_modify"}
+  -re "\[\$#\]" {send_user "time out to unpack_and_modify:$USER"; exit 2}
   timeout {send_user "time out to unpack_and_modify:$USER"; exit 2}
 }
-expect -re "$|#" { send "rm -rf $TARGET_DIR/$BISHENG_JDK_TAR\r"}
-expect -re "$|#" { send "rm -rf $TARGET_DIR/unpack_and_modify.sh\r"}
-expect -re "$|#" { send "logout\r"}
+expect -re "\[\$#\]" { send "rm -rf $TARGET_DIR/$BISHENG_JDK_TAR\r"}
+expect -re "\[\$#\]" { send "rm -rf $TARGET_DIR/unpack_and_modify.sh\r"}
+expect -re "\[\$#\]" { send "logout\r"}
 expect eof
 EOF
 }

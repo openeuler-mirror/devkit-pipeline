@@ -40,12 +40,12 @@ function connect_host_and_check_bisheng_jdk() {
   local ip=$1
   local passwd=$2
 /usr/bin/expect << EOF
-set timeout 5
-send_user "$USER@$ip:create dir"
+set timeout 10
+send_user "$USER@$ip:check java"
 spawn ssh $USER@$ip
 expect {
   "*yes/no" {send "yes\r";exp_continue}
-  "Permission denied, please try again" {send_user "Permission denied to login user:$USER"; exit 1;}
+  "Permission denied, please try again" {send_user "Permission denied to login user:$USER\n"; exit 1;}
   "*password" {send "$passwd\r";exp_continue}
   "*Password" {send "$passwd\r";exp_continue}
   "Enter passphrase for key*" {send "$passwd\r";exp_continue}
@@ -53,25 +53,29 @@ expect {
   timeout {send_user "time out to login user:$USER\n"; exit 2}
 }
 
-expect -re "$|#" { send "if \[ -d $JAVA_HOME_VALUE \];then echo \"True\"; else echo \"False\";fi\r"}
+expect -re "\[\$#\]" { send "ls $JAVA_HOME_VALUE \r"}
 expect {
-  "True" {send_user "success to copy bisheng jdk to server\n";}
-  "False" {send_user "failed to copy bisheng jdk to server\n";exit 3}
+  -nocase "no such file or directory" {send_user "failed to copy bisheng jdk to server\n";exit 3}
+  -re "\[\$#\]" {
+      send_user "success to copy bisheng jdk to server\n";
+      send "env|grep JAVA_HOME\r";
+  }
   timeout {send_user "time out to -d"; exit 3}
 }
 
-expect -re "$|#" { send "env|grep JAVA_HOME\r"}
 expect {
   "$JAVA_HOME_VALUE" {send_user "success to update JAVA_HOME\n";}
+  -re "\[\$#\]" {send_user "time out to env JAVA_HOME\n"; exit 4}
   timeout {send_user "time out to env JAVA_HOME\n"; exit 4}
 }
 
-expect -re "$|#" { send "which java\r"}
+expect -re "\[\$#\]" { send "which java\r"}
 expect {
   "${JAVA_HOME_VALUE}/bin/java" {send_user "success to update PATH\n";}
+  -re "\[\$#\]" {send_user "time out to which java\n"; exit 5}
   timeout {send_user "time out to which java\n"; exit 5}
 }
-expect -re "$|#" { send "logout\r"}
+expect -re "\[\$#\]" { send "logout\r"}
 expect eof
 EOF
 }
