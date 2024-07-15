@@ -68,7 +68,7 @@ expect {
 
 expect -re "$|#" { send "which java\r"}
 expect {
-  "$JAVA_HOME_VALUE" {send_user "success to update PATH\n";}
+  "${JAVA_HOME_VALUE}/bin/java" {send_user "success to update PATH\n";}
   timeout {send_user "time out to which java\n"; exit 5}
 }
 expect -re "$|#" { send "logout\r"}
