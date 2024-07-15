@@ -9,6 +9,6 @@ import org.junit.jupiter.api.Test;
 public class CodeInspectorTestCase {
 
     @Test void test01() {
-        System.out.println();
+        System.out.println();System.out.println();System.out.println();System.out.println();System.out.println();System.out.println();System.out.println();
     }
 }
