@@ -66,7 +66,7 @@ expect {
 expect -re "\[\$#\]" { send "mkdir -p $TARGET_DIR\r"}
 expect -re "\[\$#\]" { send "logout\r"}
 
-set timeout 120
+set timeout 240
 expect -re "\[\$#\]"
 spawn scp -r $BISHENG_TAR_DIR/$BISHENG_JDK_TAR  $USER@$ip:$TARGET_DIR
 expect {
@@ -77,8 +77,6 @@ expect {
   "100%" { send_user "success to copy file\n"}
   timeout {exit 2}
 }
-
-set timeout 20
 
 expect -re "\[\$#\]"
 spawn scp -r unpack_and_modify.sh  $USER@$ip:$TARGET_DIR
@@ -91,7 +89,6 @@ expect {
   timeout {exit 2}
 }
 
-set timeout 10
 expect -re "\[\$#\]"
 spawn ssh $USER@$ip
 expect {
