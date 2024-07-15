@@ -78,7 +78,18 @@ expect {
   timeout {exit 2}
 }
 
-set timeout 10
+set timeout 20
+
+expect -re "$|#"
+spawn scp -r unpack_and_modify.sh  $USER@$ip:$TARGET_DIR
+expect {
+  "*yes/no" {send "yes\r";exp_continue}
+  "*password" {send "$passwd\r";exp_continue}
+  "*Password" {send "$passwd\r";exp_continue}
+  "Enter passphrase for key*" {send "$passwd\r";exp_continue}
+  "100%" { send_user "success to copy unpack_and_modify file\n"}
+  timeout {exit 2}
+}
 
 expect -re "$|#"
 spawn ssh $USER@$ip
@@ -91,11 +102,13 @@ expect {
   "Last login:" {send_user "success to login"}
   timeout {send_user "time out to login user:$USER"; exit 2}
 }
-expect -re "$|#" { send "tar --no-same-owner -xzf $TARGET_DIR/$BISHENG_JDK_TAR -C ${TARGET_DIR}\r"}
+expect -re "$|#" { send "bash ${TARGET_DIR}/unpack_and_modify.sh ${BISHENG_JDK_TAR} ${BISHENG_DIR} ${TARGET_DIR}\r"}
+expect {
+  "success" {send_user "success to unpack_and_modify"}
+  timeout {send_user "time out to login user:$USER"; exit 2}
+}
 expect -re "$|#" { send "rm -rf $TARGET_DIR/$BISHENG_JDK_TAR\r"}
-expect -re "$|#" { send "chmod -R 755 $TARGET_DIR\r"}
-expect -re "$|#" { send "echo $ADD_JAVA_HOME >>/etc/profile\r"}
-expect -re "$|#" { send "echo '$ADD_PATH' >>/etc/profile\r"}
+expect -re "$|#" { send "rm -rf $TARGET_DIR/unpack_and_modify.sh\r"}
 expect -re "$|#" { send "logout\r"}
 expect eof
 EOF
