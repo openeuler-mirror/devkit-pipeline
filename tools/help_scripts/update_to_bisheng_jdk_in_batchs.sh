@@ -84,10 +84,12 @@ expect -re "$|#"
 spawn ssh $USER@$ip
 expect {
   "*yes/no" {send "yes\r";exp_continue}
-  "*password" {send "$passwd\r";}
-  "*Password" {send "$passwd\r";}
-  "Enter passphrase for key*" {send "$passwd\r";}
+  "Permission denied, please try again" {send_user "Permission denied to login user:$USER"; exit 1;}
+  "*password" {send "$passwd\r";exp_continue}
+  "*Password" {send "$passwd\r";exp_continue}
+  "Enter passphrase for key*" {send "$passwd\r";exp_continue}
   "Last login:" {send_user "success to login"}
+  timeout {send_user "time out to login user:$USER"; exit 2}
 }
 expect -re "$|#" { send "tar --no-same-owner -xzf $TARGET_DIR/$BISHENG_JDK_TAR -C ${TARGET_DIR}\r"}
 expect -re "$|#" { send "rm -rf $TARGET_DIR/$BISHENG_JDK_TAR\r"}
