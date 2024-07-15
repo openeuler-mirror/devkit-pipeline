@@ -55,21 +55,21 @@ expect {
 
 expect -re "$|#" { send "if \[ -d $JAVA_HOME_VALUE \];then echo \"True\"; else echo \"False\";fi\r"}
 expect {
-  "True" {send_user "success to copy bisheng jdk to server";}
-  "False" {send_user "failed to copy bisheng jdk to server";exit 3}
+  "True" {send_user "success to copy bisheng jdk to server\n";}
+  "False" {send_user "failed to copy bisheng jdk to server\n";exit 3}
   timeout {send_user "time out to -d"; exit 3}
 }
 
 expect -re "$|#" { send "env|grep JAVA_HOME\r"}
 expect {
-  "$JAVA_HOME_VALUE" {send_user "success to update JAVA_HOME";}
-  timeout {send_user "time out to env JAVA_HOME"; exit 4}
+  "$JAVA_HOME_VALUE" {send_user "success to update JAVA_HOME\n";}
+  timeout {send_user "time out to env JAVA_HOME\n"; exit 4}
 }
 
 expect -re "$|#" { send "which java\r"}
 expect {
-  "$JAVA_HOME_VALUE" {send_user "success to update PATH";}
-  timeout {send_user "time out to which java"; exit 5}
+  "$JAVA_HOME_VALUE" {send_user "success to update PATH\n";}
+  timeout {send_user "time out to which java\n"; exit 5}
 }
 expect -re "$|#" { send "logout\r"}
 expect eof
