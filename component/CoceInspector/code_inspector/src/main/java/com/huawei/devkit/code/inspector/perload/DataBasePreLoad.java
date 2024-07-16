@@ -24,6 +24,12 @@ public class DataBasePreLoad {
         return sqlSessionFactory.openSession();
     }
 
+    /**
+     * 预处理
+     *
+     * @param properties 属性
+     * @throws IOException 异常
+     */
     public static void preload(Properties properties) throws IOException {
         try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");) {
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);

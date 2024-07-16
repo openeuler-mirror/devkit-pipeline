@@ -39,6 +39,6 @@ public class CodeInspector {
             status = -1;
             logger.error("error", ex);
         }
-//        Runtime.getRuntime().exit(status);
+        Runtime.getRuntime().exit(status);
     }
 }

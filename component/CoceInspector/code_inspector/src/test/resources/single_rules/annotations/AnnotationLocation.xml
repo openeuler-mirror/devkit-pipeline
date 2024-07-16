@@ -17,70 +17,8 @@
             <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF,
                       RECORD_DEF, COMPACT_CTOR_DEF, VARIABLE_DEF"/>
         </module>
-        <module name="SuppressWarnings">
-            <property name="severity" value="warning"/>
-            <property name="format" value="^unchecked$"/>
-            <property name="tokens"
-                      value="CLASS_DEF,INTERFACE_DEF,ENUM_DEF,ANNOTATION_DEF,ANNOTATION_FIELD_DEF,ENUM_CONSTANT_DEF,
-                      METHOD_DEF,CTOR_DEF"/>
-        </module>
-        <!-- 避免内嵌块 -->
-        <module name="AvoidNestedBlocks">
-            <property name="severity" value="error"/>
-            <property name="allowInSwitchCase" value="false"/>
-        </module>
-        <!-- 避免空块 -->
-        <!-- 3.7 不要通过一个空的块忽略异常 -->
-        <module name="EmptyBlock">
-            <property name="severity" value="error"/>
-            <property name="option" value="statement"/>
-            <property name="tokens"
-                      value="LITERAL_WHILE, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_DO, LITERAL_IF,
-                       LITERAL_ELSE, LITERAL_FOR , INSTANCE_INIT, STATIC_INIT,
-                       LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_CASE, LITERAL_DEFAULT"/>
-        </module>
-        <!--  -->
-        <module name="LeftCurly">
-            <property name="severity" value="error"/>
-            <property name="ignoreEnums" value="false"/>
-            <property name="option" value="eol"/>
-            <property name="tokens"
-                      value="ANNOTATION_DEF, CLASS_DEF, CTOR_DEF, ENUM_CONSTANT_DEF, ENUM_DEF,
-                    INTERFACE_DEF, LAMBDA, LITERAL_CASE, LITERAL_CATCH, LITERAL_DEFAULT,
-                    LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF,
-                    LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, METHOD_DEF,
-                    OBJBLOCK, STATIC_INIT, RECORD_DEF, COMPACT_CTOR_DEF"/>
-        </module>
-        <module name="RightCurly">
-            <property name="id" value="RightCurlySame"/>
-            <property name="tokens"
-                      value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE,
-                    LITERAL_DO"/>
-        </module>
-        <module name="RightCurly">
-            <property name="id" value="RightCurlyAlone"/>
-            <property name="option" value="alone"/>
-            <property name="tokens"
-                      value="LITERAL_TRY, CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT,
-                            INSTANCE_INIT, ANNOTATION_DEF, ENUM_DEF, INTERFACE_DEF, RECORD_DEF,
-                            COMPACT_CTOR_DEF, LITERAL_SWITCH, LITERAL_CASE"/>
-        </module>
 
-        <module name="NeedBraces">
-            <property name="severity" value="error"/>
-        </module>
 
-        <module name="OneTopLevelClass"/>
-        <module name="ThrowsCount">
-            <property name="severity" value="error"/>
-            <property name="max" value="5"/>
-            <property name="ignorePrivateMethods" value="false"/>
-        </module>
-        <module name="VisibilityModifier">
-            <property name="severity" value="warning"/>
-            <property name="allowPublicFinalFields" value="true"/>
-            <property name="protectedAllowed" value="true"/>
-        </module>
         <module name="ConstructorsDeclarationGrouping">
             <property name="severity" value="warning"/>
         </module>
@@ -207,11 +145,6 @@
         </module>
     </module>
 
-    <module name="RegexpHeader">
-        <property name="fileExtensions" value="java"/>
-        <property name="header"
-                  value="^/\*$\n^ \* Copyright \([Cc]\) ([0-9]{4} -)? [0-9]{4} .*\n^ \*/$\n\n^package .* \n\n^import.*"/>
-    </module>
     <module name="LineLength">
         <property name="severity" value="error"/>
         <property name="fileExtensions" value="java"/>
