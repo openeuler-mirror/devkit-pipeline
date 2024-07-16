@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import picocli.CommandLine;
 
-import java.io.IOException;
 import java.util.Properties;
 
 public class CodeInspector {
@@ -36,10 +35,10 @@ public class CodeInspector {
             System.err.println(ex.getMessage());
             System.err.println("Usage: checkstyle [OPTIONS]... FILES...");
             System.err.println("Try 'checkstyle --help' for more information.");
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             status = -1;
             logger.error("error", ex);
         }
-        Runtime.getRuntime().exit(status);
+//        Runtime.getRuntime().exit(status);
     }
 }

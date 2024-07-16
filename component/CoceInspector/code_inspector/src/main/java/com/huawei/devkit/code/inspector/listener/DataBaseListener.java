@@ -11,8 +11,9 @@ import com.huawei.devkit.code.inspector.perload.DataBasePreLoad;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
 import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
-import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,8 +28,9 @@ import java.util.stream.Collectors;
  *
  * @since 2024-07-11
  */
-@Log4j2
 public class DataBaseListener implements AuditListener {
+
+    private static final Logger logger = LogManager.getLogger(DataBaseListener.class);
     private final long time;
     private final String mergeId;
     private final List<RuleViolationInfo> infoList;
@@ -83,7 +85,7 @@ public class DataBaseListener implements AuditListener {
 
     @Override
     public void addException(AuditEvent event, Throwable throwable) {
-
+        logger.error("entry", throwable);
     }
 
     private void filledLine(String file, List<RuleViolationInfo> infoList) {
@@ -93,7 +95,7 @@ public class DataBaseListener implements AuditListener {
                 info.setLine(lines.get(info.getLineno() - 1));
             }
         } catch (IOException ex) {
-            log.error("filled line", ex);
+            logger.error("filled line", ex);
         }
     }
 }
