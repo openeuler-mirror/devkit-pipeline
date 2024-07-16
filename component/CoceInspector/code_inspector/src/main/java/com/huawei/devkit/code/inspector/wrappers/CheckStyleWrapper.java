@@ -73,9 +73,10 @@ public class CheckStyleWrapper {
             errorCounter = runCheckstyle(cliOptions, filesToProcess);
         } catch (CheckstyleException ex) {
             errorCounter = 1;
+            logger.error(ex.getMessage(), ex);
         } catch (Throwable ex) {
             errorCounter = 1;
-            logger.error("xxxx");
+            logger.error(ex.getMessage(), ex);
         } finally {
             if (errorCounter > 0) {
                 final LocalizedMessage errorCounterViolation = new LocalizedMessage(

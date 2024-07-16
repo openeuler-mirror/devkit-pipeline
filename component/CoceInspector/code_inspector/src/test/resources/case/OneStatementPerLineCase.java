@@ -1,3 +1,5 @@
+import java.io.EOFException; import java.io.BufferedReader;
+;; //two empty statements on the same line.
 public class OneStatementPerLineCase {
     public void test(){
         //Each line causes violation:
@@ -6,8 +8,7 @@ public class OneStatementPerLineCase {
         int var1 = 1; int var2 = 2;
         var1++; var2++;
         Object obj1 = new Object(); Object obj2 = new Object();
-        import java.io.EOFException; import java.io.BufferedReader;
-        ;; //two empty statements on the same line.
+
 
         //Multi-line statements:
         int var1 = 1

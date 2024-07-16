@@ -1,6 +1,6 @@
 @MyAnnotation(6) // violation
 class MagicNumberCase {
-    private field = 7; // violation
+    private int field = 7; // violation
 
     void foo() {
         int i = i + 1; // no violation

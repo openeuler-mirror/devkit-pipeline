@@ -10,6 +10,6 @@ class Foo2 { // violation, second top-level class
     // methods
 }
 
-record Foo3 { // violation, third top-level "class"
+record Foo3 () {// violation, third top-level "class"
     // methods
 }
