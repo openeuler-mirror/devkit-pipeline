@@ -4,7 +4,7 @@
 
 package com.huawei.devkit.code.inspector.utils;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 
 import java.io.IOException;
@@ -16,8 +16,9 @@ import java.util.Properties;
  *
  * @since 2024-07-11
  */
-@Log4j2
+@Slf4j
 public class PropertiesUtils {
+
 
     public static String ROOT_DIR;
 
@@ -32,6 +33,12 @@ public class PropertiesUtils {
     }
 
     public static void configAndUpdate(Properties properties) {
+        String rootDir = System.getProperty("CODE_INSPECTOR_APP_HOME");
+        if (rootDir != null && !rootDir.isEmpty()) {
+            ROOT_DIR = rootDir;
+            properties.setProperty("root.dir", ROOT_DIR);
+            return;
+        }
         String mode = properties.getProperty("mode");
         if ("dev".equals(mode)) {
             ROOT_DIR = properties.getProperty("root.dir");

@@ -26,8 +26,7 @@ import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
 import com.puppycrawl.tools.checkstyle.api.RootModule;
 import com.puppycrawl.tools.checkstyle.utils.ChainedPropertyUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,8 +44,9 @@ import java.util.regex.Pattern;
  *
  * @since 2024-07-11
  */
+
+@Slf4j
 public class CheckStyleWrapper {
-    private static final Logger logger = LogManager.getLogger(CheckStyleWrapper.class);
 
     /**
      * A key pointing to the error counter
@@ -73,7 +73,7 @@ public class CheckStyleWrapper {
             errorCounter = runCheckstyle(cliOptions, filesToProcess);
         } catch (CheckstyleException ex) {
             errorCounter = 1;
-            logger.error(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         } finally {
             if (errorCounter > 0) {
                 final LocalizedMessage errorCounterViolation = new LocalizedMessage(

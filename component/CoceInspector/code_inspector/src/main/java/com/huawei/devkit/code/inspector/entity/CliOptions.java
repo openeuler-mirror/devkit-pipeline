@@ -7,6 +7,7 @@ package com.huawei.devkit.code.inspector.entity;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import lombok.Data;
 import picocli.CommandLine;
+import picocli.CommandLine.Command;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -21,11 +22,12 @@ import java.util.stream.Collectors;
  * @since 2024-07-15
  */
 @Data
+@Command(name = "code inspector", version = "1.0.1", mixinStandardHelpOptions = true)
 public class CliOptions {
     /**
      * Width of CLI help option.
      */
-    public static final int HELP_WIDTH = 100;
+    public static final int HELP_WIDTH = 120;
 
     /**
      * The default number of threads to use for checker and the tree walker.
@@ -42,10 +44,6 @@ public class CliOptions {
      */
     private static final OutputStyle DEFAULT_OUTPUT_FORMAT = OutputStyle.PLAIN;
 
-    /**
-     * Option name for output format.
-     */
-    private static final String OUTPUT_FORMAT_OPTION = "-f";
 
     /**
      * The checker threads number.
@@ -86,10 +84,6 @@ public class CliOptions {
 
     /**
      * Tab character length.
-     *
-     * @noinspection CanBeFinal
-     * @noinspectionreason CanBeFinal - we use picocli, and it uses
-     * reflection to manage such fields
      */
     @CommandLine.Option(names = {"-w", "--tabWidth"},
             description = "Sets the length of the tab character. "
@@ -109,10 +103,6 @@ public class CliOptions {
 
     /**
      * Output format.
-     *
-     * @noinspection CanBeFinal
-     * @noinspectionreason CanBeFinal - we use picocli, and it uses
-     * reflection to manage such fields
      */
     @CommandLine.Option(names = "-f",
             description = "Specifies the output format. Valid values: "
@@ -122,10 +112,6 @@ public class CliOptions {
 
     /**
      * Option that allows users to specify a list of paths to exclude.
-     *
-     * @noinspection CanBeFinal
-     * @noinspectionreason CanBeFinal - we use picocli, and it uses
-     * reflection to manage such fields
      */
     @CommandLine.Option(names = {"-e", "--exclude"},
             description = "Directory/file to exclude from CheckStyle. The path can be the "
@@ -135,10 +121,6 @@ public class CliOptions {
 
     /**
      * Option that allows users to specify a regex of paths to exclude.
-     *
-     * @noinspection CanBeFinal
-     * @noinspectionreason CanBeFinal - we use picocli, and it uses
-     * reflection to manage such fields
      */
     @CommandLine.Option(names = {"-x", "--exclude-regexp"},
             description = "Directory/file pattern to exclude from CheckStyle. Multiple "
