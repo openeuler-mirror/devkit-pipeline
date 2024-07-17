@@ -8,11 +8,12 @@ application {
 }
 
 startScripts {
-    defaultJvmOpts = ["-DCODE_INSPECTOR_APP_HOME=CODE_INSPECTOR_APP_HOME_PLACEHOLDERS"]
     doLast {
         unixScript.text = unixScript.text
-                .replace("DEFAULT_JVM_OPTS='\"-DCODE_INSPECTOR_APP_HOME=CODE_INSPECTOR_APP_HOME_PLACEHOLDERS\"'",
-                        "DEFAULT_JVM_OPTS=\"-DCODE_INSPECTOR_APP_HOME=\$APP_HOME\"")
+                .replace("DEFAULT_JVM_OPTS=\"\"",
+                        "DEFAULT_JVM_OPTS=\"-DCODE_INSPECTOR_APP_HOME=\$APP_HOME " +
+                                "-Dlog4j.configuration=file:\${APP_HOME}/config/log4j.properties\""
+                )
         windowsScript.delete()
     }
 }
@@ -20,11 +21,11 @@ startScripts {
 distributions {
     main {
         var version = "1.0.0"
-        distributionBaseName = "code-inspector_${version}"
+        distributionBaseName = "code-inspector-${version}"
         contents {
-            into("/code-inspector_${version}") {
+            into("/code-inspector-${version}") {
                 from("src/main/content") {
-                    include(["logs", "data", "config", "config/*.xml"])
+                    include(["logs", "data", "config", "config/*.xml", "config/*.properties"])
                     exclude("**/.gitkeep")
                 }
             }

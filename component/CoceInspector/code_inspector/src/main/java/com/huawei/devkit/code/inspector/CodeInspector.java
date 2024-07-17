@@ -11,11 +11,8 @@ import java.util.Properties;
 
 @Slf4j
 public class CodeInspector {
-//    private static final Logger logger = LogManager.getLogger(CodeInspector.class);
-
 
     public static void main(String[] args) {
-        int status = 0;
         try {
             final CliOptions cliOptions = new CliOptions();
             final CommandLine commandLine = new CommandLine(cliOptions);
@@ -34,15 +31,12 @@ public class CodeInspector {
                 CheckStyleWrapper.checkStyle(cliOptions);
             }
         } catch (CommandLine.ParameterException ex) {
-            status = -1;
             log.error("error", ex);
             System.err.println(ex.getMessage());
             System.err.println("Usage: code-inspector [OPTIONS]... FILES...");
             System.err.println("Try 'code-inspector --help' for more information.");
         } catch (Exception ex) {
-            status = -1;
             log.error("error", ex);
         }
-        Runtime.getRuntime().exit(status);
     }
 }

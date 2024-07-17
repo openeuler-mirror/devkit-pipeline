@@ -19,7 +19,6 @@ import java.util.Properties;
 @Slf4j
 public class PropertiesUtils {
 
-
     public static String ROOT_DIR;
 
     public static Properties loadProperties(String propertiesFile) {

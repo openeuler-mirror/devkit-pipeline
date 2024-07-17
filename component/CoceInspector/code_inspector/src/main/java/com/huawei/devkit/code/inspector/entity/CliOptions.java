@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @since 2024-07-15
  */
 @Data
-@Command(name = "code inspector", version = "1.0.1", mixinStandardHelpOptions = true)
+@Command(name = "code_inspector", version = "1.0.0", mixinStandardHelpOptions = true)
 public class CliOptions {
     /**
      * Width of CLI help option.
@@ -79,26 +79,26 @@ public class CliOptions {
     /**
      * Properties file location.
      */
-    @CommandLine.Option(names = "-p", description = "Sets the property files to load.")
+//    @CommandLine.Option(names = "-p", description = "Sets the property files to load.")
     private File propertiesFile;
 
     /**
      * Tab character length.
      */
-    @CommandLine.Option(names = {"-w", "--tabWidth"},
-            description = "Sets the length of the tab character. "
-                    + "Used only with -s option. Default value is ${DEFAULT-VALUE}.")
+//    @CommandLine.Option(names = {"-w", "--tabWidth"},
+//            description = "Sets the length of the tab character. "
+//                    + "Used only with -s option. Default value is ${DEFAULT-VALUE}.")
     private int tabWidth = CommonUtil.DEFAULT_TAB_WIDTH;
 
     /**
      * Switch whether to generate suppressions file or not.
      */
-    @CommandLine.Option(names = {"-g", "--generate-xpath-suppression"},
-            description = "Generates to output a suppression xml to use to suppress all "
-                    + "violations from user's config. Instead of printing every violation, "
-                    + "all violations will be catched and single suppressions xml file will "
-                    + "be printed out. Used only with -c option. Output "
-                    + "location can be specified with -o option.")
+//    @CommandLine.Option(names = {"-g", "--generate-xpath-suppression"},
+//            description = "Generates to output a suppression xml to use to suppress all "
+//                    + "violations from user's config. Instead of printing every violation, "
+//                    + "all violations will be catched and single suppressions xml file will "
+//                    + "be printed out. Used only with -c option. Output "
+//                    + "location can be specified with -o option.")
     private boolean generateXpathSuppressionsFile;
 
     /**
@@ -114,7 +114,7 @@ public class CliOptions {
      * Option that allows users to specify a list of paths to exclude.
      */
     @CommandLine.Option(names = {"-e", "--exclude"},
-            description = "Directory/file to exclude from CheckStyle. The path can be the "
+            description = "Directory/file to exclude from CodeInspector. The path can be the "
                     + "full, absolute path, or relative to the current path. Multiple "
                     + "excludes are allowed.")
     private List<File> exclude = new ArrayList<>();
@@ -123,15 +123,15 @@ public class CliOptions {
      * Option that allows users to specify a regex of paths to exclude.
      */
     @CommandLine.Option(names = {"-x", "--exclude-regexp"},
-            description = "Directory/file pattern to exclude from CheckStyle. Multiple "
+            description = "Directory/file pattern to exclude from CodeInspector. Multiple "
                     + "excludes are allowed.")
     private List<Pattern> excludeRegex = new ArrayList<>();
 
     /**
      * Switch whether to execute ignored modules or not.
      */
-    @CommandLine.Option(names = {"-E", "--executeIgnoredModules"},
-            description = "Allows ignored modules to be run.")
+//    @CommandLine.Option(names = {"-E", "--executeIgnoredModules"},
+//            description = "Allows ignored modules to be run.")
     private boolean executeIgnoredModules;
 
     /**
