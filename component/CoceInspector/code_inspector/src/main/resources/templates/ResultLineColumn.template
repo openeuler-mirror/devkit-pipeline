@@ -1,0 +1,8 @@
+        {
+          "level": "${severityLevel}",
+          "uri": "${uri}",
+          "startColumn": ${column},
+          "startLine": ${line},
+          "message": "${message}"
+          "ruleId": "${ruleId}"
+        }

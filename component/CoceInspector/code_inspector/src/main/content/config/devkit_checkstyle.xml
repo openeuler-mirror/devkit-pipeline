@@ -205,19 +205,99 @@
             <property name="severity" value="warning"/>
             <property name="allowedDistance" value="3"/>
         </module>
+        <!-- 避免引入* -->
+        <module name="AvoidStarImport">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="CustomImportOrder">
+            <property name="sortImportsInGroupAlphabetically" value="true"/>
+            <property name="customImportOrderRules"
+                      value="STATIC, THIRD_PARTY_PACKAGE, STANDARD_JAVA_PACKAGE"/>
+        </module>
+        <module name="ImportOrder">
+            <property name="groups" value="android,com,net,org,/^java\./,javax"/>
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true"/>
+            <property name="option" value="top"/>
+            <property name="staticGroups" value=""/>
+            <property name="sortStaticImportsAlphabetically" value="true"/>
+            <property name="separatedStaticGroups" value="true"/>
+        </module>
+        <module name="RedundantImport">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="UnusedImports">
+            <property name="severity" value="error"/>
+            <property name="processJavadoc" value="false"/>
+        </module>
+        <module name="AtclauseOrder">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="InvalidJavadocPosition">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="JavadocBlockTagLocation">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="JavadocContentLocation">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="JavadocMethod">
+            <property name="severity" value="error"/>
+            <property name="accessModifiers" value="public,protected"/>
+            <property name="allowMissingParamTags" value="false"/>
+            <property name="allowMissingReturnTag" value="false"/>
+        </module>
+        <module name="JavadocMissingLeadingAsterisk">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="JavadocMissingWhitespaceAfterAsterisk">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="JavadocParagraph">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="JavadocTagContinuationIndentation">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="JavadocVariable">
+            <property name="severity" value="warning"/>
+            <property name="scope" value="protected"/>
+            <property name="ignoreNamePattern" value="log|logger"/>
+        </module>
+        <module name="MissingJavadocMethod">
+            <property name="severity" value="warning"/>
+            <property name="scope" value="protected"/>
+            <property name="allowMissingPropertyJavadoc" value="true"/>
+            <property name="allowedAnnotations" value="Override,Test,Deprecated"/>
+        </module>
+        <module name="MissingJavadocType">
+            <property name="severity" value="warning"/>
+            <property name="scope" value="protected"/>
+            <property name="tokens"
+                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
+                      RECORD_DEF, ANNOTATION_DEF"/>
+        </module>
+        <module name="NonEmptyAtclauseDescription">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="RequireEmptyLineBeforeBlockTagGroup">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="SingleLineJavadoc">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="WriteTag">
+            <property name="severity" value="warning"/>
+            <property name="tag" value="@since"/>
+        </module>
     </module>
 
     <module name="RegexpHeader">
+        <property name="severity" value="warning"/>
         <property name="fileExtensions" value="java"/>
         <property name="header"
-                  value="^/\*$\n^ \* Copyright \([Cc]\) ([0-9]{4} -)? [0-9]{4} .*\n^ \*/$\n\n^package .* \n\n^import.*"/>
-    </module>
-    <module name="LineLength">
-        <property name="severity" value="error"/>
-        <property name="fileExtensions" value="java"/>
-        <property name="max" value="100"/>
-        <property name="ignorePattern"
-                  value="^package.*|^import.*|href\s*=\s*&quot;[^&quot;]*&quot;|http://|https://|ftp://"/>
+                  value="^/\*$\n^\s\*\sCopyright\s\([Cc]\)\s.*([0-9]{4}-)?[0-9]{4}.*\n^ \*/$\n\n^package\s.*\n\n^import.*"/>
     </module>
 
 </module>

@@ -6,11 +6,10 @@ package com.huawei.devkit.code.inspector.wrappers;
 
 import com.huawei.devkit.code.inspector.entity.CliOptions;
 import com.huawei.devkit.code.inspector.entity.OutputStyle;
-import com.huawei.devkit.code.inspector.listener.DataBaseListener;
+import com.huawei.devkit.code.inspector.listener.DataBaseLogger;
 import com.puppycrawl.tools.checkstyle.AbstractAutomaticBean;
 import com.puppycrawl.tools.checkstyle.Checker;
 import com.puppycrawl.tools.checkstyle.ConfigurationLoader;
-import com.puppycrawl.tools.checkstyle.DefaultConfiguration;
 import com.puppycrawl.tools.checkstyle.Definitions;
 import com.puppycrawl.tools.checkstyle.LocalizedMessage;
 import com.puppycrawl.tools.checkstyle.Main;
@@ -18,8 +17,6 @@ import com.puppycrawl.tools.checkstyle.ModuleFactory;
 import com.puppycrawl.tools.checkstyle.PackageObjectFactory;
 import com.puppycrawl.tools.checkstyle.PropertiesExpander;
 import com.puppycrawl.tools.checkstyle.ThreadModeSettings;
-import com.puppycrawl.tools.checkstyle.XpathFileGeneratorAstFilter;
-import com.puppycrawl.tools.checkstyle.XpathFileGeneratorAuditListener;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
@@ -79,7 +76,7 @@ public class CheckStyleWrapper {
                 final LocalizedMessage errorCounterViolation = new LocalizedMessage(
                         Definitions.CHECKSTYLE_BUNDLE, Main.class,
                         ERROR_COUNTER, String.valueOf(errorCounter));
-                System.err.println(errorCounterViolation.getMessage());
+                log.error(errorCounterViolation.getMessage());
             }
         }
     }
@@ -164,7 +161,6 @@ public class CheckStyleWrapper {
      */
     private static int runCheckstyle(CliOptions options, List<File> filesToProcess)
             throws CheckstyleException, IOException {
-        // setup the properties
         final Properties props;
 
         if (options.getPropertiesFile() == null) {
@@ -195,28 +191,10 @@ public class CheckStyleWrapper {
         final RootModule rootModule = getRootModule(config.getName(), moduleClassLoader);
 
         try {
-            final AuditListener listener;
-            if (options.isGenerateXpathSuppressionsFile()) {
-                // create filter to print generated xpath suppressions file
-                final Configuration treeWalkerConfig = getTreeWalkerConfig(config);
-                if (treeWalkerConfig != null) {
-                    final DefaultConfiguration moduleConfig =
-                            new DefaultConfiguration(
-                                    XpathFileGeneratorAstFilter.class.getName());
-                    moduleConfig.addProperty(CliOptions.ATTRIB_TAB_WIDTH_NAME,
-                            String.valueOf(options.getTabWidth()));
-                    ((DefaultConfiguration) treeWalkerConfig).addChild(moduleConfig);
-                }
-
-                listener = new XpathFileGeneratorAuditListener(getOutputStream(options.getOutputPath()),
-                        getOutputStreamOptions(options.getOutputPath()));
-            } else {
-                listener = createListener(options.getFormat(), options.getOutputPath());
-            }
-
+            final AuditListener listener = createListener(options.getFormat(), options.getOutputPath());
             rootModule.setModuleClassLoader(moduleClassLoader);
             rootModule.configure(config);
-            DataBaseListener baseListener = new DataBaseListener("");
+            DataBaseLogger baseListener = new DataBaseLogger("");
             rootModule.addListener(listener);
             rootModule.addListener(baseListener);
 
@@ -271,25 +249,6 @@ public class CheckStyleWrapper {
     }
 
     /**
-     * Returns {@code TreeWalker} module configuration.
-     *
-     * @param config The configuration object.
-     * @return The {@code TreeWalker} module configuration.
-     */
-    private static Configuration getTreeWalkerConfig(Configuration config) {
-        Configuration result = null;
-
-        final Configuration[] children = config.getChildren();
-        for (Configuration child : children) {
-            if ("TreeWalker".equals(child.getName())) {
-                result = child;
-                break;
-            }
-        }
-        return result;
-    }
-
-    /**
      * This method creates in AuditListener an open stream for validation data, it must be
      * closed by {@link RootModule} (default implementation is {@link Checker}) by calling
      * {@link AuditListener#auditFinished(AuditEvent)}.
@@ -313,11 +272,7 @@ public class CheckStyleWrapper {
      * @param outputPath output location
      * @return output stream
      * @throws IOException might happen
-     * @noinspection UseOfSystemOutOrSystemErr
-     * @noinspectionreason UseOfSystemOutOrSystemErr - driver class for Checkstyle requires
-     * usage of System.out and System.err
      */
-    @SuppressWarnings("resource")
     private static OutputStream getOutputStream(Path outputPath) throws IOException {
         final OutputStream result;
         if (outputPath == null) {

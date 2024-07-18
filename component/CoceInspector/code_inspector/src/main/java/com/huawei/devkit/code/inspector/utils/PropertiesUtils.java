@@ -7,8 +7,10 @@ package com.huawei.devkit.code.inspector.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 /**
@@ -44,6 +46,22 @@ public class PropertiesUtils {
         } else {
             ROOT_DIR = System.getProperty("user.dir");
             properties.setProperty("root.dir", ROOT_DIR);
+        }
+    }
+
+    public static String readResource(String name) throws IOException {
+        try (InputStream inputStream = Resources.getResourceAsStream(name);
+             ByteArrayOutputStream result = new ByteArrayOutputStream()) {
+            if (inputStream == null) {
+                throw new IOException("Cannot find the resource " + name);
+            }
+            final byte[] buffer = new byte[1024];
+            int length = inputStream.read(buffer);
+            while (length != -1) {
+                result.write(buffer, 0, length);
+                length = inputStream.read(buffer);
+            }
+            return result.toString(StandardCharsets.UTF_8);
         }
     }
 

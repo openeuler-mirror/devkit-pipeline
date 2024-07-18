@@ -4,7 +4,6 @@
 
 package com.huawei.devkit.code.inspector.entity;
 
-import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import lombok.Data;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -33,11 +32,6 @@ public class CliOptions {
      * The default number of threads to use for checker and the tree walker.
      */
     private static final int DEFAULT_THREAD_COUNT = 1;
-
-    /**
-     * Name for the moduleConfig attribute 'tabWidth'.
-     */
-    public static final String ATTRIB_TAB_WIDTH_NAME = "tabWidth";
 
     /**
      * Default output format.
@@ -79,34 +73,14 @@ public class CliOptions {
     /**
      * Properties file location.
      */
-//    @CommandLine.Option(names = "-p", description = "Sets the property files to load.")
     private File propertiesFile;
-
-    /**
-     * Tab character length.
-     */
-//    @CommandLine.Option(names = {"-w", "--tabWidth"},
-//            description = "Sets the length of the tab character. "
-//                    + "Used only with -s option. Default value is ${DEFAULT-VALUE}.")
-    private int tabWidth = CommonUtil.DEFAULT_TAB_WIDTH;
-
-    /**
-     * Switch whether to generate suppressions file or not.
-     */
-//    @CommandLine.Option(names = {"-g", "--generate-xpath-suppression"},
-//            description = "Generates to output a suppression xml to use to suppress all "
-//                    + "violations from user's config. Instead of printing every violation, "
-//                    + "all violations will be catched and single suppressions xml file will "
-//                    + "be printed out. Used only with -c option. Output "
-//                    + "location can be specified with -o option.")
-    private boolean generateXpathSuppressionsFile;
 
     /**
      * Output format.
      */
     @CommandLine.Option(names = "-f",
             description = "Specifies the output format. Valid values: "
-                    + "${COMPLETION-CANDIDATES} for XMLLogger, SarifLogger, "
+                    + "${COMPLETION-CANDIDATES} for XMLLogger, SarifLogger, CustomJsonFormatterLogger,"
                     + "and DefaultLogger respectively. Defaults to ${DEFAULT-VALUE}.")
     private OutputStyle format = DEFAULT_OUTPUT_FORMAT;
 
@@ -130,8 +104,6 @@ public class CliOptions {
     /**
      * Switch whether to execute ignored modules or not.
      */
-//    @CommandLine.Option(names = {"-E", "--executeIgnoredModules"},
-//            description = "Allows ignored modules to be run.")
     private boolean executeIgnoredModules;
 
     /**

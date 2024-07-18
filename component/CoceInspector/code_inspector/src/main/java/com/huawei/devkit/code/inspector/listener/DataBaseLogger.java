@@ -28,13 +28,13 @@ import java.util.stream.Collectors;
  * @since 2024-07-11
  */
 @Slf4j
-public class DataBaseListener implements AuditListener {
+public class DataBaseLogger implements AuditListener {
 
     private final long time;
     private final String mergeId;
     private final List<RuleViolationInfo> infoList;
 
-    public DataBaseListener(String mergeId) {
+    public DataBaseLogger(String mergeId) {
         this.infoList = new ArrayList<>();
         this.mergeId = mergeId;
         this.time = System.currentTimeMillis();
@@ -54,9 +54,9 @@ public class DataBaseListener implements AuditListener {
         }
         try (SqlSession sqlSession = DataBasePreLoad.getSqlSession()) {
             RuleViolationInfoMapper mapper = sqlSession.getMapper(RuleViolationInfoMapper.class);
-            // todo 每100个执行一次
             for (int i = 0; i < this.infoList.size(); i += 100) {
-                mapper.addRuleViolationInfos(this.infoList);
+                int endIndex = Math.min(i + 100, this.infoList.size());
+                mapper.addRuleViolationInfos(this.infoList.subList(i, endIndex));
             }
             sqlSession.commit();
         }

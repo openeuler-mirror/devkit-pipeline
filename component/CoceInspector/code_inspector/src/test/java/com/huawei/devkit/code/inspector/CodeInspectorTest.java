@@ -14,7 +14,7 @@ public class CodeInspectorTest {
                 .getResource("case/annotations/CodeInspectorTestCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("annotationlocation.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/test01.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/test01.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -56,7 +56,7 @@ public class CodeInspectorTest {
     void testUnusedImports() {
         String root = System.getProperty("user.dir");
         String filePath = Objects.requireNonNull(this.getClass().getClassLoader()
-                .getResource("case/UnusedImportsCase.java")).getPath();
+                .getResource("case/headers_and_imports/UnusedImportsCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/headers_and_imports/UnusedImports.xml")).getPath();
         String[] args = new String[]{"-c", configPath, "-o", root + "/testUnusedImports.out", "-f", "sarif", filePath};

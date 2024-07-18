@@ -205,6 +205,7 @@
             <property name="severity" value="warning"/>
             <property name="allowedDistance" value="3"/>
         </module>
+
     </module>
 
     <module name="RegexpHeader">
