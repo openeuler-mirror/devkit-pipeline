@@ -73,7 +73,7 @@
         <module name="NeedBraces">
             <property name="severity" value="error"/>
         </module>
-        <!--  -->
+        <!-- 顶级class必须单独存在一个文件中 -->
         <module name="OneTopLevelClass"/>
         <!-- 方法扔出异常个数不能超过5个 -->
         <module name="ThrowsCount">
@@ -437,22 +437,109 @@
             <property name="tokens" value="ENUM_DEF,INTERFACE_DEF,CLASS_DEF"/>
         </module>
 
-<!--        &lt;!&ndash; 检查令牌是否被空格包围 &ndash;&gt;-->
-<!--        <module name="WhitespaceAround">-->
-<!--            <property name="allowEmptyConstructors" value="true"/>-->
-<!--            <property name="allowEmptyLambdas" value="true"/>-->
-<!--            <property name="allowEmptyMethods" value="true"/>-->
-<!--            <property name="allowEmptyTypes" value="true"/>-->
-<!--            <property name="ignoreEnhancedForColon" value="false"/>-->
-<!--            <property name="tokens"-->
-<!--                      value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR,-->
-<!--                    BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, DO_WHILE, EQUAL, GE, GT, LAMBDA, LAND,-->
-<!--                    LCURLY, LE, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY,-->
-<!--                    LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SWITCH, LITERAL_SYNCHRONIZED,-->
-<!--                    LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN,-->
-<!--                    NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, RCURLY, SL, SLIST, SL_ASSIGN, SR,-->
-<!--                    SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND"/>-->
-<!--        </module>-->
+        <!-- 构造方法和方法最多50行可执行语句 -->
+        <module name="ExecutableStatementCount">
+            <property name="max" value="50"/>
+            <property name="tokens" value="CTOR_DEF,METHOD_DEF"/>
+        </module>
+        <!-- 构造方法参数个数最多7个 -->
+        <module name="ParameterNumber">
+            <property name="max" value="7"/>
+            <property name="tokens" value="CTOR_DEF"/>
+        </module>
+        <!-- 方法参数最多5个 -->
+        <module name="ParameterNumber">
+            <property name="max" value="5"/>
+            <property name="ignoreOverriddenMethods" value="true"/>
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
+        <!-- 检查初始化的空格（例如for 循环） -->
+        <module name="EmptyForInitializerPad">
+            <property name="option" value="nospace"/>
+        </module>
+        <!-- 检查迭代器的空格 -->
+        <module name="EmptyForIteratorPad">
+            <property name="option" value="nospace"/>
+        </module>
+
+        <!-- 检查在package、import、类定义、类属性、类方法、等之间的空行 -->
+        <module name="EmptyLineSeparator">
+            <property name="allowMultipleEmptyLines" value="false"/>
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+            <property name="tokens"
+                      value="PACKAGE_DEF, IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
+                    STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF, VARIABLE_DEF, RECORD_DEF,
+                    COMPACT_CTOR_DEF"/>
+        </module>
+
+        <!-- 检查泛型的尖括号（<和>）符合约定 -->
+        <module name="GenericWhitespace">
+            <property name="severity" value="error"/>
+        </module>
+        <!-- 检查方法定义，构造方法定义，方法调用，构造方法调用等方法参数的填充 -->
+        <module name="MethodParamPad">
+            <property name="severity" value="error"/>
+        </module>
+        <!-- 禁止package和import语句换行 -->
+        <module name="NoLineWrap">
+            <property name="severity" value="error"/>
+        </module>
+        <!-- 禁止在[、.@ ++、- 等操作符后添加空白 -->
+        <module name="NoWhitespaceAfter">
+            <property name="severity" value="error"/>
+        </module>
+        <!-- 禁止在,、;、++、-、...、: 等Token前添加空白 -->
+        <module name="NoWhitespaceBefore">
+            <property name="severity" value="error"/>
+        </module>
+        <!-- 禁止switch case中的:前添加空白 -->
+        <module name="NoWhitespaceBeforeCaseDefaultColon">
+            <property name="severity" value="error"/>
+        </module>
+        <!-- 检查运算符换行的必须在行首 -->
+        <module name="OperatorWrap">
+            <property name="severity" value="error"/>
+        </module>
+        <!-- 检查小括号内边距未填充空白 -->
+        <module name="ParenPad">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- 检查.换行必须在新行的最前面 -->
+        <module name="SeparatorWrap">
+            <property name="id" value="SeparatorWrapDot"/>
+            <property name="tokens" value="DOT"/>
+            <property name="option" value="nl"/>
+        </module>
+        <!-- 检查，换行必须在上一行的最后面 -->
+        <module name="SeparatorWrap">
+            <property name="id" value="SeparatorWrapComma"/>
+            <property name="tokens" value="COMMA"/>
+            <property name="option" value="EOL"/>
+        </module>
+        <!-- 检查非空格字符之间间隔符是否不超过一个空格 -->
+        <module name="SingleSpaceSeparator">
+            <property name="severity" value="warn"/>
+        </module>
+        <!-- 检查类型转换内边距未填充空白 -->
+        <module name="TypecastParenPad">
+            <property name="severity" value="warn"/>
+        </module>
+        <!-- 检查类型转换内边距未填充空白 -->
+        <module name="WhitespaceAfter">
+            <property name="severity" value="warn"/>
+        </module>
+
+        <!-- 检查Token是否被空格包围 -->
+        <module name="WhitespaceAround">
+            <property name="severity" value="warn"/>
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyLambdas" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+            <property name="allowEmptyTypes" value="true"/>
+            <property name="ignoreEnhancedForColon" value="false"/>
+        </module>
+
     </module>
 
     <module name="RegexpHeader">
@@ -461,6 +548,19 @@
         <property name="header"
                   value="^/\*$\n^\s\*\sCopyright\s\([Cc]\)\s.*([0-9]{4}-)?[0-9]{4}.*\n^ \*/$\n\n^package\s.*\n\n^import.*"/>
     </module>
-
+    <!--  java文件不要超过1000行  -->
+    <module name="FileLength">
+        <property name="fileExtensions" value="java"/>
+        <property name="max" value="1000"/>
+    </module>
+    <!--  java文件每行不超过120列  -->
+    <module name="LineLength">
+        <property name="fileExtensions" value="java"/>
+        <property name="max" value="120"/>
+        <property name="ignorePattern"
+                  value="^package.*|^import.*|href\s*=\s*&quot;[^&quot;]*&quot;|http://|https://|ftp://"/>
+    </module>
+    <!--  检查源码中不包含制表符（Tab）  -->
+    <module name="FileTabCharacter"/>
 </module>
 
