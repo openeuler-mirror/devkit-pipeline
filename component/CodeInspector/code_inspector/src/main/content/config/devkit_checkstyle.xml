@@ -7,8 +7,9 @@
     <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
+        <!-- 注解单独成行 -->
         <module name="AnnotationLocation">
-            <property name="id" value="allow_anocation"/>
+            <property name="id" value="AnnotationLocation"/>
             <property name="allowSamelineSingleParameterlessAnnotation"
                       value="false"/>
             <property name="allowSamelineParameterizedAnnotation" value="false"/>
@@ -17,6 +18,7 @@
             <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF,
                       RECORD_DEF, COMPACT_CTOR_DEF, VARIABLE_DEF"/>
         </module>
+        <!-- 禁止使用unchecked禁用警告 -->
         <module name="SuppressWarnings">
             <property name="severity" value="warning"/>
             <property name="format" value="^unchecked$"/>
@@ -39,7 +41,7 @@
                        LITERAL_ELSE, LITERAL_FOR , INSTANCE_INIT, STATIC_INIT,
                        LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_CASE, LITERAL_DEFAULT"/>
         </module>
-        <!--  -->
+        <!-- 左大括号规则 -->
         <module name="LeftCurly">
             <property name="severity" value="error"/>
             <property name="ignoreEnums" value="false"/>
@@ -51,12 +53,14 @@
                     LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, METHOD_DEF,
                     OBJBLOCK, STATIC_INIT, RECORD_DEF, COMPACT_CTOR_DEF"/>
         </module>
+        <!-- 右大括号规则 -->
         <module name="RightCurly">
             <property name="id" value="RightCurlySame"/>
             <property name="tokens"
                       value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE,
                     LITERAL_DO"/>
         </module>
+        <!-- 右大括号规则 -->
         <module name="RightCurly">
             <property name="id" value="RightCurlyAlone"/>
             <property name="option" value="alone"/>
@@ -65,142 +69,180 @@
                             INSTANCE_INIT, ANNOTATION_DEF, ENUM_DEF, INTERFACE_DEF, RECORD_DEF,
                             COMPACT_CTOR_DEF, LITERAL_SWITCH, LITERAL_CASE"/>
         </module>
-
+        <!--  -->
         <module name="NeedBraces">
             <property name="severity" value="error"/>
         </module>
-
+        <!--  -->
         <module name="OneTopLevelClass"/>
+        <!-- 方法扔出异常个数不能超过5个 -->
         <module name="ThrowsCount">
             <property name="severity" value="error"/>
             <property name="max" value="5"/>
             <property name="ignorePrivateMethods" value="false"/>
         </module>
+        <!--  -->
         <module name="VisibilityModifier">
             <property name="severity" value="warning"/>
             <property name="allowPublicFinalFields" value="true"/>
             <property name="protectedAllowed" value="true"/>
         </module>
+        <!---->
         <module name="ConstructorsDeclarationGrouping">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="CovariantEquals">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="DeclarationOrder">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="DefaultComesLast">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="EmptyStatement">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="EqualsAvoidNull">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="EqualsAvoidNull">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="EqualsHashCode">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="FallThrough">
             <property name="severity" value="error"/>
             <property name="checkLastCaseGroup" value="true"/>
         </module>
+        <!---->
         <module name="HiddenField">
             <property name="severity" value="warning"/>
             <property name="ignoreConstructorParameter" value="true"/>
             <property name="ignoreSetter" value="true"/>
             <property name="setterCanReturnItsClass" value="true"/>
         </module>
+        <!---->
         <module name="IllegalCatch">
             <property name="severity" value="warning"/>
             <property name="illegalClassNames"
                       value="Error, Exception, RuntimeException, Throwable, java.lang.Error, java.lang.Exception,
                        java.lang.RuntimeException, java.lang.Throwable,NullPointerException,IndexOutOfBoundsException"/>
         </module>
+        <!---->
         <module name="IllegalInstantiation">
             <property name="severity" value="warning"/>
             <property name="classes" value="java.lang.Boolean,java.lang.Integer"/>
         </module>
+        <!---->
         <module name="IllegalThrows">
             <property name="severity" value="warning"/>
             <property name="illegalClassNames" value="NullPointerException"/>
         </module>
+        <!---->
         <module name="InnerAssignment">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="MagicNumber">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="MissingSwitchDefault">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="ModifiedControlVariable">
             <property name="severity" value="warning"/>
             <property name="skipEnhancedForLoopVariable" value="true"/>
         </module>
+        <!---->
         <module name="MultipleStringLiterals">
             <property name="severity" value="warning"/>
             <property name="allowedDuplicates" value="2"/>
         </module>
+        <!---->
         <module name="MultipleVariableDeclarations">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="NestedForDepth">
             <property name="severity" value="error"/>
             <property name="max" value="2"/>
         </module>
+        <!---->
         <module name="NestedIfDepth">
             <property name="severity" value="error"/>
             <property name="max" value="3"/>
         </module>
+        <!---->
         <module name="NestedTryDepth">
             <property name="severity" value="error"/>
             <property name="max" value="3"/>
         </module>
+        <!---->
         <module name="NoClone">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="NoFinalizer">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="OneStatementPerLine">
             <property name="severity" value="warning"/>
             <property name="treatTryResourcesAsStatement" value="true"/>
         </module>
+        <!---->
         <module name="OverloadMethodsDeclarationOrder">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="ParameterAssignment">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="SimplifyBooleanExpression">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="SimplifyBooleanReturn">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="StringLiteralEquality">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="SuperClone">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="UnnecessarySemicolonAfterOuterTypeDeclaration">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="UnnecessarySemicolonInTryWithResources">
             <property name="severity" value="warning"/>
         </module>
+        <!---->
         <module name="UnusedLocalVariable">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="VariableDeclarationUsageDistance">
             <property name="severity" value="warning"/>
             <property name="allowedDistance" value="3"/>
@@ -209,11 +251,13 @@
         <module name="AvoidStarImport">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="CustomImportOrder">
             <property name="sortImportsInGroupAlphabetically" value="true"/>
             <property name="customImportOrderRules"
                       value="STATIC, THIRD_PARTY_PACKAGE, STANDARD_JAVA_PACKAGE"/>
         </module>
+        <!---->
         <module name="ImportOrder">
             <property name="groups" value="android,com,net,org,/^java\./,javax"/>
             <property name="ordered" value="true"/>
@@ -223,31 +267,39 @@
             <property name="sortStaticImportsAlphabetically" value="true"/>
             <property name="separatedStaticGroups" value="true"/>
         </module>
+        <!---->
         <module name="RedundantImport">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="UnusedImports">
             <property name="severity" value="error"/>
             <property name="processJavadoc" value="false"/>
         </module>
+        <!---->
         <module name="AtclauseOrder">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="InvalidJavadocPosition">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="JavadocBlockTagLocation">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="JavadocContentLocation">
             <property name="severity" value="error"/>
         </module>
+        <!---->
         <module name="JavadocMethod">
             <property name="severity" value="error"/>
             <property name="accessModifiers" value="public,protected"/>
             <property name="allowMissingParamTags" value="false"/>
             <property name="allowMissingReturnTag" value="false"/>
         </module>
+        <!---->
         <module name="JavadocMissingLeadingAsterisk">
             <property name="severity" value="warning"/>
         </module>
@@ -291,6 +343,116 @@
             <property name="severity" value="warning"/>
             <property name="tag" value="@since"/>
         </module>
+        <module name="BooleanExpressionComplexity">
+            <property name="max" value="5"/>
+        </module>
+        <module name="ClassDataAbstractionCoupling">
+            <property name="excludedPackages" value="java.io"/>
+        </module>
+        <module name="ClassFanOutComplexity">
+            <property name="max" value="2"/>
+        </module>
+        <module name="CyclomaticComplexity">
+            <property name="max" value="20"/>
+        </module>
+        <module name="JavaNCSS">
+            <property name="fileMaximum" value="50"/>
+        </module>
+        <module name="NPathComplexity">
+            <property name="max" value="20"/>
+        </module>
+        <module name="ArrayTypeStyle">
+            <property name="javaStyle" value="false"/>
+        </module>
+        <module name="AvoidEscapedUnicodeCharacters"/>
+        <module name="CommentsIndentation"/>
+        <module name="DescendantToken">
+            <property name="tokens" value="LITERAL_SWITCH"/>
+            <property name="limitedTokens" value="LITERAL_SWITCH"/>
+            <property name="maximumNumber" value="0"/>
+            <property name="minimumDepth" value="1"/>
+        </module>
+
+        <module name="DescendantToken">
+            <property name="tokens" value="LITERAL_CATCH,LITERAL_FINALLY"/>
+            <property name="limitedTokens" value="LITERAL_TRY"/>
+            <property name="maximumNumber" value="0"/>
+        </module>
+
+        <module name="DescendantToken">
+            <property name="tokens" value="FOR_INIT"/>
+            <property name="limitedTokens" value="EXPR"/>
+            <property name="minimumNumber" value="1"/>
+        </module>
+
+        <module name="DescendantToken">
+            <property name="tokens" value="FOR_CONDITION"/>
+            <property name="limitedTokens" value="EXPR"/>
+            <property name="minimumNumber" value="1"/>
+        </module>
+        <module name="Indentation">
+            <property name="caseIndent" value="4"/>
+            <property name="lineWrappingIndentation" value="4"/>
+            <property name="throwsIndent" value="4"/>
+            <property name="braceAdjustment" value="0"/>
+            <property name="basicOffset" value="4"/>
+            <property name="arrayInitIndent" value="4"/>
+        </module>
+        <module name="NewlineAtEndOfFile"/>
+        <module name="NoCodeInFile"/>
+        <module name="OuterTypeFilename"/>
+        <module name="TodoComment"/>
+        <module name="UpperEll"/>
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+        <module name="AbbreviationAsWordInName"/>
+        <module name="ClassTypeParameterName">
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+        </module>
+        <module name="ConstantName"/>
+        <module name="IllegalIdentifierName">
+            <property name="format"
+                      value="(?i)^(?!(_)$).+$"/>
+        </module>
+        <module name="InterfaceTypeParameterName">
+            <property name="format" value="^[a-zA-Z]$"/>
+        </module>
+        <module name="LocalFinalVariableName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+        </module>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="MethodTypeParameterName"/>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="PatternVariableName"/>
+        <module name="RecordComponentName"/>
+        <module name="RecordTypeParameterName"/>
+        <module name="StaticVariableName">
+            <property name="format" value="^[a-z](_?[a-zA-Z0-9]+)*$"/>
+        </module>
+        <module name="TypeName">
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
+            <property name="tokens" value="ENUM_DEF,INTERFACE_DEF,CLASS_DEF"/>
+        </module>
+
+<!--        &lt;!&ndash; 检查令牌是否被空格包围 &ndash;&gt;-->
+<!--        <module name="WhitespaceAround">-->
+<!--            <property name="allowEmptyConstructors" value="true"/>-->
+<!--            <property name="allowEmptyLambdas" value="true"/>-->
+<!--            <property name="allowEmptyMethods" value="true"/>-->
+<!--            <property name="allowEmptyTypes" value="true"/>-->
+<!--            <property name="ignoreEnhancedForColon" value="false"/>-->
+<!--            <property name="tokens"-->
+<!--                      value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR,-->
+<!--                    BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, DO_WHILE, EQUAL, GE, GT, LAMBDA, LAND,-->
+<!--                    LCURLY, LE, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY,-->
+<!--                    LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SWITCH, LITERAL_SYNCHRONIZED,-->
+<!--                    LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN,-->
+<!--                    NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, RCURLY, SL, SLIST, SL_ASSIGN, SR,-->
+<!--                    SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND"/>-->
+<!--        </module>-->
     </module>
 
     <module name="RegexpHeader">

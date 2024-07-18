@@ -8,7 +8,7 @@
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
         <module name="AnnotationLocation">
-            <property name="id" value="allow_anocation"/>
+            <property name="id" value="AnnotationLocation"/>
             <property name="allowSamelineSingleParameterlessAnnotation"
                       value="false"/>
             <property name="allowSamelineParameterizedAnnotation" value="false"/>
@@ -70,7 +70,9 @@
             <property name="severity" value="error"/>
         </module>
 
-        <module name="OneTopLevelClass"/>
+        <module name="OneTopLevelClass">
+            <property name="severity" value="error"/>
+        </module>
         <module name="ThrowsCount">
             <property name="severity" value="error"/>
             <property name="max" value="5"/>
