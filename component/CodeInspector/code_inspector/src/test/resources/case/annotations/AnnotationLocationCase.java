@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import javax.annotation.Nullable;
 
 @SuppressWarnings("unchecked")
-public class CodeInspectorTestCase {
+public class AnnotationLocationCase {
     @Nullable private String aab;
 
     @Test void test01() {

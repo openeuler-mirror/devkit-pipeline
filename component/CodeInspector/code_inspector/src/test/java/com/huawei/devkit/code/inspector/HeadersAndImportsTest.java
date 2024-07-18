@@ -5,23 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
 
-public class CodeInspectorTest {
-    @Test
-    void test01() {
-        String root = System.getProperty("user.dir");
-        System.setProperty("CODE_INSPECTOR_APP_HOME", root + "/src/main/content");
-        String filePath = Objects.requireNonNull(this.getClass().getClassLoader()
-                .getResource("case/annotations/CodeInspectorTestCase.java")).getPath();
-        String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
-                .getResource("annotationlocation.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/test01.out", "-f", "json", filePath};
-        Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
-    }
+public class HeadersAndImportsTest {
 
     @Test
     void testRegexpHeader() {
         String root = System.getProperty("user.dir");
-        System.setProperty("CODE_INSPECTOR_APP_HOME", root + "/src/main/content");
         String filePath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("case/headers_and_imports/RegexpHeaderCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
