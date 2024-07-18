@@ -8,7 +8,7 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="org.sqlite.JDBC"/>
-                <property name="url" value="jdbc:sqlite:${root.dir}/data/blog-db.sqlite"/>
+                <property name="url" value="jdbc:sqlite:${root.dir}/data/code-inspector-db.sqlite"/>
                 <property name="username" value=""/>
                 <property name="password" value=""/>
             </dataSource>
