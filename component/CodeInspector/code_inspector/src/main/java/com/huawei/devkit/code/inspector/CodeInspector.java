@@ -7,6 +7,7 @@ import com.huawei.devkit.code.inspector.wrappers.CheckStyleWrapper;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
 
+import java.util.Locale;
 import java.util.Properties;
 
 @Slf4j
@@ -23,11 +24,11 @@ public class CodeInspector {
                 log.info("start enter log");
                 Properties properties = PropertiesUtils.loadProperties("config.properties");
                 PropertiesUtils.configAndUpdate(properties);
-                log.info("start enter log");
                 if (cliOptions.getConfigurationFile() == null || cliOptions.getConfigurationFile().isEmpty()) {
                     cliOptions.setConfigurationFile(PropertiesUtils.ROOT_DIR + "/config/devkit_checkstyle.xml");
                 }
                 DataBasePreLoad.preload(properties);
+                Locale.setDefault(Locale.SIMPLIFIED_CHINESE);
                 CheckStyleWrapper.checkStyle(cliOptions);
             }
         } catch (CommandLine.ParameterException ex) {

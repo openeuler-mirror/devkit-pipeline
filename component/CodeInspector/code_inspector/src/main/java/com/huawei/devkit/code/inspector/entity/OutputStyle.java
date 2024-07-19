@@ -7,7 +7,6 @@ package com.huawei.devkit.code.inspector.entity;
 import com.huawei.devkit.code.inspector.listener.CustomJsonFormatterLogger;
 import com.puppycrawl.tools.checkstyle.AbstractAutomaticBean;
 import com.puppycrawl.tools.checkstyle.DefaultLogger;
-import com.puppycrawl.tools.checkstyle.SarifLogger;
 import com.puppycrawl.tools.checkstyle.XMLLogger;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
 
@@ -25,10 +24,6 @@ public enum OutputStyle {
      * XML output format.
      */
     XML,
-    /**
-     * SARIF output format.
-     */
-    SARIF,
     /**
      * Json output format
      */
@@ -52,8 +47,6 @@ public enum OutputStyle {
         final AuditListener result;
         if (this == XML) {
             result = new XMLLogger(out, options);
-        } else if (this == SARIF) {
-            result = new SarifLogger(out, options);
         } else if (this == JSON) {
             result = new CustomJsonFormatterLogger(out, options);
         } else {

@@ -149,7 +149,8 @@ public class CustomJsonFormatterLogger implements AuditListener {
                     .replace(COLUMN_PLACEHOLDER, Integer.toString(event.getColumn()))
                     .replace(LINE_PLACEHOLDER, Integer.toString(event.getLine()))
                     .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(event.getMessage()))
-                    .replace(RULE_ID_PLACEHOLDER, event.getViolation().getKey())
+                    .replace(RULE_ID_PLACEHOLDER,
+                            event.getModuleId() != null ? event.getModuleId() : event.getViolation().getKey())
             );
         } else {
             results.add(resultLineOnly
@@ -157,7 +158,8 @@ public class CustomJsonFormatterLogger implements AuditListener {
                     .replace(URI_PLACEHOLDER, event.getFileName())
                     .replace(LINE_PLACEHOLDER, Integer.toString(event.getLine()))
                     .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(event.getMessage()))
-                    .replace(RULE_ID_PLACEHOLDER, event.getViolation().getKey())
+                    .replace(RULE_ID_PLACEHOLDER,
+                            event.getModuleId() != null ? event.getModuleId() : event.getViolation().getKey())
             );
         }
     }

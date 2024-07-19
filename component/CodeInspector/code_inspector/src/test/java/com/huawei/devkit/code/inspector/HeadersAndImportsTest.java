@@ -14,7 +14,7 @@ public class HeadersAndImportsTest {
                 .getResource("case/headers_and_imports/RegexpHeaderCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/headers_and_imports/RegexpHeader.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testRegexpHeader.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testRegexpHeader.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -25,7 +25,7 @@ public class HeadersAndImportsTest {
                 .getResource("case/headers_and_imports/AvoidStarImportCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/headers_and_imports/AvoidStarImport.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testAvoidStarImport.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testAvoidStarImport.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -36,7 +36,7 @@ public class HeadersAndImportsTest {
                 .getResource("case/headers_and_imports/CustomImportOrderCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/headers_and_imports/CustomImportOrder.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testCustomImportOrderRules.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testCustomImportOrderRules.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -47,7 +47,7 @@ public class HeadersAndImportsTest {
                 .getResource("case/headers_and_imports/UnusedImportsCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/headers_and_imports/UnusedImports.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testUnusedImports.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testUnusedImports.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -58,7 +58,7 @@ public class HeadersAndImportsTest {
                 .getResource("case/headers_and_imports/RedundantImportCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/headers_and_imports/RedundantImport.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testRedundantImport.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testRedundantImport.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 }

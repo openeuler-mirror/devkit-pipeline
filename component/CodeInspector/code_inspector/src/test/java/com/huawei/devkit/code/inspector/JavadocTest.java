@@ -22,7 +22,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/AtclauseOrderCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/AtclauseOrder.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testAtclauseOrder.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testAtclauseOrder.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -33,7 +33,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/InvalidJavadocPositionCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/InvalidJavadocPosition.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testInvalidJavadocPosition.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testInvalidJavadocPosition.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -44,7 +44,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/JavadocBlockTagLocationCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/JavadocBlockTagLocation.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocBlockTagLocation.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocBlockTagLocation.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -55,7 +55,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/JavadocContentLocationCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/JavadocContentLocation.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocContentLocation.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocContentLocation.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -66,7 +66,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/JavadocMethodCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/JavadocMethod.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocMethod.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocMethod.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -77,7 +77,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/JavadocMissingLeadingAsteriskCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/JavadocMissingLeadingAsterisk.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocMissingLeadingAsterisk.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocMissingLeadingAsterisk.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -88,7 +88,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/JavadocMissingWhitespaceAfterAsteriskCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/JavadocMissingWhitespaceAfterAsterisk.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocMissingWhitespaceAfterAsterisk.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocMissingWhitespaceAfterAsterisk.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -99,7 +99,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/JavadocParagraphCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/JavadocParagraph.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocParagraph.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocParagraph.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -111,7 +111,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/JavadocTagContinuationIndentationCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/JavadocTagContinuationIndentation.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocTagContinuationIndentation.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocTagContinuationIndentation.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -122,7 +122,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/JavadocVariableCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/JavadocVariable.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocVariable.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavadocVariable.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -133,7 +133,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/MissingJavadocMethodCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/MissingJavadocMethod.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testMissingJavadocMethod.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testMissingJavadocMethod.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -145,7 +145,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/MissingJavadocTypeCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/MissingJavadocType.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testMissingJavadocType.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testMissingJavadocType.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -156,7 +156,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/NonEmptyAtclauseDescriptionCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/NonEmptyAtclauseDescription.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testNonEmptyAtclauseDescription.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testNonEmptyAtclauseDescription.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -167,7 +167,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/RequireEmptyLineBeforeBlockTagGroupCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/RequireEmptyLineBeforeBlockTagGroup.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testRequireEmptyLineBeforeBlockTagGroup.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testRequireEmptyLineBeforeBlockTagGroup.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -178,7 +178,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/SingleLineJavadocCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/SingleLineJavadoc.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testSingleLineJavadoc.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testSingleLineJavadoc.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -189,7 +189,7 @@ public class JavadocTest {
                 .getResource("case/javadoc/WriteTagCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/javadoc/WriteTag.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testWriteTag.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testWriteTag.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
