@@ -13,7 +13,7 @@ public class ModifiersTest {
                 .getResource("case/modifiers/ModifierOrderCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/modifiers/ModifierOrder.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testModifierOrder.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testModifierOrder.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -24,7 +24,7 @@ public class ModifiersTest {
                 .getResource("case/modifiers/RedundantModifierCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/modifiers/RedundantModifier.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testRedundantModifier.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testRedundantModifier.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 }

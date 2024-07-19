@@ -13,7 +13,7 @@ public class MetricsTest {
                 .getResource("case/metrics/BooleanExpressionComplexityCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/metrics/BooleanExpressionComplexity.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testBooleanExpressionComplexity.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testBooleanExpressionComplexity.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -24,7 +24,7 @@ public class MetricsTest {
                 .getResource("case/metrics/ClassDataAbstractionCouplingCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/metrics/ClassDataAbstractionCoupling.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testClassDataAbstractionCoupling.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testClassDataAbstractionCoupling.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -36,7 +36,7 @@ public class MetricsTest {
                 .getResource("case/metrics/ClassFanOutComplexityCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/metrics/ClassFanOutComplexity.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testClassFanOutComplexity.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testClassFanOutComplexity.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -47,7 +47,7 @@ public class MetricsTest {
                 .getResource("case/metrics/CyclomaticComplexityCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/metrics/CyclomaticComplexity.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testCyclomaticComplexity.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testCyclomaticComplexity.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -58,7 +58,7 @@ public class MetricsTest {
                 .getResource("case/metrics/JavaNCSSCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/metrics/JavaNCSS.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavaNCSSCase.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testJavaNCSSCase.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -69,7 +69,7 @@ public class MetricsTest {
                 .getResource("case/metrics/NPathComplexityCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/metrics/NPathComplexity.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testNPathComplexity.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testNPathComplexity.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 }

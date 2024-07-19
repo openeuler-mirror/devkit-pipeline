@@ -14,7 +14,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/ArrayTypeStyleCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/ArrayTypeStyle.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testArrayTypeStyle.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testArrayTypeStyle.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -25,7 +25,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/AvoidEscapedUnicodeCharactersCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/AvoidEscapedUnicodeCharacters.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testAvoidEscapedUnicodeCharacters.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testAvoidEscapedUnicodeCharacters.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -36,7 +36,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/CommentsIndentationCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/CommentsIndentation.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testCommentsIndentation.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testCommentsIndentation.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -47,7 +47,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/DescendantTokenCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/DescendantToken.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testDescendantToken.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testDescendantToken.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -58,7 +58,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/IndentationCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/Indentation.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testIndentation.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testIndentation.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -69,7 +69,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/NewlineAtEndOfFileCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/NewlineAtEndOfFile.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testNewlineAtEndOfFile.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testNewlineAtEndOfFile.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -80,7 +80,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/NoCodeInFileCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/NoCodeInFile.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testNoCodeInFile.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testNoCodeInFile.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -91,7 +91,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/OuterTypeFilenameCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/OuterTypeFilename.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testOuterTypeFilename.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testOuterTypeFilename.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -102,7 +102,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/TodoCommentCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/TodoComment.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testTodoComment.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testTodoComment.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
@@ -113,7 +113,7 @@ public class MiscellaneousTest {
                 .getResource("case/miscellaneous/UpperEllCase.java")).getPath();
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("single_rules/miscellaneous/UpperEll.xml")).getPath();
-        String[] args = new String[]{"-c", configPath, "-o", root + "/testUpperEll.out", "-f", "sarif", filePath};
+        String[] args = new String[]{"-c", configPath, "-o", root + "/testUpperEll.out", "-f", "json", filePath};
         Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
     }
 
