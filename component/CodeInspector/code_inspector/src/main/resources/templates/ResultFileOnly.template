@@ -1,5 +1,5 @@
         {
           "level": "${severityLevel}",
-          "locations": "${uri}"
+          "locations": "${uri}",
           "message": "${message}"
         }

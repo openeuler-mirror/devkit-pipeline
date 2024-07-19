@@ -3,6 +3,6 @@
           "uri": "${uri}",
           "startColumn": ${column},
           "startLine": ${line},
-          "message": "${message}"
+          "message": "${message}",
           "ruleId": "${ruleId}"
         }

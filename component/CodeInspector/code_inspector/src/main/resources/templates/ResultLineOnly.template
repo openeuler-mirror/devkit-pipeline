@@ -2,6 +2,6 @@
           "level": "${severityLevel}",
           "uri": "${uri}",
           "startLine": ${line},
-          "message": "${message}"
+          "message": "${message}",
           "ruleId": "${ruleId}"
         }
