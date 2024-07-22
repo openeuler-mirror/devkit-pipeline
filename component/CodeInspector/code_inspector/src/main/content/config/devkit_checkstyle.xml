@@ -7,7 +7,7 @@
     <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
-        <!-- 注解单独成行 -->
+        <!-- 检查注解单独成行 -->
         <module name="AnnotationLocation">
             <property name="id" value="AnnotationLocation"/>
             <property name="allowSamelineSingleParameterlessAnnotation"
@@ -33,8 +33,7 @@
             <property name="severity" value="error"/>
             <property name="allowInSwitchCase" value="false"/>
         </module>
-        <!-- 避免空块 -->
-        <!-- 3.7 不要通过一个空的块忽略异常 -->
+        <!-- 避免while,try,catch,finally,do,if,else,for,switch,synchronized,case,default,初始化块，静态初始化块为空 -->
         <module name="EmptyBlock">
             <property name="id" value="EmptyBlock"/>
             <property name="severity" value="error"/>
@@ -44,7 +43,7 @@
                        LITERAL_ELSE, LITERAL_FOR , INSTANCE_INIT, STATIC_INIT,
                        LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_CASE, LITERAL_DEFAULT"/>
         </module>
-        <!-- 左大括号规则 -->
+        <!-- 检查注解定义 类定义 构造方法定义 枚举常量定义，枚举定义，接口定义，lambda表达式等 左大括号后直接换行规则 -->
         <module name="LeftCurly">
             <property name="id" value="LeftCurly"/>
             <property name="severity" value="error"/>
@@ -57,26 +56,28 @@
                     LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, METHOD_DEF,
                     OBJBLOCK, STATIC_INIT, RECORD_DEF, COMPACT_CTOR_DEF"/>
         </module>
-        <!-- 右大括号规则 -->
+        <!-- 检查try,catch,finally,if,else,do 右大括号紧跟下一个代码块 -->
         <module name="RightCurly">
             <property name="id" value="RightCurlySame"/>
             <property name="tokens"
                       value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE,
                     LITERAL_DO"/>
         </module>
-        <!-- 右大括号规则 -->
+        <!-- 检查类定义，方法定义，构造方法定义，for循环，while循环，静态初始化块，初始化块，switch右大括号独占一行 -->
         <module name="RightCurly">
             <property name="id" value="RightCurlyAlone"/>
             <property name="option" value="alone"/>
             <property name="tokens"
-                      value="LITERAL_TRY, CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT,
+                      value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT,
                             INSTANCE_INIT, ANNOTATION_DEF, ENUM_DEF, INTERFACE_DEF, RECORD_DEF,
                             COMPACT_CTOR_DEF, LITERAL_SWITCH, LITERAL_CASE"/>
         </module>
-        <!--  -->
+        <!-- 检查do,else,for,if,while不得省略大括号 -->
         <module name="NeedBraces">
             <property name="id" value="NeedBraces"/>
             <property name="severity" value="error"/>
+            <property name="tokens"
+                      value="LITERAL_DO,LITERAL_ELSE,LITERAL_FOR,LITERAL_IF,LITERAL_WHILE"/>
         </module>
         <!-- 顶级class必须单独存在一个文件中 -->
         <module name="OneTopLevelClass">
@@ -90,55 +91,61 @@
             <property name="max" value="5"/>
             <property name="ignorePrivateMethods" value="false"/>
         </module>
-        <!--  -->
+        <!-- 检查类的非static final字段,final 字段，必须是private或者protect  -->
         <module name="VisibilityModifier">
             <property name="id" value="VisibilityModifier"/>
             <property name="severity" value="warning"/>
             <property name="allowPublicFinalFields" value="true"/>
             <property name="protectedAllowed" value="true"/>
         </module>
-        <!---->
+        <!--  一个类中的构造函数应位于相邻位置  -->
         <module name="ConstructorsDeclarationGrouping">
             <property name="id" value="ConstructorsDeclarationGrouping"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查类中定义equals方法时，必须正确重写equals方法 -->
         <module name="CovariantEquals">
             <property name="id" value="CovariantEquals"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!--
+        类或者接口的定义顺序：
+            类变量（public,protect,package,private）
+            实例变量 （public,protect,package,private）
+            构造方法
+            方法
+        -->
         <module name="DeclarationOrder">
             <property name="id" value="DeclarationOrder"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查default是switch块最后一个元素 -->
         <module name="DefaultComesLast">
             <property name="id" value="DefaultComesLast"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!--  禁止空语句  -->
         <module name="EmptyStatement">
             <property name="id" value="EmptyStatement"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查对比字符串相等时，字面量字符串应位于左侧 -->
         <module name="EqualsAvoidNull">
             <property name="id" value="EqualsAvoidNull"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查重写equals或者hashcode方法时，必须两个都重写 -->
         <module name="EqualsHashCode">
             <property name="id" value="EqualsHashCode"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查switch块中case是否包含中Java代码但缺少break、return、yield throw 或continue语句-->
         <module name="FallThrough">
             <property name="id" value="FallThrough"/>
             <property name="severity" value="error"/>
             <property name="checkLastCaseGroup" value="true"/>
         </module>
-        <!---->
+        <!-- 检查方法中的本地变量不遮住当前类中的类变量 -->
         <module name="HiddenField">
             <property name="id" value="HiddenField"/>
             <property name="severity" value="warning"/>
@@ -146,7 +153,7 @@
             <property name="ignoreSetter" value="true"/>
             <property name="setterCanReturnItsClass" value="true"/>
         </module>
-        <!---->
+        <!--  检查代码中不捕获异常Error,Exception,RuntimeException,Throwable等（第三方代码除外） -->
         <module name="IllegalCatch">
             <property name="id" value="IllegalCatch"/>
             <property name="severity" value="warning"/>
@@ -154,195 +161,183 @@
                       value="Error, Exception, RuntimeException, Throwable, java.lang.Error, java.lang.Exception,
                        java.lang.RuntimeException, java.lang.Throwable,NullPointerException,IndexOutOfBoundsException"/>
         </module>
-        <!---->
+        <!-- 检查不使用Boolean，Integer，Double的构造方法，而是使用他的工厂方法 -->
         <module name="IllegalInstantiation">
             <property name="id" value="IllegalInstantiation"/>
             <property name="severity" value="warning"/>
-            <property name="classes" value="java.lang.Boolean,java.lang.Integer"/>
+            <property name="classes" value="java.lang.Boolean,java.lang.Integer，java.lang.Double"/>
         </module>
-        <!---->
+        <!-- 不要仍出异常Error,Exception,RuntimeException,Throwable等 -->
         <module name="IllegalThrows">
             <property name="id" value="IllegalThrows"/>
             <property name="severity" value="warning"/>
-            <property name="illegalClassNames" value="NullPointerException"/>
         </module>
-        <!---->
+        <!-- 检查子表达式中的赋值语句 -->
         <module name="InnerAssignment">
             <property name="id" value="InnerAssignment"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查是否出现魔法数字 -->
         <module name="MagicNumber">
             <property name="id" value="MagicNumber"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查switch块中是否缺少default -->
         <module name="MissingSwitchDefault">
             <property name="id" value="MissingSwitchDefault"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 禁止在循环体中修改控制循环变量 -->
         <module name="ModifiedControlVariable">
             <property name="id" value="ModifiedControlVariable"/>
             <property name="severity" value="warning"/>
             <property name="skipEnhancedForLoopVariable" value="true"/>
         </module>
-        <!---->
+        <!-- 检查相同字符串出现的次数，不高于2次 -->
         <module name="MultipleStringLiterals">
             <property name="id" value="MultipleStringLiterals"/>
             <property name="severity" value="warning"/>
             <property name="allowedDuplicates" value="2"/>
         </module>
-        <!---->
+        <!-- 检查不能同时声明多个变量 -->
         <module name="MultipleVariableDeclarations">
             <property name="id" value="MultipleVariableDeclarations"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 检查for循环的深度不超过2层 -->
         <module name="NestedForDepth">
             <property name="id" value="NestedForDepth"/>
             <property name="severity" value="error"/>
             <property name="max" value="2"/>
         </module>
-        <!---->
+        <!-- 检查if块的深度不超过3层 -->
         <module name="NestedIfDepth">
             <property name="id" value="NestedIfDepth"/>
             <property name="severity" value="error"/>
             <property name="max" value="3"/>
         </module>
-        <!---->
+        <!-- 检查try块的深度不超过3层 -->
         <module name="NestedTryDepth">
             <property name="id" value="NestedTryDepth"/>
             <property name="severity" value="error"/>
             <property name="max" value="3"/>
         </module>
-        <!---->
+        <!-- 禁止重写clone方法  -->
         <module name="NoClone">
             <property name="id" value="NoClone"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 禁止重写finalizer方法 -->
         <module name="NoFinalizer">
             <property name="id" value="NoFinalizer"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 检查每行只有一条语句 -->
         <module name="OneStatementPerLine">
             <property name="id" value="OneStatementPerLine"/>
             <property name="severity" value="warning"/>
             <property name="treatTryResourcesAsStatement" value="true"/>
         </module>
-        <!---->
+        <!-- 检查重载的代码放在相邻位置 -->
         <module name="OverloadMethodsDeclarationOrder">
             <property name="id" value="OverloadMethodsDeclarationOrder"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 不允许给参数赋值 -->
         <module name="ParameterAssignment">
             <property name="id" value="ParameterAssignment"/>
-            <property name="severity" value="warning"/>
+            <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 检查可以简化的bool表达式 -->
         <module name="SimplifyBooleanExpression">
             <property name="id" value="SimplifyBooleanExpression"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查可以简化的bool返回值 -->
         <module name="SimplifyBooleanReturn">
             <property name="id" value="SimplifyBooleanReturn"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查比较字符串时，不使用==，而是使用equals方法 -->
         <module name="StringLiteralEquality">
             <property name="id" value="StringLiteralEquality"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查重写的clone方法需要调用super.clone() -->
         <module name="SuperClone">
             <property name="id" value="SuperClone"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查类型定义中不需要的分隔符 -->
         <module name="UnnecessarySemicolonAfterOuterTypeDeclaration">
             <property name="id" value="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查类型成员定义中不需要的分隔符 -->
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration">
             <property name="id" value="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查try-with-resource中不需要的分隔符 -->
         <module name="UnnecessarySemicolonInTryWithResources">
             <property name="id" value="UnnecessarySemicolonInTryWithResources"/>
             <property name="severity" value="warning"/>
         </module>
-        <!---->
+        <!-- 检查未使用的本地变量 -->
         <module name="UnusedLocalVariable">
             <property name="id" value="UnusedLocalVariable"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 检查定义的变量和使用直接的距离不能大于5 -->
         <module name="VariableDeclarationUsageDistance">
             <property name="id" value="VariableDeclarationUsageDistance"/>
             <property name="severity" value="warning"/>
-            <property name="allowedDistance" value="3"/>
+            <property name="allowedDistance" value="5"/>
         </module>
-        <!-- 避免引入* -->
+        <!-- 避免使用*引入包 -->
         <module name="AvoidStarImport">
             <property name="id" value="AvoidStarImport"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 包进入顺序：静态变量， 第三方库， 标准java库 -->
         <module name="CustomImportOrder">
             <property name="id" value="CustomImportOrder"/>
             <property name="sortImportsInGroupAlphabetically" value="true"/>
             <property name="customImportOrderRules"
                       value="STATIC, THIRD_PARTY_PACKAGE, STANDARD_JAVA_PACKAGE"/>
         </module>
-        <!---->
-        <module name="ImportOrder">
-            <property name="id" value="ImportOrder"/>
-            <property name="groups" value="android,com,net,org,/^java\./,javax"/>
-            <property name="ordered" value="true"/>
-            <property name="separated" value="true"/>
-            <property name="option" value="top"/>
-            <property name="staticGroups" value=""/>
-            <property name="sortStaticImportsAlphabetically" value="true"/>
-            <property name="separatedStaticGroups" value="true"/>
-        </module>
-        <!---->
+        <!-- 检查是否存在冗余引入 -->
         <module name="RedundantImport">
             <property name="id" value="RedundantImport"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 检查存在未使用的引入 -->
         <module name="UnusedImports">
             <property name="id" value="UnusedImports"/>
             <property name="severity" value="error"/>
             <property name="processJavadoc" value="false"/>
         </module>
-        <!---->
+        <!-- 检查Javadoc的块标记顺序：@param @return @throw -->
         <module name="AtclauseOrder">
             <property name="id" value="AtclauseOrder"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 检查Javadoc是否位于正确的位置 -->
         <module name="InvalidJavadocPosition">
             <property name="id" value="InvalidJavadocPosition"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 检查Javadoc块标记(@param,@return,@since等)是否仅出现在行首，忽略前导星号和空格 -->
         <module name="JavadocBlockTagLocation">
             <property name="id" value="JavadocBlockTagLocation"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 检查项目中所有Javadoc注释内容是否第二行开始 -->
         <module name="JavadocContentLocation">
             <property name="id" value="JavadocContentLocation"/>
             <property name="severity" value="error"/>
         </module>
-        <!---->
+        <!-- 检查方法存在注释格式 -->
         <module name="JavadocMethod">
             <property name="id" value="JavadocMethod"/>
             <property name="severity" value="error"/>
@@ -350,29 +345,34 @@
             <property name="allowMissingParamTags" value="false"/>
             <property name="allowMissingReturnTag" value="false"/>
         </module>
-        <!---->
+        <!-- 检查Javadoc是否丢失前导*号 -->
         <module name="JavadocMissingLeadingAsterisk">
             <property name="id" value="JavadocMissingLeadingAsterisk"/>
             <property name="severity" value="warning"/>
         </module>
+        <!-- 检查Javadoc中注释内容与前导*号之前是否存在空格 -->
         <module name="JavadocMissingWhitespaceAfterAsterisk">
             <property name="id" value="JavadocMissingWhitespaceAfterAsterisk"/>
             <property name="severity" value="warning"/>
         </module>
+        <!-- 检查Javadoc段落。第一个<p>后有空格，之后的<p>没有空格。两个<p>之前存在空行 -->
         <module name="JavadocParagraph">
             <property name="id" value="JavadocParagraph"/>
             <property name="severity" value="warning"/>
         </module>
+        <!-- 检查块标记中延续行的缩进，缩进4空格 -->
         <module name="JavadocTagContinuationIndentation">
             <property name="id" value="JavadocTagContinuationIndentation"/>
             <property name="severity" value="warning"/>
         </module>
+        <!-- 检查变量是否具有Javadoc注释 -->
         <module name="JavadocVariable">
             <property name="id" value="JavadocVariable"/>
             <property name="severity" value="warning"/>
             <property name="scope" value="protected"/>
             <property name="ignoreNamePattern" value="log|logger"/>
         </module>
+        <!-- 检查方法或构造函数是否缺少Javadoc注释 -->
         <module name="MissingJavadocMethod">
             <property name="id" value="MissingJavadocMethod"/>
             <property name="severity" value="warning"/>
@@ -380,6 +380,7 @@
             <property name="allowMissingPropertyJavadoc" value="true"/>
             <property name="allowedAnnotations" value="Override,Test,Deprecated"/>
         </module>
+        <!-- 检查类、枚举、接口等是否缺少Javadoc注释 -->
         <module name="MissingJavadocType">
             <property name="id" value="MissingJavadocType"/>
             <property name="severity" value="warning"/>
@@ -388,85 +389,78 @@
                       value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
                       RECORD_DEF, ANNOTATION_DEF"/>
         </module>
+        <!-- 检查块标记后存在说明 -->
         <module name="NonEmptyAtclauseDescription">
             <property name="id" value="NonEmptyAtclauseDescription"/>
             <property name="severity" value="warning"/>
         </module>
+        <!-- 检查块标记前是否存在一个空行 -->
         <module name="RequireEmptyLineBeforeBlockTagGroup">
             <property name="id" value="RequireEmptyLineBeforeBlockTagGroup"/>
             <property name="severity" value="warning"/>
         </module>
+        <!-- 检查单行注释中不包含块标记 -->
         <module name="SingleLineJavadoc">
             <property name="id" value="SingleLineJavadoc"/>
             <property name="severity" value="warning"/>
         </module>
+        <!-- 检查类、枚举、接口等的注释中存在@since块标签，以显示创建和修改时间 -->
         <module name="WriteTag">
             <property name="id" value="WriteTag"/>
             <property name="severity" value="warning"/>
             <property name="tag" value="@since"/>
         </module>
+        <!-- 限制表达式中布尔运算符（&&，||，&，|和^）的数量不超过5个。 -->
         <module name="BooleanExpressionComplexity">
             <property name="id" value="BooleanExpressionComplexity"/>
             <property name="max" value="5"/>
         </module>
+        <!-- 测量给定类或记录中实例化其他类的种类数不超过7个 -->
         <module name="ClassDataAbstractionCoupling">
             <property name="id" value="ClassDataAbstractionCoupling"/>
             <property name="excludedPackages" value="java.io"/>
         </module>
+        <!-- 检查给定类/记录/接口/枚举/注释所依赖的其他类型的数量不超过20个 -->
         <module name="ClassFanOutComplexity">
             <property name="id" value="ClassFanOutComplexity"/>
-            <property name="max" value="2"/>
+            <property name="max" value="20"/>
         </module>
+        <!-- 检查方法/构造方法/静态初始化块/初始化块的圈复杂度不超过20层 -->
         <module name="CyclomaticComplexity">
             <property name="id" value="CyclomaticComplexity"/>
             <property name="max" value="20"/>
         </module>
+        <!-- 根据非注释的语句，检查方法/类/文件/record的复杂性，其中方法不能超过50，文件不能超过2000，类不能超过1500，record不能超过150 -->
         <module name="JavaNCSS">
             <property name="id" value="JavaNCSS"/>
-            <property name="fileMaximum" value="50"/>
         </module>
+        <!-- 测量NPATH的复杂性不超过200 -->
         <module name="NPathComplexity">
             <property name="id" value="NPathComplexity"/>
-            <property name="max" value="20"/>
         </module>
+        <!-- 检查数组类型定义的样式属于java风格而不是C风格 -->
         <module name="ArrayTypeStyle">
             <property name="id" value="ArrayTypeStyle"/>
             <property name="javaStyle" value="false"/>
         </module>
+        <!-- 限制使用Unicode转义（如\u221e）-->
         <module name="AvoidEscapedUnicodeCharacters">
             <property name="id" value="AvoidEscapedUnicodeCharacters"/>
         </module>
+        <!-- 限制注释和周围代码之间的缩进相同 -->
         <module name="CommentsIndentation">
             <property name="id" value="CommentsIndentation"/>
         </module>
-        <module name="DescendantToken">
-            <property name="id" value="DescendantTokenSwitch"/>
-            <property name="tokens" value="LITERAL_SWITCH"/>
-            <property name="limitedTokens" value="LITERAL_SWITCH"/>
-            <property name="maximumNumber" value="0"/>
-            <property name="minimumDepth" value="1"/>
-        </module>
-
-        <module name="DescendantToken">
-            <property name="id" value="DescendantTokenCatch"/>
-            <property name="tokens" value="LITERAL_CATCH,LITERAL_FINALLY"/>
-            <property name="limitedTokens" value="LITERAL_TRY"/>
-            <property name="maximumNumber" value="0"/>
-        </module>
-
+        <!-- 限制构造方法，方法的深度不超过5层 -->
         <module name="DescendantToken">
             <property name="id" value="DescendantTokenForInit"/>
-            <property name="tokens" value="FOR_INIT"/>
-            <property name="limitedTokens" value="EXPR"/>
-            <property name="minimumNumber" value="1"/>
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF, COMPACT_CTOR_DEF"/>
+            <property name="limitedTokens" value="SLIST"/>
+            <property name="maximumNumber" value="0"/>
+            <property name="minimumDepth" value="11"/>
         </module>
 
-        <module name="DescendantToken">
-            <property name="id" value="DescendantTokenForCondition"/>
-            <property name="tokens" value="FOR_CONDITION"/>
-            <property name="limitedTokens" value="EXPR"/>
-            <property name="minimumNumber" value="1"/>
-        </module>
+        <!-- 检查代码换行时的缩进 -->
         <module name="Indentation">
             <property name="id" value="Indentation"/>
             <property name="caseIndent" value="4"/>
@@ -477,78 +471,114 @@
             <property name="arrayInitIndent" value="4"/>
         </module>
 
+        <!-- 检查文件中没有代码 -->
         <module name="NoCodeInFile">
             <property name="id" value="NoCodeInFile"/>
         </module>
+        <!-- 检查类名和文件名是否匹配 -->
         <module name="OuterTypeFilename">
             <property name="id" value="OuterTypeFilename"/>
         </module>
+        <!-- 检查是否包含TODO和FIXME注释 -->
         <module name="TodoComment">
             <property name="id" value="TodoComment"/>
+            <property name="format" value="(TODO)|(FIXME)|(todo)|(fixme)"/>
         </module>
+        <!-- 使用大写的Ell定义字面量，例如：5L -->
         <module name="UpperEll">
             <property name="id" value="UpperEll"/>
         </module>
+
+        <!--
+            检查变量或者方法的修饰符，符合Java语言规范。顺序为：
+                public/protected/private abstract default static sealed/non-sealed
+                final transient volatile synchronized native strictfp
+        -->
         <module name="ModifierOrder">
             <property name="id" value="ModifierOrder"/>
         </module>
+        <!-- 检查是否使用冗余的修饰符 -->
         <module name="RedundantModifier">
             <property name="id" value="RedundantModifier"/>
         </module>
+        <!-- 检查标识名中连续大写字母的长度最大为3（忽略常量，静态变量，final变量，以及override修饰的方法） -->
         <module name="AbbreviationAsWordInName">
             <property name="id" value="AbbreviationAsWordInName"/>
         </module>
+        <!-- 检查类的泛型定义标识符必须使用大写单字母或者大驼峰 -->
         <module name="ClassTypeParameterName">
             <property name="id" value="ClassTypeParameterName"/>
             <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
         </module>
+        <!-- 检查类常量采用全大写模式 -->
         <module name="ConstantName">
             <property name="id" value="ConstantName"/>
         </module>
+        <!-- 检查使用关键字？？看懂 -->
         <module name="IllegalIdentifierName">
             <property name="id" value="IllegalIdentifierName"/>
             <property name="format"
                       value="(?i)^(?!(_)$).+$"/>
         </module>
+        <!-- 检查接口的泛型定义标识符必须使用大写单字母或者大驼峰 -->
         <module name="InterfaceTypeParameterName">
             <property name="id" value="InterfaceTypeParameterName"/>
-            <property name="format" value="^[a-zA-Z]$"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
         </module>
+        <!-- 检查lambda的参数标识符为小驼峰 -->
+        <module name="LambdaParameterName">
+            <property name="id" value="LambdaParameterName"/>
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+        </module>
+        <!-- 检查final变量标识符为小驼峰 -->
         <module name="LocalFinalVariableName">
             <property name="id" value="LocalFinalVariableName"/>
             <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
         </module>
+        <!-- 检查本地变量标识符为小驼峰 -->
         <module name="LocalVariableName">
             <property name="id" value="LocalVariableName"/>
         </module>
+        <!-- 检查类成员标识符为小驼峰 -->
         <module name="MemberName">
             <property name="id" value="MemberName"/>
         </module>
+        <!-- 检查方法标识符为小驼峰 -->
         <module name="MethodName">
             <property name="id" value="MethodName"/>
         </module>
+        <!-- 检查方法的泛型定义标识符必须使用大写单字母或者大驼峰 -->
         <module name="MethodTypeParameterName">
             <property name="id" value="MethodTypeParameterName"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
         </module>
+        <!-- 检查包名为全小写 -->
         <module name="PackageName">
             <property name="id" value="PackageName"/>
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
         </module>
+        <!-- 检查参数标识符为小驼峰 -->
         <module name="ParameterName">
             <property name="id" value="ParameterName"/>
         </module>
+        <!-- 检查强转的变量标识符为小驼峰 -->
         <module name="PatternVariableName">
             <property name="id" value="PatternVariableName"/>
         </module>
+        <!-- 检查record定义时的参数名称为小驼峰 -->
         <module name="RecordComponentName">
-            <property name="id" value="NonEmptyAtclauseDescription"/>
+            <property name="id" value="RecordComponentName"/>
         </module>
+        <!-- 检查record的泛型定义标识符必须使用大写单字母或者大驼峰 -->
         <module name="RecordTypeParameterName">
             <property name="id" value="RecordTypeParameterName"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
         </module>
+        <!-- 检查静态变量标识符为小驼峰 -->
         <module name="StaticVariableName">
             <property name="id" value="StaticVariableName"/>
-            <property name="format" value="^[a-z](_?[a-zA-Z0-9]+)*$"/>
         </module>
+        <!-- 检查类型名称为大驼峰 -->
         <module name="TypeName">
             <property name="id" value="TypeName"/>
             <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
@@ -611,12 +641,12 @@
             <property name="id" value="NoLineWrap"/>
             <property name="severity" value="error"/>
         </module>
-        <!-- 禁止在[、.@ ++、- 等操作符后添加空白 -->
+        <!-- 禁止在[、.@ ++、双- 等操作符后添加空白 -->
         <module name="NoWhitespaceAfter">
             <property name="id" value="NoWhitespaceAfter"/>
             <property name="severity" value="error"/>
         </module>
-        <!-- 禁止在,、;、++、-、...、: 等Token前添加空白 -->
+        <!-- 禁止在,、;、++、双-、...、: 等Token前添加空白 -->
         <module name="NoWhitespaceBefore">
             <property name="id" value="NoWhitespaceBefore"/>
             <property name="severity" value="error"/>
@@ -654,18 +684,24 @@
             <property name="id" value="SingleSpaceSeparator"/>
             <property name="severity" value="warning"/>
         </module>
-        <!-- 检查类型转换内边距未填充空白 -->
+        <!-- 检查类型转换内边距没有填充空白 -->
         <module name="TypecastParenPad">
             <property name="id" value="TypecastParenPad"/>
             <property name="severity" value="warning"/>
         </module>
-        <!-- 检查类型转换内边距未填充空白 -->
+        <!--
+            检查以下符号或标识符后存在空格:
+                , ; if else while do for finally return yield catch ... switch synchronized try case lambda
+        -->
         <module name="WhitespaceAfter">
             <property name="id" value="WhitespaceAfter"/>
             <property name="severity" value="warning"/>
         </module>
 
-        <!-- 检查Token是否被空格包围 -->
+        <!--
+            检查以下符号或标识符是否被空格包围:
+                = & &= | |= >>> >>>= ^ ^= : / /= 'do while中的while' == >=等
+         -->
         <module name="WhitespaceAround">
             <property name="id" value="WhitespaceAround"/>
             <property name="severity" value="warning"/>
@@ -678,16 +714,13 @@
 
     </module>
 
+    <!--  java文件的头包含版权声明  -->
     <module name="RegexpHeader">
         <property name="id" value="RegexpHeader"/>
         <property name="severity" value="warning"/>
         <property name="fileExtensions" value="java"/>
         <property name="header"
                   value="^/\*$\n^\s\*\sCopyright\s\([Cc]\)\s.*([0-9]{4}-)?[0-9]{4}.*\n^ \*/$\n\n^package\s.*\n\n^import.*"/>
-    </module>
-
-    <module name="NewlineAtEndOfFile">
-        <property name="id" value="NewlineAtEndOfFile"/>
     </module>
 
     <!--  java文件不要超过1000行  -->
