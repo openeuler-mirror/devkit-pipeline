@@ -4,6 +4,7 @@ build
 .venv
 __pycache__
 devkitdependencies
+.gradle
 
 component/DevKitTester/devkit_tester/config/log.ini
 component/DevKitTester/devkit_tester/config/devkit_distribute.yaml

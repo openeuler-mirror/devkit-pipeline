@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  ~ Copyright (c) Huawei Technologies Co., Ltd. 2024. All rights reserved.
+  -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.huawei.devkit.code.inspector.dao.DataBaseMapper">
+    <update id="createTable">
+        create table if not exists rule_violation_info
+        (
+        id integer primary key autoincrement,
+        rule_id int,
+        file_path_hash int,
+        file_path varchar(256),
+        line varchar(256),
+        lineno int,
+        level int,
+        merge_id varchar(50),
+        message varchar(256),
+        shielded boolean,
+        commit_request_to_shield boolean,
+        time long
+        )
+    </update>
+
+</mapper>

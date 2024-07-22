@@ -1,0 +1,5 @@
+        {
+          "level": "${severityLevel}",
+          "locations": "${uri}",
+          "message": "${message}"
+        }

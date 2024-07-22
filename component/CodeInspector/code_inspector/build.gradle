@@ -1,0 +1,75 @@
+plugins {
+    id "application"
+    id 'distribution'   //打包tar包用到的插件
+}
+
+application {
+    mainClass = 'com.huawei.devkit.code.inspector.CodeInspector'
+}
+
+startScripts {
+    doLast {
+        unixScript.text = unixScript.text
+                .replace("DEFAULT_JVM_OPTS=\"\"",
+                        "DEFAULT_JVM_OPTS=\"-DCODE_INSPECTOR_APP_HOME=\$APP_HOME " +
+                                "-Dlog4j.configuration=file:\${APP_HOME}/config/log4j.properties\""
+                )
+        windowsScript.delete()
+    }
+}
+
+distributions {
+    main {
+        var version = "1.0.0"
+        distributionBaseName = "code-inspector-${version}"
+        contents {
+            into("/code-inspector-${version}") {
+                from("src/main/content") {
+                    include(["logs", "data", "config", "config/*.xml", "config/*.properties"])
+                    exclude("**/.gitkeep")
+                }
+            }
+        }
+    }
+}
+
+distZip {
+    enabled = false
+}
+
+distTar {
+    compression = Compression.GZIP
+    archiveExtension = "tar.gz"
+}
+
+
+compileJava {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+}
+
+repositories {
+    maven {
+        url "https://repo.huaweicloud.com/repository/maven/"
+    }
+}
+
+dependencies {
+    implementation 'commons-codec:commons-codec:1.13'
+    implementation('com.puppycrawl.tools:checkstyle:10.17.0') {
+        exclude module: 'commons-codec'
+    }
+    implementation 'org.xerial:sqlite-jdbc:3.45.1.0'
+    implementation 'org.mybatis:mybatis:3.5.13'
+    implementation "org.slf4j:slf4j-api:1.7.32"
+    implementation "org.slf4j:slf4j-log4j12:1.7.32"
+    testImplementation 'org.mockito:mockito-core:4.11.0'
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}

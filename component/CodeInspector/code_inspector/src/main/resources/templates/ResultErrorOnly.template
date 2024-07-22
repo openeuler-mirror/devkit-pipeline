@@ -1,0 +1,4 @@
+        {
+          "level": "${severityLevel}",
+          "message": "${message}"
+        }
