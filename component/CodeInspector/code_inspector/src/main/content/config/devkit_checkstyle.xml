@@ -152,6 +152,7 @@
             <property name="ignoreConstructorParameter" value="true"/>
             <property name="ignoreSetter" value="true"/>
             <property name="setterCanReturnItsClass" value="true"/>
+            <property name="tokens" value="VARIABLE_DEF, PATTERN_VARIABLE_DEF, LAMBDA"/>
         </module>
         <!--  检查代码中不捕获异常Error,Exception,RuntimeException,Throwable等（第三方代码除外） -->
         <module name="IllegalCatch">
@@ -181,6 +182,7 @@
         <module name="MagicNumber">
             <property name="id" value="MagicNumber"/>
             <property name="severity" value="warning"/>
+            <property name="ignoreNumbers" value="-1, 0, 1, 2, 100, 1024, 1000"/>
         </module>
         <!-- 检查switch块中是否缺少default -->
         <module name="MissingSwitchDefault">
@@ -193,11 +195,11 @@
             <property name="severity" value="warning"/>
             <property name="skipEnhancedForLoopVariable" value="true"/>
         </module>
-        <!-- 检查相同字符串出现的次数，不高于2次 -->
+        <!-- 检查相同字符串出现的次数，不高于3次 -->
         <module name="MultipleStringLiterals">
             <property name="id" value="MultipleStringLiterals"/>
             <property name="severity" value="warning"/>
-            <property name="allowedDuplicates" value="2"/>
+            <property name="allowedDuplicates" value="3"/>
         </module>
         <!-- 检查不能同时声明多个变量 -->
         <module name="MultipleVariableDeclarations">
@@ -419,12 +421,15 @@
         <!-- 测量给定类或记录中实例化其他类的种类数不超过7个 -->
         <module name="ClassDataAbstractionCoupling">
             <property name="id" value="ClassDataAbstractionCoupling"/>
-            <property name="excludedPackages" value="java.io"/>
+            <property name="excludedPackages"
+                      value="java.io,java.nio,java.lang,java.security,java.math,java.util,java.net,java.sql,java.time,javax,lombok"/>
         </module>
         <!-- 检查给定类/记录/接口/枚举/注释所依赖的其他类型的数量不超过20个 -->
         <module name="ClassFanOutComplexity">
             <property name="id" value="ClassFanOutComplexity"/>
             <property name="max" value="20"/>
+            <property name="excludedPackages"
+                      value="java.io,java.nio,java.lang,java.security,java.math,java.util,java.net,java.sql,java.time,javax,lombok"/>
         </module>
         <!-- 检查方法/构造方法/静态初始化块/初始化块的圈复杂度不超过20层 -->
         <module name="CyclomaticComplexity">
@@ -454,11 +459,12 @@
         </module>
         <!-- 限制构造方法，方法的深度不超过5层 -->
         <module name="DescendantToken">
-            <property name="id" value="DescendantTokenForInit"/>
+            <property name="id" value="DescendantTokenOverDeep"/>
             <property name="tokens" value="METHOD_DEF, CTOR_DEF, COMPACT_CTOR_DEF"/>
             <property name="limitedTokens" value="SLIST"/>
             <property name="maximumNumber" value="0"/>
-            <property name="minimumDepth" value="11"/>
+            <property name="minimumDepth" value="12"/>
+            <property name="maximumMessage" value="方法的深度超过了一定程度"/>
         </module>
 
         <!-- 检查代码换行时的缩进 -->
@@ -501,6 +507,7 @@
         <!-- 检查标识名中连续大写字母的长度最大为3（忽略常量，静态变量，final变量，以及override修饰的方法） -->
         <module name="AbbreviationAsWordInName">
             <property name="id" value="AbbreviationAsWordInName"/>
+            <property name="allowedAbbreviationLength" value="4"/>
         </module>
         <!-- 检查类的泛型定义标识符必须使用大写单字母或者大驼峰 -->
         <module name="ClassTypeParameterName">
