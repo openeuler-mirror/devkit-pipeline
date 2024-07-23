@@ -13,7 +13,7 @@
     <module name="TreeWalker">
         <module name="MultipleStringLiterals">
             <property name="severity" value="warning"/>
-            <property name="allowedDuplicates" value="2"/>
+            <property name="allowedDuplicates" value="3"/>
         </module>
     </module>
 </module>

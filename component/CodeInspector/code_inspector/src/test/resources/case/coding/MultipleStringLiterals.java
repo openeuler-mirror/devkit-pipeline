@@ -10,6 +10,6 @@ public class MultipleStringLiterals {
         String a2 = "StringContents"; // OK, two occurrences are allowed
         String a3 = "DoubleString" + "DoubleString"; // OK, two occurrences are allowed
         String a4 = "SingleString"; // OK
-        String a5 = ", " + ", " + ", "; // violation, three occurrences are NOT allowed
+        String a5 = ", " + ", " + ", " + ", "; // violation, four occurrences are NOT allowed
     }
 }

@@ -11,6 +11,8 @@
     <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
-        <module name="AbbreviationAsWordInName"/>
+        <module name="AbbreviationAsWordInName">
+            <property name="allowedAbbreviationLength" value="4"/>
+        </module>
     </module>
 </module>

@@ -12,9 +12,10 @@
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
         <module name="ClassDataAbstractionCoupling">
-            <property name="excludedPackages" value="java.io"/>
             <!-- 方便测试，实际默认中为7 -->
             <property name="max" value="2"/>
+            <property name="excludedPackages"
+                      value="java.io,java.nio,java.lang,java.security,java.math,java.util,java.net,java.sql,java.time,javax,lombok"/>
         </module>
     </module>
 </module>
