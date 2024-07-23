@@ -1,0 +1,12 @@
+package com.puppycrawl. // violation 'should not be line-wrapped'
+        tools.checkstyle.checks.whitespace.nolinewrap;
+
+import com.puppycrawl.tools. // violation 'should not be line-wrapped'
+        checkstyle.api.AbstractCheck;
+
+import static java.math. // violation 'should not be line-wrapped'
+        BigInteger.ZERO;
+
+class NoLineWrapCase{
+
+}

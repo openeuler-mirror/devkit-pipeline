@@ -12,6 +12,7 @@
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
         <module name="ClassFanOutComplexity">
+            <!-- 方便测试，实际默认中为20 -->
             <property name="max" value="2"/>
         </module>
     </module>

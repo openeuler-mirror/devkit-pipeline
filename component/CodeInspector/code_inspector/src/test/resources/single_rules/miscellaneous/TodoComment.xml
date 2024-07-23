@@ -11,6 +11,10 @@
     <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
-        <module name="TodoComment"/>
+        <!-- 检查是否包含TODO和FIXME注释 -->
+        <module name="TodoComment">
+            <property name="id" value="TodoComment"/>
+            <property name="format" value="(TODO)|(FIXME)|(todo)|(fixme)"/>
+        </module>
     </module>
 </module>

@@ -3,7 +3,9 @@
  */
 
 /**
- * Some class
+ * xxx
+ *
+ * @since 1.2
  */
 public class WriteTagCase { // violation as required tag is missed
     /** some doc */

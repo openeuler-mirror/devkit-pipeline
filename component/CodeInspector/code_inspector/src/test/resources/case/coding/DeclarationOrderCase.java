@@ -8,6 +8,9 @@ public class DeclarationOrderCase {
         this.a = 0;
     }
 
+    private void foo2() {
+        // This method does nothing
+    }
     public void foo() {
         // This method does nothing
     }

@@ -6,8 +6,8 @@ public class CommentsIndentationCase {
         try {
             int a;
             if (a > 0) {
-                System.out.println("a > 0");
-                // a < 0
+                System.out.println("a > 0"); // sjdkfks
+                    // a < 0
             } else if (a < 0) {
                 System.out.println("a < 0");
             }

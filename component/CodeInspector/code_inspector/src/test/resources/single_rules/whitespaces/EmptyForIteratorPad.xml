@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <property name="severity" value="warning"/>
+    <property name="fileExtensions" value="java, properties, xml"/>
+    <module name="TreeWalker">
+        <!-- 检查迭代器的空格 -->
+        <module name="EmptyForIteratorPad">
+            <property name="id" value="EmptyForIteratorPad"/>
+            <property name="option" value="nospace"/>
+        </module>
+    </module>
+</module>

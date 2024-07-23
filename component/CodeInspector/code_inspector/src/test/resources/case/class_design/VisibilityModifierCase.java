@@ -16,7 +16,10 @@ class Example4 {
     // violation below, public immutable fields are not allowed 'must be private'
     public final int field5 = 42;
 
-    // violation below, public immutable fields are not allowed 'must be private'
+    public static int field10 = 42; // violation
+
+    protected static int field11 = 42; // ok
+
     public final java.lang.String notes = null;
 
     // violation below, HashSet is mutable 'must be private'

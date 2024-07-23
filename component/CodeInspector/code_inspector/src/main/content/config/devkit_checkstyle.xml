@@ -337,7 +337,7 @@
             <property name="id" value="JavadocContentLocation"/>
             <property name="severity" value="error"/>
         </module>
-        <!-- 检查方法存在注释格式 -->
+        <!-- 检查方法注释格式 -->
         <module name="JavadocMethod">
             <property name="id" value="JavadocMethod"/>
             <property name="severity" value="error"/>
@@ -408,6 +408,7 @@
         <module name="WriteTag">
             <property name="id" value="WriteTag"/>
             <property name="severity" value="warning"/>
+            <property name="tagSeverity" value="ignore"/>
             <property name="tag" value="@since"/>
         </module>
         <!-- 限制表达式中布尔运算符（&&，||，&，|和^）的数量不超过5个。 -->
@@ -434,14 +435,14 @@
         <module name="JavaNCSS">
             <property name="id" value="JavaNCSS"/>
         </module>
-        <!-- 测量NPATH的复杂性不超过200 -->
+        <!-- 计算一个方法可能的执行路径数不超过200 -->
         <module name="NPathComplexity">
             <property name="id" value="NPathComplexity"/>
         </module>
         <!-- 检查数组类型定义的样式属于java风格而不是C风格 -->
         <module name="ArrayTypeStyle">
             <property name="id" value="ArrayTypeStyle"/>
-            <property name="javaStyle" value="false"/>
+            <property name="javaStyle" value="true"/>
         </module>
         <!-- 限制使用Unicode转义（如\u221e）-->
         <module name="AvoidEscapedUnicodeCharacters">
@@ -497,10 +498,6 @@
         <module name="ModifierOrder">
             <property name="id" value="ModifierOrder"/>
         </module>
-        <!-- 检查是否使用冗余的修饰符 -->
-        <module name="RedundantModifier">
-            <property name="id" value="RedundantModifier"/>
-        </module>
         <!-- 检查标识名中连续大写字母的长度最大为3（忽略常量，静态变量，final变量，以及override修饰的方法） -->
         <module name="AbbreviationAsWordInName">
             <property name="id" value="AbbreviationAsWordInName"/>
@@ -508,22 +505,20 @@
         <!-- 检查类的泛型定义标识符必须使用大写单字母或者大驼峰 -->
         <module name="ClassTypeParameterName">
             <property name="id" value="ClassTypeParameterName"/>
-            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|(^[A-Z][a-zA-Z0-9]*$)"/>
         </module>
         <!-- 检查类常量采用全大写模式 -->
         <module name="ConstantName">
             <property name="id" value="ConstantName"/>
         </module>
-        <!-- 检查使用关键字？？看懂 -->
+        <!-- 检查标识符不能是record,yield,var,permits,sealed,_中的一个 -->
         <module name="IllegalIdentifierName">
             <property name="id" value="IllegalIdentifierName"/>
-            <property name="format"
-                      value="(?i)^(?!(_)$).+$"/>
         </module>
         <!-- 检查接口的泛型定义标识符必须使用大写单字母或者大驼峰 -->
         <module name="InterfaceTypeParameterName">
             <property name="id" value="InterfaceTypeParameterName"/>
-            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|(^[A-Z][a-zA-Z0-9]*$)"/>
         </module>
         <!-- 检查lambda的参数标识符为小驼峰 -->
         <module name="LambdaParameterName">
@@ -550,7 +545,7 @@
         <!-- 检查方法的泛型定义标识符必须使用大写单字母或者大驼峰 -->
         <module name="MethodTypeParameterName">
             <property name="id" value="MethodTypeParameterName"/>
-            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|(^[A-Z][a-zA-Z0-9]*$)"/>
         </module>
         <!-- 检查包名为全小写 -->
         <module name="PackageName">
@@ -561,7 +556,7 @@
         <module name="ParameterName">
             <property name="id" value="ParameterName"/>
         </module>
-        <!-- 检查强转的变量标识符为小驼峰 -->
+        <!-- 检查JDK16之后提供的强转的变量标识符为小驼峰 -->
         <module name="PatternVariableName">
             <property name="id" value="PatternVariableName"/>
         </module>
@@ -572,7 +567,7 @@
         <!-- 检查record的泛型定义标识符必须使用大写单字母或者大驼峰 -->
         <module name="RecordTypeParameterName">
             <property name="id" value="RecordTypeParameterName"/>
-            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|(^[A-Z][a-zA-Z0-9]*$)"/>
         </module>
         <!-- 检查静态变量标识符为小驼峰 -->
         <module name="StaticVariableName">
@@ -586,10 +581,10 @@
         </module>
 
         <!-- 构造方法和方法最多50行可执行语句 -->
-        <module name="ExecutableStatementCount">
-            <property name="id" value="ExecutableStatementCount"/>
+        <module name="MethodLength">
+            <property name="id" value="MethodLength"/>
+            <property name="countEmpty" value="false"/>
             <property name="max" value="50"/>
-            <property name="tokens" value="CTOR_DEF,METHOD_DEF"/>
         </module>
         <!-- 构造方法参数个数最多7个 -->
         <module name="ParameterNumber">
@@ -619,6 +614,7 @@
         <module name="EmptyLineSeparator">
             <property name="id" value="EmptyLineSeparator"/>
             <property name="allowMultipleEmptyLines" value="false"/>
+            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
             <property name="tokens"
                       value="PACKAGE_DEF, IMPORT, STATIC_IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
@@ -720,7 +716,7 @@
         <property name="severity" value="warning"/>
         <property name="fileExtensions" value="java"/>
         <property name="header"
-                  value="^/\*$\n^\s\*\sCopyright\s\([Cc]\)\s.*([0-9]{4}-)?[0-9]{4}.*\n^ \*/$\n\n^package\s.*\n\n^import.*"/>
+                  value="^/\*$\n^\s\*\sCopyright\s\([Cc]\)\s.*([0-9]{4}-)?[0-9]{4}.*\n^ \*/$\n\n^package\s.*"/>
     </module>
 
     <!--  java文件不要超过1000行  -->

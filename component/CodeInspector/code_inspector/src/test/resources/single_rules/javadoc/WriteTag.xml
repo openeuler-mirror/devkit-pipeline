@@ -16,6 +16,7 @@
         <!--  -->
         <module name="WriteTag">
             <property name="severity" value="warning"/>
+            <property name="tagSeverity" value="ignore"/>
             <property name="tag" value="@since"/>
         </module>
 

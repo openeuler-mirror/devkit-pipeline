@@ -1,0 +1,24 @@
+class WhitespaceAroundCase {
+    public WhitespaceAroundCase(){} // 3 violations
+    // no space after ')' and '{', no space before '}'
+    public static void main(String[] args) {
+        if (true) { }
+        else{ // 2 violations
+            // no space after 'else', no space before '}'
+        }
+
+        for (int i = 1; i > 1; i++) {} // 2 violations
+        // no space after '{', no space before '}'
+
+        Runnable noop = () ->{}; // 4 violations
+        // no space after '->' and '{', no space before '{' and '}'
+        try { }
+        catch (Exception e){} // 3 violations
+        // no space after ')' and '{', no space before '}'
+        char[] vowels = {'a', 'e', 'i', 'o', 'u'};
+        for (char item: vowels) { // OK, ignoreEnhancedForColon is true by default
+
+        }
+    }
+}
+        
