@@ -109,15 +109,15 @@ class DevKitMachine:
         return True
 
     def devkit_install_by_cmd(self, server_ip, server_port="8086", http_port="8002", install_path="/opt",
-                              plugin="java_perf", rpc_port=50051, all_plugins=False):
+                              plugin="java_perf", rpc_port=50051, all_plugins=True):
         if all_plugins:
             plugin_param = "-a"
         else:
             plugin_param = f"--plugin={plugin}"
 
         cmd = (f"cd {self.install_dir} && sudo bash {self.install_file} {plugin_param} -d={install_path} "
-               f"--ip={server_ip} --map_ip={server_ip} -p={server_port} --http_port={http_port} "
-               f"--rpc_ip={server_ip} --rpc_port={rpc_port} --normal-install=1")
+               f"--ip={server_ip} -p={server_port} --http_port={http_port} "
+               f"--rpc_port={rpc_port} --normal-install=1")
         LOGGER.info(f"cmd: {cmd}")
 
         special_end = f"https://{server_ip}:{server_port}"
