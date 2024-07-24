@@ -615,7 +615,9 @@ main(){
            system_lib=$(acquire_value Acclib system_lib)
            hmpp_lib=$(acquire_value Acclib HMPP_lib)
            math_lib=$(acquire_value Acclib math_lib)
-           collect_acceleration_library $system_lib $hmpp_lib $math_lib
+           math_jar=$(acquire_value Acclib math_jar)
+           math_java=$(acquire_value Acclib math_java)
+           collect_acceleration_library "$system_lib" "$hmpp_lib" "$math_lib" "$math_jar" "$math_java"
            echo "acceleration_library collect msg Done..."
       elif [ $per_project = "Storage" ];
       then
@@ -673,6 +675,7 @@ else
 fi
 main
 tar_log_file $customer_information
+
 
 
 
