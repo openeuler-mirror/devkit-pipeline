@@ -37,6 +37,7 @@ public class CodeInspector {
             commandLine.usage(System.err);
         } catch (Exception ex) {
             log.error("error", ex);
+            System.err.println(ex.getMessage());
         }
     }
 }

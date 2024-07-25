@@ -63,14 +63,11 @@ public class CheckStyleWrapper {
      *
      * @throws IOException if there is a problem with files access
      **/
-    public static void checkStyle(CliOptions cliOptions) throws IOException {
+    public static void checkStyle(CliOptions cliOptions) throws IOException, CheckstyleException {
         int errorCounter = 0;
         try {
             final List<File> filesToProcess = getFilesToProcess(cliOptions);
             errorCounter = runCheckstyle(cliOptions, filesToProcess);
-        } catch (CheckstyleException ex) {
-            errorCounter = 1;
-            log.error(ex.getMessage(), ex);
         } finally {
             if (errorCounter > 0) {
                 final LocalizedMessage errorCounterViolation = new LocalizedMessage(

@@ -4,12 +4,17 @@
 
 package com.huawei.devkit.code.inspector.entity;
 
+import com.puppycrawl.tools.checkstyle.ConfigurationLoader;
+import com.puppycrawl.tools.checkstyle.PropertiesExpander;
+import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import lombok.Data;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -53,20 +58,16 @@ public class CliOptions {
     /**
      * List of file to validate.
      */
-    @CommandLine.Parameters(arity = "1..*", description = "One or more source files to verify.")
     private List<File> files;
 
     /**
      * Config file location.
      */
-    @CommandLine.Option(names = "-c", description = "Specifies the location of the file that defines"
-        + " the configuration modules.By default, the devkit_checkstyle.xml in the config directory is used.")
     private String configurationFile;
 
     /**
      * Output file location.
      */
-    @CommandLine.Option(names = "-o", description = "Sets the output file. Defaults to stdout.")
     private Path outputPath;
 
     /**
@@ -95,10 +96,64 @@ public class CliOptions {
             + "excludes are allowed.")
     private List<Pattern> excludeRegex = new ArrayList<>();
 
+    @CommandLine.Spec
+    private CommandLine.Model.CommandSpec spec;
+
     /**
      * 当配置规则的属性severity为ignore时，是否还执行。默认不执行
      */
     private boolean executeIgnoredModules;
+
+    @CommandLine.Parameters(arity = "1..*", description = "One or more source files to verify.")
+    public void setFiles(List<File> files) {
+        for (File file : files) {
+            if (!file.exists() || !file.canRead()) {
+                throw new CommandLine.ParameterException(spec.commandLine(),
+                    String.format("%s: the file does not exist or the current user " +
+                        "does not have read permissions to the file", file.getPath()));
+            }
+        }
+        this.files = files;
+    }
+
+    @CommandLine.Option(names = "-o", description = "Sets the output file. Defaults to stdout.")
+    public void setOutputPath(Path outputPath) {
+        Path parentPath = outputPath.getParent();
+        if (parentPath == null) {
+            if (outputPath.isAbsolute()) {
+                throw new CommandLine.ParameterException(spec.commandLine(),
+                    "The output file cannot be the root director");
+            }
+        } else {
+            boolean exists = Files.exists(parentPath);
+            boolean permission = Files.isExecutable(parentPath)
+                && Files.isWritable(parentPath) && Files.isReadable(parentPath);
+            if (!exists || !permission) {
+                throw new CommandLine.ParameterException(spec.commandLine(),
+                    "The output parent director does not exist or the current user " +
+                        "does not have read/write/execute permissions to the output parent director !");
+            }
+        }
+        this.outputPath = outputPath;
+    }
+
+    @CommandLine.Option(names = "-c", description = "Specifies the location of the file that defines"
+        + " the configuration module. By default, the devkit_checkstyle.xml in the config directory is used.")
+    public void setConfigurationFile(String configurationFile) {
+        Path configuration = Paths.get(configurationFile);
+        if (!Files.exists(configuration) || Files.isDirectory(configuration) || !Files.isReadable(configuration)) {
+            throw new CommandLine.ParameterException(spec.commandLine(), "The configuration file does not exist " +
+                "or the current user does not have read permissions to the configuration file !");
+        }
+
+        try {
+            ConfigurationLoader.loadConfiguration(
+                configurationFile, new PropertiesExpander(System.getProperties()));
+        } catch (CheckstyleException e) {
+            throw new CommandLine.ParameterException(spec.commandLine(), "The configuration file is not formatted correctly!");
+        }
+        this.configurationFile = configurationFile;
+    }
 
     /**
      * 合并exclude和excludeRegex
