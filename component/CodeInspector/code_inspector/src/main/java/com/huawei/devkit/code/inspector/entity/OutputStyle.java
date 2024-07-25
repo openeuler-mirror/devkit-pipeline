@@ -7,7 +7,6 @@ package com.huawei.devkit.code.inspector.entity;
 import com.huawei.devkit.code.inspector.listener.CustomJsonFormatterLogger;
 import com.puppycrawl.tools.checkstyle.AbstractAutomaticBean;
 import com.puppycrawl.tools.checkstyle.DefaultLogger;
-import com.puppycrawl.tools.checkstyle.XMLLogger;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
 
 import java.io.IOException;
@@ -20,10 +19,6 @@ import java.util.Locale;
  * @since 2024-07-15
  */
 public enum OutputStyle {
-    /**
-     * XML output format.
-     */
-    XML,
     /**
      * Json output format
      */
@@ -41,13 +36,10 @@ public enum OutputStyle {
      * @return a new AuditListener for this OutputFormat
      * @throws IOException if there is any IO exception during logger initialization
      */
-    public AuditListener createListener(
-            OutputStream out,
-            AbstractAutomaticBean.OutputStreamOptions options) throws IOException {
+    public AuditListener createListener(OutputStream out,
+                                        AbstractAutomaticBean.OutputStreamOptions options) throws IOException {
         final AuditListener result;
-        if (this == XML) {
-            result = new XMLLogger(out, options);
-        } else if (this == JSON) {
+        if (this == JSON) {
             result = new CustomJsonFormatterLogger(out, options);
         } else {
             result = new DefaultLogger(out, options);

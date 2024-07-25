@@ -74,8 +74,8 @@ public class CheckStyleWrapper {
         } finally {
             if (errorCounter > 0) {
                 final LocalizedMessage errorCounterViolation = new LocalizedMessage(
-                        Definitions.CHECKSTYLE_BUNDLE, Main.class,
-                        ERROR_COUNTER, String.valueOf(errorCounter));
+                    Definitions.CHECKSTYLE_BUNDLE, Main.class,
+                    ERROR_COUNTER, String.valueOf(errorCounter));
                 log.error(errorCounterViolation.getMessage());
             }
         }
@@ -87,12 +87,15 @@ public class CheckStyleWrapper {
      * @param options the user-specified options
      * @return list of files to process
      */
-    private static List<File> getFilesToProcess(CliOptions options) {
+    private static List<File> getFilesToProcess(CliOptions options) throws IOException {
         final List<Pattern> patternsToExclude = options.getExclusions();
 
         final List<File> result = new LinkedList<>();
         for (File file : options.getFiles()) {
-            result.addAll(listFiles(file, patternsToExclude));
+            if (file.exists()) {
+                File real = file.getCanonicalFile();
+                result.addAll(listFiles(real, patternsToExclude));
+            }
         }
         return result;
     }
@@ -160,7 +163,7 @@ public class CheckStyleWrapper {
      * @throws CheckstyleException when properties file could not be loaded
      */
     private static int runCheckstyle(CliOptions options, List<File> filesToProcess)
-            throws CheckstyleException, IOException {
+        throws CheckstyleException, IOException {
         final Properties props;
 
         if (options.getPropertiesFile() == null) {
@@ -171,8 +174,8 @@ public class CheckStyleWrapper {
 
         // create a configuration
         final ThreadModeSettings multiThreadModeSettings =
-                new ThreadModeSettings(CliOptions.CHECKER_THREADS_NUMBER,
-                        CliOptions.TREE_WALKER_THREADS_NUMBER);
+            new ThreadModeSettings(CliOptions.CHECKER_THREADS_NUMBER,
+                CliOptions.TREE_WALKER_THREADS_NUMBER);
 
         final ConfigurationLoader.IgnoredModulesOptions ignoredModulesOptions;
         if (options.isExecuteIgnoredModules()) {
@@ -182,8 +185,8 @@ public class CheckStyleWrapper {
         }
 
         final Configuration config = ConfigurationLoader.loadConfiguration(
-                options.getConfigurationFile(), new PropertiesExpander(props),
-                ignoredModulesOptions, multiThreadModeSettings);
+            options.getConfigurationFile(), new PropertiesExpander(props),
+            ignoredModulesOptions, multiThreadModeSettings);
 
         // create RootModule object and run it
         final int errorCounter;
@@ -215,15 +218,15 @@ public class CheckStyleWrapper {
      * @throws CheckstyleException when could not load properties file
      */
     private static Properties loadProperties(File file)
-            throws CheckstyleException {
+        throws CheckstyleException {
         final Properties properties = new Properties();
 
         try (InputStream stream = Files.newInputStream(file.toPath())) {
             properties.load(stream);
         } catch (final IOException ex) {
             final LocalizedMessage loadPropertiesExceptionMessage = new LocalizedMessage(
-                    Definitions.CHECKSTYLE_BUNDLE, CheckStyleWrapper.class,
-                    LOAD_PROPERTIES_EXCEPTION, file.getAbsolutePath());
+                Definitions.CHECKSTYLE_BUNDLE, CheckStyleWrapper.class,
+                LOAD_PROPERTIES_EXCEPTION, file.getAbsolutePath());
             throw new CheckstyleException(loadPropertiesExceptionMessage.getMessage(), ex);
         }
 
@@ -241,9 +244,9 @@ public class CheckStyleWrapper {
      * @throws CheckstyleException if no module can be instantiated from name
      */
     private static RootModule getRootModule(String name, ClassLoader moduleClassLoader)
-            throws CheckstyleException {
+        throws CheckstyleException {
         final ModuleFactory factory = new PackageObjectFactory(
-                Checker.class.getPackage().getName(), moduleClassLoader);
+            Checker.class.getPackage().getName(), moduleClassLoader);
 
         return (RootModule) factory.createModule(name);
     }
@@ -259,10 +262,10 @@ public class CheckStyleWrapper {
      * @throws IOException when provided output location is not found
      */
     private static AuditListener createListener(OutputStyle format, Path outputLocation)
-            throws IOException {
+        throws IOException {
         final OutputStream out = getOutputStream(outputLocation);
         final AbstractAutomaticBean.OutputStreamOptions closeOutputStreamOption =
-                getOutputStreamOptions(outputLocation);
+            getOutputStreamOptions(outputLocation);
         return format.createListener(out, closeOutputStreamOption);
     }
 

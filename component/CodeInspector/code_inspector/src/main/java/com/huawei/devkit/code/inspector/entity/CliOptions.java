@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @since 2024-07-15
  */
 @Data
-@Command(name = "code_inspector", version = "1.0.0", mixinStandardHelpOptions = true)
+@Command(name = "code-inspector", version = "1.0.0", mixinStandardHelpOptions = true)
 public class CliOptions {
     /**
      * Width of CLI help option.
@@ -53,15 +53,14 @@ public class CliOptions {
     /**
      * List of file to validate.
      */
-    @CommandLine.Parameters(arity = "1..*", description = "One or more source files to verify")
+    @CommandLine.Parameters(arity = "1..*", description = "One or more source files to verify.")
     private List<File> files;
 
     /**
      * Config file location.
      */
     @CommandLine.Option(names = "-c", description = "Specifies the location of the file that defines"
-            + " the configuration modules. The location can either be a filesystem location"
-            + ", or a name passed to the ClassLoader.getResource() method.")
+        + " the configuration modules.By default, the devkit_checkstyle.xml in the config directory is used.")
     private String configurationFile;
 
     /**
@@ -78,45 +77,40 @@ public class CliOptions {
     /**
      * Output format.
      */
-    @CommandLine.Option(names = "-f",
-            description = "Specifies the output format. Valid values: "
-                    + "${COMPLETION-CANDIDATES} for XMLLogger, SarifLogger, CustomJsonFormatterLogger,"
-                    + "and DefaultLogger respectively. Defaults to ${DEFAULT-VALUE}.")
+    @CommandLine.Option(names = "-f", description = "Specifies the output format. Valid values: "
+        + "${COMPLETION-CANDIDATES}. Defaults to ${DEFAULT-VALUE}.At the same time, it will be recorded to "
+        + "the sqlite database in the config directory.")
     private OutputStyle format = DEFAULT_OUTPUT_FORMAT;
 
-    /**
-     * Option that allows users to specify a list of paths to exclude.
-     */
+
     @CommandLine.Option(names = {"-e", "--exclude"},
-            description = "Directory/file to exclude from CodeInspector. The path can be the "
-                    + "full, absolute path, or relative to the current path. Multiple "
-                    + "excludes are allowed.")
+        description = "Directory/file to exclude from CodeInspector. The path can be the "
+            + "full, absolute path, or relative to the current path. Multiple "
+            + "excludes are allowed.")
     private List<File> exclude = new ArrayList<>();
 
-    /**
-     * Option that allows users to specify a regex of paths to exclude.
-     */
+
     @CommandLine.Option(names = {"-x", "--exclude-regexp"},
-            description = "Directory/file pattern to exclude from CodeInspector. Multiple "
-                    + "excludes are allowed.")
+        description = "Directory/file pattern to exclude from CodeInspector. Multiple "
+            + "excludes are allowed.")
     private List<Pattern> excludeRegex = new ArrayList<>();
 
     /**
-     * Switch whether to execute ignored modules or not.
+     * 当配置规则的属性severity为ignore时，是否还执行。默认不执行
      */
     private boolean executeIgnoredModules;
 
     /**
-     * Gets the list of exclusions provided through the command line arguments.
+     * 合并exclude和excludeRegex
      *
      * @return List of exclusion patterns.
      */
     public List<Pattern> getExclusions() {
         final List<Pattern> result = exclude.stream()
-                .map(File::getAbsolutePath)
-                .map(Pattern::quote)
-                .map(pattern -> Pattern.compile("^" + pattern + "$"))
-                .collect(Collectors.toCollection(ArrayList::new));
+            .map(File::getAbsolutePath)
+            .map(Pattern::quote)
+            .map(pattern -> Pattern.compile("^" + pattern + "$"))
+            .collect(Collectors.toCollection(ArrayList::new));
         result.addAll(excludeRegex);
         return result;
     }

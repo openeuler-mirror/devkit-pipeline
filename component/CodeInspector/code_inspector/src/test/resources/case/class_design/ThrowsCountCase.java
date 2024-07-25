@@ -7,7 +7,7 @@ class Test {
             ArrayIndexOutOfBoundsException,
             StringIndexOutOfBoundsException,
             IllegalStateException,
-            NullPointerException { // violation, max allowed is 4
+            NullPointerException { // ok, max allowed is 4
         // body
     }
 
@@ -16,11 +16,11 @@ class Test {
         // body
     }
 
-    private void privateFunc() throws CloneNotSupportedException,
+    private void privateFunc() throws CloneNotSupportedException,NullPointerException,
             ClassNotFoundException,
             IllegalAccessException,
             ArithmeticException,
-            ClassCastException { // ok, private methods are ignored
+            ClassCastException { // violation,
         // body
     }
 
