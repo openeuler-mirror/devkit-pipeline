@@ -12,7 +12,7 @@
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
         <module name="NPathComplexity">
-            <property name="max" value="20"/>
+            <property name="max" value="200"/>
         </module>
     </module>
 </module>

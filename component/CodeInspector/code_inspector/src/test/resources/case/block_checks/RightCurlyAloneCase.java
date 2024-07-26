@@ -10,7 +10,17 @@ public class RightCurlyAloneCase {
         boolean foo = false;
         if (foo) {
             bar();
-        } else { bar(); }
+        }
+        if (foo) {
+            bar();
+        } else {
+            bar(); }
+        // violation above, 'should be alone on a line.'
+        if (foo) {
+            bar();
+        } else {
+            bar();
+        } bar();
         // violation above, 'should be alone on a line.'
 
         if (foo) {
@@ -21,10 +31,13 @@ public class RightCurlyAloneCase {
 
         try {
             bar();
-        } catch (Exception e) {
+        } catch (Exception e) { bar();        }
             // OK above because config is set to token METHOD_DEF and LITERAL_ELSE
-            bar();
-        }
+
+
+        finally {
+
+        } // violation
 
     }
 

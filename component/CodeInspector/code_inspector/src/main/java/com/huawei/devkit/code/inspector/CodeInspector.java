@@ -14,9 +14,9 @@ import java.util.Properties;
 public class CodeInspector {
 
     public static void main(String[] args) {
+        final CliOptions cliOptions = new CliOptions();
+        final CommandLine commandLine = new CommandLine(cliOptions);
         try {
-            final CliOptions cliOptions = new CliOptions();
-            final CommandLine commandLine = new CommandLine(cliOptions);
             commandLine.setUsageHelpWidth(CliOptions.HELP_WIDTH);
             commandLine.setCaseInsensitiveEnumValuesAllowed(true);
             CommandLine.ParseResult parseResult = commandLine.parseArgs(args);
@@ -34,10 +34,10 @@ public class CodeInspector {
         } catch (CommandLine.ParameterException ex) {
             log.error("error", ex);
             System.err.println(ex.getMessage());
-            System.err.println("Usage: code-inspector [OPTIONS]... FILES...");
-            System.err.println("Try 'code-inspector --help' for more information.");
+            commandLine.usage(System.err);
         } catch (Exception ex) {
             log.error("error", ex);
+            System.err.println(ex.getMessage());
         }
     }
 }

@@ -7,7 +7,7 @@ public class JavadocMethodCase {
     /**
      *
      */
-    Test(int x) {             // violation, param tag missing for x
+    Test(int x) {             // ok
     }
 
     /**
@@ -29,6 +29,10 @@ public class JavadocMethodCase {
     /**
      *
      */
-    void bar(int p1) {        // violation, param tag missing for p1
+    public void bar(int p1) {        // violation, param tag missing for p1
     }                         // ok, no return tag for void method
+
+
+    public void bar2(int p1) {  // ok, no comment
+    }
 }

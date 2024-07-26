@@ -9,6 +9,7 @@ import com.puppycrawl.tools.checkstyle.AbstractAutomaticBean.OutputStreamOptions
 import com.puppycrawl.tools.checkstyle.SarifLogger;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
+import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -103,13 +104,13 @@ public class CustomJsonFormatterLogger implements AuditListener {
         closeStream = outputStreamOptions == OutputStreamOptions.CLOSE;
         report = PropertiesUtils.readResource("templates/CustomReport.template");
         resultLineColumn =
-                PropertiesUtils.readResource("templates/ResultLineColumn.template");
+            PropertiesUtils.readResource("templates/ResultLineColumn.template");
         resultLineOnly =
-                PropertiesUtils.readResource("templates/ResultLineOnly.template");
+            PropertiesUtils.readResource("templates/ResultLineOnly.template");
         resultFileOnly =
-                PropertiesUtils.readResource("templates/ResultFileOnly.template");
+            PropertiesUtils.readResource("templates/ResultFileOnly.template");
         resultErrorOnly =
-                PropertiesUtils.readResource("templates/ResultErrorOnly.template");
+            PropertiesUtils.readResource("templates/ResultErrorOnly.template");
 
     }
 
@@ -142,24 +143,27 @@ public class CustomJsonFormatterLogger implements AuditListener {
 
     @Override
     public void addError(AuditEvent event) {
+        if (SeverityLevel.IGNORE == event.getSeverityLevel()) {
+            return;
+        }
         if (event.getColumn() > 0) {
             results.add(resultLineColumn
-                    .replace(SEVERITY_LEVEL_PLACEHOLDER, event.getSeverityLevel().getName())
-                    .replace(URI_PLACEHOLDER, event.getFileName())
-                    .replace(COLUMN_PLACEHOLDER, Integer.toString(event.getColumn()))
-                    .replace(LINE_PLACEHOLDER, Integer.toString(event.getLine()))
-                    .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(event.getMessage()))
-                    .replace(RULE_ID_PLACEHOLDER,
-                            event.getModuleId() != null ? event.getModuleId() : event.getViolation().getKey())
+                .replace(SEVERITY_LEVEL_PLACEHOLDER, event.getSeverityLevel().getName())
+                .replace(URI_PLACEHOLDER, event.getFileName())
+                .replace(COLUMN_PLACEHOLDER, Integer.toString(event.getColumn()))
+                .replace(LINE_PLACEHOLDER, Integer.toString(event.getLine()))
+                .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(event.getMessage()))
+                .replace(RULE_ID_PLACEHOLDER,
+                    event.getModuleId() != null ? event.getModuleId() : event.getViolation().getKey())
             );
         } else {
             results.add(resultLineOnly
-                    .replace(SEVERITY_LEVEL_PLACEHOLDER, event.getSeverityLevel().getName())
-                    .replace(URI_PLACEHOLDER, event.getFileName())
-                    .replace(LINE_PLACEHOLDER, Integer.toString(event.getLine()))
-                    .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(event.getMessage()))
-                    .replace(RULE_ID_PLACEHOLDER,
-                            event.getModuleId() != null ? event.getModuleId() : event.getViolation().getKey())
+                .replace(SEVERITY_LEVEL_PLACEHOLDER, event.getSeverityLevel().getName())
+                .replace(URI_PLACEHOLDER, event.getFileName())
+                .replace(LINE_PLACEHOLDER, Integer.toString(event.getLine()))
+                .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(event.getMessage()))
+                .replace(RULE_ID_PLACEHOLDER,
+                    event.getModuleId() != null ? event.getModuleId() : event.getViolation().getKey())
             );
         }
     }
@@ -171,14 +175,14 @@ public class CustomJsonFormatterLogger implements AuditListener {
         throwable.printStackTrace(printer);
         if (event.getFileName() == null) {
             results.add(resultErrorOnly
-                    .replace(SEVERITY_LEVEL_PLACEHOLDER, event.getSeverityLevel().getName())
-                    .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(stringWriter.toString()))
+                .replace(SEVERITY_LEVEL_PLACEHOLDER, event.getSeverityLevel().getName())
+                .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(stringWriter.toString()))
             );
         } else {
             results.add(resultFileOnly
-                    .replace(SEVERITY_LEVEL_PLACEHOLDER, event.getSeverityLevel().getName())
-                    .replace(URI_PLACEHOLDER, event.getFileName())
-                    .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(stringWriter.toString()))
+                .replace(SEVERITY_LEVEL_PLACEHOLDER, event.getSeverityLevel().getName())
+                .replace(URI_PLACEHOLDER, event.getFileName())
+                .replace(MESSAGE_PLACEHOLDER, SarifLogger.escape(stringWriter.toString()))
             );
         }
     }

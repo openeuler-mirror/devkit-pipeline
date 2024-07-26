@@ -1,6 +1,7 @@
 public class IndentationCase {
     String field;               // basicOffset
-    int[] arr = {               // basicOffset
+    int[] arr = {
+        67, 34, // basicOffset
             5,                      // arrayInitIndent
             6 };                    // arrayInitIndent
     void bar() throws Exception // basicOffset

@@ -3,18 +3,54 @@ public class DescendantTokenCase {
     public void foo1() {
         int x = 1;
         int y = 2;
-        switch (x) { // ok
+        int optimistic = 2;
+        switch (y) {
             case 1:
-                System.out.println("xyz");
+                switch (y) {
+                    case 2:
+                        switch (y) {
+                            case 2:
+
+                                break;
+                        }
+                        break;
+                }
                 break;
         }
-        switch (y) { // violation
+        if (optimistic) {
+            message = "half full";
+        } else {
+            if (optimistic) {
+                message = "half full";
+            } else {
+                if (optimistic) {
+                    message = "half full";
+                }
+                else {
+                    switch (y) { // violation
+                        case 2:
+                            System.out.println("xyz");
+                            break;
+                    }
+                    message = "half empty";
+                }
+                message = "half empty";
+            }
+            message = "half empty";
+        }
+
+        switch (y) {
             case 1:
                 switch (y) {
                     case 2:
                         System.out.println("xyz");
                         break;
                 }
+                break;
+        }
+        switch (x) { // ok
+            case 1:
+                System.out.println("xyz");
                 break;
         }
     }
@@ -31,13 +67,13 @@ public class DescendantTokenCase {
         try {
             // Some code
         } catch (Exception e) {
-            try { // violation
+            try { //
                 // Some code
             } catch (Exception ex) {
                 // handle exception
             }
         } finally {
-            try { // violation
+            try { //
                 // Some code
             } catch (Exception e) {
                 // handle exception
@@ -53,7 +89,7 @@ public class DescendantTokenCase {
         }
 
         int j = 0;
-        for (; j != array.length; ) { // violation
+        for (; j != array.length; ) { //
             System.out.println(j);
             j++;
         }

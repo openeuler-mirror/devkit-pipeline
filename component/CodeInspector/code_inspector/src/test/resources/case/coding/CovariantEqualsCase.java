@@ -17,3 +17,7 @@ class CovariantEqualsCase01 {
         return false;
     }
 }
+
+class CovariantEqualsCase01 {
+
+}

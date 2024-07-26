@@ -1,4 +1,4 @@
-public class EmptyCatchBlockCase {
+public class EmptyBlockCase {
     private void exampleMethod1() {
         try {
             throw new RuntimeException();

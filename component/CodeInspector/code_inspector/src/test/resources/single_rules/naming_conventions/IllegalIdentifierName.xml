@@ -11,9 +11,6 @@
     <property name="severity" value="warning"/>
     <property name="fileExtensions" value="java, properties, xml"/>
     <module name="TreeWalker">
-        <module name="IllegalIdentifierName">
-            <property name="format"
-                      value="(?i)^(?!(_)$).+$"/>
-        </module>
+        <module name="IllegalIdentifierName"/>
     </module>
 </module>

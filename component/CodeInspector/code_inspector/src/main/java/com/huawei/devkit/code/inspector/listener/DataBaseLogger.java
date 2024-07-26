@@ -48,7 +48,7 @@ public class DataBaseLogger implements AuditListener {
     @Override
     public void auditFinished(AuditEvent event) {
         Map<String, List<RuleViolationInfo>> collected = this.infoList.stream()
-                .collect(Collectors.groupingBy(RuleViolationInfo::getFilePath));
+            .collect(Collectors.groupingBy(RuleViolationInfo::getFilePath));
         for (Map.Entry<String, List<RuleViolationInfo>> entry : collected.entrySet()) {
             this.filledLine(entry.getKey(), entry.getValue());
         }
@@ -74,11 +74,14 @@ public class DataBaseLogger implements AuditListener {
 
     @Override
     public void addError(AuditEvent event) {
+        if (SeverityLevel.IGNORE == event.getSeverityLevel()) {
+            return;
+        }
         RuleViolationInfo ruleViolation = RuleViolationInfo.builder().filePath(event.getFileName())
-                .lineno(event.getLine()).time(this.time).filePathHash(event.getFileName().hashCode())
-                .message(event.getMessage()).ruleId(event.getViolation().getModuleId())
-                .mergeId(this.mergeId).shielded(false).commitRequestToShield(false)
-                .level(SeverityLevel.ERROR == event.getSeverityLevel() ? 1 : 0).build();
+            .lineno(event.getLine()).time(this.time).filePathHash(event.getFileName().hashCode())
+            .message(event.getMessage()).ruleId(event.getViolation().getModuleId())
+            .mergeId(this.mergeId).shielded(false).commitRequestToShield(false)
+            .level(SeverityLevel.ERROR == event.getSeverityLevel() ? 1 : 0).build();
         this.infoList.add(ruleViolation);
     }
 
