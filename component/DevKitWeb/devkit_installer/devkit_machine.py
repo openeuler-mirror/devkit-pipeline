@@ -149,7 +149,6 @@ class DevKitMachine:
         ssh_client.close()
         return False
 
-    @timeout_decorator.timeout(600)
     def channel_send_cmd(self, channel, cmd, special_end, error_special_end, timeout=60):
         buff_decode = ""
         try:
