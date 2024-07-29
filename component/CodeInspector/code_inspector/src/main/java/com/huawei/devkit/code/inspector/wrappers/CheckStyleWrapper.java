@@ -63,19 +63,18 @@ public class CheckStyleWrapper {
      *
      * @throws IOException if there is a problem with files access
      **/
-    public static void checkStyle(CliOptions cliOptions) throws IOException, CheckstyleException {
+    public static int checkStyle(CliOptions cliOptions) throws IOException, CheckstyleException {
         int errorCounter = 0;
-        try {
-            final List<File> filesToProcess = getFilesToProcess(cliOptions);
-            errorCounter = runCheckstyle(cliOptions, filesToProcess);
-        } finally {
-            if (errorCounter > 0) {
-                final LocalizedMessage errorCounterViolation = new LocalizedMessage(
-                    Definitions.CHECKSTYLE_BUNDLE, Main.class,
-                    ERROR_COUNTER, String.valueOf(errorCounter));
-                log.error(errorCounterViolation.getMessage());
-            }
+        final List<File> filesToProcess = getFilesToProcess(cliOptions);
+        errorCounter = runCheckstyle(cliOptions, filesToProcess);
+        if (errorCounter > 0) {
+            final LocalizedMessage errorCounterViolation = new LocalizedMessage(
+                Definitions.CHECKSTYLE_BUNDLE, Main.class,
+                ERROR_COUNTER, String.valueOf(errorCounter));
+            log.error(errorCounterViolation.getMessage());
         }
+        return errorCounter;
+
     }
 
     /**

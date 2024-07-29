@@ -107,9 +107,12 @@ public class CliOptions {
     @CommandLine.Parameters(arity = "1..*", description = "One or more source files to verify.")
     public void setFiles(List<File> files) {
         for (File file : files) {
-            if (!file.exists() || !file.canRead()) {
+            if (!file.exists()) {
+                continue;
+            }
+            if (!file.canRead()) {
                 throw new CommandLine.ParameterException(spec.commandLine(),
-                    String.format("%s: the file does not exist or the current user " +
+                    String.format("%s: the current user " +
                         "does not have read permissions to the file", file.getPath()));
             }
         }
@@ -141,9 +144,13 @@ public class CliOptions {
         + " the configuration module. By default, the devkit_checkstyle.xml in the config directory is used.")
     public void setConfigurationFile(String configurationFile) {
         Path configuration = Paths.get(configurationFile);
-        if (!Files.exists(configuration) || Files.isDirectory(configuration) || !Files.isReadable(configuration)) {
+        if (!Files.exists(configuration) || !Files.isReadable(configuration)) {
             throw new CommandLine.ParameterException(spec.commandLine(), "The configuration file does not exist " +
                 "or the current user does not have read permissions to the configuration file !");
+        }
+
+        if (Files.isDirectory(configuration)) {
+            throw new CommandLine.ParameterException(spec.commandLine(), "The configuration file cannot be a directory");
         }
 
         try {
