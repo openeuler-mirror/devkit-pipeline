@@ -227,7 +227,7 @@ pipeline {
                 '''
                 script{
                     def STATUS_CODE = sh(returnStatus: true, script: '''
-                                        devkit advisor mode-check -i "./${GIT_TARGET_DIR_NAME}" -r html -o ./report_dir
+                                        devkit advisor run-mode -i "./${GIT_TARGET_DIR_NAME}" -r html -o ./report_dir
 
                                         ''')
                     sh '''
@@ -282,7 +282,7 @@ pipeline {
                 '''
                 script{
                     def STATUS_CODE = sh(returnStatus: true, script: '''
-                                        devkit advisor byte-align -i "./${GIT_TARGET_DIR_NAME}" -c "${BYTE_ALIGNMENT_COMMAND}" -b "${BYTE_ALIGNMENT_TOOL}" -r html -o ./report_dir
+                                        devkit advisor addr-align -i "./${GIT_TARGET_DIR_NAME}" -c "${BYTE_ALIGNMENT_COMMAND}" -b "${BYTE_ALIGNMENT_TOOL}" -r html -o ./report_dir
 
                                         ''')
                     sh '''
@@ -337,7 +337,7 @@ pipeline {
                 '''
                 script{
                     def STATUS_CODE = sh(returnStatus: true, script: '''
-                                          devkit advisor mem-cons -i "./${GIT_TARGET_DIR_NAME}" -f "${MEMORY_BC_FILE}" -r html -o ./report_dir
+                                          devkit advisor mm-check -i "./${GIT_TARGET_DIR_NAME}" -f "${MEMORY_BC_FILE}" -r html -o ./report_dir
 
                                         ''')
                     sh '''

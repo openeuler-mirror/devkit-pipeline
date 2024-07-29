@@ -106,7 +106,7 @@ software-migration-assessment:
     - kunpeng_scanner # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 64位运行模式检查 ======'
-    - devkit advisor mode-check -i ./ -r html
+    - devkit advisor run-mode -i ./ -r html
     - mv ./mode_check*.html ./64-bit-running-mode-check.html
   artifacts:
     paths:
@@ -121,7 +121,7 @@ byte-alignment-check:
     - kunpeng_scanner # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== 字节对齐检查 ======'
-    - devkit advisor byte-align -i ./ -c $BYTE_ALIGNMENT_COMMAND -b $BYTE_ALIGNMENT_TOOL -r html
+    - devkit advisor addr-align -i ./ -c $BYTE_ALIGNMENT_COMMAND -b $BYTE_ALIGNMENT_TOOL -r html
     - mv ./byte-align*.html ./byte-alignment-check.html
   artifacts:
     paths:
@@ -137,7 +137,7 @@ memory-consistency-check:
   script:
     - echo '====== 内存一致性检查 ======'
     # 需编写生成的BC文件脚本
-    - devkit advisor mem-cons -i ./ -f $MEMORY_BC_FILE -r html
+    - devkit advisor mm-check -i ./ -f $MEMORY_BC_FILE -r html
     - mv ./mem-cons*.html ./memory-consistency-check.html
   artifacts:
     paths:
