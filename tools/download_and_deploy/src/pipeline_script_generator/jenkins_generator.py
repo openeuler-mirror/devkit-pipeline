@@ -286,7 +286,7 @@ pipeline {
 
                                         ''')
                     sh '''
-                        html_file_name=$(find ./report_dir -name byte-align*.html)
+                        html_file_name=$(find ./report_dir -name addr-align*.html)
                         if [[ ${html_file_name} ]]; then 
                             mv ${html_file_name} ./report_dir/byte-alignment-check.html
                         fi
@@ -341,7 +341,7 @@ pipeline {
 
                                         ''')
                     sh '''
-                        html_file_name=$(find ./report_dir -name mem-cons*.html)
+                        html_file_name=$(find ./report_dir -name mem-check*.html)
                         if [[ ${html_file_name} ]]; then 
                             mv ${html_file_name} ./report_dir/memory-consistency-check.html
                         fi

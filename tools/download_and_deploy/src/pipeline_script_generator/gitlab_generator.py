@@ -122,11 +122,11 @@ byte-alignment-check:
   script:
     - echo '====== 字节对齐检查 ======'
     - devkit advisor addr-align -i ./ -c $BYTE_ALIGNMENT_COMMAND -b $BYTE_ALIGNMENT_TOOL -r html
-    - mv ./byte-align*.html ./byte-alignment-check.html
+    - mv ./addr-align*.html ./byte-alignment-check.html
   artifacts:
     paths:
       - byte-alignment-check.html
-    name: byte-align
+    name: addr-align
 """
     memory_consistency_template = """
 # 内存一致性检查
@@ -138,11 +138,11 @@ memory-consistency-check:
     - echo '====== 内存一致性检查 ======'
     # 需编写生成的BC文件脚本
     - devkit advisor mm-check -i ./ -f $MEMORY_BC_FILE -r html
-    - mv ./mem-cons*.html ./memory-consistency-check.html
+    - mv ./mem-check*.html ./memory-consistency-check.html
   artifacts:
     paths:
       - memory-consistency-check.html     
-    name: mem-cons
+    name: mem-check
 """
     vector_check_template = """
 # 向量化检查
