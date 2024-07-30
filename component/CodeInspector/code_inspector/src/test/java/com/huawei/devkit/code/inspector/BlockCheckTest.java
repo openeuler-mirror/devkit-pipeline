@@ -1,10 +1,12 @@
 package com.huawei.devkit.code.inspector;
 
+import com.huawei.devkit.code.inspector.entity.CliOptions;
 import com.huawei.devkit.code.inspector.utils.TestUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import picocli.CommandLine;
 
 import java.util.Objects;
 
@@ -29,6 +31,15 @@ public class BlockCheckTest {
         String configPath = Objects.requireNonNull(this.getClass().getClassLoader()
             .getResource("single_rules/block_checks/" + module + ".xml")).getPath();
         String[] args = new String[]{"-c", configPath, "-o", root + "/test" + caseName + ".out", "-f", "json", filePath};
-        Assertions.assertDoesNotThrow(() -> CodeInspector.main(args));
+        final CliOptions cliOptions = new CliOptions();
+        final CommandLine commandLine = new CommandLine(cliOptions);
+        Assertions.assertDoesNotThrow(() -> {
+                try {
+                    CodeInspector.parseArgsAndExecute(cliOptions, commandLine, args);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        );
     }
 }

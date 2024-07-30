@@ -28,7 +28,7 @@ CompatibilityTesting = {
 DevKitTester = {
     "component_name": "DevKitTester",
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.3/devkit_tester.tar.gz",
-    "file_size": "36153017",
+    "file_size": "36156994",
 }
 
 A_FOT = {
