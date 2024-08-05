@@ -12,7 +12,8 @@ default_project="Bigdata Database Storage Arm Virt Acclib Virtual HPC"
 acquire_value(){
     project=$1
     key=$2
-    grep $project -A 100  $config_file |grep -m 1 $key|awk -F= '{print $2}'
+    opt="{sub(/$key=/,\"\")}1"
+    grep $project -A 100  $config_file |grep -m 1 "$key="|awk $opt
 }
 
 
@@ -145,37 +146,83 @@ collect_virtual_dpu(){
 }
 
 
+collect_virtual_ceph(){
+  vm_ip=$1
+  vm_user=$2
+  vm_password=$3
+  vm_ceph_disk_name=$4
+  vm_name=$5
+  set -x
+  sshpass -p "$vm_password" ssh "$vm_user"@"$vm_ip" ls -la /sys/block/ | grep $vm_ceph_disk_name | tail -n 1 > $log_path/virtual_ceph_disk.log
+  virsh dumpxml $vm_name > $log_path/virtual_ceph_vm_xml.log
+  rpc vhost_get_controllers > $log_path/virtual_ceph_vm_controllers.log
+  rpc bdev_get_bdevs > $log_path/virtual_ceph_bdev.log
+}
+
+
+collect_virtual_ovs_xpf(){
+  ovs-appctl hwoff/dump-hwoff-flows > $log_path/virtual_ovs_xpf.log
+  echo $? >> $log_path/virtual_ovs_xpf.log
+}
+
+
 ################数据库特性信息收集##################
 collect_database(){
    mysql_install_path=$1
    mysql_username=$2
    mysql_password=$3
-   database_name=$4
+   mysql_port=$4
+   database_name=$5
+   nvme_name=$6
    plugin_path=$1/lib/plugin
    timeout=60
    $mysql_install_path/bin/mysqld_safe --defaults-file=/etc/my.cnf &
    # 循环判断进程是否启动
    for ((i=0; i<=$timeout; i++)); do
-       if ps -ef | grep -v grep | grep "mysql" > /dev/null; then
-           echo "Process mysql started."
-           # 执行下一步操作
-	   sleep 5
-	   $mysql_install_path/bin/mysql -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'thread_pool%'" > $log_path/database_mysql.log
-           $mysql_install_path/bin/mysql -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'kovae%'" >> $log_path/database_mysql.log
-           echo thread_pool: $(ls $plugin_path |grep thread_pool.so) >> $log_path/database_mysql.log
-           echo kovae_path: $(ls $plugin_path |grep ha_kovae.so) >>  $log_path/database_mysql.log
-           readelf -a $mysql_install_path/bin/mysqld|grep bolt >> $log_path/database_mysql.log
-           echo no_lock: $(objdump -d $mysql_install_path/bin/mysqld|grep -c row_vers_build_for_semi_consistent_readP5trx_t) >> $log_path/database_mysql.log
-           objdump -d $mysql_install_path/bin/mysqld |grep crc32cb >> $log_path/database_mysql.log
-           pkill -9 mysql
-	   break
-       fi
-           sleep 1
-       if [ $timeout -eq $i ];then
-	   echo "Timeout error: mysql process not started in $timeout seconds.i"
-	   exit 1
-       fi
+     if ps -ef | grep -v grep | grep "mysql" > /dev/null; then
+       echo "Process mysql started."
+       # 执行下一步操作
+       sleep 5
+       $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'thread_pool%'" > $log_path/database_mysql.log
+       $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'kovae%'" >> $log_path/database_mysql.log
+       echo thread_pool: $(ls $plugin_path |grep thread_pool.so) >> $log_path/database_mysql.log
+       echo kovae_path: $(ls $plugin_path |grep ha_kovae.so) >>  $log_path/database_mysql.log
+       readelf -a $mysql_install_path/bin/mysqld|grep bolt >> $log_path/database_mysql.log
+       echo no_lock: $(objdump -d $mysql_install_path/bin/mysqld|grep -c row_vers_build_for_semi_consistent_readP5trx_t) >> $log_path/database_mysql.log
+       objdump -d $mysql_install_path/bin/mysqld |grep crc32cb >> $log_path/database_mysql.log
+       $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "show variables like '%paralle%'" >> $log_path/database_mysql.log
+       nm $mysql_install_path/bin/mysqld | grep -c Page_shards >> $log_path/database_mysql_page_shards.log
+       $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "show variables like 'sched_affinity%'" >> $log_path/database_mysql.log
+       hioadm atomicwrite -d $nvme_name > $log_path/database_mysql_nvme.log
+       $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "show variables like '%flush_method%'" >> $log_path/database_mysql_nvme.log
+       $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "show variables like '%doublewrite%'" >> $log_path/database_mysql_nvme.log
+       gazellectl lstack show 1 -c | grep ":$mysql_port" > $log_path/database_mysql_gazelle.log
+       pkill -9 mysql
+       break
+     fi
+     sleep 1
+     if [ $timeout -eq $i ];then
+       echo "Timeout error: mysql process not started in $timeout seconds.i"
+       exit 1
+     fi
    done
+}
+
+
+collect_database_other_db(){
+  other_db_bin=$1
+  greenplum_username=$2
+  greenplum_port=$3
+  kae_version=$4
+  greenplum_kae_sql=$5
+  readelf -a $other_other_db_bin | grep bolt > $log_path/database_other_db.log
+  objdump -d $other_other_db_bin | grep crc32cb >> $log_path/database_other_db.log
+  if [ "$kae_version" == "1.0" ]; then
+    nohup timout 20 watch -gt -n 0.2 cat /sys/class/uacce/hisi_zip*/attrs/available_instances > $log_path/database_greenplum_kae.log &
+  else
+    nohup timeout 20 watch -gt -n 0.2 cat /sys/class/uacce/hisi_zip*/available_instances > $log_path/database_greenplum_kae.log &
+  fi
+  psql -h 127.0.0.1 -p $greenplum_port -U $greenplum_username -c "$greenplum_kae_sql"
 }
 
 
@@ -236,10 +283,14 @@ collect_acceleration_library(){
     system_lib=$1
     hmpp_lib=$2
     math_lib=$3
+    math_jar=$4
+    math_java=$5
     openssl speed -elapsed -engine kae rsa2048  > $log_path/acceleration_library.log 2>&1
     ldd $1 >> $log_path/acceleration_library.log
     ldd $2 >> $log_path/acceleration_library.log
     ldd $3 >> $log_path/acceleration_library.log
+    jar -tf $4 >> $log_path/acceleration_library_kml_java.log
+    javap -v $5 >> $log_path/acceleration_library_kml_java.log
 }
 
 
@@ -247,6 +298,12 @@ collect_acceleration_library(){
 # $1 ec_pool 名字
 collect_storage_acc(){
     ec_pool=$1
+    ceph_conf=$2
+    storage_maintain_bin=$3
+    rocksdb_bin=$4
+    ucache_bin=$5
+    non_ceph_bin=$6
+    non_ceph_pid=$7
     # 存储加速库
     ldd /usr/bin/ceph-osd > $log_path/storage_acc.log
     bcache_dev=$(ls /sys/class/block|grep -m 1 bcache)
@@ -261,6 +318,24 @@ collect_storage_acc(){
 	      sudo cat /proc/$pid_num/smaps |grep ksal >> $log_path/storage_acc.log
     else
 	      echo "ec_pool not exist" >> $log_path/storage_acc.log
+    fi
+
+    systemctl status ceph-boost.service > $log_path/storage_io.log
+    if ceph osd pool set vdbench compression_algorithm glz; then
+      \cp "$ceph_conf" "$ceph_conf".bak
+      sed -i '/^compressor_glz_level/d' "$ceph_conf"
+      echo "compressor_glz_level = 1" >> "$ceph_conf"
+      systemctl restart ceph.target
+      systemctl status ceph.target > $log_path/storage_comporess.log
+      \cp "$ceph_conf".bak "$ceph_conf"
+    fi
+    ldd $storage_maintain_bin > $log_path/storage_maintain_tool.log
+    lib_rocksdb=$(ldd $rocksdb_bin | grep librocksdb | awk '{print $3}')
+    ldd $lib_rocksdb > $log_path/storage_rocksdb.log
+    ldd $ucache_bin > $log_path/storage_ucache.log
+
+    if ldd $non_ceph_bin | grep ksal; then
+      timeout 20 perf top -p $non_ceph_pid > $log_path/storage_non_ceph_perf_top.log
     fi
 }
 
@@ -532,6 +607,89 @@ collect_bigdata_tune_up(){
 }
 
 
+collect_bigdata_omnimv(){
+  omnimv_dir=$1
+  hdfs dfs -ls $omnimv_dir > $log_path/bigdata_omnimv.log
+}
+
+
+collect_bigdata_omni_push_down(){
+  omnidata_launcher_server=$1
+  omnidata_launcher=$2
+  push_down_jars=$3
+  push_down_conf=$4
+  spark_path=$5
+  database=$6
+  omnidata_install_path=$7
+  zookeeper_address=$8
+  zookeeper_path=$9
+
+  if [  -z "$omnidata_launcher_server" ]; then
+    sh $omnidata_launcher status > $log_path/bigdata_omni_launcher_status.log
+  else
+    ssh $omnidata_launcher_server sh $omnidata_launcher status > $log_path/bigdata_omni_launcher_status.log
+  fi
+  cat << EOF > /tmp/log4j.properties
+log4j.rootCategory=INFO, FILE
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.target=System.err
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n
+
+log4j.logger.org.apache.spark.sql.execution=DEBUG
+log4j.logger.org.apache.spark.repl.Main=INFO
+
+log4j.appender.FILE=org.apache.log4j.FileAppender
+log4j.appender.FILE.file=$log_path/bigdata_omni_push_down.log
+log4j.appender.FILE.layout=org.apache.log4j.PatternLayout
+
+log4j.appender.FILE.layout.ConversionPattern=%m%n
+EOF
+  # 这里直接用 operator 的采集 sql
+  $spark_path/bin/spark-sql --driver-class-path "$push_down_jars" --jars "$push_down_jars" \
+  --conf "$push_down_conf" \
+  --conf spark.sql.cbo.enabled=true \
+  --conf spark.sql.cbo.planStats.enabled=true \
+  --conf spark.sql.ndp.enabled=true \
+  --conf spark.sql.ndp.filter.selectivity.enable=true \
+  --conf spark.sql.ndp.filter.selectivity=0.5 \
+  --conf spark.sql.ndp.alive.omnidata=3 \
+  --conf spark.sql.ndp.table.size.threshold=10 \
+  --conf spark.sql.ndp.zookeeper.address=$zookeeper_address \
+  --conf spark.sql.ndp.zookeeper.path=$zookeeper_path \
+  --conf spark.sql.ndp.zookeeper.timeout=15000 \
+  --conf spark.driver.extraLibraryPath=$omnidata_install_path/haf-host/lib \
+  --conf spark.executor.extraLibraryPath=$omnidata_install_path/haf-host/lib \
+  --conf spark.executorEnv.HAF_CONFIG_PATH=$omnidata_install_path/haf-host/etc/ \
+  --name tpcds_test.sql --driver-memory 50G --driver-java-options -Dlog4j.configuration=file:/tmp/log4j.properties \
+  --executor-memory 32G --num-executors 30 --executor-cores 18 --database tpcds_bin_partitioned_varchar_orc_2 \
+  -e "WITH customer_total_return AS ( SELECT sr_customer_sk AS ctr_customer_sk, sr_store_sk AS ctr_store_sk, sum(sr_return_amt) AS ctr_total_return FROM store_returns, date_dim WHERE sr_returned_date_sk = d_date_sk AND d_year = 2000 GROUP BY sr_customer_sk, sr_store_sk) SELECT c_customer_id FROM customer_total_return ctr1, store, customer WHERE ctr1.ctr_total_return > (SELECT avg(ctr_total_return) * 1.2 FROM customer_total_return ctr2 WHERE ctr1.ctr_store_sk = ctr2.ctr_store_sk) AND s_store_sk = ctr1.ctr_store_sk AND s_state = 'TN' AND ctr1.ctr_customer_sk = c_customer_sk ORDER BY c_customer_id LIMIT 100;"
+  rm -f /tmp/log4j.properties
+}
+
+
+collect_bigdata_omni_shuffle(){
+  spark_path=$1
+  shuffle_jars=$2
+  database=$3
+  cat << EOF > /tmp/ock_spark.conf
+spark.master yarn
+spark.task.cpus 1
+spark.shuffle.compress true
+EOF
+  timeout 20 $spark_path/bin/spark-sql --deploy-mode client --driver-cores 8 --driver-memory 40G --num-executors 24 --executor-cores 12 --executor-memory 25g --master yarn --conf spark.sql.codegen.wholeStage=false --jars $shuffle_jars --properties-file /tmp/ock_spark.conf --database $database > $log_path/bigdata_omni_shuffle.log 2>&1
+  rm -f /tmp/ock_spark.conf
+}
+
+
+collect_bigdata_components(){
+  spark_path=$1
+  $spark_path/bin/spark-sql --version && echo spark > $log_path/bigdata_components.log
+  hive --version && echo hive >> $log_path/bigdata_components.log
+  hbase version && echo hbase >> $log_path/bigdata_components.log
+}
+
+
 #################HPC特性信息收集##################
 # $1 #用户可执行文件路径
 
@@ -556,6 +714,10 @@ collect_sme_acceleration_library(){
       echo "架构不支持SME" >> $log_path/hpc_SME_library.log
     fi
 
+}
+
+collect_sve_source_code(){
+  grep -r arm_sve.h "$1" > $log_path/hpc_sve.log
 }
 
 
@@ -598,26 +760,47 @@ main(){
 		  elif [ $per_project = "Database" ];
 		  then
 		      echo "start collect Database msg..."
+		      use_mysql=$(acquire_value Database use_mysql)
 		      mysql_install_path=$(acquire_value Database mysql_install_path)
 		      mysql_username=$(acquire_value Database mysql_username)
 		      mysql_password=$(acquire_value Database mysql_password)
+		      mysql_port=$(acquire_value Database mysql_port)
 		      database_name=$(acquire_value Database database_name)
+		      nvme_name=$(acquire_value Database nvme_name)
 
-          collect_database  $mysql_install_path $mysql_username $mysql_password $database_name
-          echo "Database collect msg Done..."
+          if [ "$use_mysql" == "1" ]; then
+            collect_database  $mysql_install_path $mysql_username $mysql_password $mysql_port $database_name $nvme_name
+            echo "Database mysql collect msg Done..."
+          else
+            other_db_bin=$(acquire_value Database other_db_bin)
+            greenplum_username=$(acquire_value Database greenplum_username)
+            greenplum_port=$(acquire_value Database greenplum_port)
+            kae_version=$(acquire_value Database kae_version)
+            greenplum_kae_sql=$(acquire_value Database greenplum_kae_sql)
+            collect_database_other_db "$other_db_bin" "$greenplum_username" "$greenplum_password" "$greenplum_port" "$kae_version" "$greenplum_kae_sql"
+            echo "Database other db collect msg Done..."
+          fi
       elif [ $per_project = "Acclib" ];
       then
            echo "start collect acceleration_library msg..."
            system_lib=$(acquire_value Acclib system_lib)
            hmpp_lib=$(acquire_value Acclib HMPP_lib)
            math_lib=$(acquire_value Acclib math_lib)
-           collect_acceleration_library $system_lib $hmpp_lib $math_lib
+           math_jar=$(acquire_value Acclib math_jar)
+           math_java=$(acquire_value Acclib math_java)
+           collect_acceleration_library "$system_lib" "$hmpp_lib" "$math_lib" "$math_jar" "$math_java"
            echo "acceleration_library collect msg Done..."
       elif [ $per_project = "Storage" ];
       then
           echo "start collect Storage msg..."
           ec_pool_name=$(acquire_value Storage ec_pool_name)
-          collect_storage_acc $ec_pool_name
+          ceph_conf=$(acquire_value Storage ceph_conf)
+          storage_maintain_bin=$(acquire_value Storage storage_maintain_bin)
+          rocksdb_bin=$(acquire_value Storage rocksdb_bin)
+          ucache_bin=$(acquire_value Storage ucache_bin)
+          non_ceph_bin=$(acquire_value Storage non_ceph_bin)
+          non_ceph_pid=$(acquire_value Storage non_ceph_pid)
+          collect_storage_acc "$ec_pool_name" "$ceph_conf" "$storage_maintain_bin" "$rocksdb_bin" "$ucache_bin" "$non_ceph_bin" "$non_ceph_pid"
           echo "Storage collect msg Done..."
       elif [ $per_project = "Bigdata" ];
       then
@@ -632,10 +815,23 @@ main(){
           mysql_username=$(acquire_value Bigdata mysql_username)
           mysql_password=$(acquire_value Bigdata mysql_password)
           mysql_database_name=$(acquire_value Bigdata mysql_database_name)
+          omnimv_dir=$(acquire_value Bigdata omnimv_dir)
+          omnidata_launcher=$(acquire_value Bigdata omnidata_launcher)
+          omnidata_launcher_server=$(acquire_value Bigdata omnidata_launcher_server)
+          omnidata_install_path=$(acquire_value Bigdata omnidata_install_path)
+          push_down_jars=$(acquire_value Bigdata push_down_jars)
+          push_down_conf=$(acquire_value Bigdata push_down_conf)
+          zookeeper_address=$(acquire_value Bigdata zookeeper_address)
+          zookeeper_path=$(acquire_value Bigdata zookeeper_path)
+          shuffle_jars=$(acquire_value Bigdata shuffle_jars)
+          collect_bigdata_components $spark_path
           collect_bigdata_kal "${algorithms_list[@]}" $algorithms_path "${dataset_list[@]}"
           collect_bigdata_operator $spark_path $database $omnioperator_dir
           collect_bigdata_hbase
           collect_bigdata_tune_up $omniadvisor_dir $mysql_username $mysql_password $mysql_database_name
+          collect_bigdata_omnimv "$omnimv_dir"
+          collect_bigdata_omni_push_down "$omnidata_launcher_server" "$omnidata_launcher" "$push_down_jars" "$push_down_conf" "$spark_path" "$database" "$omnidata_install_path" "$zookeeper_address" "$zookeeper_path"
+          collect_bigdata_omni_shuffle "$spark_path" "$shuffle_jars" "$database"
           echo "Bigdata collect msg Done..."
       elif [ $per_project = "Virtual" ];
       then
@@ -647,14 +843,23 @@ main(){
         volume=$(acquire_value Virtual volume)
         availability_zone=$(acquire_value Virtual availability_zone)
         collect_virtual_dpu $server_name $network $flavor $volume $availability_zone
+        vm_ip=$(acquire_value Virtual vm_ip)
+        vm_user=$(acquire_value Virtual vm_user)
+        vm_password=$(acquire_value Virtual vm_password)
+        vm_ceph_disk_name=$(acquire_value Virtual vm_ceph_disk_name)
+        vm_name=$(acquire_value Virtual vm_name)
+        collect_virtual_ceph "$vm_ip" "$vm_user" "$vm_password" "$vm_ceph_disk_name" "$vm_name"
+        collect_virtual_ovs_xpf
         echo "Virtual collect msg Done..."
       elif [ $per_project = "HPC" ];
       then
         echo "start collect HPC msg..."
         acc_lib=$(acquire_value HPC acc_lib)
         sme=$(acquire_value HPC sme)
+        sve_source_code=$(acquire_value HPC sve_source_code)
         collect_hpc_acceleration_library $acc_lib
         collect_sme_acceleration_library $sme
+        collect_sve_source_code $sve_source_code
         echo "HPC collect msg Done..."
 		fi
     done
