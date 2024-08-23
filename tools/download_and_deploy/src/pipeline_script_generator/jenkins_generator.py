@@ -455,7 +455,7 @@ pipeline {
         }
 """
     affinity_check_template = """
-            // 亲和构建检查
+            // 构建亲和检查
             stage('affinity-check') {
                 agent {
                     label 'kunpeng_scanner'
