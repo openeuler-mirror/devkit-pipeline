@@ -9,8 +9,10 @@ class ScriptGenerator:
     package_migration_template = ""
     mode_check_template = ""
     byte_alignment_template = ""
+    bc_file_template = ""
     memory_consistency_template = ""
     vector_check_template = ""
+    affinity_check_template = ""
     gcc_template = ""
     bisheng_compiler_template = ""
     java8_build_template = ""
@@ -28,8 +30,10 @@ class ScriptGenerator:
                 self.package_migration_template,
                 self.mode_check_template,
                 self.byte_alignment_template,
+                self.bc_file_template,
                 self.memory_consistency_template,
-                self.vector_check_template
+                self.vector_check_template,
+                self.affinity_check_template
             ],
             C_BUILDER_GCC: [self.gcc_template, self.a_fot_template],
             C_BUILDER_BISHENG_COMPILER: [self.bisheng_compiler_template],
