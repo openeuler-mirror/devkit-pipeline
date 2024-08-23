@@ -140,7 +140,7 @@ generate-bc-file:
     - kunpeng_scanner  # 对应gitlab-runner注册时的标签，可选择多个
   script:
     - echo '====== BC文件生成 ======'
-    -  devkit advisor bc-gen -i $BC_SOURCE_FILE -c $SOURCE_CODE_COMMAND -o $MEMORY_BC_FILE
+    - devkit advisor bc-gen -i $BC_SOURCE_FILE -c $SOURCE_CODE_COMMAND -o $MEMORY_BC_FILE
     # - devkit advisor bc-gen -i $BC_SOURCE_FILE -c $SOURCE_CODE_COMMAND -o $VECTORIZED_BC_FILE
 """
     memory_consistency_template = """
