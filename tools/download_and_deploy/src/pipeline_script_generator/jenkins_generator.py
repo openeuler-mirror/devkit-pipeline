@@ -47,6 +47,10 @@ pipeline {
         // 内存一致性检查参数
         // BC文件路径
         MEMORY_BC_FILE = ""
+        
+        // BC文件生成
+        // BC文件源码路径
+        BC_SOURCE_FILE = ""
 
         // 向量化检查参数
         // BC文件路径
@@ -324,6 +328,22 @@ pipeline {
             }
         }
 """
+    bc_file_template = """
+        // BC文件生成
+        stage('generate-bc-file') {
+            agent {
+                label 'kunpeng_scanner'
+            }
+            steps {
+                echo '====== 生成bc文件 ======'
+                get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+                sh '''
+                    devkit advisor bc-gen -i "${BC_SOURCE_FILE}" -c "${SOURCE_CODE_COMMAND}" -o "${MEMORY_BC_FILE}"
+                    # devkit advisor bc-gen -i "${BC_SOURCE_FILE}" -c "${SOURCE_CODE_COMMAND}" -o "${VECTORIZED_BC_FILE}"
+                '''
+            }    
+        }
+    """
     memory_consistency_template = """
         // 内存一致性检查
         stage('memory-consistency-check') {
@@ -434,6 +454,61 @@ pipeline {
             }
         }
 """
+    affinity_check_template = """
+            // 亲和构建检查
+            stage('affinity-check') {
+                agent {
+                    label 'kunpeng_scanner'
+                }
+                steps {
+                     get_code("${GIT_BRANCH}", "${GIT_TARGET_DIR_NAME}", "${GIT_URL}")
+                     sh '''
+                        /usr/bin/rm -rf ./report_dir/*.html
+                    '''
+                    script{
+                        def STATUS_CODE = sh(returnStatus: true, script: '''
+                                                 devkit advisor affi-check -i "./${GIT_TARGET_DIR_NAME}" -c "${SOURCE_CODE_COMMAND}" -r html -o ./report_dir
+
+                                            ''')
+                        sh '''
+                            html_file_name=$(find ./report_dir -name affi-check*.html)
+                            if [[ ${html_file_name} ]]; then 
+                                mv ${html_file_name} ./report_dir/affinity-check.html
+                            fi
+                        '''
+                       switch(STATUS_CODE) {
+                            case 0:
+                                echo '【构建亲和检查】--> 无扫描建议 <--'
+                                break
+                            case 4:
+                                currentBuild.result = 'ABORTED'
+                                echo '【构建亲和检查】--> 扫描命令错误 <--'
+                                break
+                            case 5:
+                                currentBuild.result = 'FAILURE'
+                                echo '【构建亲和检查】--> 扫描结果存在必须修改项 <--'
+                                error('【构建亲和检查】--> 扫描结果存在必须修改项 <--')
+                                break
+                            default:
+                                currentBuild.result = 'ABORTED'
+                                echo '【构建亲和检查】--> 扫描失败<--'
+                                break
+                            }
+                    }
+                }
+                post {
+                    always {
+                        publishHTML(target: [allowMissing: false,
+                                    alwaysLinkToLastBuild: false,
+                                    keepAll              : true,
+                                    reportDir            : './report_dir',
+                                    reportFiles          : 'affinity-check.html',
+                                    reportName           : 'affinity-check Report']
+                                    )
+                    }
+                }
+            }
+    """
     java8_build_template = """
         // 普通编译 
         stage('java8-build') {
