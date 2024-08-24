@@ -31,6 +31,10 @@ variables:
   # BC文件路径
   MEMORY_BC_FILE: ""
   
+  # BC文件生成
+  # BC文件源码路径
+  BC_SOURCE_FILE: ""
+        
   # 向量化检查参数
   # BC文件路径
   VECTORIZED_BC_FILE: ""
@@ -128,6 +132,17 @@ byte-alignment-check:
       - byte-alignment-check.html
     name: addr-align
 """
+    bc_file_template = """
+# BC文件生成
+generate-bc-file:
+  stage: affinity-analysis
+  tags:
+    - kunpeng_scanner  # 对应gitlab-runner注册时的标签，可选择多个
+  script:
+    - echo '====== BC文件生成 ======'
+    - devkit advisor bc-gen -i $BC_SOURCE_FILE -c $SOURCE_CODE_COMMAND -o $MEMORY_BC_FILE
+    # - devkit advisor bc-gen -i $BC_SOURCE_FILE -c $SOURCE_CODE_COMMAND -o $VECTORIZED_BC_FILE
+"""
     memory_consistency_template = """
 # 内存一致性检查
 memory-consistency-check:
@@ -159,6 +174,21 @@ vectorized-check:
     paths:
       - vectorized-check.html
     name: vec-check
+"""
+    affinity_check_template = """
+# 构建亲和
+affinity-check:
+  stage: affinity-analysis
+  tags:
+    - kunpeng_scanner # 对应gitlab-runner注册时的标签，可选择多个
+  script:
+    - echo '====== 构建亲和 ======'
+    - devkit advisor affi-check -i ./ -c $SOURCE_CODE_COMMAND -r html
+    - mv ./affi-check*.html ./affinity-check.html
+  artifacts:
+    paths:
+      - affinity-check.html
+    name: affi-check
 """
     gcc_template = """
 # 普通编译
