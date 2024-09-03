@@ -183,9 +183,10 @@ collect_database(){
        echo "Process mysql started."
        # 执行下一步操作
        sleep 5
-       $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'thread_pool%'" > $log_path/database_mysql.log
+       $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'thread_pool%'" > $log_path/database_mysql_thread_pool.log
+       echo thread_pool: $(ls $plugin_path |grep thread_pool.so) >> $log_path/database_mysql_thread_pool.log
+       $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "show variables like 'thread_pool%'" > $log_path/database_mysql_thread_pool_variable.log
        $mysql_install_path/bin/mysql -P $mysql_port -u $mysql_username -p$mysql_password -D $database_name -h127.0.0.1 -e "select * from INFORMATION_SCHEMA.plugins where PLUGIN_NAME like 'kovae%'" >> $log_path/database_mysql.log
-       echo thread_pool: $(ls $plugin_path |grep thread_pool.so) >> $log_path/database_mysql.log
        echo kovae_path: $(ls $plugin_path |grep ha_kovae.so) >>  $log_path/database_mysql.log
        readelf -a $mysql_install_path/bin/mysqld|grep bolt >> $log_path/database_mysql.log
        echo no_lock: $(objdump -d $mysql_install_path/bin/mysqld|grep -c row_vers_build_for_semi_consistent_readP5trx_t) >> $log_path/database_mysql.log
@@ -274,7 +275,8 @@ collect_ccos_msg(){
     /vendor/bin/tee-check > $log_path/virtccos_itrustee.log
     tlogcat -f &
     sleep 3s
-    cat /var/log/tee/teeOS_log-0  | grep TA_UUID >> $log_path/virtccos_itrustee.log
+    cat /var/log/tee/teeOS_log-0  | grep UUID >> $log_path/virtccos_itrustee.log
+    ps aux | grep tlogcat | awk '{print $2}' | xargs kill
 }
 
 
@@ -662,7 +664,7 @@ EOF
   --conf spark.executor.extraLibraryPath=$omnidata_install_path/haf-host/lib \
   --conf spark.executorEnv.HAF_CONFIG_PATH=$omnidata_install_path/haf-host/etc/ \
   --name tpcds_test.sql --driver-memory 50G --driver-java-options -Dlog4j.configuration=file:/tmp/log4j.properties \
-  --executor-memory 32G --num-executors 30 --executor-cores 18 --database tpcds_bin_partitioned_varchar_orc_2 \
+  --executor-memory 32G --num-executors 30 --executor-cores 18 --database $database \
   -e "WITH customer_total_return AS ( SELECT sr_customer_sk AS ctr_customer_sk, sr_store_sk AS ctr_store_sk, sum(sr_return_amt) AS ctr_total_return FROM store_returns, date_dim WHERE sr_returned_date_sk = d_date_sk AND d_year = 2000 GROUP BY sr_customer_sk, sr_store_sk) SELECT c_customer_id FROM customer_total_return ctr1, store, customer WHERE ctr1.ctr_total_return > (SELECT avg(ctr_total_return) * 1.2 FROM customer_total_return ctr2 WHERE ctr1.ctr_store_sk = ctr2.ctr_store_sk) AND s_store_sk = ctr1.ctr_store_sk AND s_state = 'TN' AND ctr1.ctr_customer_sk = c_customer_sk ORDER BY c_customer_id LIMIT 100;"
   rm -f /tmp/log4j.properties
 }
@@ -672,10 +674,32 @@ collect_bigdata_omni_shuffle(){
   spark_path=$1
   shuffle_jars=$2
   database=$3
+  shuffle_ock_path=$4
+  # 自定义ock路径
   cat << EOF > /tmp/ock_spark.conf
-spark.master yarn
 spark.task.cpus 1
 spark.shuffle.compress true
+spark.shuffle.spill.compress true
+spark.rdd.compress true
+spark.executor.extraClassPath     $shuffle_jars
+spark.driver.extraClassPath       $shuffle_jars
+
+spark.driver.extraJavaOptions -Djava.library.path=$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common/ucx:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common/ucx/ucx:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/datakit:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/mf:$shuffle_ock_path/jars
+spark.executor.extraJavaOptions -Djava.library.path=$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common/ucx:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common/ucx/ucx:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/datakit:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/mf:$shuffle_ock_path/jars
+spark.driver.extraLibraryPath   $shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common/ucx:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common/ucx/ucx:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/datakit:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/mf:$shuffle_ock_path/jars:.
+spark.executor.extraLibraryPath $shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common/ucx:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/common/ucx/ucx:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/datakit:$shuffle_ock_path/ucache/24.0.0/linux-aarch64/lib/mf:$shuffle_ock_path/jars:.
+
+spark.shuffle.manager              org.apache.spark.shuffle.ock.OCKRemoteShuffleManager
+spark.shuffle.ock.manager true
+spark.shuffle.ock.home $shuffle_ock_path
+spark.shuffle.ock.version 24.0.0
+spark.shuffle.ock.binaryType linux-aarch64
+
+spark.blacklist.enabled true
+spark.files.fetchFailure.unRegisterOutputOnHost true
+spark.shuffle.service.enabled  false
+spark.blacklist.application.fetchFailure.enabled true
+spark.serializer                        org.apache.spark.serializer.KryoSerializer
 EOF
   timeout 20 $spark_path/bin/spark-sql --deploy-mode client --driver-cores 8 --driver-memory 40G --num-executors 24 --executor-cores 12 --executor-memory 25g --master yarn --conf spark.sql.codegen.wholeStage=false --jars $shuffle_jars --properties-file /tmp/ock_spark.conf --database $database > $log_path/bigdata_omni_shuffle.log 2>&1
   rm -f /tmp/ock_spark.conf
@@ -824,6 +848,7 @@ main(){
           zookeeper_address=$(acquire_value Bigdata zookeeper_address)
           zookeeper_path=$(acquire_value Bigdata zookeeper_path)
           shuffle_jars=$(acquire_value Bigdata shuffle_jars)
+          shuffle_ock_path=$(acquire_value Bigdata shuffle_ock_path)
           collect_bigdata_components $spark_path
           collect_bigdata_kal "${algorithms_list[@]}" $algorithms_path "${dataset_list[@]}"
           collect_bigdata_operator $spark_path $database $omnioperator_dir
@@ -831,7 +856,7 @@ main(){
           collect_bigdata_tune_up $omniadvisor_dir $mysql_username $mysql_password $mysql_database_name
           collect_bigdata_omnimv "$omnimv_dir"
           collect_bigdata_omni_push_down "$omnidata_launcher_server" "$omnidata_launcher" "$push_down_jars" "$push_down_conf" "$spark_path" "$database" "$omnidata_install_path" "$zookeeper_address" "$zookeeper_path"
-          collect_bigdata_omni_shuffle "$spark_path" "$shuffle_jars" "$database"
+          collect_bigdata_omni_shuffle "$spark_path" "$shuffle_jars" "$database" "$shuffle_ock_path"
           echo "Bigdata collect msg Done..."
       elif [ $per_project = "Virtual" ];
       then
@@ -874,7 +899,6 @@ else
 fi
 main
 tar_log_file $customer_information
-
 
 
 
