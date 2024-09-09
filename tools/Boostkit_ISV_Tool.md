@@ -12,6 +12,8 @@
 
 软件信息收集包括：BoostKit 下八个解决方案特性是否生效的关键日志信息。 对于未使能的特性，采集过程中会有报错，是正常现象。
 
+- **注意**：只需修改要采集的特性相关的配置，其余配置保持不变即可
+- **注意**：采集过程中会尝试采集对应解决方案下的所有特性，因此对未使能特性的采集出现报错是正常现象，不影响最终结果
 
 
 ### **1.2采集工具配置文件说明**
@@ -133,6 +135,10 @@ omnidata 安装目录，用于算子下推特性验证
 > shuffle_jars=/home/ockadmin/opt/ock/jars/*
 
 shuffle加速相关jar包路径，用于shuffle加速特性验证
+
+> shuffle_ock_path=/home/ockadmin/opt/ock
+
+shuffle加速 ock 安装路径，用于shuffle加速特性验证
 
 #### **1.2.2分布式存储配置文件说明**
 
@@ -267,15 +273,15 @@ check 默认为False, 置为True 则开启ARM原生特性使能信息收集功�
 
 check 默认为False, 置为True 则开启加速库特性使能信息收集功能
 
-> system_lib=/home/system_lib.so
+> system_lib=/home/system_bin
 
 引用系统库二进制文件绝对路径
 
-> HMPP_lib=/home/HMPP_lib.so
+> HMPP_lib=/home/HMPP_bin
 
 引用HMPP库二进制文件绝对路径
 
-> math_lib=/home/math_lib.so 
+> math_lib=/home/math_bin
 
 引用数学库二进制文件绝对路径
 
@@ -397,3 +403,4 @@ check 默认为False, 置为True 则开启HPC相关特性使能信息收集功�
 bash collect_msg.sh 
 # 同级目录下具有config.ini 配置文件， 且已按1.2中对应解决方案完成相关参数配置
 ```
+
