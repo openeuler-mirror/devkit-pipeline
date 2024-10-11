@@ -22,7 +22,7 @@ BiShengJDK17 = {
 CompatibilityTesting = {
     "component_name": "CompatibilityTesting",
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.3/compatibility_testing.tar.gz",
-    "file_size": "76451308",
+    "file_size": "37157677",
 }
 
 DevKitTester = {

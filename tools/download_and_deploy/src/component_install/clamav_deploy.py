@@ -23,5 +23,5 @@ class ClamAVDeploy(DeployBase):
             cls._remote_exec_command(ip, ssh_client, cmd)
         except (timeout_decorator.TimeoutError, OSError, IOError) as e:
             LOGGER.error(f"Remote machine {ip} install {cls.component_name} failed. "
-                         f"Exec '{cmd}' failed Please run this command in this machine.")
+                         f"Exec '{cmd}' failed Please run this command (or with 'sudo' run) in this machine.")
             raise OSError(PROMPT_MAP.get(cmd, f"Remote machine {ip} exec '{cmd}' failed."))
