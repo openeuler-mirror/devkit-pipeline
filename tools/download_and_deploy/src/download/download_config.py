@@ -39,13 +39,13 @@ A_FOT = {
 
 DevKitWeb = {
     "component_name": "DevKitWeb",
-    "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-All-24.0.RC2-Linux-Kunpeng.tar.gz",
+    "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-All-24.0.RC3-Linux-Kunpeng.tar.gz",
     "file_size": "1028773350",
 }
 
 DevKitCLI = {
     "component_name": "DevKitCLI",
-    "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-CLI-24.0.RC2-Linux-Kunpeng.tar.gz",
+    "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-CLI-24.0.RC3-Linux-Kunpeng.tar.gz",
     "file_size": "437515661",
 }
 
