@@ -49,6 +49,7 @@ body:
       description: 你当前正在使用我们软件的哪个版本/分支？
       options:
         - 1.0.2 (默认)
-        - 1.0.3 (最新)
+        - 1.0.3 (迭代)
+        - 1.0.4 (最新)
     validations:
       required: true
