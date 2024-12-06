@@ -1,5 +1,0 @@
-# Nmap 7.80 scan initiated Mon May 27 21:50:27 2024 as: nmap -sO -v --reason -n -oA data/test/safety/175.6.26.33protocol --host-timeout 360 175.6.26.33
-# Ports scanned: TCP(0;) UDP(0;) SCTP(0;) PROTOCOLS(256;0-255)
-Host: 175.6.26.33 ()	Status: Up
-Host: 175.6.26.33 ()	Protocols: 1/open/icmp/, 2/open|filtered/igmp/, 6/open/tcp/, 17/open/udp/, 103/open|filtered/pim/, 136/open|filtered/udplite/, 255/open|filtered//	Ignored State: closed (249)
-# Nmap done at Mon May 27 21:50:29 2024 -- 1 IP address (1 host up) scanned in 1.29 seconds

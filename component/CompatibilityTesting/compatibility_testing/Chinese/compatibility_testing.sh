@@ -1,15 +1,15 @@
 #!/bin/bash
 ##################################
 #功能描述: 提供给用户进行兼容性测试、指标日志采集工具
-#版本信息: 华为技术有限公司，版权所有（C） 2020-2023
-#修改记录：2023-04-08 修改
+#版本信息: 华为技术有限公司，版权所有（C） 2020-2024
+#修改记录：2024-08-31 修改
 ##################################
 # 创建日志目录
 clear
-if [[ ! -d "./log" ]]; then
-    mkdir ./log
+CURRENT_PATH=$(cd $(dirname $0); pwd)
+if [[ ! -d "${CURRENT_PATH}/log" ]]; then
+    mkdir ${CURRENT_PATH}/log
 fi
-CURRENT_PATH=$(pwd)
 APP_PID=""
 STRESS_CMD=-1
 LIB_PATH=${CURRENT_PATH}/../lib/
@@ -75,17 +75,17 @@ write_messages() {
     level_info=$1
     colors=$2
     case ${level_info} in
-    i) echo "#${DATE}#info#${step}#${messages}" >> ./log/"${log_file}"
+    i) echo "#${DATE}#info#${step}#${messages}" >> ${CURRENT_PATH}/log/"${log_file}"
         ;;
-    e) echo "#${DATE}#error#${step}#${messages}" >> ./log/"${log_file}"
+    e) echo "#${DATE}#error#${step}#${messages}" >> ${CURRENT_PATH}/log/"${log_file}"
        echo -e "\033[1;31m${messages}\033[0m"
         ;;
-    m) echo "#${DATE}#value#${step}#${messages}" >> ./log/"${log_file}" ;;
-    s) echo "#${DATE}#serious#${step}#${messages}" >> ./log/"${error_file}"
+    m) echo "#${DATE}#value#${step}#${messages}" >> ${CURRENT_PATH}/log/"${log_file}" ;;
+    s) echo "#${DATE}#serious#${step}#${messages}" >> ${CURRENT_PATH}/log/"${error_file}"
        echo -e "\033[1;31m${messages}\033[0m"
         ;;
     c) echo -e "\033[1;${colors}m${messages}\033[0m"
-       echo "#${DATE}#info#${step}#${messages}" >> ./log/"${log_file}"
+       echo "#${DATE}#info#${step}#${messages}" >> ${CURRENT_PATH}/log/"${log_file}"
         ;;
     esac
 }
@@ -192,7 +192,7 @@ create_result_dir() {
         if [[ ! -d "${dir}" ]]; then
             mkdir -p "${dir}"
         else
-            find ./"${dir}" -type f -name "*.log*" -exec rm {} \;
+            find ${CURRENT_PATH}/"${dir}" -type f -name "*.log*" -exec rm {} \;
         fi
     done
     # 删除远端服务器的文件
@@ -346,8 +346,6 @@ tar_output() {
     result_files=("data/hardware/hardware_cpu.log"  "data/hardware/hardware_disk.log"
     "data/hardware/hardware_info.log"  "data/hardware/hardware_pcie.log"
     "data/product/product_name.log" "data/software/system_version.log"
-    "data/test/performance/test_perf_cpu_1.log" "data/test/performance/test_perf_disk_1.log"
-    "data/test/performance/test_perf_mem_1.log" "data/test/performance/test_perf_net_1.log" 
     "data/test/compatiable/test_perf_cpu_0.log"
     "data/test/compatiable/test_perf_cpu_1.log" "data/test/compatiable/test_perf_disk_0.log"
     "data/test/compatiable/test_perf_disk_1.log" "data/test/compatiable/test_perf_mem_0.log"
@@ -371,14 +369,14 @@ tar_output() {
 
     record_log_file=( "${error_file}" "${app_log_file}" "${log_file}")
     for file in "${record_log_file[@]}"; do
-        if [[ -f ./log/"${file}" ]]; then
-            cp ./log/"${file}" ./data/others/
+        if [[ -f ${CURRENT_PATH}/log/"${file}" ]]; then
+            cp ${CURRENT_PATH}/log/"${file}" ${CURRENT_PATH}/data/others/
         else
-            write_messages  e 0 10 "./log/目录下的日志文件${file}不存在"
+            write_messages  e 0 10 "${CURRENT_PATH}/log/目录下的日志文件${file}不存在"
         fi
     done
     if [[ -f "${config_file}" ]]; then
-        cp "${config_file}" ./data/
+        cp "${config_file}" ${CURRENT_PATH}/data/
     fi
     if ! tar -czf log.tar.gz data; then
         write_messages   e 0 10 "压缩文件出错"
@@ -425,10 +423,10 @@ check_error() {
         fi
     done
 
-    if [[ -f ./log/"${error_file}" ]]; then
+    if [[ -f ${CURRENT_PATH}/log/"${error_file}" ]]; then
         while read -r line; do
             echo "${line}" | awk -F'#' '{if($5~/sar/) print $5}'
-        done <./log/"${error_file}"
+        done <${CURRENT_PATH}/log/"${error_file}"
     fi
     IFS="${OLD_IFS}"
 }
@@ -498,8 +496,6 @@ env_preparation() {
     IFS="${OLD_IFS}"
 }
 
-HCS8_PREFIX="172.36.0.10:58089/rest/v2/virtualMachine/verifyIsHCS?mac="
-HCS803_PREFIX="173.64.11.52:58088/rest/v2/virtualMachine/verifyIsHCS?mac="
 check_physical_system(){
     # 判断当前系统是否是物理服务器
     OLD_IFS="${IFS}"
@@ -706,7 +702,7 @@ check_process(){
             if [[ ${KUBERNETES_ENV} -eq 1 ]];then
                 ps_result="$(ssh root@${ip_addr} "kubectl get all --all-namespaces |grep -i ${process_name} 2>/dev/null")"
             else
-                ps_result="$(ssh root@${ip_addr} "pgrep -lf ${process_name}")"
+                ps_result="$(ssh root@${ip_addr} "ps -ef | grep ${process_name} | grep -v grep ")"
             fi
             if [[ "${ps_result}" != '' ]]; then
                 ps_results="${ps_results}"";""${ps_result}"
@@ -716,7 +712,7 @@ check_process(){
     if [[ ${KUBERNETES_ENV} -eq 1 ]];then
         ps_result=$(kubectl  get all --all-namespaces |grep -i ${process_name} 2>/dev/null)
     else
-        ps_result=$(pgrep -lf "${process_name}")
+        ps_result=$(ps -ef | grep "${process_name} | grep -v grep ")
     fi
     if [[ "${ps_result}" != '' ]]; then
         ps_results="${ps_results}"";""${ps_result}"
@@ -802,9 +798,11 @@ check_process_exits_stop() {
             ps_result="$(check_process ${process})"
             check_times=5
             export APP_PID
-            echo $APP_PID
+            if [[ -n "$APP_PID"  ]]; then
+                echo "启动业务应用进程号为" $APP_PID
+            fi
             if ! [ -z "$APP_PID" ]; then
-              kill -9 $APP_PID
+              kill -9 $APP_PID  >/dev/null
               APP_PID=""
             fi
             if [[ ${check_times} -le 0 ]]; then
@@ -826,15 +824,15 @@ kill_process() {
     kill_results=""
     if [[ "${HAS_CLUSTER_ENV}" -eq 1 ]]; then
         for ip_addr in  "${ip_list[@]}"; do
-            kill_result="$(ssh root@${ip_addr} "pgrep -f "${process}" | xargs kill -9")"
-            if [[ "${ps_result}" != '' ]]; then
-                kill_results="${kill_result}"";""${kill_result}"
+            kill_result="$(ssh root@${ip_addr} "ps -ef | grep "${process}" | grep -v grep | awk '{print $2}' | xargs -r kill -9")"
+            if [[ "${kill_result}" != '' ]]; then
+                kill_results="${kill_results}"";""${kill_result}"
             fi
         done
     fi
-    kill_result="$(pgrep -f "${process}" | xargs kill -9 >>./log/"${log_file}"  2>&1)"
+    kill_result="$(ps -ef | grep "${process}" | grep -v grep | awk '{print $2}' | xargs -r kill -9 >>${CURRENT_PATH}/log/"${log_file}"  2>&1)"
     if [[ "${kill_result}" != '' ]]; then
-        kill_results="${kill_result}"";""${kill_result}"
+        kill_results="${kill_results}"";""${kill_result}"
     fi
     IFS="${OLD_IFS}"
 }
@@ -842,12 +840,9 @@ kill_process() {
 counting_time(){
     ds=$1
     (
-        tput sc
         for ((dsec = "${ds}"; dsec > 0; dsec--)); do
             min=$((dsec / 60))
             se=$((dsec % 60))
-            tput rc
-            tput ed
             echo -ne "\r 采集剩余时间：${min}:${se}\r"
             sleep 1
         done
@@ -1005,11 +1000,11 @@ start_performance_test(){
                 start_script=${start_performance_scripts[$i]}
                 pattern='&$'
                 if  [[ $start_script =~ $pattern  ]];then
-                    eval "${start_script}" >>  ./log/"${app_log_file}"  2>&1
+                    eval "${start_script}" >>  ${CURRENT_PATH}/log/"${app_log_file}"  2>&1
                     PID=$!
                 cd "${CURRENT_PATH}"||exit
                 else
-                    eval "(${start_script})&" >>  ./log/"${app_log_file}"  2>&1
+                    eval "(${start_script})&" >>  ${CURRENT_PATH}/log/"${app_log_file}"  2>&1
                     PID=$!
                 cd "${CURRENT_PATH}"||exit
                 fi
@@ -1051,10 +1046,10 @@ reliablity_test(){
         sub_pids=$(pgrep -P ${pid})
         for subpid in ${sub_pids};
         do
-            kill -9  "${subpid}" >>./log/"${log_file}"  2>&1
+            kill -9  "${subpid}" >>${CURRENT_PATH}/log/"${log_file}"  2>&1
         done
         disown "${pid}"
-        kill -9  "${pid}" >>./log/"${log_file}"  2>&1
+        kill -9  "${pid}" >>${CURRENT_PATH}/log/"${log_file}"  2>&1
         if [[ $? -ne 0 ]] ; then
             write_messages   e 0 8 "压力测试工具停止失败"
             exit 1
@@ -1071,7 +1066,7 @@ reliablity_test(){
             ps_result="$(check_process ${process})"
             if [[ "${ps_result}" != "" ]]; then
                 write_messages  i 0 8 "可靠性测试前检查，业务应用进程${process}存在"
-                if ! kill_process ${process} >>./log/"${log_file}"  2>&1 ; then
+                if ! kill_process ${process} >>${CURRENT_PATH}/log/"${log_file}"  2>&1 ; then
                     write_messages  e 0 8 "可靠性测试，执行强制杀死进程${process}报错，可靠性测试失败。"
                     RELIABLE_TEST_FLAG=1
                 else
@@ -1146,13 +1141,13 @@ get_performance 5 ${IDLE_PERFORMNCE_TIME} 0 4
 write_messages  c  34 4 "第 4 步：应用启动前采集结束"
 sleep 10
 # 5、启动业务
-write_messages  c  34 5 "第 5 步：启动业务应用，可通过./log目录info.log查看进度，如果长时间未进行下一步，请检查配置文件填写的启动命令执行后是否会返回。"
+write_messages  c  34 5 "第 5 步：启动业务应用，如果长时间未进行下一步，请检查配置文件填写的启动命令执行后是否会返回。"
 start_app 5
 get_ps_snapshot
 write_messages  c  34 5 "第 5 步：启动业务应用完成"
 
 # 6、安全检查
-write_messages  c  34 6 "第 6 步：安全测试，进行应用端口扫描，可通过./log目录的nmap.log查看进度"
+write_messages  c  34 6 "第 6 步：安全测试，进行应用端口扫描"
 port_scan
 validated_clamav_scan
 validated_cvecheck
@@ -1182,13 +1177,14 @@ write_messages  c  34 8 "第 8 步：可靠性测试结束."
 # 9、idle_1测试
 write_messages  c  34 9 "第 9 步：应用停止后CPU、内存、硬盘、网卡和功耗系统资源采集"
 check_process_exits_stop 9
+sleep 60
 get_performance 5 ${IDLE_PERFORMNCE_TIME} 2 9
 sleep 10
 write_messages  c  34 9 "第 9 步：应用停止后资源采集结束"
 
 write_messages  c  34 10 "第 10 步：测试采集数据打包"
 if [[ ${HPC_CERTIFICATE} -eq 1 ]]; then
-    source ./hpc_linpack_test.sh
+    source ${CURRENT_PATH}/hpc_linpack_test.sh
     bash hpc_memory_bandwidth.sh
 fi
 stop_or_start_kunpengdeveloper 10

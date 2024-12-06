@@ -1,5 +1,0 @@
-# Nmap 7.80 scan initiated Mon May 27 21:52:44 2024 as: nmap -sS -A -v --reason -p- -n -Pn -oA data/test/safety/192.168.122.1tcp --host-timeout 360 192.168.122.1
-# Ports scanned: TCP(65535;1-65535) UDP(0;) SCTP(0;) PROTOCOLS(0;)
-Host: 192.168.122.1 ()	Status: Up
-Host: 192.168.122.1 ()	Ports: 22/open/tcp//ssh//OpenSSH 8.2 (protocol 2.0)/, 53/open/tcp//domain//dnsmasq 2.82/, 80/open/tcp//http//nginx/, 8060/open/tcp//http//nginx 1.24.0/, 9094/open/tcp/////	Ignored State: closed (65530)	OS: Linux 2.6.32	Seq Index: 263	IP ID Seq: All zeros
-# Nmap done at Mon May 27 21:53:06 2024 -- 1 IP address (1 host up) scanned in 22.71 seconds

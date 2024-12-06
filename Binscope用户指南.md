@@ -35,14 +35,14 @@ Binscope支持ELF格式和PE格式文件的安全编译选项实施结果的扫�
 |选项名|对应的编译选项|编译选项解释|
 |--|--|--|
 |Stack Protect|-fstack-protector-strong/-fstack-protector-all|栈保护选项，简称为SP选项。|
+|RELRO|-Wl,-z,relro,-z,now|分为 “RELRO” 和 “BIND_NOW”两个选项。<br/>-Wl,-z,relro 为GOT表保护选项，又称“RELRO”。<br/>-Wl,-z,now 为立即加载选项，又称“BIND_NOW”。|
+|NX|-Wl,-z,noexecstack|堆栈不可执行选项，简称为NX选项。|
+|PIC|-fPIC|地址无关代码选项。适用于动态库。|
+|PIE|-fPIE -pie|地址无关可执行选项。适用于可执行文件。|
+|No Rpath/Runpath|-Wl,-rpath|动态库搜索路径选项。此选项为禁选项，即用了该选项扫描会不通过。|
+|Strip|-s|删除符号表选项。|
 |Fortify Source|-D_FORTIFY_SOURCE=2 -O2|危险函数替换选项，简称为FS选项。|
 |Integer Overflows|-ftrapv|整数溢出检测选项。该选项不支持检测clang编译器编译的产物。|
-|RELRO|-Wl,-z,relro,-z,now|Got表只读选项，分为 “RELRO” 和 “BIND_NOW”两个选项。|
-|NX|-Wl,-z,noexecstack|堆栈不可执行选项，简称为NX选项。|
-|PIC|-fPIC|适用于动态库的地址无关代码选项。|
-|PIE|-fPIE -pie|适用于可执行文件的地址无关可执行选项。|
-|No Rpath/Runpath|-Wl,-rpath|此选项为禁选项，使用了该选项扫描会不通过。|
-|Strip|-s|删除符号表选项。|
 |LLVMCFI|-fsanitize=cfi -flto -fuse-ld=gold -fvisibility=hidden|llvm提供的控制流保护方案。该选项暂不支持powerpc/powerpc64架构下编译产物检测。|
 
 
@@ -142,7 +142,7 @@ Usage: binscope {-d|-f} <path> [-asj]...
     -e, --exclude=<path>    Set exclude directory.
                             Multiple paths are supported and separated by ','.
                             If the scan directory is an absolute path, the exclude path must also be an absolute path.  Otherwise, the exclude option does not take effect.
-    -o, --out==<path>       Set the dirtory that output result located.
+    -o, --out=<path>        Set the directory that output result located.
     -x, --excludeSuffix     Exclude file with suffix.
     -a, --afile             Show detail of archive file.
     -s, --silent            Turn off screen printing.
