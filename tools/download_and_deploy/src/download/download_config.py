@@ -22,13 +22,13 @@ BiShengJDK17 = {
 CompatibilityTesting = {
     "component_name": "CompatibilityTesting",
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/compatibility_testing.tar.gz",
-    "file_size": "37157677",
+    "file_size": "37157927",
 }
 
 DevKitTester = {
     "component_name": "DevKitTester",
     "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/devkit_tester.tar.gz",
-    "file_size": "36156994",
+    "file_size": "36155839",
 }
 
 A_FOT = {
@@ -40,13 +40,13 @@ A_FOT = {
 DevKitWeb = {
     "component_name": "DevKitWeb",
     "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-All-24.0.RC3-Linux-Kunpeng.tar.gz",
-    "file_size": "1028773350",
+    "file_size": "1279995524",
 }
 
 DevKitCLI = {
     "component_name": "DevKitCLI",
     "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-CLI-24.0.RC3-Linux-Kunpeng.tar.gz",
-    "file_size": "437515661",
+    "file_size": "649281376",
 }
 
 
