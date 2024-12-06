@@ -21,19 +21,19 @@ BiShengJDK17 = {
 
 CompatibilityTesting = {
     "component_name": "CompatibilityTesting",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.3/compatibility_testing.tar.gz",
+    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/compatibility_testing.tar.gz",
     "file_size": "37157677",
 }
 
 DevKitTester = {
     "component_name": "DevKitTester",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.3/devkit_tester.tar.gz",
+    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/devkit_tester.tar.gz",
     "file_size": "36156994",
 }
 
 A_FOT = {
     "component_name": "A-FOT",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.3/a-fot.tar.gz",
+    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/a-fot.tar.gz",
     "file_size": "15740",
 }
 
