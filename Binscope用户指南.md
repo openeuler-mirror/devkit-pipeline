@@ -94,8 +94,8 @@ Binscope支持将扫描结果直接打印在屏幕上，也支持输出JSON格�
 
 |软件包名称|链接|
 |:-|--|
-|binscope_aarch64.tar.gz| https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.3/binscope_aarch64.tar.gz |
-|binscope_x86_64.tar.gz|https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.3/binscope_x86_64.tar.gz|
+|binscope_aarch64.tar.gz| https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/binscope_aarch64.tar.gz |
+|binscope_x86_64.tar.gz|https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/binscope_x86_64.tar.gz|
 
 **部署**
 
