@@ -16,9 +16,10 @@ https://www.hikunpeng.com/document/detail/zh/nativedevp/userguide/devkitpipepre/
 ###### 1.下载原生开发流水线工具安装包并解压
 
 ```
-wget -c https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.2/devkit-pipeline-v1.0.2.tar.gz && tar -xzvf devkit-pipeline-v1.0.2.tar.gz
+目前支持版本（1.0.1、1.0.2、1.0.3、1.0.4）
+wget -c https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.x/devkit-pipeline-v1.0.x.tar.gz && tar -xzvf devkit-pipeline-v1.0.x.tar.gz
 ```
-###### 2.进入`devkit-pipeline-v1.0.2/linux`文件夹，根据实际情况修改machine.yaml配置文件，以下是具体配置项说明
+###### 2.进入`devkit-pipeline-v1.0.x/linux`文件夹，根据实际情况修改machine.yaml配置文件，以下是具体配置项说明
 
 ```shell
 说明：
