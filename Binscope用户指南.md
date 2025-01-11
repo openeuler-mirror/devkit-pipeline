@@ -599,7 +599,7 @@ JSON文件示例如下：
     "PeFiles": [],
     "command": "./binscope -d test/ -j",
     "time": "2024-07-31 14:10:39",
-    "version": "BinScope 24.0.RC3"
+    "version": "BinScope 24.0.0"
 }
 ```
 
