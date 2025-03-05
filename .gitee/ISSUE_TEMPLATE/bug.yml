@@ -50,6 +50,7 @@ body:
       options:
         - 1.0.2 (默认)
         - 1.0.3 (迭代)
-        - 1.0.4 (最新)
+        - 1.0.4 (迭代)
+        - 1.1 (最新)=
     validations:
       required: true
