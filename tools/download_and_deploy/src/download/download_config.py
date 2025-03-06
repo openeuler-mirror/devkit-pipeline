@@ -21,32 +21,32 @@ BiShengJDK17 = {
 
 CompatibilityTesting = {
     "component_name": "CompatibilityTesting",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/compatibility_testing.tar.gz",
+    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.1/compatibility_testing.tar.gz",
     "file_size": "37157928",
 }
 
 DevKitTester = {
     "component_name": "DevKitTester",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/devkit_tester.tar.gz",
+    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.1/devkit_tester.tar.gz",
     "file_size": "36155839",
 }
 
 A_FOT = {
     "component_name": "A-FOT",
-    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.0.4/a-fot.tar.gz",
+    "file": "https://gitee.com/openeuler/devkit-pipeline/releases/download/v1.1/a-fot.tar.gz",
     "file_size": "15740",
 }
 
 DevKitWeb = {
     "component_name": "DevKitWeb",
-    "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-All-24.0.RC3-Linux-Kunpeng.tar.gz",
-    "file_size": "1279995524",
+    "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-All-24.0.T50-Linux-Kunpeng.tar.gz",
+    "file_size": "1363766065",
 }
 
 DevKitCLI = {
     "component_name": "DevKitCLI",
-    "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-CLI-24.0.RC3-Linux-Kunpeng.tar.gz",
-    "file_size": "649281376",
+    "file": "https://mirrors.huaweicloud.com/kunpeng/archive/DevKit/Packages/Kunpeng_DevKit/DevKit-CLI-24.0.T50-Linux-Kunpeng.tar.gz",
+    "file_size": "783553392",
 }
 
 

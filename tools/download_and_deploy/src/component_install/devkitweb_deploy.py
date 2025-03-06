@@ -10,7 +10,7 @@ from utils import base_path, CHECK_OPT_SPACE_SUFFICIENT_FOR_PACKAGE, CHECK_SUDO_
 class DevkitWebDeploy(DeployBase):
     component_name = "DevKitWeb"
     remote_file_list = [
-        os.path.join("/opt", "DevKit-All-24.0.RC3-Linux-Kunpeng.tar.gz")
+        os.path.join("/opt", "DevKit-All-24.0.T50-Linux-Kunpeng.tar.gz")
     ]
 
     @classmethod

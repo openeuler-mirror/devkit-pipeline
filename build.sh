@@ -5,7 +5,7 @@
 set -e
 current_dir=$(cd $(dirname "$0"); pwd)
 
-tag="v1.0.4"
+tag="v1.1"
 
 rm -rf "${current_dir}"/build
 mkdir -p "${current_dir}"/build

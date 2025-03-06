@@ -1,6 +1,6 @@
 import argparse
 
-PACKAGE_NAME = "DevKit-All-24.0.RC3-Linux-Kunpeng.tar.gz"
+PACKAGE_NAME = "DevKit-All-24.0.T50-Linux-Kunpeng.tar.gz"
 
 
 class CommandLine:
