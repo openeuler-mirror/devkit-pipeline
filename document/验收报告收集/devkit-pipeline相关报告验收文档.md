@@ -32,7 +32,7 @@ DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路�
 4.2、preccheck.log日志文件为验收报告，将preccheck.log下载至本地
 # 5.鲲鹏低负载性能采集库报告收集
 5.1、当运行调优任务的时候在终端执行命令：perf record -e "cycles" sleep 时间(时间根据调优任务的时长自定义)
-![](./Jenkins.assets/打包17.PNG)
+![](./Jenkins.assets/打包20.PNG)
 5.2、生成的perf.data为验收报告，将perf.data下载至本地
 # 6.验收报告打包
 6.1、 Jenkins和Gitlab验收报告打包
