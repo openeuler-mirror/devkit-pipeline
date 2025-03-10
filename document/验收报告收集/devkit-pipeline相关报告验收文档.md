@@ -30,6 +30,7 @@ DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路�
 4.1、在终端执行命令：find / -name preccheck.log
 
 ![](./Jenkins.assets/打包16.PNG)
+
 4.2、preccheck.log日志文件为验收报告，将preccheck.log下载至本地
 # 5.鲲鹏低负载性能采集库报告收集
 5.1、当运行调优任务的时候在终端执行命令：perf record -e "cycles" sleep 时间(时间根据调优任务的时长自定义)
@@ -42,7 +43,9 @@ DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路�
 将下载的的验收报告放置于同一个文件夹中
 
 ![](./Jenkins.assets/打包11.PNG)
+
 将文件夹压缩成tar.gz、zip或bz2其中任何一种格式即可
+
 ![](./Jenkins.assets/打包13.PNG)
 
 6.2、 非Jenkins和Gitlab验收报告打包
