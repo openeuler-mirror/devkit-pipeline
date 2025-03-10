@@ -26,6 +26,9 @@ DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路�
 3.2、 迁移扫描工具和亲和工具扫描报告收集  
 后台手动运行扫描工具，工具会给出报告生成的路径，以迁移扫描工具为例，/root/pkg-mig_20240411014930_eeb4.html文件为验收报告
 ![](./Jenkins.assets/打包116.PNG)
+# 4.精度分析报告收集
+4.1、在终端执行命令：find / -name preccheck.log，preccheck.log日志文件为验收报告，将preccheck.log下载至本地
+![](./Jenkins.assets/打包16.PNG)
 # 4.验收报告打包
 4.1、 Jenkins和Gitlab验收报告打包
 将下载的的验收报告放置于同一个文件夹中
