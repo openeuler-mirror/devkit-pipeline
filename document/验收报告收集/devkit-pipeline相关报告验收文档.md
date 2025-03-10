@@ -27,15 +27,20 @@ DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路�
 后台手动运行扫描工具，工具会给出报告生成的路径，以迁移扫描工具为例，/root/pkg-mig_20240411014930_eeb4.html文件为验收报告
 ![](./Jenkins.assets/打包116.PNG)
 # 4.精度分析报告收集
-4.1、在终端执行命令：find / -name preccheck.log，preccheck.log日志文件为验收报告，将preccheck.log下载至本地
+4.1、在终端执行命令：find / -name preccheck.log
 ![](./Jenkins.assets/打包16.PNG)
-# 4.验收报告打包
-4.1、 Jenkins和Gitlab验收报告打包
+4.2、preccheck.log日志文件为验收报告，将preccheck.log下载至本地
+# 5.鲲鹏低负载性能采集库报告收集
+5.1、当运行调优任务的时候在终端执行命令：perf record -e "cycles" sleep 时间(时间根据调优任务的时长自定义)
+![](./Jenkins.assets/打包17.PNG)
+5.2、生成的perf.data为验收报告，将perf.data下载至本地
+# 6.验收报告打包
+6.1、 Jenkins和Gitlab验收报告打包
 将下载的的验收报告放置于同一个文件夹中
 ![](./Jenkins.assets/打包11.PNG)
 将文件夹压缩成tar.gz、zip或bz2其中任何一种格式即可
 ![](./Jenkins.assets/打包13.PNG)
 
-4.2、 非Jenkins和Gitlab验收报告打包
+6.2、 非Jenkins和Gitlab验收报告打包
 在服务器任意目录创建名为htmlreports的文件夹，将生成的报告拷贝至该文件夹下，将文件夹压缩成tar.gz、zip或bz2其中任何一种格式即可
 ![](./Jenkins.assets/打包117.PNG)
