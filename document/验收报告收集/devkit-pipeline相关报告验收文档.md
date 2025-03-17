@@ -33,7 +33,7 @@ DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路�
 
 4.2、preccheck.log日志文件为验收报告，将preccheck.log下载至本地
 # 5.鲲鹏低负载性能采集库报告收集
-5.1、当运行调优任务的时候在终端执行命令：perf record -e "cycles" -p 进程id
+5.1、当运行调优任务的时候在终端执行命令：perf record -e "cycles" -p 需要采集的调优任务的进程id
 
 ![](./Jenkins.assets/打包21.PNG)
 
