@@ -45,7 +45,7 @@ DevKit测试平台报告收集需要进入到DevKit测试平台实际安装路�
 
 5.2、生成的perf.data为验收报告，将perf.data下载至本地
 # 6.UTgen报告收集
-6.1、如下图所示，GenConfig.java运行ut插件后生成GenConfigTest.java
+6.1、以下图为例，GenConfig.java运行ut插件后生成GenConfigTest.java
 
 ![](./Jenkins.assets/打包22.PNG)
 
