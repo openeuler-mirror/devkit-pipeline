@@ -1,7 +1,7 @@
 # devkit-pipeline
 
 #### 介绍
-Pipeline solution to support building, deploying and automating any software project on Kunpeng Architecture
+鲲鹏同辕开发是指在x86、鲲鹏架构上构建、部署和自动化任何软件项目的流水线解决方案，基于鲲鹏硬件+openEuler+双Kit（DevKit、BoostKit）套件，1套代码+1条流水线+多平台版本，助力伙伴持续且首发性能领先的商用版本。
 
 #### 软件架构
 支持x86/鲲鹏多样性算力下openEuler系操作系统
