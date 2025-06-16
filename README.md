@@ -7,7 +7,7 @@
 支持x86/鲲鹏多样性算力下openEuler系操作系统
 
 #### 使用说明
-##### 用户指南链接
+##### 如何使用devkit-pipeline安装相关工具，并创建流水线任务的操作请参见：
 https://www.hikunpeng.com/document/detail/zh/nativedevp/userguide/devkitpipepre/NativeDevelopment_0001.html
 ##### 原生开发流水线工具安装部署
 
